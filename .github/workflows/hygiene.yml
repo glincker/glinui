@@ -1,0 +1,59 @@
+name: Hygiene
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hygiene-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  repo-rules:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: No em or en dashes in added lines
+        run: |
+          git diff --unified=0 --diff-filter=AM "origin/${{ github.base_ref }}"...HEAD -- . \
+            ':(exclude)pnpm-lock.yaml' ':(exclude)**/licenses/**' ':(exclude)**/THIRD_PARTY_NOTICES.md' \
+            ':(exclude)packages/registry/artifacts/**' ':(exclude)apps/docs/public/md/**' \
+            ':(exclude)**/*.svg' ':(exclude)**/*.png' > /tmp/added.diff
+          python3 - <<'PY'
+          import re, sys
+          bad = re.compile("[\u2013\u2014]")
+          path, hits = "", []
+          for line in open("/tmp/added.diff", encoding="utf-8", errors="ignore"):
+              if line.startswith("+++ "):
+                  path = line[6:].strip()
+              elif line.startswith("+") and bad.search(line):
+                  hits.append(f"{path}: {line[1:].strip()[:100]}")
+          if hits:
+              print("Em or en dashes found in added lines (use commas, periods, colons):")
+              print("\n".join(hits[:20]))
+              sys.exit(1)
+          PY
+
+      - name: No env files or oversized blobs
+        run: |
+          set -euo pipefail
+          base="origin/${{ github.base_ref }}"
+          if git diff --name-only --diff-filter=A "$base"...HEAD | grep -E '(^|/)\.env($|\.)' | grep -vE '\.example$'; then
+            echo "Do not commit .env files."; exit 1
+          fi
+          big=$(git diff --name-only --diff-filter=AM "$base"...HEAD | while read -r f; do
+            [ -f "$f" ] && [ "$(wc -c < "$f")" -gt 1500000 ] && echo "$f"; done || true)
+          if [ -n "$big" ]; then echo "Files over 1.5MB:"; echo "$big"; exit 1; fi
+
+      - name: Warn on UI source files over 500 lines
+        run: |
+          set -euo pipefail
+          over=$(git ls-files 'packages/ui/src/components/*.tsx' 'packages/ui/src/lib/*.ts' | while read -r f; do
+            [ "$(wc -l < "$f")" -gt 500 ] && echo "$f"; done || true)
+          if [ -n "$over" ]; then echo "::warning::Files over 500 lines (split them):"; echo "$over"; fi

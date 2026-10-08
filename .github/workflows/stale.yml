@@ -1,0 +1,23 @@
+name: Stale issues
+
+on:
+  schedule:
+    - cron: "30 5 * * *"
+
+permissions:
+  issues: write
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v9
+        with:
+          days-before-issue-stale: 90
+          days-before-issue-close: 14
+          days-before-pr-stale: -1
+          days-before-pr-close: -1
+          stale-issue-label: stale
+          exempt-issue-labels: "pinned,security,help wanted,good first issue,roadmap"
+          stale-issue-message: "No activity for 90 days. This will close in 14 days unless there is an update."
+          close-issue-message: "Closing for inactivity. Reopen with new details any time."

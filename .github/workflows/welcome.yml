@@ -1,0 +1,21 @@
+name: Welcome
+
+on:
+  pull_request_target:
+    types: [opened]
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/first-interaction@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-message: "Thanks for the report. Please include the component, variant, browser and a minimal repro if you can."
+          pr-message: "Thanks for contributing. CI runs typecheck, tests and the class and token audits. PR titles use `<type>: <description>`."

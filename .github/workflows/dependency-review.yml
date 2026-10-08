@@ -1,0 +1,21 @@
+name: Dependency review
+
+on:
+  pull_request:
+    paths: ["pnpm-lock.yaml", "**/package.json"]
+
+permissions:
+  contents: read
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high
+          # Free forever and MIT: never pull copyleft code into the published packages.
+          deny-licenses: GPL-2.0-only, GPL-3.0-only, AGPL-3.0-only, AGPL-3.0-or-later
+          comment-summary-in-pr: on-failure
