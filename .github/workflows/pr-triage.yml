@@ -1,0 +1,85 @@
+name: PR triage
+
+# Metadata only: never checks out or runs PR code, so pull_request_target is safe here.
+on:
+  pull_request_target:
+    types: [opened, edited, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: triage-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  areas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/labeler@v5
+        with:
+          sync-labels: true
+
+  title-size-changeset:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const { owner, repo } = context.repo;
+            const number = pr.number;
+
+            // 1. Title must be "<type>: <description>" with no em or en dashes.
+            const types = ["feat", "fix", "perf", "refactor", "docs", "test", "chore", "ci", "build"];
+            const re = new RegExp(`^(${types.join("|")})(\\([\\w./-]+\\))?(!)?: \\S.*$`);
+            const m = re.exec(pr.title);
+            const dash = /[\u2013\u2014]/.test(pr.title);
+            if (!m || dash) {
+              core.setFailed(
+                `PR title must look like "<type>: <description>" (types: ${types.join(", ")}) and contain no em or en dashes.`
+              );
+            }
+
+            // 2. One type label from the title, replacing any previous one.
+            const typeLabel = {
+              feat: "type: feature", fix: "type: fix", perf: "type: perf",
+              refactor: "type: refactor", docs: "type: docs", test: "type: test",
+              chore: "type: chore", ci: "type: chore", build: "type: chore",
+            };
+            const managed = [...new Set(Object.values(typeLabel)), "breaking", "needs changeset",
+              "size/XS", "size/S", "size/M", "size/L", "size/XL"];
+            const current = (await github.paginate(github.rest.issues.listLabelsOnIssue,
+              { owner, repo, issue_number: number })).map((l) => l.name);
+            const want = new Set();
+            if (m) {
+              want.add(typeLabel[m[1]]);
+              if (m[3]) want.add("breaking");
+            }
+
+            // 3. Size from non-generated files only.
+            const files = await github.paginate(github.rest.pulls.listFiles,
+              { owner, repo, pull_number: number, per_page: 100 });
+            const generated = [/^pnpm-lock\.yaml$/, /^packages\/registry\/artifacts\//, /\/licenses\//,
+              /THIRD_PARTY_NOTICES\.md$/, /generated-[^/]+\.ts$/, /^apps\/docs\/public\/(md\/|llms)/,
+              /^packages\/tokens\/(bases\.css|src\/bases\.ts)$/];
+            const real = files.filter((f) => !generated.some((g) => g.test(f.filename)));
+            const lines = real.reduce((n, f) => n + f.additions + f.deletions, 0);
+            want.add(lines < 20 ? "size/XS" : lines < 100 ? "size/S" : lines < 400 ? "size/M" : lines < 1000 ? "size/L" : "size/XL");
+
+            // 4. Changeset reminder: published package source changed, no changeset added.
+            const pkgSrc = /^packages\/(ui|tokens|cli|registry|motion)\/(src|[^/]+\.(css|cjs))/;
+            const touchesPkg = real.some((f) => pkgSrc.test(f.filename) && !/\/(tests?|__tests__)\//.test(f.filename));
+            const hasChangeset = files.some((f) => /^\.changeset\/.+\.md$/.test(f.filename) && !/README\.md$/.test(f.filename));
+            if (touchesPkg && !hasChangeset && !/^(docs|test|chore|ci)/.test(pr.title)) want.add("needs changeset");
+
+            const toRemove = current.filter((n) => managed.includes(n) && !want.has(n));
+            const toAdd = [...want].filter((n) => !current.includes(n));
+            for (const name of toRemove) {
+              await github.rest.issues.removeLabel({ owner, repo, issue_number: number, name });
+            }
+            if (toAdd.length) {
+              await github.rest.issues.addLabels({ owner, repo, issue_number: number, labels: toAdd });
+            }

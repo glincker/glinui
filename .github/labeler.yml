@@ -1,0 +1,25 @@
+# Area labels by path. Only areas, no per-file noise.
+"area: ui":
+  - changed-files:
+      - any-glob-to-any-file: ["packages/ui/**"]
+"area: tokens":
+  - changed-files:
+      - any-glob-to-any-file: ["packages/tokens/**"]
+"area: motion":
+  - changed-files:
+      - any-glob-to-any-file: ["packages/motion/**"]
+"area: registry":
+  - changed-files:
+      - any-glob-to-any-file: ["packages/registry/**"]
+"area: cli":
+  - changed-files:
+      - any-glob-to-any-file: ["packages/cli/**"]
+"area: docs":
+  - changed-files:
+      - any-glob-to-any-file: ["apps/docs/**"]
+"area: ci":
+  - changed-files:
+      - any-glob-to-any-file: [".github/**", "tooling/**", "turbo.json"]
+dependencies:
+  - changed-files:
+      - any-glob-to-any-file: ["pnpm-lock.yaml"]

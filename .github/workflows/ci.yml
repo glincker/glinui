@@ -3,18 +3,19 @@ name: CI
 on:
   pull_request:
   push:
-    branches:
-      - main
-      - feat/**
-      - fix/**
-      - chore/**
-      - docs/**
-      - refactor/**
-      - test/**
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+permissions:
+  contents: read
 
 jobs:
   quality:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,8 +29,15 @@ jobs:
           node-version: 22
           cache: pnpm
 
+      - name: Cache turbo
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: turbo-${{ runner.os }}-${{ github.sha }}
+          restore-keys: turbo-${{ runner.os }}-
+
       - name: Install
-        run: pnpm install --frozen-lockfile=false
+        run: pnpm install --frozen-lockfile
 
       - name: Build
         run: pnpm build
@@ -39,6 +47,12 @@ jobs:
 
       - name: Test
         run: pnpm test
+
+      - name: Class audit (dead classes, shadow and inline-style traps)
+        run: pnpm --filter @glinui/docs audit:classes
+
+      - name: Token health
+        run: pnpm --filter @glinui/docs tokens:check
 
       - name: Publish Readiness
         run: node tooling/scripts/ci-publish-readiness.mjs

@@ -1,0 +1,95 @@
+name: Release discussion
+
+# Appends each published release to one monthly "Releases YYYY-MM" Discussion
+# in the Announcements category (created on first release of the month).
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to announce (defaults to the latest release)
+        required: false
+        type: string
+
+concurrency:
+  group: release-discussion
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      discussions: write
+    steps:
+      - uses: actions/github-script@v7
+        env:
+          INPUT_TAG: ${{ inputs.tag }}
+          CATEGORY: Announcements
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const category = process.env.CATEGORY;
+            let rel = context.payload.release;
+            if (!rel) {
+              const tag = process.env.INPUT_TAG;
+              const res = tag
+                ? await github.rest.repos.getReleaseByTag({ owner, repo, tag })
+                : await github.rest.repos.getLatestRelease({ owner, repo });
+              rel = res.data;
+            }
+            const date = new Date().toISOString().slice(0, 10);
+            const title = `Releases ${date.slice(0, 7)}`;
+            const notes = (rel.body || '').trim().split('\n').slice(0, 40).join('\n');
+            const entry = `### [${rel.name || rel.tag_name}](${rel.html_url}) (${date})\n\n${notes}`;
+
+            const meta = await github.graphql(
+              `query($owner: String!, $repo: String!) {
+                repository(owner: $owner, name: $repo) {
+                  id
+                  discussionCategories(first: 25) { nodes { id name } }
+                  discussions(first: 30, orderBy: {field: CREATED_AT, direction: DESC}) {
+                    nodes { id title body url }
+                  }
+                }
+              }`,
+              { owner, repo },
+            );
+            const repository = meta.repository;
+            const existing = repository.discussions.nodes.find((d) => d.title === title);
+
+            if (existing) {
+              if (existing.body.includes(rel.html_url)) {
+                core.info(`Already listed in ${existing.url}`);
+                return;
+              }
+              await github.graphql(
+                `mutation($id: ID!, $body: String!) {
+                  updateDiscussion(input: {discussionId: $id, body: $body}) { discussion { id } }
+                }`,
+                { id: existing.id, body: `${existing.body}\n\n${entry}` },
+              );
+              core.info(`Updated ${existing.url}`);
+              return;
+            }
+
+            const cat = repository.discussionCategories.nodes.find((c) => c.name === category);
+            if (!cat) {
+              core.notice(`Discussion category "${category}" not found (or Discussions disabled). Skipping.`);
+              return;
+            }
+            const body = `Release notes for ${title.replace('Releases ', '')}. Updated automatically.\n\n${entry}`;
+            const created = await github.graphql(
+              `mutation($repoId: ID!, $catId: ID!, $title: String!, $body: String!) {
+                createDiscussion(input: {repositoryId: $repoId, categoryId: $catId, title: $title, body: $body}) {
+                  discussion { url }
+                }
+              }`,
+              { repoId: repository.id, catId: cat.id, title, body },
+            );
+            core.info(`Created ${created.createDiscussion.discussion.url}`);

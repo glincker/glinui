@@ -82,3 +82,27 @@ jobs:
 
               console.log(`Created release: ${tag}`);
             }
+
+      # Optional notifications. Each step runs only when its secret is set and
+      # never fails the release.
+      - name: Notify Slack
+        if: steps.changesets.outputs.published == 'true' && env.SLACK_WEBHOOK_URL != ''
+        continue-on-error: true
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          PUBLISHED: ${{ steps.changesets.outputs.publishedPackages }}
+        run: |
+          list=$(echo "$PUBLISHED" | jq -r 'map(.name + "@" + .version) | join(", ")')
+          jq -n --arg t "glinui released: ${list} https://github.com/${GITHUB_REPOSITORY}/releases" '{text: $t}' \
+            | curl -sSf -X POST -H "Content-Type: application/json" -d @- "$SLACK_WEBHOOK_URL"
+
+      - name: Notify Discord
+        if: steps.changesets.outputs.published == 'true' && env.DISCORD_WEBHOOK_URL != ''
+        continue-on-error: true
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          PUBLISHED: ${{ steps.changesets.outputs.publishedPackages }}
+        run: |
+          list=$(echo "$PUBLISHED" | jq -r 'map(.name + "@" + .version) | join(", ")')
+          jq -n --arg t "glinui released: ${list} https://github.com/${GITHUB_REPOSITORY}/releases" '{content: $t}' \
+            | curl -sSf -X POST -H "Content-Type: application/json" -d @- "$DISCORD_WEBHOOK_URL"
