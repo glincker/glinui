@@ -1,80 +1,64 @@
+"use client"
+
 import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
+
 import { cn } from "../lib/cn"
+import { Button, type ButtonProps, type ButtonVariant } from "./button"
+import { useMotionEngine } from "./motion-engine"
 
-const shimmerButtonVariants = cva(
-  [
-    "group relative inline-flex items-center justify-center overflow-hidden rounded-xl",
-    "px-6 py-2.5 text-sm font-medium transition-all",
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2",
-    "disabled:pointer-events-none disabled:opacity-50"
-  ],
-  {
-    variants: {
-      variant: {
-        default:
-          "bg-neutral-900 text-white hover:bg-neutral-800 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-100",
-        glass:
-          "border border-white/20 [border-top-color:var(--glass-refraction-top)] bg-white/10 text-[var(--color-foreground)] backdrop-blur-md hover:bg-white/20 dark:border-white/10 dark:bg-white/[0.06]",
-        accent:
-          "bg-[var(--color-accent)] text-[var(--color-accent-foreground)] hover:opacity-90"
-      },
-      size: {
-        sm: "h-8 px-4 text-xs",
-        md: "h-10 px-6 text-sm",
-        lg: "h-12 px-8 text-base"
-      }
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "md"
-    }
-  }
-)
-
-export interface ShimmerButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof shimmerButtonVariants> {
+export type ShimmerButtonProps = Omit<ButtonProps, "variant"> & {
+  /** Vocabulary or legacy variant. `accent` is kept as an alias of `primary`. Omit for the ambient default. */
+  variant?: ButtonVariant | "accent"
+  /** Sweep colour. Defaults to the button's own text colour at 35 percent, so it shows on light and dark surfaces. */
   shimmerColor?: string
+  /** Seconds per sweep. */
   shimmerDuration?: number
 }
 
+const SIZE: Record<NonNullable<ButtonProps["size"]>, string> = {
+  xs: "",
+  sm: "",
+  md: "h-10 px-6",
+  lg: "h-12 px-8 text-base",
+  icon: ""
+}
+
+/**
+ * Crisp default surface with a light sweep layered underneath the label.
+ * The sweep follows the surface's text colour, runs only at motion level `full`,
+ * and is removed under reduced motion or `data-glin-motion="none"`.
+ */
 export const ShimmerButton = React.forwardRef<HTMLButtonElement, ShimmerButtonProps>(
-  (
-    {
-      className,
-      children,
-      variant,
-      size,
-      shimmerColor = "rgba(255,255,255,0.3)",
-      shimmerDuration = 2,
-      style,
-      ...props
-    },
-    ref
-  ) => (
-    <button
-      ref={ref}
-      className={cn(shimmerButtonVariants({ variant, size }), className)}
-      style={style}
-      {...props}
-    >
-      <span
-        className={cn(
-          "pointer-events-none absolute inset-0",
-          "motion-safe:animate-[skeleton-shimmer_var(--shimmer-duration,2s)_ease-in-out_infinite]",
-          "motion-reduce:hidden"
-        )}
-        style={
-          {
-            "--shimmer-duration": `${shimmerDuration}s`,
-            background: `linear-gradient(90deg, transparent, ${shimmerColor}, transparent)`,
-          } as React.CSSProperties
-        }
-      />
-      <span className="relative z-10">{children}</span>
-    </button>
-  )
+  ({ className, children, variant, size = "md", shimmerColor, shimmerDuration = 2, ...props }, ref) => {
+    const { effectiveLevel } = useMotionEngine()
+    const sweepVars =
+      shimmerColor || shimmerDuration !== 2
+        ? ({
+            ...(shimmerColor ? { "--shimmer-color": shimmerColor } : {}),
+            "--shimmer-duration": `${shimmerDuration}s`
+          } as React.CSSProperties)
+        : undefined
+
+    return (
+      <Button
+        ref={ref}
+        variant={variant === "accent" ? "primary" : variant}
+        size={size}
+        className={cn("group relative isolate overflow-hidden", SIZE[size], className)}
+        {...props}
+      >
+        {effectiveLevel === "full" ? (
+          <span
+            aria-hidden="true"
+            data-slot="shimmer"
+            style={sweepVars}
+            className="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(90deg,transparent,var(--shimmer-color,color-mix(in_oklab,currentColor_35%,transparent)),transparent)] motion-safe:animate-[skeleton-shimmer_var(--shimmer-duration,2s)_ease-in-out_infinite] motion-reduce:hidden"
+          />
+        ) : null}
+        {children}
+      </Button>
+    )
+  }
 )
 
 ShimmerButton.displayName = "ShimmerButton"

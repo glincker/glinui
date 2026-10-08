@@ -18,7 +18,7 @@ describe("Slider", () => {
   it("supports additional surface variants", () => {
     render(<Slider variant="liquid" defaultValue={[50]} />)
     const thumb = screen.getByRole("slider")
-    expect(thumb.className).toContain("shadow-[0_0_0_2px_var(--color-accent)/20")
+    expect(thumb.className).toContain("shadow-[0_0_0_2px_color-mix(in_oklab,var(--color-accent)_20%")
   })
 
   it("renders two thumbs for range values", () => {

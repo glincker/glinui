@@ -24,19 +24,15 @@ const variantClasses = {
   default: "",
   glass: cn(
     "rounded-full",
-    "border border-white/20 [border-top-color:var(--glass-refraction-top)]",
-    "bg-white/60 backdrop-blur-xl backdrop-saturate-[180%]",
-    "shadow-[0_0_0_1px_rgb(255_255_255_/_0.3)_inset,0_4px_12px_-4px_rgb(15_23_42_/_0.12)]",
-    "dark:border-white/[0.12] dark:bg-white/[0.08]",
-    "dark:shadow-[0_0_0_1px_rgb(255_255_255_/_0.06)_inset,0_4px_12px_-4px_rgb(0_0_0_/_0.4)]"
+    "border border-[color:var(--glass-border)] [border-top-color:var(--glass-refraction-top)]",
+    "bg-[var(--glass-readable)] backdrop-blur-xl backdrop-saturate-[180%]",
+    "[box-shadow:var(--glass-2-shadow)]"
   ),
   "3d": cn(
     "rounded-full",
-    "border border-white/30 [border-top-color:var(--glass-refraction-top)]",
-    "bg-white/70 backdrop-blur-xl backdrop-saturate-[200%]",
-    "shadow-[0_0_0_1px_rgb(255_255_255_/_0.5)_inset,0_0_12px_rgb(255_255_255_/_0.12)_inset,0_8px_24px_-6px_rgb(15_23_42_/_0.25),0_2px_6px_-2px_rgb(15_23_42_/_0.15)]",
-    "dark:border-white/[0.16] dark:bg-[linear-gradient(155deg,rgb(255_255_255_/_0.14),rgb(255_255_255_/_0.06))]",
-    "dark:shadow-[0_0_0_1px_rgb(255_255_255_/_0.1)_inset,0_0_12px_rgb(255_255_255_/_0.04)_inset,0_8px_24px_-6px_rgb(0_0_0_/_0.5),0_2px_6px_-2px_rgb(0_0_0_/_0.3)]"
+    "border border-[color:var(--glass-border-strong)] [border-top-color:var(--glass-refraction-top)]",
+    "bg-[var(--glass-readable)] backdrop-blur-xl backdrop-saturate-[200%]",
+    "[box-shadow:var(--glass-3-shadow)]"
   ),
 }
 

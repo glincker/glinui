@@ -2,8 +2,10 @@
 
 import * as React from "react"
 import { cn } from "../lib/cn"
+import type { EngineControlProps } from "./reveal"
+import { useEngineRun } from "./motion-engine"
 
-export interface WordRotateProps extends React.HTMLAttributes<HTMLSpanElement> {
+export interface WordRotateProps extends React.HTMLAttributes<HTMLSpanElement>, EngineControlProps {
   /** Array of words to cycle through */
   words: string[]
   /** Duration each word is shown (ms) */
@@ -12,38 +14,53 @@ export interface WordRotateProps extends React.HTMLAttributes<HTMLSpanElement> {
   animationDuration?: number
 }
 
+/**
+ * Cycles through words. The outgoing word leaves with a css keyframe, the incoming word
+ * enters through the active motion engine (`engine` prop, provider, or `data-glin-engine`).
+ * Motion `none` swaps words with no animation, `subtle` cross-fades only.
+ */
 export const WordRotate = React.forwardRef<HTMLSpanElement, WordRotateProps>(
-  (
-    {
-      className,
-      words,
-      duration = 2500,
-      animationDuration = 300,
-      style,
-      ...props
-    },
-    ref
-  ) => {
+  ({ className, words, duration = 2500, animationDuration = 300, style, engine, motion, ...props }, ref) => {
     const [currentIndex, setCurrentIndex] = React.useState(0)
-    const [animating, setAnimating] = React.useState<"in" | "out" | "idle">("idle")
+    const [leaving, setLeaving] = React.useState(false)
+    const wordRef = React.useRef<HTMLSpanElement | null>(null)
+    const cycled = React.useRef(false)
+
+    const { effectiveLevel, reducedMotion } = useEngineRun(
+      { engine, motion },
+      (instance) => {
+        const el = wordRef.current
+        if (!el || !cycled.current) return
+        return instance.reveal(el, {
+          direction: "up",
+          distance: 12,
+          duration: animationDuration,
+          easing: "out",
+          immediate: true
+        })
+      },
+      [currentIndex, animationDuration]
+    )
+    const showExit = effectiveLevel === "full"
+    const rotating = effectiveLevel !== "none" && !reducedMotion
 
     React.useEffect(() => {
-      if (words.length <= 1) return
-
-      const prefersReduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches
-      if (prefersReduced) return
-
+      if (words.length <= 1 || !rotating) return
+      let swap: ReturnType<typeof setTimeout> | undefined
       const timer = setInterval(() => {
-        setAnimating("out")
-        setTimeout(() => {
+        cycled.current = true
+        const exitMs = showExit ? animationDuration : 0
+        if (exitMs > 0) setLeaving(true)
+        swap = setTimeout(() => {
           setCurrentIndex((prev) => (prev + 1) % words.length)
-          setAnimating("in")
-          setTimeout(() => setAnimating("idle"), animationDuration)
-        }, animationDuration)
+          setLeaving(false)
+        }, exitMs)
       }, duration)
-
-      return () => clearInterval(timer)
-    }, [words, duration, animationDuration])
+      return () => {
+        clearInterval(timer)
+        if (swap) clearTimeout(swap)
+      }
+    }, [words, duration, animationDuration, showExit, rotating])
 
     return (
       <span
@@ -57,12 +74,9 @@ export const WordRotate = React.forwardRef<HTMLSpanElement, WordRotateProps>(
       >
         <span
           key={currentIndex}
-          className={cn(
-            "inline-block",
-            animating === "in" && "animate-word-rotate-in",
-            animating === "out" && "animate-word-rotate-out",
-            "motion-reduce:[animation:none]"
-          )}
+          ref={wordRef}
+          data-glin-word=""
+          className={cn("inline-block", leaving && "animate-word-rotate-out", "motion-reduce:[animation:none]")}
           aria-live="polite"
         >
           {words[currentIndex]}

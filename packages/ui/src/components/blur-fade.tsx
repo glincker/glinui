@@ -2,8 +2,10 @@
 
 import * as React from "react"
 import { cn } from "../lib/cn"
+import type { EngineControlProps } from "./reveal"
+import { mergeRefs, useEngineRun } from "./motion-engine"
 
-export interface BlurFadeProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface BlurFadeProps extends React.HTMLAttributes<HTMLDivElement>, EngineControlProps {
   /** Delay before transition starts (ms) */
   delay?: number
   /** Transition duration (ms) */
@@ -18,80 +20,38 @@ export interface BlurFadeProps extends React.HTMLAttributes<HTMLDivElement> {
   threshold?: number
 }
 
+/**
+ * Fades content in from a blur and a small upward offset when it enters the viewport.
+ * Runs through the active motion engine (`engine` prop, provider, or `data-glin-engine`).
+ */
 export const BlurFade = React.forwardRef<HTMLDivElement, BlurFadeProps>(
   (
-    {
-      className,
-      children,
-      delay = 0,
-      duration = 500,
-      blur = 8,
-      yOffset = 12,
-      once = true,
-      threshold = 0.1,
-      style,
-      ...props
-    },
+    { className, children, delay = 0, duration = 500, blur = 8, yOffset = 12, once = true, threshold = 0.1, engine, motion, ...props },
     ref
   ) => {
     const localRef = React.useRef<HTMLDivElement | null>(null)
-    const [isVisible, setIsVisible] = React.useState(false)
 
-    const setRefs = React.useCallback(
-      (node: HTMLDivElement | null) => {
-        localRef.current = node
-        if (typeof ref === "function") {
-          ref(node)
-        } else if (ref) {
-          ref.current = node
-        }
+    useEngineRun(
+      { engine, motion, hideRef: localRef },
+      (instance) => {
+        const el = localRef.current
+        if (!el) return
+        return instance.reveal(el, {
+          direction: "up",
+          distance: yOffset,
+          blur,
+          duration,
+          delay,
+          easing: "standard",
+          once,
+          threshold
+        })
       },
-      [ref]
+      [delay, duration, blur, yOffset, once, threshold]
     )
 
-    React.useEffect(() => {
-      const el = localRef.current
-      if (!el) return
-
-      const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-      if (prefersReduced) {
-        setIsVisible(true)
-        return
-      }
-
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true)
-            if (once) observer.unobserve(el)
-          } else if (!once) {
-            setIsVisible(false)
-          }
-        },
-        { threshold }
-      )
-
-      observer.observe(el)
-      return () => observer.disconnect()
-    }, [once, threshold])
-
     return (
-      <div
-        ref={setRefs}
-        className={cn(
-          "transition-[opacity,filter,transform] ease-standard motion-reduce:!opacity-100 motion-reduce:!filter-none motion-reduce:!transform-none",
-          className
-        )}
-        style={{
-          transitionDuration: `${duration}ms`,
-          transitionDelay: `${delay}ms`,
-          opacity: isVisible ? 1 : 0,
-          filter: isVisible ? "blur(0px)" : `blur(${blur}px)`,
-          transform: isVisible ? "translateY(0)" : `translateY(${yOffset}px)`,
-          ...style,
-        }}
-        {...props}
-      >
+      <div ref={mergeRefs<HTMLDivElement>(localRef, ref)} data-glin-blur-fade="" className={cn(className)} {...props}>
         {children}
       </div>
     )

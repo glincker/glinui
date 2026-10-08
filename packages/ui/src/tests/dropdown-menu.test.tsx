@@ -36,7 +36,7 @@ describe("DropdownMenu", () => {
     expect(screen.getByTestId("content").className).toMatch(/backdrop-blur-(md|lg|xl)/)
   })
 
-  it("uses neutral highlighted item styling in dark mode", async () => {
+  it("highlights items through panel tokens that adapt to every theme scope", async () => {
     const user = userEvent.setup()
 
     render(
@@ -49,6 +49,6 @@ describe("DropdownMenu", () => {
     )
 
     await user.click(screen.getByRole("button", { name: "Open menu" }))
-    expect(screen.getByRole("menuitem", { name: "Account" }).className).toContain("dark:data-[highlighted]:bg-black/50")
+    expect(screen.getByRole("menuitem", { name: "Account" }).className).toContain("data-[highlighted]:[background:var(--panel-item-bg")
   })
 })

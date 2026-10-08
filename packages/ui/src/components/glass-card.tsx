@@ -1,67 +1,53 @@
+"use client"
+
 import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "../lib/cn"
+import { Card, CardContent, CardFooter, CardHeader, type CardProps, type CardSectionProps } from "./card"
 
-const glassCardVariants = cva(
-  "relative rounded-2xl border [border-color:var(--glass-border)] [border-top-color:var(--glass-refraction-top)] bg-[var(--glass-3-surface)] [backdrop-filter:saturate(var(--glass-saturate))_blur(var(--glass-3-blur))] [-webkit-backdrop-filter:saturate(var(--glass-saturate))_blur(var(--glass-3-blur))] shadow-[var(--glass-3-shadow)] transition-[transform,box-shadow,backdrop-filter,background-color] duration-normal ease-standard hover:-translate-y-0.5 hover:bg-[var(--glass-4-surface)] hover:[backdrop-filter:saturate(var(--glass-saturate))_blur(var(--glass-4-blur))] hover:[-webkit-backdrop-filter:saturate(var(--glass-saturate))_blur(var(--glass-4-blur))] hover:shadow-[var(--glass-4-shadow)] motion-reduce:transition-none motion-reduce:transform-none motion-reduce:hover:translate-y-0",
-  {
-    variants: {
-      size: {
-        sm: "p-4",
-        md: "p-6",
-        lg: "p-8"
-      }
-    },
-    defaultVariants: {
-      size: "md"
-    }
-  }
+/**
+ * Glass is this component's identity, so `variant` defaults to `glass` (not the ambient style).
+ * The glass surface uses `--glass-readable`, an opacity floor that keeps text legible on any backdrop.
+ * Pass `glinr`, `plain`, `solid`, `soft`, `outline`, `ghost` or `gradient` to use the card looks instead.
+ */
+export type GlassCardProps = CardProps & {
+  /** Lift on hover. Default true. */
+  hoverLift?: boolean
+}
+
+export const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
+  ({ className, variant = "glass", hoverLift = true, ...props }, ref) => (
+    <Card
+      ref={ref}
+      variant={variant}
+      className={cn(
+        "relative rounded-2xl",
+        hoverLift && "hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:hover:translate-y-0",
+        className
+      )}
+      {...props}
+    />
+  )
 )
-
-const glassCardSectionVariants = cva("", {
-  variants: {
-    size: {
-      sm: "space-y-1",
-      md: "space-y-1.5",
-      lg: "space-y-2"
-    }
-  },
-  defaultVariants: {
-    size: "md"
-  }
-})
-
-export type GlassCardProps = React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof glassCardVariants>
-
-export const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(({ className, size, ...props }, ref) => (
-  <div ref={ref} className={cn(glassCardVariants({ size }), className)} {...props} />
-))
 
 GlassCard.displayName = "GlassCard"
 
-type GlassCardSectionProps = React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof glassCardSectionVariants>
+type GlassCardSectionProps = CardSectionProps
 
-export const GlassCardHeader = React.forwardRef<HTMLDivElement, GlassCardSectionProps>(
-  ({ className, size, ...props }, ref) => (
-    <div ref={ref} className={cn(glassCardSectionVariants({ size }), className)} {...props} />
-  )
+export const GlassCardHeader = React.forwardRef<HTMLDivElement, React.ComponentProps<typeof CardHeader>>(
+  (props, ref) => <CardHeader ref={ref} {...props} />
 )
 
 GlassCardHeader.displayName = "GlassCardHeader"
 
-export const GlassCardContent = React.forwardRef<HTMLDivElement, GlassCardSectionProps>(
-  ({ className, size, ...props }, ref) => (
-    <div ref={ref} className={cn(glassCardSectionVariants({ size }), className)} {...props} />
-  )
+export const GlassCardContent = React.forwardRef<HTMLDivElement, React.ComponentProps<typeof CardContent>>(
+  (props, ref) => <CardContent ref={ref} {...props} />
 )
 
 GlassCardContent.displayName = "GlassCardContent"
 
-export const GlassCardFooter = React.forwardRef<HTMLDivElement, GlassCardSectionProps>(
-  ({ className, size, ...props }, ref) => (
-    <div ref={ref} className={cn(glassCardSectionVariants({ size }), className)} {...props} />
-  )
-)
+export const GlassCardFooter = React.forwardRef<HTMLDivElement, GlassCardSectionProps>(({ className, ...props }, ref) => (
+  <CardFooter ref={ref} className={cn("mt-0 border-t-0 pt-0", className)} {...props} />
+))
 
 GlassCardFooter.displayName = "GlassCardFooter"

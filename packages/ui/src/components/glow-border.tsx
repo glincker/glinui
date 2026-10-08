@@ -1,5 +1,20 @@
+"use client"
+
 import * as React from "react"
 import { cn } from "../lib/cn"
+import { resolveVariant, type SurfaceVariant } from "../lib/surface"
+import { useGlinStyle } from "./glin-provider"
+
+const FACE: Record<SurfaceVariant, string> = {
+  glinr: "[background:var(--sheen),var(--face-1,var(--surface-1))]",
+  solid: "bg-[var(--surface-2)]",
+  plain: "bg-[var(--surface-1)]",
+  soft: "bg-[var(--surface-2)]",
+  outline: "bg-transparent",
+  ghost: "bg-transparent",
+  gradient: "bg-[var(--surface-1)]",
+  glass: "bg-[var(--glass-readable)] backdrop-blur-xl backdrop-saturate-150"
+}
 
 export interface GlowBorderProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Rotation duration in seconds */
@@ -10,6 +25,8 @@ export interface GlowBorderProps extends React.HTMLAttributes<HTMLDivElement> {
   glowSize?: number
   /** Border radius */
   borderRadius?: string
+  /** Face inside the glow. Omitted follows the ambient style (glinr by default). `glass` is opt-in. */
+  variant?: SurfaceVariant | "default" | null
 }
 
 export const GlowBorder = React.forwardRef<HTMLDivElement, GlowBorderProps>(
@@ -21,11 +38,13 @@ export const GlowBorder = React.forwardRef<HTMLDivElement, GlowBorderProps>(
       glowColor = "var(--color-accent)",
       glowSize = 2,
       borderRadius = "var(--radius-lg)",
+      variant,
       style,
       ...props
     },
     ref
   ) => {
+    const face = resolveVariant(variant, useGlinStyle(), "signature")
     return (
       <div
         ref={ref}
@@ -48,10 +67,10 @@ export const GlowBorder = React.forwardRef<HTMLDivElement, GlowBorderProps>(
         </div>
         {/* Content layer */}
         <div
-          className="relative rounded-[inherit] bg-[var(--color-background)]"
+          className="relative rounded-[inherit] bg-[var(--surface-0)]"
           style={{ padding: glowSize }}
         >
-          <div className="rounded-[inherit] bg-[var(--color-surface)]">
+          <div data-variant={face} className={cn("rounded-[inherit] text-[var(--color-foreground)]", FACE[face])}>
             {children}
           </div>
         </div>

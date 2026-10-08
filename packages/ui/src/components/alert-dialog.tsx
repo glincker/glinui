@@ -1,45 +1,41 @@
+"use client"
+
 import * as React from "react"
 import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "../lib/cn"
+import { liftHeader } from "../lib/lift"
+import { panelSurface, type PanelVariantProp } from "../lib/panel"
+import { PanelVariantProvider, useResolvedPanelVariant, usePanelVariant } from "./panel-context"
 
-const alertDialogContentVariants = cva(
-  "fixed left-1/2 top-1/2 z-50 grid w-[min(92vw,32rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-2xl border p-6 text-[var(--color-foreground)] outline-none duration-normal ease-standard data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95 data-[state=open]:slide-in-from-bottom-3 data-[state=closed]:slide-out-to-bottom-3 motion-reduce:transition-none motion-reduce:data-[state=open]:animate-none motion-reduce:data-[state=closed]:animate-none",
-  {
-    variants: {
-      variant: {
-        default:
-          "border-black/10 bg-[linear-gradient(180deg,rgb(255_255_255),rgb(244_244_246))] shadow-[0_1px_0_rgb(255_255_255_/_0.9)_inset,0_24px_50px_-30px_rgb(15_23_42_/_0.45)] dark:border-white/[0.14] dark:bg-[linear-gradient(180deg,rgb(58_64_74_/_0.94),rgb(38_42_50_/_0.94))] dark:shadow-[0_1px_0_rgb(255_255_255_/_0.08)_inset,0_26px_52px_-30px_rgb(0_0_0_/_0.72)]",
-        glass:
-          "border-white/20 [border-top-color:var(--glass-refraction-top)] bg-[linear-gradient(155deg,rgb(255_255_255_/_0.66),rgb(245_245_245_/_0.35))] backdrop-blur-xl backdrop-saturate-[180%] shadow-[0_0_0_1px_rgb(255_255_255_/_0.2)_inset,0_24px_50px_-30px_rgb(15_23_42_/_0.35)] dark:border-white/[0.12] dark:bg-[linear-gradient(155deg,rgb(255_255_255_/_0.14),rgb(255_255_255_/_0.05))] dark:shadow-[0_0_0_1px_rgb(255_255_255_/_0.1)_inset,0_26px_52px_-30px_rgb(0_0_0_/_0.7)]",
-        matte:
-          "border-black/12 bg-[linear-gradient(180deg,rgb(248_248_249),rgb(234_234_236))] shadow-[0_1px_0_rgb(255_255_255_/_0.88)_inset,0_20px_42px_-28px_rgb(15_23_42_/_0.4)] dark:border-white/[0.16] dark:bg-[linear-gradient(180deg,rgb(50_55_63_/_0.96),rgb(33_37_44_/_0.96))] dark:shadow-[0_1px_0_rgb(255_255_255_/_0.1)_inset,0_22px_44px_-28px_rgb(0_0_0_/_0.7)]"
-      },
-      size: {
-        sm: "w-[min(92vw,28rem)] p-5",
-        md: "w-[min(92vw,32rem)] p-6",
-        lg: "w-[min(94vw,38rem)] p-7"
-      }
-    },
-    defaultVariants: {
-      variant: "glass",
-      size: "md"
+const alertDialogContentBase =
+  "fixed left-1/2 top-1/2 z-50 grid -translate-x-1/2 -translate-y-1/2 gap-4 overflow-hidden p-[var(--modal-pad)] outline-none [--tw-duration:var(--motion-overlay-in)] ease-[var(--ease-out)] data-[state=closed]:[--tw-duration:var(--motion-overlay-out)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95 data-[state=open]:slide-in-from-bottom-2 data-[state=closed]:slide-out-to-bottom-2 motion-reduce:transition-none motion-reduce:data-[state=open]:animate-none motion-reduce:data-[state=closed]:animate-none"
+
+const alertDialogSizeVariants = cva("", {
+  variants: {
+    size: {
+      sm: "w-[min(92vw,28rem)] [--modal-pad:1.25rem]",
+      md: "w-[min(92vw,32rem)] [--modal-pad:1.5rem]",
+      lg: "w-[min(94vw,38rem)] [--modal-pad:1.75rem]"
     }
-  }
-)
+  },
+  defaultVariants: { size: "md" }
+})
 
 const alertDialogActionVariants = cva(
-  "inline-flex h-10 items-center justify-center rounded-lg border border-transparent px-4 text-sm font-medium transition-[background-color,color,border-color] duration-fast ease-standard focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-60",
+  "inline-flex h-10 min-w-[4.5rem] items-center justify-center rounded-lg border border-transparent px-4 text-sm font-medium transition-[background-color,color,border-color] duration-fast ease-standard focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-1)] disabled:pointer-events-none disabled:opacity-60",
   {
     variants: {
       variant: {
         default:
-          "bg-neutral-900 text-white hover:bg-neutral-800 dark:bg-neutral-100 dark:text-neutral-950 dark:hover:bg-white",
+          "bg-[var(--neutral-solid)] text-[color:var(--neutral-solid-fg)] hover:bg-[var(--neutral-solid-hover)] active:bg-[var(--neutral-solid-active)]",
+        destructive:
+          "bg-[var(--tone-danger)] text-[color:var(--tone-danger-fg)] hover:bg-[color-mix(in_oklab,var(--tone-danger)_88%,white)] active:bg-[color-mix(in_oklab,var(--tone-danger)_88%,black)]",
         glass:
-          "border-white/20 [border-top-color:var(--glass-refraction-top)] bg-[linear-gradient(155deg,rgb(255_255_255_/_0.66),rgb(246_246_246_/_0.36))] text-[var(--color-foreground)] backdrop-blur-lg backdrop-saturate-[180%] hover:bg-[linear-gradient(155deg,rgb(255_255_255_/_0.78),rgb(249_249_249_/_0.45))] dark:border-white/[0.12] dark:bg-[linear-gradient(155deg,rgb(255_255_255_/_0.15),rgb(255_255_255_/_0.06))] dark:hover:bg-[linear-gradient(155deg,rgb(255_255_255_/_0.2),rgb(255_255_255_/_0.08))]",
+          "border-[color:var(--glass-border)] [border-top-color:var(--glass-refraction-top)] bg-[color-mix(in_oklab,var(--surface-1)_80%,transparent)] text-[var(--color-foreground)] backdrop-blur-lg backdrop-saturate-[180%] hover:bg-[color-mix(in_oklab,var(--surface-1)_90%,transparent)]",
         matte:
-          "border-black/12 bg-[linear-gradient(180deg,rgb(248_248_249),rgb(232_232_235))] text-[var(--color-foreground)] hover:bg-[linear-gradient(180deg,rgb(252_252_252),rgb(238_238_240))] dark:border-white/[0.16] dark:bg-[linear-gradient(180deg,rgb(50_55_63_/_0.96),rgb(33_37_44_/_0.96))] dark:hover:bg-[linear-gradient(180deg,rgb(56_61_69_/_0.96),rgb(38_42_50_/_0.96))]"
+          "border-[color:var(--line-soft)] bg-[var(--surface-2)] text-[var(--color-foreground)] hover:bg-[var(--surface-3)]"
       }
     },
     defaultVariants: {
@@ -49,7 +45,16 @@ const alertDialogActionVariants = cva(
 )
 
 const alertDialogCancelVariants = cva(
-  "inline-flex h-10 items-center justify-center rounded-lg border border-black/12 bg-black/[0.03] px-4 text-sm font-medium text-[var(--color-foreground)] transition-[background-color,color,border-color] duration-fast ease-standard hover:bg-black/[0.07] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-60 dark:border-white/[0.16] dark:bg-white/[0.06] dark:hover:bg-white/[0.1]"
+  "inline-flex h-10 min-w-[4.5rem] items-center justify-center rounded-lg border px-4 text-sm font-medium text-[var(--color-foreground)] transition-[background-color,color,border-color,box-shadow] duration-150 ease-[var(--ease-out)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-1)] disabled:pointer-events-none disabled:opacity-60",
+  {
+    variants: {
+      look: {
+        key: "border-transparent [--face:var(--face-3,var(--surface-3))] [background:var(--sheen)_padding-box,linear-gradient(var(--face),var(--face))_padding-box,var(--ring-hot,var(--ring))_border-box] [box-shadow:var(--elev-1)] active:translate-y-px active:[box-shadow:var(--elev-inset)]",
+        flat: "border-[color:var(--color-border)] bg-[var(--surface-1)] hover:bg-[var(--surface-2)]"
+      }
+    },
+    defaultVariants: { look: "key" }
+  }
 )
 
 export const AlertDialog = AlertDialogPrimitive.Root
@@ -63,7 +68,7 @@ export const AlertDialogOverlay = React.forwardRef<
   <AlertDialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      "fixed inset-0 z-50 bg-[radial-gradient(circle_at_top,rgb(15_23_42_/_0.24),rgb(2_6_23_/_0.52))] backdrop-blur-[2px] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 duration-normal ease-standard motion-reduce:data-[state=open]:animate-none motion-reduce:data-[state=closed]:animate-none dark:bg-[radial-gradient(circle_at_top,rgb(15_23_42_/_0.36),rgb(2_6_23_/_0.74))]",
+      "fixed inset-0 z-50 bg-black/45 [--tw-duration:var(--motion-overlay-in)] ease-[var(--ease-out)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=closed]:[--tw-duration:var(--motion-overlay-out)] motion-reduce:data-[state=open]:animate-none motion-reduce:data-[state=closed]:animate-none dark:bg-black/60",
       className
     )}
     {...props}
@@ -75,43 +80,82 @@ AlertDialogOverlay.displayName = AlertDialogPrimitive.Overlay.displayName
 export type AlertDialogContentProps = React.ComponentPropsWithoutRef<
   typeof AlertDialogPrimitive.Content
 > &
-  VariantProps<typeof alertDialogContentVariants>
+  VariantProps<typeof alertDialogSizeVariants> & {
+  /** Surface look. Omit for the ambient design style (glinr by default). `glass` is opt-in and needs a rich backdrop. */
+  variant?: PanelVariantProp
+  /** Element to portal into. When set, overlay and content use absolute positioning scoped to the nearest positioned ancestor. */
+  container?: HTMLElement | null
+  }
 
 export const AlertDialogContent = React.forwardRef<
   React.ComponentRef<typeof AlertDialogPrimitive.Content>,
   AlertDialogContentProps
->(({ className, variant, size, ...props }, ref) => (
-  <AlertDialogPortal>
-    <AlertDialogOverlay />
-    <AlertDialogPrimitive.Content
-      ref={ref}
-      className={cn(alertDialogContentVariants({ variant, size }), className)}
-      {...props}
-    />
-  </AlertDialogPortal>
-))
+>(({ className, variant, size, container, children, ...props }, ref) => {
+  const resolved = useResolvedPanelVariant(variant)
+  return (
+    <AlertDialogPortal container={container ?? undefined}>
+      <AlertDialogOverlay className={container ? "absolute" : undefined} />
+      <AlertDialogPrimitive.Content
+        ref={ref}
+        data-variant={resolved}
+        className={cn(
+          alertDialogContentBase,
+          alertDialogSizeVariants({ size }),
+          panelSurface({ variant: resolved, shape: "dialog" }),
+          container && "absolute max-w-[92%]",
+          className
+        )}
+        {...props}
+      >
+        <PanelVariantProvider value={resolved}>{children}</PanelVariantProvider>
+      </AlertDialogPrimitive.Content>
+    </AlertDialogPortal>
+  )
+})
 
 AlertDialogContent.displayName = AlertDialogPrimitive.Content.displayName
 
 export const AlertDialogHeader = ({
   className,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn("flex flex-col gap-2 text-left", className)} {...props} />
-)
+}: React.HTMLAttributes<HTMLDivElement>) => {
+  const variant = usePanelVariant()
+  return (
+    <div
+      className={cn(
+        "flex flex-col gap-2 text-left",
+        variant === "glinr" &&
+          cn(
+            liftHeader(),
+            "-mx-[var(--modal-pad)] -mt-[var(--modal-pad)] flex-col items-start justify-start gap-2 px-[var(--modal-pad)] py-4"
+          ),
+        className
+      )}
+      {...props}
+    />
+  )
+}
 
 export const AlertDialogFooter = ({
   className,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
-  <div
-    className={cn(
-      "flex flex-col-reverse gap-2 border-t border-black/10 pt-4 sm:flex-row sm:justify-end dark:border-white/[0.12]",
-      className
-    )}
-    {...props}
-  />
-)
+}: React.HTMLAttributes<HTMLDivElement>) => {
+  const variant = usePanelVariant()
+  return (
+    <div
+      className={cn(
+        "flex flex-col-reverse gap-2 sm:flex-row sm:justify-end",
+        variant === "glinr"
+          ? "-mx-[var(--modal-pad)] -mb-[var(--modal-pad)] mt-2 border-t border-[color:var(--line-soft)] px-[var(--modal-pad)] py-3 [background:var(--sheen),var(--face-0,var(--surface-2))] shadow-[inset_0_1px_0_rgb(255_255_255_/_0.06)]"
+          : variant === "plain"
+            ? "mt-2"
+            : "mt-2 border-t border-[color:var(--line-soft)] pt-4",
+        className
+      )}
+      {...props}
+    />
+  )
+}
 
 export const AlertDialogTitle = React.forwardRef<
   React.ComponentRef<typeof AlertDialogPrimitive.Title>,
@@ -132,7 +176,7 @@ export const AlertDialogDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <AlertDialogPrimitive.Description
     ref={ref}
-    className={cn("text-sm leading-relaxed text-neutral-600 dark:text-neutral-300", className)}
+    className={cn("text-sm leading-relaxed text-[var(--color-muted)]", className)}
     {...props}
   />
 ))
@@ -160,12 +204,15 @@ AlertDialogAction.displayName = AlertDialogPrimitive.Action.displayName
 export const AlertDialogCancel = React.forwardRef<
   React.ComponentRef<typeof AlertDialogPrimitive.Cancel>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Cancel>
->(({ className, ...props }, ref) => (
-  <AlertDialogPrimitive.Cancel
-    ref={ref}
-    className={cn(alertDialogCancelVariants(), className)}
-    {...props}
-  />
-))
+>(({ className, ...props }, ref) => {
+  const variant = usePanelVariant()
+  return (
+    <AlertDialogPrimitive.Cancel
+      ref={ref}
+      className={cn(alertDialogCancelVariants({ look: variant === "plain" ? "flat" : "key" }), className)}
+      {...props}
+    />
+  )
+})
 
 AlertDialogCancel.displayName = AlertDialogPrimitive.Cancel.displayName

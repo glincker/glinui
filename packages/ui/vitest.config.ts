@@ -1,6 +1,12 @@
+import { fileURLToPath } from "node:url"
 import { defineConfig } from "vitest/config"
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      "@glinui/motion": fileURLToPath(new URL("../motion/src/index.ts", import.meta.url))
+    }
+  },
   test: {
     environment: "jsdom",
     setupFiles: ["./tests/setup.ts"],

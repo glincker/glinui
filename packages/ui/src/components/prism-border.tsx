@@ -38,14 +38,11 @@ export const PrismBorder = React.forwardRef<HTMLDivElement, PrismBorderProps>(
         {/* Animated gradient border */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 animate-prism-rotate motion-reduce:[animation:none] [background-size:200%_200%]"
+          className="absolute inset-0 animate-prism-rotate motion-reduce:[animation:none] [background-size:200%_200%] [mask:linear-gradient(#fff_0_0)_content-box,linear-gradient(#fff_0_0)] [mask-composite:exclude] [-webkit-mask-composite:xor]"
           style={{
             "--prism-duration": `${duration}s`,
             backgroundImage: gradient,
             borderRadius,
-            mask: `linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)`,
-            maskComposite: "exclude",
-            WebkitMaskComposite: "xor",
             padding: borderWidth,
           } as React.CSSProperties}
         />

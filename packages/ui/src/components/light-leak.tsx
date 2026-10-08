@@ -1,10 +1,12 @@
+"use client"
+
 import * as React from "react"
 import { cn } from "../lib/cn"
 
 export interface LightLeakProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Number of light leak layers */
   count?: number
-  /** Colors for the light leaks */
+  /** Colors for the light leaks. Defaults come from theme tokens. */
   colors?: string[]
   /** Animation duration in seconds */
   duration?: number
@@ -19,7 +21,7 @@ export const LightLeak = React.forwardRef<HTMLDivElement, LightLeakProps>(
     {
       className,
       count = 3,
-      colors = ["#f97316", "#eab308", "#f43f5e"],
+      colors = ["var(--tone-warning)", "var(--tone-danger)", "var(--color-accent)"],
       duration = 6,
       intensity = 0.3,
       blur = 60,

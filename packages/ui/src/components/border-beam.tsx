@@ -44,11 +44,10 @@ export const BorderBeam = React.forwardRef<HTMLDivElement, BorderBeamProps>(
       {...props}
     >
       <div
-        className="absolute aspect-square motion-safe:animate-[border-beam_var(--border-beam-duration,6s)_linear_infinite]"
+        className="absolute aspect-square [offset-path:rect(0_auto_auto_0)] motion-safe:animate-[border-beam_var(--border-beam-duration,6s)_linear_infinite]"
         style={
           {
             width: size,
-            offsetPath: "rect(0 auto auto 0)",
             animationDelay: `${delay}s`,
             background: `linear-gradient(to left, ${colorFrom}, ${colorTo})`,
           } as React.CSSProperties
