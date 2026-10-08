@@ -247,6 +247,26 @@ function extractFieldsFromReference(
   return null
 }
 
+let engineControlFieldsCache = null
+
+/** Fields of the shared `EngineControlProps` (declared in reveal.tsx, imported by other components). */
+function getEngineControlFields() {
+  if (engineControlFieldsCache) return engineControlFieldsCache
+  engineControlFieldsCache = []
+  try {
+    const file = join(componentsDir, "reveal.tsx")
+    const sf = ts.createSourceFile(file, readFileSync(file, "utf8"), ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX)
+    for (const statement of sf.statements) {
+      if (ts.isTypeAliasDeclaration(statement) && statement.name.text === "EngineControlProps" && ts.isTypeLiteralNode(statement.type)) {
+        engineControlFieldsCache = statement.type.members.map((m) => collectProperty(m, sf)).filter((f) => f !== null)
+      }
+    }
+  } catch {
+    // reveal.tsx missing: leave empty
+  }
+  return engineControlFieldsCache
+}
+
 function extractFieldsFromTypeNode(typeNode, declarationMap, cvaSchemas, sourceFile, seenTypes) {
   if (ts.isTypeLiteralNode(typeNode)) {
     return typeNode.members
@@ -279,6 +299,7 @@ function extractFieldsFromTypeNode(typeNode, declarationMap, cvaSchemas, sourceF
     }
 
     const declaration = declarationMap.get(name)
+    if (!declaration && name === "EngineControlProps") return getEngineControlFields()
     if (!declaration || seenTypes.has(name)) {
       return []
     }
@@ -318,6 +339,10 @@ function extractFieldsFromInterface(node, declarationMap, cvaSchemas, sourceFile
       }
 
       const declaration = declarationMap.get(inheritedName)
+      if (!declaration && inheritedName === "EngineControlProps") {
+        inheritedFields.push(...getEngineControlFields())
+        continue
+      }
       if (!declaration || seenTypes.has(inheritedName)) continue
       seenTypes.add(inheritedName)
       inheritedFields.push(...extractFieldsFromDeclaration(declaration, declarationMap, cvaSchemas, sourceFile, seenTypes))
