@@ -1,3 +1,5 @@
+import { allComponentIds } from "@/lib/primitives"
+
 const FALLBACK_SITE_URL = "https://glinui.com"
 
 function normalizeSiteUrl(value?: string) {
@@ -9,9 +11,11 @@ function normalizeSiteUrl(value?: string) {
 
 export const SITE_URL = normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL)
 export const SITE_NAME = "Glin UI"
-export const SITE_TITLE = "Glin UI — Liquid Glass React Components"
+export const SITE_TITLE = "Glin UI: React Components, Animations, Colors and Design Tokens"
+/** Component count rounded down to the nearest ten, for copy such as "120+ components". */
+export const COMPONENT_COUNT_LABEL = `${Math.floor(allComponentIds.length / 10) * 10}+`
 export const SITE_DESCRIPTION =
-  "Production-grade liquid glass React components with Radix accessibility, Tailwind styling, and motion-safe defaults by GLINR STUDIO."
+  `Design modern UI for the modern web: ${COMPONENT_COUNT_LABEL} accessible React components, free animations, OKLCH colors, design tokens and copy-for-AI prompts. Radix, Tailwind, MIT.`
 export const SITE_LOCALE = "en_US"
 export const ORGANIZATION_NAME = "GLINR STUDIO"
 export const ORGANIZATION_HANDLE = "@glincker"
@@ -19,6 +23,10 @@ export const ORGANIZATION_GITHUB_URL = "https://github.com/GLINCKER/glinui"
 export const DEFAULT_OG_IMAGE_PATH = "/opengraph-image.png"
 export const DEFAULT_KEYWORDS = [
   "react component library",
+  "design system for react",
+  "animated react components",
+  "ai ready ui components",
+  "shadcn alternative",
   "next.js ui components",
   "glassmorphism",
   "liquid glass ui",

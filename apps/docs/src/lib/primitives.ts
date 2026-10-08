@@ -2,46 +2,116 @@ import {
   generatedComponentDescriptions,
   generatedComponentTitles
 } from "./generated-registry-metadata"
+import { newComponentCopy, newComponentIds, type NewComponentId } from "./new-component-ids"
+
+export { aiComponentIds, newComponentIds } from "./new-component-ids"
+export type { AiComponentId, NewComponentId } from "./new-component-ids"
 
 // ── Primitive (Atom) Components ──────────────────────────────────────────────
 export const primitiveComponentIds = [
   "accordion",
   "alert",
   "alert-dialog",
+  "animated-beam",
+  "aspect-ratio",
+  "attachment",
   "avatar",
   "badge",
+  "bento-grid",
+  "border-trail",
+  "breadcrumb",
+  "browser-frame",
+  "bubble",
   "button",
+  "button-group",
   "card",
   "checkbox",
   "chip",
+  "circular-gallery",
   "code",
+  "code-panel",
+  "collapsible",
+  "combobox",
   "command",
+  "context-menu",
+  "copy-button",
+  "count-up",
   "counter",
+  "cta-band",
+  "cylinder-carousel",
   "data-table",
   "dropdown-menu",
+  "empty",
+  "faq-section",
+  "feature-grid",
+  "field",
+  "flickering-grid",
+  "footer-block",
+  "generate-button",
+  "gooey-text-reveal",
+  "gradient-text",
+  "grid-pattern",
   "heading",
+  "hero-section",
+  "highlight-grid",
   "hover-card",
+  "hyper-text",
   "icon-frame",
+  "image-comparison",
   "input",
+  "input-group",
+  "input-otp",
+  "install-command",
+  "interactive-hover-button",
+  "item",
   "kbd",
   "label",
+  "light-rays",
   "link",
+  "logo-cloud",
+  "magic-card",
+  "menubar",
+  "message",
+  "message-scroller",
   "modal",
+  "morphing-text",
+  "navigation-menu",
+  "neon-gradient-card",
+  "pagination",
   "popover",
+  "pricing-section",
   "progress",
+  "progressive-blur",
+  "prompt-input",
+  "questionnaire",
   "radio-group",
+  "reveal",
+  "scroll-area",
   "select",
   "separator",
   "sheet",
+  "shine-border",
+  "sidebar",
   "skeleton",
   "slider",
+  "sparkles-text",
+  "spinner",
+  "spinning-text",
+  "split-text",
+  "stagger-list",
   "status-dot",
+  "streaming-text",
   "switch",
   "table",
   "tabs",
+  "terminal",
+  "testimonials-wall",
   "text",
   "textarea",
+  "thinking",
   "toast",
+  "toggle",
+  "toggle-group",
   "tooltip",
   "tree"
 ] as const
@@ -109,7 +179,7 @@ const primitiveBetaIds: PrimitiveComponentId[] = [
   "tree"
 ]
 
-const primitiveBetaSet = new Set<PrimitiveComponentId>(primitiveBetaIds)
+const primitiveBetaSet = new Set<PrimitiveComponentId>([...primitiveBetaIds, ...newComponentIds])
 
 export const primitiveMaturity = Object.fromEntries(
   primitiveComponentIds.map((id) => [id, primitiveBetaSet.has(id) ? "beta" : "stable"])
@@ -126,6 +196,22 @@ function toDescriptionFallback(id: string) {
   return `${toTitleCaseFromId(id)} component.`
 }
 
+function lookup(source: Readonly<Record<string, string>>, id: string): string | undefined {
+  return source[id]
+}
+
+function isNewId(id: string): id is NewComponentId {
+  return (newComponentIds as readonly string[]).includes(id)
+}
+
+function newTitle(id: string): string | undefined {
+  return isNewId(id) ? newComponentCopy[id].title : undefined
+}
+
+function newDescription(id: string): string | undefined {
+  return isNewId(id) ? newComponentCopy[id].description : undefined
+}
+
 function buildRegistryRecord<TIds extends readonly string[]>(
   ids: TIds,
   resolver: (id: TIds[number]) => string
@@ -136,7 +222,7 @@ function buildRegistryRecord<TIds extends readonly string[]>(
 // ── Titles ──────────────────────────────────────────────────────────────────
 export const primitiveTitles = buildRegistryRecord(
   primitiveComponentIds,
-  (id) => generatedComponentTitles[id] ?? toTitleCaseFromId(id)
+  (id) => lookup(generatedComponentTitles, id) ?? newTitle(id) ?? toTitleCaseFromId(id)
 )
 
 export const signatureTitles = buildRegistryRecord(
@@ -152,7 +238,7 @@ export const componentTitles: Record<ComponentId, string> = {
 // ── Descriptions ────────────────────────────────────────────────────────────
 export const primitiveDescriptions = buildRegistryRecord(
   primitiveComponentIds,
-  (id) => generatedComponentDescriptions[id] ?? toDescriptionFallback(id)
+  (id) => lookup(generatedComponentDescriptions, id) ?? newDescription(id) ?? toDescriptionFallback(id)
 )
 
 export const signatureDescriptions = buildRegistryRecord(
