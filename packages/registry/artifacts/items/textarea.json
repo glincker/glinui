@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Textarea",
   "description": "Multi-line input with glass, liquid, matte, and utility variants.",
-  "docsPath": "/docs/components/textarea",
+  "docsPath": "/docs/components/radix/textarea",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

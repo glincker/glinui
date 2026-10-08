@@ -75,28 +75,28 @@ export function PropsTable({ rows = [], componentId, propsType, autoAppendGenera
 
   return (
     <div className="overflow-x-auto rounded-xl border border-border/60">
-      <table className="min-w-full border-collapse text-left text-sm">
+      <table className="min-w-full border-collapse text-left text-[13px] leading-6 tabular-nums">
         <thead className="bg-black/5 dark:bg-white/5">
           <tr>
-            <th className="px-3 py-2 font-semibold">Prop</th>
-            <th className="px-3 py-2 font-semibold">Type</th>
-            {hasRequiredColumn ? <th className="px-3 py-2 font-semibold">Required</th> : null}
-            <th className="px-3 py-2 font-semibold">Default</th>
-            <th className="px-3 py-2 font-semibold">Description</th>
+            <th scope="col" className="type-eyebrow px-3 py-2.5">Prop</th>
+            <th scope="col" className="type-eyebrow px-3 py-2.5">Type</th>
+            {hasRequiredColumn ? <th scope="col" className="type-eyebrow px-3 py-2.5">Required</th> : null}
+            <th scope="col" className="type-eyebrow px-3 py-2.5">Default</th>
+            <th scope="col" className="type-eyebrow px-3 py-2.5">Description</th>
           </tr>
         </thead>
         <tbody>
           {mergedRows.map((row) => (
             <tr key={row.prop} className="border-t border-border/60">
-              <td className="px-3 py-2">
-                <code>{row.prop}</code>
+              <td className="px-3 py-2 align-top">
+                <code className="font-mono text-[13px] text-foreground">{row.prop}</code>
               </td>
               <td className="px-3 py-2">
-                <code>{row.type ?? "-"}</code>
+                <code className="font-mono text-[12px] text-[var(--color-muted)]">{row.type ?? "-"}</code>
               </td>
               {hasRequiredColumn ? <td className="px-3 py-2">{row.required === undefined ? "-" : row.required ? "Yes" : "No"}</td> : null}
               <td className="px-3 py-2">
-                <code>{row.defaultValue ?? "-"}</code>
+                <code className="font-mono text-[12px] text-[var(--color-muted)]">{row.defaultValue ?? "-"}</code>
               </td>
               <td className="px-3 py-2">{row.description ?? "-"}</td>
             </tr>

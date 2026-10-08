@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Radio Group",
   "description": "Mutually exclusive selection control with variant-capable radio items.",
-  "docsPath": "/docs/components/radio-group",
+  "docsPath": "/docs/components/radix/radio-group",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

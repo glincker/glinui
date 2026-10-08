@@ -17,7 +17,7 @@ describe("GlassCard", () => {
     expect(screen.getByText("Footer")).toBeVisible()
   })
 
-  it("uses glass-3 base and glass-4 hover classes", () => {
+  it("keeps glass as its identity with a readable floor", () => {
     render(
       <GlassCard data-testid="glass-card">
         <GlassCardContent>Body</GlassCardContent>
@@ -25,8 +25,19 @@ describe("GlassCard", () => {
     )
 
     const card = screen.getByTestId("glass-card")
-    expect(card.className).toContain("var(--glass-3-surface)")
-    expect(card.className).toContain("hover:bg-[var(--glass-4-surface)]")
+    expect(card.className).toContain("var(--glass-readable)")
+    expect(card.className).toContain("backdrop-blur-xl")
     expect(card.className).toContain("[border-top-color:var(--glass-refraction-top)]")
+  })
+
+  it("accepts the other variants", () => {
+    render(
+      <GlassCard data-testid="glass-card" variant="glinr">
+        <GlassCardContent>Body</GlassCardContent>
+      </GlassCard>
+    )
+    const card = screen.getByTestId("glass-card")
+    expect(card.className).not.toContain("backdrop-blur")
+    expect(card.className).toContain("padding-box")
   })
 })

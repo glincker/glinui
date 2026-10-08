@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Label",
   "description": "Form label primitive with shared glass-aware variants.",
-  "docsPath": "/docs/components/label",
+  "docsPath": "/docs/components/radix/label",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

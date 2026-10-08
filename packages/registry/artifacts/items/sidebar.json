@@ -1,0 +1,28 @@
+{
+  "name": "sidebar",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Sidebar",
+  "description": "Collapsible app sidebar with icon rail, mobile sheet, Ctrl/Cmd+B shortcut, and persisted state.",
+  "docsPath": "/docs/components/radix/sidebar",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@phosphor-icons/react",
+    "@radix-ui/react-slot",
+    "class-variance-authority"
+  ],
+  "registryDependencies": [
+    "sheet",
+    "tooltip"
+  ],
+  "files": [
+    "packages/ui/src/components/sidebar.tsx",
+    "packages/ui/src/components/sidebar-context.tsx",
+    "packages/ui/src/tests/sidebar.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add sidebar"
+  }
+}

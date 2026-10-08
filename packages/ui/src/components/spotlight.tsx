@@ -63,14 +63,12 @@ export const Spotlight = React.forwardRef<HTMLDivElement, SpotlightProps>(
         {pulse && (
           <div
             aria-hidden="true"
-            className="absolute rounded-full border-2 border-white/30 animate-spotlight-pulse motion-reduce:[animation:none]"
+            className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white/30 [--spotlight-pulse-duration:3s] animate-spotlight-pulse motion-reduce:[animation:none]"
             style={{
-              "--spotlight-pulse-duration": "3s",
-              left: posX,
+                            left: posX,
               top: posY,
               width: size * 2,
               height: size * 2,
-              transform: "translate(-50%, -50%)",
             } as React.CSSProperties}
           />
         )}

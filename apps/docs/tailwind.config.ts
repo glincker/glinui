@@ -1,7 +1,14 @@
 import type { Config } from "tailwindcss"
+import glinPreset from "@glinui/tokens/tailwind-preset"
 
 const config: Config = {
-  darkMode: "class",
+  presets: [glinPreset],
+  // Class strategy plus theme scopes: `dark:` applies under .dark or [data-glin-theme=dark],
+  // unless a nearer light scope ([data-glin-theme=light]) is present. See docs-local/variant-system.md.
+  darkMode: [
+    "variant",
+    "&:where(.dark, .dark *, [data-glin-theme=dark], [data-glin-theme=dark] *):not(:where([data-glin-theme=light], [data-glin-theme=light] *))"
+  ],
   content: [
     "./src/**/*.{ts,tsx,mdx}",
     "./content/**/*.{md,mdx}",
@@ -12,14 +19,6 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      colors: {
-        background: "var(--color-background)",
-        foreground: "var(--color-foreground)",
-        surface: "var(--color-surface)",
-        border: "var(--color-border)",
-        accent: "var(--color-accent)",
-        "accent-foreground": "var(--color-accent-foreground)"
-      },
       borderRadius: {
         sm: "var(--radius-sm)",
         md: "var(--radius-md)",

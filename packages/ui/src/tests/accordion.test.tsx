@@ -30,6 +30,6 @@ describe("Accordion", () => {
       </Accordion>
     )
 
-    expect(screen.getByTestId("item").className).toContain("backdrop-blur-md")
+    expect(screen.getByTestId("item").className).toContain("backdrop-blur-xl")
   })
 })

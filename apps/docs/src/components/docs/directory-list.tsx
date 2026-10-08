@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { ArrowRight, Boxes, Check, Copy, Gem, Search } from "lucide-react"
+import { ArrowRight, Cube, Check, Copy, Diamond, MagnifyingGlass } from "@phosphor-icons/react"
 
 import { cn } from "@glinui/ui"
 import type { GeneratedRegistryEntry } from "@/lib/generated-registry-metadata"
@@ -10,9 +10,9 @@ import type { GeneratedRegistryEntry } from "@/lib/generated-registry-metadata"
 type Category = "all" | "primitive" | "signature"
 
 const categories: { value: Category; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
-  { value: "all", label: "All", icon: Boxes },
-  { value: "primitive", label: "Primitives", icon: Boxes },
-  { value: "signature", label: "Signature", icon: Gem }
+  { value: "all", label: "All", icon: Cube },
+  { value: "primitive", label: "Primitives", icon: Cube },
+  { value: "signature", label: "Signature", icon: Diamond }
 ]
 
 export function DirectoryList({ items }: { items: readonly GeneratedRegistryEntry[] }) {
@@ -44,7 +44,7 @@ export function DirectoryList({ items }: { items: readonly GeneratedRegistryEntr
       {/* Search + Filters */}
       <div className="space-y-3">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-neutral-400 dark:text-neutral-500" />
+          <MagnifyingGlass className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted dark:text-neutral-400" />
           <input
             type="text"
             value={query}
@@ -53,8 +53,8 @@ export function DirectoryList({ items }: { items: readonly GeneratedRegistryEntr
             className={cn(
               "w-full rounded-xl border border-white/15 bg-[var(--glass-2-surface)] py-2.5 pl-10 pr-4 text-sm text-foreground outline-none backdrop-blur-xl",
               "placeholder:text-neutral-400 dark:placeholder:text-neutral-500",
-              "shadow-[0_0_0_1px_rgb(255_255_255_/_0.06)_inset,var(--shadow-soft)]",
-              "focus:border-white/25 focus:shadow-[0_0_0_1px_rgb(255_255_255_/_0.1)_inset,var(--shadow-glass-sm)]",
+              "[box-shadow:0_0_0_1px_rgb(255_255_255_/_0.06)_inset,var(--shadow-soft)]",
+              "focus:border-white/25 focus:[box-shadow:0_0_0_1px_rgb(255_255_255_/_0.1)_inset,var(--shadow-glass-sm)]",
               "transition-shadow duration-fast ease-standard",
               "dark:border-white/[0.08] dark:bg-white/[0.04]"
             )}
@@ -70,15 +70,15 @@ export function DirectoryList({ items }: { items: readonly GeneratedRegistryEntr
               className={cn(
                 "inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-all duration-fast ease-standard",
                 category === value
-                  ? "border border-white/15 [border-top-color:var(--glass-refraction-top)] bg-[var(--glass-4-surface)] text-foreground shadow-[0_0_0_1px_rgb(255_255_255_/_0.08)_inset,var(--shadow-soft)] dark:border-white/[0.1] dark:bg-white/[0.08]"
-                  : "border border-transparent text-neutral-500 hover:text-foreground hover:bg-white/[0.06] dark:text-neutral-400 dark:hover:bg-white/[0.04]"
+                  ? "border border-white/15 [border-top-color:var(--glass-refraction-top)] bg-[var(--glass-4-surface)] text-foreground [box-shadow:0_0_0_1px_rgb(255_255_255_/_0.08)_inset,var(--shadow-soft)] dark:border-white/[0.1] dark:bg-white/[0.08]"
+                  : "border border-transparent text-muted hover:text-foreground hover:bg-white/[0.06] dark:text-neutral-400 dark:hover:bg-white/[0.04]"
               )}
             >
               <Icon className="size-3" />
               {label}
             </button>
           ))}
-          <span className="ml-auto text-xs tabular-nums text-neutral-400 dark:text-neutral-500">
+          <span className="ml-auto text-xs tabular-nums text-muted dark:text-neutral-400">
             {filtered.length} component{filtered.length !== 1 ? "s" : ""}
           </span>
         </div>
@@ -87,8 +87,8 @@ export function DirectoryList({ items }: { items: readonly GeneratedRegistryEntr
       {/* Results Grid */}
       {filtered.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-2xl border border-white/10 bg-[var(--glass-1-surface)] py-16 dark:border-white/[0.06]">
-          <Search className="size-8 text-neutral-300 dark:text-neutral-600" />
-          <p className="mt-3 text-sm text-neutral-500">No components match &ldquo;{query}&rdquo;</p>
+          <MagnifyingGlass className="size-8 text-neutral-300 dark:text-neutral-600" />
+          <p className="mt-3 text-sm text-muted">No components match &ldquo;{query}&rdquo;</p>
           <button
             type="button"
             onClick={() => {
@@ -124,19 +124,19 @@ function DirectoryCard({ item }: { item: GeneratedRegistryEntry }) {
   return (
     <div
       className={cn(
-        "group relative flex flex-col rounded-2xl border border-white/12 bg-[var(--glass-2-surface)] p-4 backdrop-blur-xl",
-        "shadow-[0_0_0_1px_rgb(255_255_255_/_0.06)_inset,var(--shadow-soft)]",
-        "transition-all duration-fast ease-standard hover:-translate-y-0.5 hover:border-white/18 hover:bg-[var(--glass-3-surface)] hover:shadow-[0_0_0_1px_rgb(255_255_255_/_0.08)_inset,var(--shadow-glass-sm)]",
+        "group relative flex flex-col rounded-2xl border border-white/[0.12] bg-[var(--glass-2-surface)] p-4 backdrop-blur-xl",
+        "[box-shadow:0_0_0_1px_rgb(255_255_255_/_0.06)_inset,var(--shadow-soft)]",
+        "transition-all duration-fast ease-standard hover:-translate-y-0.5 hover:border-white/[0.18] hover:bg-[var(--glass-3-surface)] hover:[box-shadow:0_0_0_1px_rgb(255_255_255_/_0.08)_inset,var(--shadow-glass-sm)]",
         "dark:border-white/[0.08] dark:hover:border-white/[0.12]"
       )}
     >
       {/* Header */}
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2">
-          <h3 className="text-sm font-semibold text-foreground">{item.title}</h3>
+          <h3 className="text-sm font-medium text-foreground">{item.title}</h3>
           <span
             className={cn(
-              "inline-flex rounded-full px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-[0.08em]",
+              "inline-flex rounded-full px-1.5 py-0.5 font-mono text-[10px] font-medium uppercase tracking-[0.08em]",
               item.type === "signature"
                 ? "border border-violet-300/50 bg-violet-100/60 text-violet-700 dark:border-violet-400/35 dark:bg-violet-400/15 dark:text-violet-300"
                 : "border border-sky-300/50 bg-sky-100/60 text-sky-700 dark:border-sky-400/35 dark:bg-sky-400/15 dark:text-sky-300"
@@ -154,13 +154,13 @@ function DirectoryCard({ item }: { item: GeneratedRegistryEntry }) {
 
       {/* Install command */}
       <div className="mt-3 flex items-center gap-1.5 rounded-lg border border-white/10 bg-black/[0.04] px-2.5 py-1.5 dark:border-white/[0.06] dark:bg-black/20">
-        <code className="flex-1 truncate text-[11px] text-neutral-500 dark:text-neutral-400">
+        <code className="flex-1 truncate text-[11px] text-muted dark:text-neutral-400">
           {item.install.registry}
         </code>
         <button
           type="button"
           onClick={copyInstall}
-          className="shrink-0 rounded-md p-1 text-neutral-400 transition-colors hover:bg-white/10 hover:text-foreground dark:text-neutral-500 dark:hover:text-neutral-300"
+          className="shrink-0 rounded-md p-1 text-muted transition-colors hover:bg-white/10 hover:text-foreground dark:text-neutral-400 dark:hover:text-neutral-300"
           aria-label={`Copy install command for ${item.title}`}
         >
           {copied ? <Check className="size-3 text-emerald-500" /> : <Copy className="size-3" />}
@@ -174,15 +174,15 @@ function DirectoryCard({ item }: { item: GeneratedRegistryEntry }) {
           className={cn(
             "inline-flex items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-medium transition-all duration-fast ease-standard",
             "border border-white/15 [border-top-color:var(--glass-refraction-top)] bg-[var(--glass-3-surface)] text-foreground",
-            "shadow-[0_0_0_1px_rgb(255_255_255_/_0.06)_inset,var(--shadow-soft)]",
-            "hover:bg-[var(--glass-4-surface)] hover:shadow-[0_0_0_1px_rgb(255_255_255_/_0.08)_inset,var(--shadow-glass-sm)]",
+            "[box-shadow:0_0_0_1px_rgb(255_255_255_/_0.06)_inset,var(--shadow-soft)]",
+            "hover:bg-[var(--glass-4-surface)] hover:[box-shadow:0_0_0_1px_rgb(255_255_255_/_0.08)_inset,var(--shadow-glass-sm)]",
             "dark:border-white/[0.1]"
           )}
         >
           View Docs
           <ArrowRight className="size-3" />
         </Link>
-        <span className="text-[10px] text-neutral-400 dark:text-neutral-500">
+        <span className="text-[10px] text-muted dark:text-neutral-400">
           {item.importPath}
         </span>
       </div>

@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Tree",
   "description": "Hierarchical tree view for file structures, navigation, and nested data.",
-  "docsPath": "/docs/components/tree",
+  "docsPath": "/docs/components/radix/tree",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

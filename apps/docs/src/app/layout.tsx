@@ -1,8 +1,11 @@
 import "./globals.css"
+import "@glinui/tokens/preferences.css"
 
 import type { Metadata, Viewport } from "next"
+import localFont from "next/font/local"
 import type { ReactNode } from "react"
 
+import { DOCS_OPTIONS_KEY, DocsGlinProvider } from "@/components/customize/docs-glin-provider"
 import { DocsShell } from "@/components/layout/docs-shell"
 import { DocsDirectionProvider } from "@/lib/docs-direction"
 import {
@@ -20,7 +23,25 @@ import {
   isLocalSiteUrl
 } from "@/lib/seo"
 import { getGlobalStructuredData } from "@/lib/structured-data"
+import { getGlinConfigScript } from "@glinui/ui"
 import { ThemeProvider } from "next-themes"
+
+const inter = localFont({
+  src: "./fonts/inter-var.woff2",
+  variable: "--font-inter",
+  weight: "100 900",
+  display: "swap",
+  adjustFontFallback: "Arial"
+})
+
+const jetbrainsMono = localFont({
+  src: "./fonts/jetbrains-mono-var.woff2",
+  variable: "--font-jetbrains",
+  weight: "100 800",
+  display: "swap",
+  preload: false,
+  adjustFontFallback: false
+})
 
 const metadataBaseUrl = SITE_URL
 const isLocal = isLocalSiteUrl(metadataBaseUrl)
@@ -139,14 +160,19 @@ const organizationStructuredData = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <head>
-        {/* Blocking theme script — runs before first paint to prevent light→dark flash */}
+        {/* Blocking theme script, runs before first paint to prevent light→dark flash */}
         <script
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var t=localStorage.getItem("glinui-docs-theme")||"system";var d=t==="system"?window.matchMedia("(prefers-color-scheme:dark)").matches:t==="dark";if(d){document.documentElement.classList.add("dark");document.documentElement.style.colorScheme="dark"}else{document.documentElement.style.colorScheme="light"}}catch(e){}})()`
           }}
+        />
+        {/* Pre-paint Customize options (accent, radius, motion, ...) from localStorage */}
+        <script
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: getGlinConfigScript(DOCS_OPTIONS_KEY) }}
         />
         <script
           type="application/ld+json"
@@ -162,7 +188,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className="min-h-screen">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <DocsDirectionProvider>
-            <DocsShell>{children}</DocsShell>
+            <DocsGlinProvider>
+              <DocsShell>{children}</DocsShell>
+            </DocsGlinProvider>
           </DocsDirectionProvider>
         </ThemeProvider>
       </body>

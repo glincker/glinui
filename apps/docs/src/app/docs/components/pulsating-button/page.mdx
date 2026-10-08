@@ -2,9 +2,11 @@ import { getRegistryItem } from "@glinui/registry"
 import { PulsatingButton } from "@glinui/ui"
 import { ComponentDocLayout } from "@/components/docs/component-doc-layout"
 import { ExampleBlock } from "@/components/docs/example-block"
-import { InstallTabs } from "@/components/docs/install-tabs"
+import { ComponentHero, ComponentInstall } from "@/components/docs/component-hero"
 import { getComponentSources } from "@/lib/get-component-source"
 import { PropsTable } from "@/components/docs/props-table"
+import * as S1Demos from "@/components/demos/s1-buttons"
+import { s1Code } from "@/lib/showcase-s1-code"
 import { createDocsMetadata } from "@/lib/docs-metadata"
 
 export const dynamic = "force-static"
@@ -23,75 +25,118 @@ export const metadata = createDocsMetadata({
   title="Pulsating Button"
   description={item?.description ?? "Button with pulsing glow ring."}
 >
+  <ComponentHero
+    componentId="pulsating-button"
+    title="Pulsating Button"
+    code={s1Code.PulsatingGoLive}
+  >
+    <S1Demos.PulsatingGoLive />
+  </ComponentHero>
+
   ## Installation
 
-  <InstallTabs sources={sources} command={item?.install.package ?? "pnpm add @glinui/ui @glinui/tokens"} />
-
-  ### Registry
-
-  <InstallTabs command={item?.install.registry ?? "pnpm dlx @glinui/cli@latest add pulsating-button"} />
+  <ComponentInstall componentId="pulsating-button" sources={sources} />
 
   ## Usage
 
-  Drop-in button with a continuously pulsing ring that draws attention to primary actions.
-
-  ### Basic
-
-  <ExampleBlock
-    codeDefaultOpen
-    code={`import { PulsatingButton } from "@glinui/ui"
-
-export function PulsatingButtonDemo() {
-  return <PulsatingButton>Subscribe</PulsatingButton>
-}`}
-  >
-    <PulsatingButton>Subscribe</PulsatingButton>
-  </ExampleBlock>
+  Crisp `glinr` surface with an expanding ring around it. The ring uses the accent token by default, visible on light and dark scopes. Override with `pulseColor` and `pulseDuration`.
 
   ## Examples
 
   ### Variants
+
+  Every variant of the shared vocabulary works, and the motion effect adapts to the surface colour. Omit `variant` for the ambient default (`glinr`).
 
   <ExampleBlock
     code={`import { PulsatingButton } from "@glinui/ui"
 
 export function PulsatingButtonVariantsDemo() {
   return (
-    <div className="flex flex-wrap gap-6">
-      <PulsatingButton variant="default">Default</PulsatingButton>
-      <PulsatingButton variant="accent">Accent</PulsatingButton>
-      <PulsatingButton variant="glass">Glass</PulsatingButton>
+    <div className="flex flex-wrap items-center gap-3">
+      <PulsatingButton variant="glinr">glinr</PulsatingButton>
+      <PulsatingButton variant="solid">solid</PulsatingButton>
+      <PulsatingButton variant="plain">plain</PulsatingButton>
+      <PulsatingButton variant="soft">soft</PulsatingButton>
+      <PulsatingButton variant="outline">outline</PulsatingButton>
+      <PulsatingButton variant="ghost">ghost</PulsatingButton>
+      <PulsatingButton variant="gradient">gradient</PulsatingButton>
     </div>
   )
 }`}
   >
-    <div className="flex flex-wrap gap-6">
-      <PulsatingButton variant="default">Default</PulsatingButton>
-      <PulsatingButton variant="accent">Accent</PulsatingButton>
-      <PulsatingButton variant="glass">Glass</PulsatingButton>
+    <div className="flex flex-wrap items-center gap-3">
+      <PulsatingButton variant="glinr">glinr</PulsatingButton>
+      <PulsatingButton variant="solid">solid</PulsatingButton>
+      <PulsatingButton variant="plain">plain</PulsatingButton>
+      <PulsatingButton variant="soft">soft</PulsatingButton>
+      <PulsatingButton variant="outline">outline</PulsatingButton>
+      <PulsatingButton variant="ghost">ghost</PulsatingButton>
+      <PulsatingButton variant="gradient">gradient</PulsatingButton>
     </div>
   </ExampleBlock>
 
-  ### Custom Pulse Color
+  ### Glass (opt-in)
+
+  `glass` is never the default. It needs a colorful or photographic backdrop to read, so place it over imagery or inside a `ThemeScope` with a backdrop.
+
+  <ExampleBlock
+    code={`import { PulsatingButton } from "@glinui/ui"
+
+export function PulsatingButtonGlassDemo() {
+  return (
+    <PulsatingButton variant="glass">Glass</PulsatingButton>
+  )
+}`}
+  >
+    <PulsatingButton variant="glass">Glass</PulsatingButton>
+  </ExampleBlock>
+
+  ### Custom pulse
 
   <ExampleBlock
     code={`import { PulsatingButton } from "@glinui/ui"
 
 export function PulsatingButtonColorDemo() {
-  return <PulsatingButton pulseColor="#6366f1" pulseDuration={1.5}>Custom Pulse</PulsatingButton>
+  return (
+    <PulsatingButton pulseColor="var(--tone-success)" pulseDuration={1.5}>
+      Custom pulse
+    </PulsatingButton>
+  )
 }`}
   >
-    <PulsatingButton pulseColor="#6366f1" pulseDuration={1.5}>Custom Pulse</PulsatingButton>
+    <PulsatingButton pulseColor="var(--tone-success)" pulseDuration={1.5}>
+      Custom pulse
+    </PulsatingButton>
+  </ExampleBlock>
+
+  <ExampleBlock
+    code={`import { PulsatingButton } from "@glinui/ui"
+
+export function PulsatingButtonSizesDemo() {
+  return (
+    <div className="flex flex-wrap items-center gap-3">
+      <PulsatingButton size="sm">SM</PulsatingButton>
+      <PulsatingButton size="md">MD</PulsatingButton>
+      <PulsatingButton size="lg">LG</PulsatingButton>
+    </div>
+  )
+}`}
+  >
+    <div className="flex flex-wrap items-center gap-3">
+      <PulsatingButton size="sm">SM</PulsatingButton>
+      <PulsatingButton size="md">MD</PulsatingButton>
+      <PulsatingButton size="lg">LG</PulsatingButton>
+    </div>
   </ExampleBlock>
 
   ## Accessibility
 
-  - Native `<button>` with full keyboard support and focus ring.
-  - Pulse ring is decorative (`pointer-events-none`).
+  - Renders through `Button`: native `<button>`, 2px accent focus ring with offset, `disabled` and `aria-busy` states.
+  - Accessible name comes from the label. Decorative effect layers are `aria-hidden` and `pointer-events-none`.
 
   ## Reduced Motion
 
-  Pulse animation uses `motion-safe:animate-[...]` / `motion-reduce:hidden`. Under `prefers-reduced-motion`, the pulse ring is hidden.
+  The ring renders only at motion level `full`. It is removed under `prefers-reduced-motion` and `data-glin-motion="none"`.
 
   ## API Reference
 

@@ -15,6 +15,6 @@ describe("Badge", () => {
       </Badge>
     )
 
-    expect(screen.getByTestId("badge").className).toContain("backdrop-blur-md")
+    expect(screen.getByTestId("badge").className).toContain("backdrop-blur-xl")
   })
 })

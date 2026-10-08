@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Alert Dialog",
   "description": "Destructive action confirmation dialog with explicit cancel and action controls.",
-  "docsPath": "/docs/components/alert-dialog",
+  "docsPath": "/docs/components/radix/alert-dialog",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

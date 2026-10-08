@@ -1,0 +1,26 @@
+{
+  "name": "combobox",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Combobox",
+  "description": "A searchable select built from Popover and Command.",
+  "docsPath": "/docs/components/radix/combobox",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@phosphor-icons/react",
+    "class-variance-authority"
+  ],
+  "registryDependencies": [
+    "command",
+    "popover"
+  ],
+  "files": [
+    "packages/ui/src/components/combobox.tsx",
+    "packages/ui/src/tests/combobox.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add combobox"
+  }
+}

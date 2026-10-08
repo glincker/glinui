@@ -1,0 +1,44 @@
+{
+  "name": "shine-border",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Shine Border",
+  "description": "Animated gradient edge that wraps any rounded container.",
+  "docsPath": "/docs/components/radix/shine-border",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@glinui/motion",
+    "class-variance-authority"
+  ],
+  "category": "cards",
+  "files": [
+    "packages/ui/src/components/shine-border.tsx",
+    "packages/ui/src/components/motion-engine.tsx",
+    "packages/ui/src/tests/shine-border.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add shine-border"
+  },
+  "provenance": {
+    "sourceId": "magic-ui",
+    "sourceName": "Magic UI",
+    "author": "Magic UI",
+    "upstreamUrl": "https://github.com/magicuidesign/magicui",
+    "upstreamComponentUrl": "https://magicui.design/docs/components/shine-border",
+    "license": "MIT",
+    "spdx": "MIT",
+    "copyright": "Copyright (c) Magic UI",
+    "commit": "cdb348cb4c72a9b54b554d8617801e479fbc8714",
+    "adaptedFrom": "apps/www/registry/magicui/shine-border.tsx",
+    "adaptedAt": "2026-10-07",
+    "status": "active",
+    "licenseSha256": "0147b84235ed916b8b4e89c1f80655351c5afe7d211b629be61f553a227b34ba",
+    "licenseSnapshotPath": "packages/registry/licenses/magic-ui-cdb348c.txt",
+    "changes": "Token colors, Web Animations gated by motion level, logical RTL direction, a glass variant and no inline styles.",
+    "upstreamInstall": {
+      "shadcn": "npx shadcn@latest add \"https://magicui.design/r/shine-border\""
+    }
+  }
+}

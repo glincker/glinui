@@ -1,8 +1,9 @@
 import { getRegistryItem } from "@glinui/registry"
 import { GlassBreadcrumb } from "@glinui/ui"
+import { SigHero } from "@/components/demos/s2-signature-mdx"
 import { ComponentDocLayout } from "@/components/docs/component-doc-layout"
 import { ExampleBlock } from "@/components/docs/example-block"
-import { InstallTabs } from "@/components/docs/install-tabs"
+import { ComponentHero, ComponentInstall } from "@/components/docs/component-hero"
 import { getComponentSources } from "@/lib/get-component-source"
 import { PropsTable } from "@/components/docs/props-table"
 import { createDocsMetadata } from "@/lib/docs-metadata"
@@ -23,52 +24,56 @@ export const metadata = createDocsMetadata({
   title="Glass Breadcrumb"
   description={item?.description ?? "Pill-style breadcrumb with glass indicators and collapsible items."}
 >
+  <SigHero id="glass-breadcrumb" title="Glass Breadcrumb" name="GlassBreadcrumbHero" stage="lg" />
+
   ## Installation
 
-  <InstallTabs sources={sources} command={item?.install.package ?? "pnpm add @glinui/ui @glinui/tokens"} />
-
-  ### Registry
-
-  <InstallTabs command={item?.install.registry ?? "pnpm dlx @glinui/cli@latest add glass-breadcrumb"} />
+  <ComponentInstall componentId="glass-breadcrumb" sources={sources} />
 
   ## Usage
 
   Pass an array of `items` with `id`, `label`, and optional `href`. The last item is highlighted as the current page.
 
-  ### Basic
+  ## Examples
+
+  ### Variants
+
+  `GlassBreadcrumb` is glass by default, with a readable opacity floor. It also accepts the shared vocabulary: `glinr` raises the current page as a pill, `plain` is flat and shadcn-like. Glass looks frosted only over a colourful or photographic backdrop: pick one in the stage header.
 
   <ExampleBlock
-    codeDefaultOpen
     code={`import { GlassBreadcrumb } from "@glinui/ui"
 
-export function GlassBreadcrumbDemo() {
+const variants = ["glinr", "plain", "solid", "soft", "outline", "ghost", "gradient", "glass"] as const
+
+export function GlassBreadcrumbVariantsDemo() {
+  const items = [
+    { id: "home", label: "Home", href: "/" },
+    { id: "docs", label: "Docs", href: "/docs" },
+    { id: "breadcrumb", label: "Breadcrumb" }
+  ]
   return (
-    <div className="flex items-center justify-center p-8">
-      <GlassBreadcrumb
-        items={[
-          { id: "home", label: "Home", href: "/" },
-          { id: "docs", label: "Docs", href: "/docs" },
-          { id: "components", label: "Components", href: "/docs/components" },
-          { id: "breadcrumb", label: "Breadcrumb" }
-        ]}
-      />
+    <div className="flex flex-col items-start gap-3">
+      {variants.map((variant) => (
+        <GlassBreadcrumb key={variant} variant={variant} items={items} />
+      ))}
     </div>
   )
 }`}
   >
-    <div className="flex items-center justify-center p-8">
-      <GlassBreadcrumb
-        items={[
-          { id: "home", label: "Home", href: "/" },
-          { id: "docs", label: "Docs", href: "/docs" },
-          { id: "components", label: "Components", href: "/docs/components" },
-          { id: "breadcrumb", label: "Breadcrumb" }
-        ]}
-      />
+    <div className="flex flex-col items-start gap-3">
+      {["glinr", "plain", "solid", "soft", "outline", "ghost", "gradient", "glass"].map((variant) => (
+        <GlassBreadcrumb
+          key={variant}
+          variant={variant}
+          items={[
+            { id: "home", label: "Home", href: "/" },
+            { id: "docs", label: "Docs", href: "/docs" },
+            { id: "breadcrumb", label: "Breadcrumb" }
+          ]}
+        />
+      ))}
     </div>
   </ExampleBlock>
-
-  ## Examples
 
   ### Collapsed
 
@@ -116,7 +121,7 @@ export function GlassBreadcrumbCollapsedDemo() {
 
   ## Reduced Motion
 
-  No animations — the component is fully static.
+  No animations, the component is fully static.
 
   ## API Reference
 

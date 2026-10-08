@@ -1,0 +1,21 @@
+{
+  "name": "spinner",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Spinner",
+  "description": "Accessible loading indicator with a reduced-motion pulsing ring fallback.",
+  "docsPath": "/docs/components/radix/spinner",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "class-variance-authority"
+  ],
+  "files": [
+    "packages/ui/src/components/spinner.tsx",
+    "packages/ui/src/tests/spinner.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add spinner"
+  }
+}

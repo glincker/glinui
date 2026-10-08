@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Command",
   "description": "Command palette for keyboard-driven actions and search.",
-  "docsPath": "/docs/components/command",
+  "docsPath": "/docs/components/radix/command",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui",

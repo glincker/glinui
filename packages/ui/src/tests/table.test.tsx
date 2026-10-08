@@ -141,6 +141,6 @@ describe("Table", () => {
       </Table>
     )
 
-    expect(screen.getByText("Stable").closest("tr")?.className).toContain("emerald")
+    expect(screen.getByText("Stable").closest("tr")?.className).toContain("--tone-success")
   })
 })

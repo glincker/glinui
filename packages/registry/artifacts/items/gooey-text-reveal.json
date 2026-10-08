@@ -1,0 +1,25 @@
+{
+  "name": "gooey-text-reveal",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Gooey Text Reveal",
+  "description": "Heading whose words melt in through a shared SVG goo filter, or morph between phrases.",
+  "docsPath": "/docs/components/radix/gooey-text-reveal",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@glinui/motion",
+    "class-variance-authority"
+  ],
+  "category": "text",
+  "files": [
+    "packages/ui/src/components/gooey-text-reveal.tsx",
+    "packages/ui/src/components/motion-engine.tsx",
+    "packages/ui/src/lib/use-playback-active.ts",
+    "packages/ui/src/tests/gooey-text-reveal.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add gooey-text-reveal"
+  }
+}

@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Hover Card",
   "description": "Preview card that appears on hover or focus with configurable delays and placement.",
-  "docsPath": "/docs/components/hover-card",
+  "docsPath": "/docs/components/radix/hover-card",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

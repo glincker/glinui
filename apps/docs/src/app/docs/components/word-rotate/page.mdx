@@ -1,8 +1,12 @@
 import { getRegistryItem } from "@glinui/registry"
 import { WordRotate } from "@glinui/ui"
+import { WordRotateHero } from "@/components/demos/s5-motion"
+import { s5Code } from "@/lib/s5-code.generated"
+import { EngineColumns } from "@/components/demos/s5-engines"
+import { engineCompareCode } from "@/components/demos/s5-engine-code"
 import { ComponentDocLayout } from "@/components/docs/component-doc-layout"
 import { ExampleBlock } from "@/components/docs/example-block"
-import { InstallTabs } from "@/components/docs/install-tabs"
+import { ComponentHero, ComponentInstall } from "@/components/docs/component-hero"
 import { getComponentSources } from "@/lib/get-component-source"
 import { PropsTable } from "@/components/docs/props-table"
 import { createDocsMetadata } from "@/lib/docs-metadata"
@@ -23,49 +27,21 @@ export const metadata = createDocsMetadata({
   title="Word Rotate"
   description={item?.description ?? "Cycles through an array of words with animated slide transitions."}
 >
+  <ComponentHero
+    componentId="word-rotate"
+    title="Word Rotate"
+    code={s5Code.WordRotateHero}
+  >
+    <WordRotateHero />
+  </ComponentHero>
+
   ## Installation
 
-  <InstallTabs sources={sources} command={item?.install.package ?? "pnpm add @glinui/ui @glinui/tokens"} />
-
-  ### Registry
-
-  <InstallTabs command={item?.install.registry ?? "pnpm dlx @glinui/cli@latest add word-rotate"} />
+  <ComponentInstall componentId="word-rotate" sources={sources} />
 
   ## Usage
 
   `WordRotate` is a `"use client"` component. Place it inline inside headings or body copy to cycle through a list of words with a slide-up/slide-down transition. Each word is shown for `duration` milliseconds before animating to the next.
-
-  ### Basic
-
-  <ExampleBlock
-    codeDefaultOpen
-    code={`"use client"
-import { WordRotate } from "@glinui/ui"
-
-export function WordRotateDemo() {
-  return (
-    <div className="flex items-center justify-center p-8">
-      <h2 className="text-3xl font-bold">
-        Build with{" "}
-        <WordRotate
-          words={["React", "Next.js", "Tailwind", "Glin UI"]}
-          className="text-accent"
-        />
-      </h2>
-    </div>
-  )
-}`}
-  >
-    <div className="flex items-center justify-center p-8">
-      <h2 className="text-3xl font-bold">
-        Build with{" "}
-        <WordRotate
-          words={["React", "Next.js", "Tailwind", "Glin UI"]}
-          className="text-accent"
-        />
-      </h2>
-    </div>
-  </ExampleBlock>
 
   ## Examples
 
@@ -104,6 +80,16 @@ export function WordRotateFastDemo() {
     </div>
   </ExampleBlock>
 
+  ## Engines
+
+  `Word Rotate` drives its main animation through the pluggable motion engine. Pass `engine="css" | "motion" | "gsap"`, wrap a subtree in `MotionEngineProvider`, or set `data-glin-engine` on `<html>`. The css engine is built in and dependency free; `motion` and `gsap` are opt-in through `@glinui/motion/register/*`. Motion level `none` renders the final state and `subtle` is opacity only.
+
+  ### Engine comparison
+
+  <ExampleBlock code={engineCompareCode("word-rotate")}>
+    <EngineColumns id="word-rotate" />
+  </ExampleBlock>
+
   ## Accessibility
 
   - The component renders with `aria-live="polite"` so screen readers announce each new word as it appears.
@@ -125,7 +111,7 @@ export function WordRotateFastDemo() {
   ```
 
   {item?.files?.map((file) => (
-    <div key={file} className="font-mono text-sm text-neutral-600 dark:text-neutral-300">
+    <div key={file} className="font-mono text-sm text-[var(--color-muted)]">
       {file}
     </div>
   ))}

@@ -1,10 +1,12 @@
+"use client"
+
 import * as React from "react"
 import { cn } from "../lib/cn"
 
 export interface AuroraBackgroundProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Number of gradient blobs */
   blobCount?: number
-  /** Base colors for the aurora */
+  /** Base colors for the aurora. Defaults come from theme tokens so the blobs read on light and dark scopes. */
   colors?: string[]
   /** Animation duration in seconds */
   duration?: number
@@ -20,7 +22,7 @@ export const AuroraBackground = React.forwardRef<HTMLDivElement, AuroraBackgroun
       className,
       children,
       blobCount = 3,
-      colors = ["#a855f7", "#6366f1", "#ec4899"],
+      colors = ["var(--color-accent)", "var(--tone-info)", "var(--gradient-to)"],
       duration = 8,
       blur = 80,
       intensity = 0.4,
@@ -55,7 +57,7 @@ export const AuroraBackground = React.forwardRef<HTMLDivElement, AuroraBackgroun
           {blobs.map((blob) => (
             <div
               key={blob.id}
-              className="absolute rounded-full animate-aurora-shift motion-reduce:[animation:none]"
+              className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full animate-aurora-shift motion-reduce:[animation:none]"
               style={{
                 "--aurora-duration": `${duration}s`,
                 width: `${blob.size}%`,
@@ -64,7 +66,6 @@ export const AuroraBackground = React.forwardRef<HTMLDivElement, AuroraBackgroun
                 top: `${blob.y}%`,
                 background: `radial-gradient(circle, ${blob.color}, transparent 70%)`,
                 animationDelay: `${-blob.delay}s`,
-                transform: "translate(-50%, -50%)",
               } as React.CSSProperties}
             />
           ))}

@@ -1,9 +1,13 @@
+"use client"
+
 import * as React from "react"
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
-import { Check, ChevronRight, Circle } from "lucide-react"
+import { Check, CaretRight, Circle } from "@phosphor-icons/react/dist/ssr"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "../lib/cn"
+import { PANEL_ITEM, PANEL_MOTION, PANEL_SEPARATOR, panelSurface, type PanelVariantProp } from "../lib/panel"
+import { PanelVariantProvider, usePanelVariant, useResolvedPanelVariant } from "./panel-context"
 
 const dropdownMenuTriggerVariants = cva(
   "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
@@ -11,8 +15,8 @@ const dropdownMenuTriggerVariants = cva(
     variants: {
       variant: {
         default: "bg-[var(--color-surface)] text-[var(--color-foreground)] border border-[var(--color-border)]",
-        glass: "backdrop-blur-xl backdrop-saturate-[180%] bg-[var(--glass-3-surface)] border border-white/20 [border-top-color:var(--glass-refraction-top)] shadow-[0_0_0_1px_rgb(255_255_255_/_0.1)_inset,var(--shadow-glass-sm)] dark:border-white/[0.1] dark:shadow-[0_0_0_1px_rgb(255_255_255_/_0.05)_inset,0_8px_24px_rgb(0_0_0_/_0.35)] text-[var(--color-foreground)]",
-        frosted: "backdrop-blur-[40px] backdrop-saturate-[200%] bg-[var(--glass-4-surface)] border border-white/30 [border-top-color:var(--glass-refraction-top)] shadow-[0_0_0_1px_rgb(255_255_255_/_0.15)_inset,0_0_16px_rgb(255_255_255_/_0.1)_inset,var(--shadow-glass-md)] dark:border-white/[0.14] dark:shadow-[0_0_0_1px_rgb(255_255_255_/_0.07)_inset,0_0_16px_rgb(255_255_255_/_0.03)_inset,0_8px_24px_rgb(0_0_0_/_0.4)] text-[var(--color-foreground)]",
+        glass: "backdrop-blur-xl backdrop-saturate-[180%] bg-[var(--glass-3-surface)] border border-white/20 [border-top-color:var(--glass-refraction-top)] [box-shadow:0_0_0_1px_rgb(255_255_255_/_0.1)_inset,var(--shadow-glass-sm)] dark:border-white/[0.1] dark:shadow-[0_0_0_1px_rgb(255_255_255_/_0.05)_inset,0_8px_24px_rgb(0_0_0_/_0.35)] text-[var(--color-foreground)]",
+        frosted: "backdrop-blur-[40px] backdrop-saturate-[200%] bg-[var(--glass-4-surface)] border border-white/30 [border-top-color:var(--glass-refraction-top)] [box-shadow:0_0_0_1px_rgb(255_255_255_/_0.15)_inset,0_0_16px_rgb(255_255_255_/_0.1)_inset,var(--shadow-glass-md)] dark:border-white/[0.14] dark:shadow-[0_0_0_1px_rgb(255_255_255_/_0.07)_inset,0_0_16px_rgb(255_255_255_/_0.03)_inset,0_8px_24px_rgb(0_0_0_/_0.4)] text-[var(--color-foreground)]",
         outline: "bg-transparent border border-[var(--color-border)] text-[var(--color-foreground)]",
         ghost: "bg-transparent border border-transparent text-[var(--color-foreground)]"
       },
@@ -29,53 +33,40 @@ const dropdownMenuTriggerVariants = cva(
   }
 )
 
-const dropdownMenuContentVariants = cva(
-  "z-50 min-w-44 rounded-md border p-1 text-[var(--color-foreground)] shadow-md",
-  {
-    variants: {
-      variant: {
-        default: "bg-[var(--color-surface)] border-[var(--color-border)]",
-        glass: "backdrop-blur-xl backdrop-saturate-[180%] bg-[var(--glass-3-surface)] border border-white/20 [border-top-color:var(--glass-refraction-top)] shadow-[0_0_0_1px_rgb(255_255_255_/_0.1)_inset,var(--shadow-glass-sm)] dark:border-white/[0.1] dark:shadow-[0_0_0_1px_rgb(255_255_255_/_0.05)_inset,0_8px_24px_rgb(0_0_0_/_0.35)]",
-        frosted: "backdrop-blur-[40px] backdrop-saturate-[200%] bg-[var(--glass-4-surface)] border border-white/30 [border-top-color:var(--glass-refraction-top)] shadow-[0_0_0_1px_rgb(255_255_255_/_0.15)_inset,0_0_16px_rgb(255_255_255_/_0.1)_inset,var(--shadow-glass-md)] dark:border-white/[0.14] dark:shadow-[0_0_0_1px_rgb(255_255_255_/_0.07)_inset,0_0_16px_rgb(255_255_255_/_0.03)_inset,0_8px_24px_rgb(0_0_0_/_0.4)]",
-        outline: "bg-transparent border-[var(--color-border)]",
-        ghost: "bg-transparent border-transparent"
-      },
-      size: {
-        sm: "text-xs",
-        md: "text-sm",
-        lg: "text-base"
-      }
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "md"
+const dropdownMenuContentVariants = cva(`z-50 min-w-44 p-1 ${PANEL_MOTION}`, {
+  variants: {
+    size: {
+      sm: "text-xs",
+      md: "text-sm",
+      lg: "text-base"
     }
+  },
+  defaultVariants: {
+    size: "md"
   }
-)
+})
 
-const dropdownMenuItemVariants = cva(
-  "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 outline-none transition-colors focus:bg-black/5 focus:text-[var(--color-foreground)] dark:focus:bg-black/50 data-[highlighted]:bg-black/5 data-[highlighted]:text-[var(--color-foreground)] dark:data-[highlighted]:bg-black/50 data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-  {
-    variants: {
-      variant: {
-        default: "",
-        glass: "",
-        frosted: "",
-        outline: "",
-        ghost: ""
-      },
-      size: {
-        sm: "text-xs",
-        md: "text-sm",
-        lg: "text-base"
-      }
+const dropdownMenuItemVariants = cva(PANEL_ITEM, {
+  variants: {
+    /** Accepted for backwards compatibility. Items follow the variant of their panel. */
+    variant: {
+      default: "",
+      glass: "",
+      frosted: "",
+      outline: "",
+      ghost: ""
     },
-    defaultVariants: {
-      variant: "default",
-      size: "md"
+    size: {
+      sm: "text-xs",
+      md: "text-sm",
+      lg: "text-base"
     }
+  },
+  defaultVariants: {
+    variant: "default",
+    size: "md"
   }
-)
+})
 
 export type DropdownMenuProps = React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Root>
 
@@ -88,10 +79,11 @@ export type DropdownMenuTriggerProps =
 export const DropdownMenuTrigger = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.Trigger>,
   DropdownMenuTriggerProps
->(({ className, variant, size, ...props }, ref) => (
+>(({ className, variant, size, asChild, ...props }, ref) => (
   <DropdownMenuPrimitive.Trigger
     ref={ref}
-    className={cn(dropdownMenuTriggerVariants({ variant, size }), className)}
+    asChild={asChild}
+    className={cn(asChild ? undefined : dropdownMenuTriggerVariants({ variant, size }), className)}
     {...props}
   />
 ))
@@ -100,21 +92,32 @@ DropdownMenuTrigger.displayName = DropdownMenuPrimitive.Trigger.displayName
 
 export type DropdownMenuContentProps =
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content> &
-  VariantProps<typeof dropdownMenuContentVariants>
+  VariantProps<typeof dropdownMenuContentVariants> & {
+  /** Surface look. Omit for the ambient design style (glinr by default). `glass` is opt-in and needs a rich backdrop. */
+  variant?: PanelVariantProp
+  /** Element to portal into. Defaults to document.body. */
+  container?: HTMLElement | null
+  }
 
 export const DropdownMenuContent = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.Content>,
   DropdownMenuContentProps
->(({ className, sideOffset = 6, variant, size, ...props }, ref) => (
-  <DropdownMenuPrimitive.Portal>
-    <DropdownMenuPrimitive.Content
-      ref={ref}
-      sideOffset={sideOffset}
-      className={cn(dropdownMenuContentVariants({ variant, size }), className)}
-      {...props}
-    />
-  </DropdownMenuPrimitive.Portal>
-))
+>(({ className, sideOffset = 6, variant, size, container, children, ...props }, ref) => {
+  const resolved = useResolvedPanelVariant(variant)
+  return (
+    <DropdownMenuPrimitive.Portal container={container ?? undefined}>
+      <DropdownMenuPrimitive.Content
+        ref={ref}
+        sideOffset={sideOffset}
+        data-variant={resolved}
+        className={cn(panelSurface({ variant: resolved, shape: "menu" }), dropdownMenuContentVariants({ size }), className)}
+        {...props}
+      >
+        <PanelVariantProvider value={resolved}>{children}</PanelVariantProvider>
+      </DropdownMenuPrimitive.Content>
+    </DropdownMenuPrimitive.Portal>
+  )
+})
 
 DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName
 
@@ -211,7 +214,7 @@ export const DropdownMenuSeparator = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.Separator>,
   DropdownMenuSeparatorProps
 >(({ className, ...props }, ref) => (
-  <DropdownMenuPrimitive.Separator ref={ref} className={cn("my-1 h-px bg-[var(--color-border)]", className)} {...props} />
+  <DropdownMenuPrimitive.Separator ref={ref} className={cn(PANEL_SEPARATOR, className)} {...props} />
 ))
 
 DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName
@@ -219,7 +222,7 @@ DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName
 export type DropdownMenuShortcutProps = React.HTMLAttributes<HTMLSpanElement>
 
 export const DropdownMenuShortcut = ({ className, ...props }: DropdownMenuShortcutProps) => {
-  return <span className={cn("ml-auto text-xs tracking-widest opacity-60", className)} {...props} />
+  return <span className={cn("ml-auto font-mono text-xs tracking-widest text-[var(--color-muted)]", className)} {...props} />
 }
 
 export const DropdownMenuSub = DropdownMenuPrimitive.Sub
@@ -238,7 +241,7 @@ export const DropdownMenuSubTrigger = React.forwardRef<
     {...props}
   >
     {children}
-    <ChevronRight className="ml-auto h-4 w-4" />
+    <CaretRight className="ml-auto h-4 w-4" />
   </DropdownMenuPrimitive.SubTrigger>
 ))
 
@@ -246,17 +249,24 @@ DropdownMenuSubTrigger.displayName = DropdownMenuPrimitive.SubTrigger.displayNam
 
 export type DropdownMenuSubContentProps =
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubContent> &
-  VariantProps<typeof dropdownMenuContentVariants>
+  VariantProps<typeof dropdownMenuContentVariants> & { variant?: PanelVariantProp }
 
 export const DropdownMenuSubContent = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.SubContent>,
   DropdownMenuSubContentProps
->(({ className, variant, size, ...props }, ref) => (
-  <DropdownMenuPrimitive.SubContent
-    ref={ref}
-    className={cn(dropdownMenuContentVariants({ variant, size }), className)}
-    {...props}
-  />
-))
+>(({ className, variant, size, children, ...props }, ref) => {
+  const inherited = usePanelVariant()
+  const resolved = useResolvedPanelVariant(variant ?? inherited)
+  return (
+    <DropdownMenuPrimitive.SubContent
+      ref={ref}
+      data-variant={resolved}
+      className={cn(panelSurface({ variant: resolved, shape: "menu" }), dropdownMenuContentVariants({ size }), className)}
+      {...props}
+    >
+      <PanelVariantProvider value={resolved}>{children}</PanelVariantProvider>
+    </DropdownMenuPrimitive.SubContent>
+  )
+})
 
 DropdownMenuSubContent.displayName = DropdownMenuPrimitive.SubContent.displayName

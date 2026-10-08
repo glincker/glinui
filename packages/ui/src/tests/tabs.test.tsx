@@ -37,8 +37,8 @@ describe("Tabs", () => {
       </Tabs>
     )
 
-    expect(screen.getByTestId("list").className).toContain("backdrop-blur-md")
-    expect(screen.getByTestId("content").className).toContain("backdrop-blur-md")
+    expect(screen.getByTestId("list").className).toContain("backdrop-blur-xl")
+    expect(screen.getByTestId("content").className).toContain("backdrop-blur-xl")
   })
 
   it("supports liquid variant classes", () => {

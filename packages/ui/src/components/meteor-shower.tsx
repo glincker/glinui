@@ -55,7 +55,7 @@ export const MeteorShower = React.forwardRef<HTMLDivElement, MeteorShowerProps>(
         {meteors.map((meteor) => (
           <span
             key={meteor.id}
-            className="absolute animate-[meteor-fall_var(--meteor-duration,3s)_linear_infinite]"
+            className="absolute rounded-full bg-[var(--color-foreground)] animate-[meteor-fall_var(--meteor-duration,3s)_linear_infinite]"
             style={
               {
                 "--meteor-angle": `${angle}deg`,
@@ -65,20 +65,15 @@ export const MeteorShower = React.forwardRef<HTMLDivElement, MeteorShowerProps>(
                 animationDelay: `${meteor.delay}s`,
                 width: `${meteor.size}px`,
                 height: `${meteor.size}px`,
-                borderRadius: "50%",
-                background: "var(--color-foreground)",
-                boxShadow: `0 0 0 1px rgba(255,255,255,0.1), 0 0 ${meteor.size * 10}px ${meteor.size * 2}px rgba(255,255,255,0.1)`,
+                boxShadow: `0 0 0 1px color-mix(in oklab, var(--color-foreground) 12%, transparent), 0 0 ${meteor.size * 10}px ${meteor.size * 2}px color-mix(in oklab, var(--color-foreground) 14%, transparent)`,
               } as React.CSSProperties
             }
           >
             <span
-              className="absolute top-1/2 block -translate-y-1/2"
+              className="absolute right-full top-1/2 block -translate-y-1/2 bg-[linear-gradient(to_right,transparent,var(--color-foreground))] opacity-40"
               style={{
                 width: `${30 + Math.random() * 40}px`,
                 height: `${meteor.size * 0.5}px`,
-                right: "100%",
-                background: `linear-gradient(to right, transparent, var(--color-foreground))`,
-                opacity: 0.4
               }}
             />
           </span>

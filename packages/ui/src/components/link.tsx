@@ -1,19 +1,22 @@
 import * as React from "react"
+import { ArrowRight } from "@phosphor-icons/react/dist/ssr"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "../lib/cn"
 
 const linkVariants = cva(
-  "inline-flex items-center gap-1 rounded-md font-medium transition-[color,background-color,border-color,box-shadow] duration-fast ease-standard focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]/35 focus-visible:ring-offset-2 motion-reduce:transition-none",
+  "inline-flex items-center gap-1 rounded-md font-medium transition-[color,background-color,border-color,box-shadow] duration-fast ease-standard focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-0)] motion-reduce:transition-none",
   {
     variants: {
       variant: {
-        default: "text-[var(--color-foreground)] hover:text-[var(--color-accent)]",
+        default: "text-[var(--color-accent)] hover:text-[color-mix(in_oklch,var(--color-accent)_80%,var(--color-foreground))]",
         glass:
-          "border border-white/20 [border-top-color:var(--glass-refraction-top)] bg-[var(--glass-1-surface)] px-2 py-1 text-[var(--color-foreground)] hover:bg-[var(--glass-2-surface)] dark:border-white/[0.14] dark:bg-white/[0.05]",
+          "border border-[color:var(--glass-border)] [border-top-color:var(--glass-refraction-top)] bg-[var(--glass-readable)] px-2 py-1 text-[var(--color-foreground)] backdrop-blur-xl backdrop-saturate-[180%] hover:border-[color:var(--glass-border-strong)]",
         outline:
-          "border border-[var(--color-border)] px-2 py-1 text-[var(--color-foreground)] hover:border-[var(--color-accent)]/50 dark:border-white/20",
-        ghost: "px-2 py-1 text-[var(--color-foreground)]/80 hover:bg-[var(--glass-1-surface)]"
+          "border border-[var(--color-border)] px-2 py-1 text-[var(--color-foreground)] hover:border-[color:var(--color-accent)]",
+        ghost: "px-2 py-1 text-foreground/80 hover:bg-[color-mix(in_oklab,var(--color-foreground)_7%,transparent)]",
+        arrow:
+          "gap-1.5 text-[var(--color-accent)] hover:text-[color-mix(in_oklch,var(--color-accent)_75%,var(--color-foreground))] focus-visible:text-[color-mix(in_oklch,var(--color-accent)_75%,var(--color-foreground))] [&_svg]:size-3.5 [&_svg]:shrink-0 [&_svg]:transition-transform [&_svg]:duration-fast [&_svg]:ease-standard [&:hover_svg]:translate-x-[3px] [&:focus-visible_svg]:translate-x-1 motion-reduce:[&_svg]:transition-none motion-reduce:[&:hover_svg]:translate-x-0 motion-reduce:[&:focus-visible_svg]:translate-x-0"
       },
       size: {
         sm: "text-xs",
@@ -21,7 +24,7 @@ const linkVariants = cva(
         lg: "text-base"
       },
       underline: {
-        true: "underline underline-offset-4 decoration-[var(--color-accent)]/35",
+        true: "underline underline-offset-4 decoration-1 decoration-[color-mix(in_oklch,var(--color-accent)_45%,transparent)] hover:decoration-[var(--color-accent)]",
         false: "no-underline"
       }
     },
@@ -34,12 +37,25 @@ const linkVariants = cva(
 )
 
 export type LinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> &
-  VariantProps<typeof linkVariants>
+  VariantProps<typeof linkVariants> & {
+    /** Arrow variant only: hide the trailing arrow icon. */
+    hideArrow?: boolean
+  }
 
 export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
-  ({ className, variant, size, underline, ...props }, ref) => {
+  ({ className, variant, size, underline, hideArrow = false, children, ...props }, ref) => {
+    const isArrow = variant === "arrow"
+    const resolvedUnderline = underline ?? (isArrow ? false : undefined)
+
     return (
-      <a ref={ref} className={cn(linkVariants({ variant, size, underline }), className)} {...props} />
+      <a
+        ref={ref}
+        className={cn(linkVariants({ variant, size, underline: resolvedUnderline }), className)}
+        {...props}
+      >
+        {children}
+        {isArrow && !hideArrow ? <ArrowRight aria-hidden="true" weight="bold" /> : null}
+      </a>
     )
   }
 )

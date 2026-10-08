@@ -24,7 +24,7 @@ describe("Avatar", () => {
     const { rerender } = render(
       <Avatar data-testid="avatar" variant="glass" size="xs" radius="md" className="ring-1" />
     )
-    expect(screen.getByTestId("avatar").className).toContain("backdrop-blur-md")
+    expect(screen.getByTestId("avatar").className).toContain("backdrop-blur-xl")
     expect(screen.getByTestId("avatar").className).toContain("h-6")
     expect(screen.getByTestId("avatar").className).toContain("rounded-md")
     expect(screen.getByTestId("avatar")).toHaveClass("ring-1")

@@ -6,7 +6,7 @@ export interface ChromaticTextProps extends React.HTMLAttributes<HTMLSpanElement
   offset?: number
   /** Animation duration in seconds (0 = static) */
   duration?: number
-  /** Colors for the channels [red, blue] */
+  /** Colors for the channels [red, blue]. Defaults come from theme tokens; the fringes sit behind the base text so they read on any stage. */
   colors?: [string, string]
 }
 
@@ -17,7 +17,7 @@ export const ChromaticText = React.forwardRef<HTMLSpanElement, ChromaticTextProp
       children,
       offset = 2,
       duration = 0,
-      colors = ["#ff0040", "#0080ff"],
+      colors = ["var(--tone-danger)", "var(--tone-info)"],
       style,
       ...props
     },
@@ -42,7 +42,7 @@ export const ChromaticText = React.forwardRef<HTMLSpanElement, ChromaticTextProp
             <span
               aria-hidden="true"
               className={cn(
-                "pointer-events-none absolute inset-0 select-none mix-blend-screen",
+                "pointer-events-none absolute inset-0 select-none opacity-70",
                 isAnimated && "animate-chromatic-shift motion-reduce:[animation:none]"
               )}
               style={{
@@ -50,7 +50,6 @@ export const ChromaticText = React.forwardRef<HTMLSpanElement, ChromaticTextProp
                 "--chromatic-offset": `${offset}px`,
                 "--chromatic-duration": isAnimated ? `${duration}s` : undefined,
                 transform: isAnimated ? undefined : `translate(${offset}px, ${-offset}px)`,
-                opacity: 0.7,
               } as React.CSSProperties}
             >
               {text}
@@ -60,7 +59,7 @@ export const ChromaticText = React.forwardRef<HTMLSpanElement, ChromaticTextProp
             <span
               aria-hidden="true"
               className={cn(
-                "pointer-events-none absolute inset-0 select-none mix-blend-screen",
+                "pointer-events-none absolute inset-0 select-none opacity-70",
                 isAnimated && "animate-chromatic-shift motion-reduce:[animation:none]"
               )}
               style={{
@@ -69,7 +68,6 @@ export const ChromaticText = React.forwardRef<HTMLSpanElement, ChromaticTextProp
                 "--chromatic-duration": isAnimated ? `${duration}s` : undefined,
                 transform: isAnimated ? undefined : `translate(${-offset}px, ${offset}px)`,
                 animationDirection: isAnimated ? "reverse" : undefined,
-                opacity: 0.7,
               } as React.CSSProperties}
             >
               {text}

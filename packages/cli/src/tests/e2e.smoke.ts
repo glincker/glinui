@@ -154,7 +154,7 @@ describe("cli e2e smoke", () => {
     const configRaw = await readFileAsync(path.join(cwd, "glinui.json"), "utf8")
     const config = JSON.parse(configRaw) as { $schema: string }
     expect(config.$schema).toBe(`${registryBaseUrl}/schema.json`)
-    expect(existsSync(path.join(cwd, "src/lib/utils/cn.ts"))).toBe(true)
+    expect(existsSync(path.join(cwd, "src/lib/utils.ts"))).toBe(true)
 
     const { addCommand } = await import("../commands/add.js")
     await addCommand.parseAsync(["button", "--cwd", cwd], { from: "user" })
@@ -191,5 +191,31 @@ describe("cli e2e smoke", () => {
     expect(payload.registryPath).toBe("registry/button.tsx")
     expect(payload.stats).toEqual({ added: 0, removed: 0 })
     expect(payload.hunks).toEqual([])
+  })
+
+  it("adds new items with registry dependencies, helper files and lib hooks", async () => {
+    const cwd = await createTempProject()
+
+    vi.resetModules()
+
+    const { createInitCommand } = await import("../commands/init.js")
+    await createInitCommand().parseAsync(["--yes", "--cwd", cwd], { from: "user" })
+
+    const { addCommand } = await import("../commands/add.js")
+    await withCapturedConsole(async () => {
+      await addCommand.parseAsync(["button-group", "sidebar", "message-scroller", "--cwd", cwd], { from: "user" })
+    })
+
+    const components = path.join(cwd, "src/components/ui")
+    // sidebar ships sidebar-context as a helper file.
+    expect(existsSync(path.join(components, "button-group.tsx"))).toBe(true)
+    expect(existsSync(path.join(components, "sidebar.tsx"))).toBe(true)
+    expect(existsSync(path.join(components, "sidebar-context.tsx"))).toBe(true)
+    // sidebar requires sheet and tooltip through registryDependencies.
+    expect(existsSync(path.join(components, "sheet.tsx"))).toBe(true)
+    expect(existsSync(path.join(components, "tooltip.tsx"))).toBe(true)
+    // message-scroller helper hook lands next to the utils module, with aliasable imports.
+    expect(existsSync(path.join(cwd, "src/lib/use-prefers-reduced-motion.ts"))).toBe(true)
+    expect(await readFile(path.join(components, "button-group.tsx"), "utf8")).toContain("../../lib/utils")
   })
 })

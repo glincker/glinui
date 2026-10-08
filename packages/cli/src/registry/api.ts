@@ -1,5 +1,6 @@
 import { REGISTRY_URL } from "./constants.js"
 import { z } from "zod"
+import type { ItemProvenance } from "../utils/notices.js"
 
 export type RegistryItem = {
   name: string
@@ -8,6 +9,10 @@ export type RegistryItem = {
   dependencies?: string[]
   devDependencies?: string[]
   registryDependencies?: string[]
+  /** Version ranges for entries in dependencies (additive, optional). */
+  dependencyVersions?: Record<string, string>
+  /** Present for components adapted from other open source projects. */
+  provenance?: ItemProvenance
   files: Array<{
     path: string
     content: string
@@ -29,6 +34,21 @@ const registryFileSchema = z.object({
   type: z.string().optional()
 })
 
+const provenanceSchema = z
+  .object({
+    sourceId: z.string(),
+    sourceName: z.string(),
+    upstreamUrl: z.string(),
+    license: z.string(),
+    spdx: z.string(),
+    copyright: z.string(),
+    commit: z.string(),
+    adaptedFrom: z.string().optional(),
+    licenseText: z.string().optional(),
+    noticeUrl: z.string().optional()
+  })
+  .passthrough()
+
 const registryItemSchema = z.object({
   name: z.string(),
   type: z.string(),
@@ -36,6 +56,8 @@ const registryItemSchema = z.object({
   dependencies: z.array(z.string()).optional(),
   devDependencies: z.array(z.string()).optional(),
   registryDependencies: z.array(z.string()).optional(),
+  dependencyVersions: z.record(z.string()).optional(),
+  provenance: provenanceSchema.optional(),
   files: z.array(registryFileSchema)
 })
 

@@ -5,10 +5,10 @@ import { cn } from "../lib/cn"
 const rippleVariants = cva("absolute rounded-full", {
   variants: {
     variant: {
-      default: "border border-neutral-300/50 dark:border-neutral-600/50",
+      default: "border border-[color:color-mix(in_oklab,var(--color-foreground)_28%,transparent)]",
       glass:
-        "border border-white/20 [border-top-color:var(--glass-refraction-top)] dark:border-white/10",
-      accent: "border border-[var(--color-accent)]/30 dark:border-[var(--color-accent)]/20"
+        "border border-[color:var(--glass-border-strong)] [border-top-color:var(--glass-refraction-top)]",
+      accent: "border border-[color:color-mix(in_oklab,var(--color-accent)_45%,transparent)]"
     }
   },
   defaultVariants: {

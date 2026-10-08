@@ -1,8 +1,12 @@
 import { getRegistryItem } from "@glinui/registry"
 import { Typewriter } from "@glinui/ui"
+import { TypewriterLoading } from "@/components/demos/s5-motion"
+import { s5Code } from "@/lib/s5-code.generated"
+import { EngineColumns } from "@/components/demos/s5-engines"
+import { engineCompareCode } from "@/components/demos/s5-engine-code"
 import { ComponentDocLayout } from "@/components/docs/component-doc-layout"
 import { ExampleBlock } from "@/components/docs/example-block"
-import { InstallTabs } from "@/components/docs/install-tabs"
+import { ComponentHero, ComponentInstall } from "@/components/docs/component-hero"
 import { getComponentSources } from "@/lib/get-component-source"
 import { PropsTable } from "@/components/docs/props-table"
 import { createDocsMetadata } from "@/lib/docs-metadata"
@@ -23,41 +27,21 @@ export const metadata = createDocsMetadata({
   title="Typewriter"
   description={item?.description ?? "Character-by-character typing animation with blinking cursor."}
 >
+  <ComponentHero
+    componentId="typewriter"
+    title="Typewriter"
+    code={s5Code.TypewriterLoading}
+  >
+    <TypewriterLoading />
+  </ComponentHero>
+
   ## Installation
 
-  <InstallTabs sources={sources} command={item?.install.package ?? "pnpm add @glinui/ui @glinui/tokens"} />
-
-  ### Registry
-
-  <InstallTabs command={item?.install.registry ?? "pnpm dlx @glinui/cli@latest add typewriter"} />
+  <ComponentInstall componentId="typewriter" sources={sources} />
 
   ## Usage
 
   `Typewriter` is a `"use client"` component. Place it inline to type out text character by character with an optional blinking cursor. The `text` prop controls what gets typed.
-
-  ### Basic
-
-  <ExampleBlock
-    codeDefaultOpen
-    code={`"use client"
-import { Typewriter } from "@glinui/ui"
-
-export function TypewriterDemo() {
-  return (
-    <div className="flex items-center justify-center p-8">
-      <h2 className="text-3xl font-bold">
-        <Typewriter text="Welcome to Glin UI" />
-      </h2>
-    </div>
-  )
-}`}
-  >
-    <div className="flex items-center justify-center p-8">
-      <h2 className="text-3xl font-bold">
-        <Typewriter text="Welcome to Glin UI" />
-      </h2>
-    </div>
-  </ExampleBlock>
 
   ## Examples
 
@@ -111,7 +95,7 @@ import { Typewriter } from "@glinui/ui"
 export function TypewriterLoopDemo() {
   return (
     <div className="flex items-center justify-center p-8">
-      <p className="text-xl font-medium text-neutral-600 dark:text-neutral-300">
+      <p className="text-xl font-medium text-[var(--color-muted)]">
         <Typewriter
           text="Building the future of UI..."
           loop
@@ -124,7 +108,7 @@ export function TypewriterLoopDemo() {
 }`}
   >
     <div className="flex items-center justify-center p-8">
-      <p className="text-xl font-medium text-neutral-600 dark:text-neutral-300">
+      <p className="text-xl font-medium text-[var(--color-muted)]">
         <Typewriter
           text="Building the future of UI..."
           loop
@@ -195,6 +179,16 @@ export function TypewriterNoCursorDemo() {
     </div>
   </ExampleBlock>
 
+  ## Engines
+
+  `Typewriter` drives its main animation through the pluggable motion engine. Pass `engine="css" | "motion" | "gsap"`, wrap a subtree in `MotionEngineProvider`, or set `data-glin-engine` on `<html>`. The css engine is built in and dependency free; `motion` and `gsap` are opt-in through `@glinui/motion/register/*`. Motion level `none` renders the final state and `subtle` is opacity only.
+
+  ### Engine comparison
+
+  <ExampleBlock code={engineCompareCode("typewriter")}>
+    <EngineColumns id="typewriter" />
+  </ExampleBlock>
+
   ## Accessibility
 
   - The component renders with `aria-label` set to the full `text` value so screen readers announce the complete text immediately.
@@ -216,7 +210,7 @@ export function TypewriterNoCursorDemo() {
   ```
 
   {item?.files?.map((file) => (
-    <div key={file} className="font-mono text-sm text-neutral-600 dark:text-neutral-300">
+    <div key={file} className="font-mono text-sm text-[var(--color-muted)]">
       {file}
     </div>
   ))}

@@ -1,0 +1,22 @@
+{
+  "name": "aspect-ratio",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Aspect Ratio",
+  "description": "Constrains content to a width to height ratio with optional surface frame.",
+  "docsPath": "/docs/components/radix/aspect-ratio",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@radix-ui/react-aspect-ratio",
+    "class-variance-authority"
+  ],
+  "files": [
+    "packages/ui/src/components/aspect-ratio.tsx",
+    "packages/ui/src/tests/aspect-ratio.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add aspect-ratio"
+  }
+}

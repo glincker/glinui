@@ -8,15 +8,15 @@ const gradientVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-[linear-gradient(135deg,var(--color-background),var(--color-surface),var(--color-accent),var(--color-background))]",
+          "bg-[linear-gradient(135deg,var(--surface-1),color-mix(in_oklab,var(--color-accent)_40%,var(--surface-1)),var(--color-accent),var(--surface-1))]",
         glass:
-          "border border-white/20 [border-top-color:var(--glass-refraction-top)] backdrop-blur-sm bg-[linear-gradient(135deg,rgb(255_255_255/0.06),rgb(255_255_255/0.15),rgb(255_255_255/0.06))] dark:bg-[linear-gradient(135deg,rgb(255_255_255/0.03),rgb(255_255_255/0.08),rgb(255_255_255/0.03))]",
+          "border border-[color:var(--glass-border)] [border-top-color:var(--glass-refraction-top)] backdrop-blur-xl bg-[linear-gradient(135deg,color-mix(in_oklab,var(--color-foreground)_4%,transparent),color-mix(in_oklab,var(--color-foreground)_12%,transparent),color-mix(in_oklab,var(--color-foreground)_4%,transparent))]",
         warm:
-          "bg-[linear-gradient(135deg,#fef3c7,#fde68a,#fbbf24,#f59e0b,#fef3c7)] dark:bg-[linear-gradient(135deg,#78350f,#92400e,#b45309,#d97706,#78350f)]",
+          "bg-[linear-gradient(135deg,color-mix(in_oklab,var(--tone-warning)_35%,var(--surface-1)),var(--tone-warning),color-mix(in_oklab,var(--tone-warning)_55%,var(--tone-danger)),color-mix(in_oklab,var(--tone-warning)_60%,var(--surface-1)),color-mix(in_oklab,var(--tone-warning)_35%,var(--surface-1)))]",
         cool:
-          "bg-[linear-gradient(135deg,#dbeafe,#bfdbfe,#93c5fd,#60a5fa,#dbeafe)] dark:bg-[linear-gradient(135deg,#1e3a5f,#1e40af,#2563eb,#3b82f6,#1e3a5f)]",
+          "bg-[linear-gradient(135deg,color-mix(in_oklab,var(--tone-info)_35%,var(--surface-1)),var(--tone-info),color-mix(in_oklab,var(--tone-info)_55%,var(--gradient-to)),color-mix(in_oklab,var(--tone-info)_60%,var(--surface-1)),color-mix(in_oklab,var(--tone-info)_35%,var(--surface-1)))]",
         aurora:
-          "bg-[linear-gradient(135deg,#c084fc,#818cf8,#6366f1,#a78bfa,#c084fc)] dark:bg-[linear-gradient(135deg,#581c87,#3730a3,#4338ca,#6d28d9,#581c87)]"
+          "bg-[linear-gradient(135deg,color-mix(in_oklab,var(--color-accent)_55%,var(--surface-1)),var(--color-accent),color-mix(in_oklab,var(--color-accent)_55%,var(--tone-info)),var(--gradient-to),color-mix(in_oklab,var(--color-accent)_55%,var(--surface-1)))]"
       }
     },
     defaultVariants: {

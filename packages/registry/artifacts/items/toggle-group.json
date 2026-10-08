@@ -1,0 +1,25 @@
+{
+  "name": "toggle-group",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Toggle Group",
+  "description": "A set of toggles with single or multiple selection and merged segmented borders.",
+  "docsPath": "/docs/components/radix/toggle-group",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@radix-ui/react-toggle-group",
+    "class-variance-authority"
+  ],
+  "registryDependencies": [
+    "toggle"
+  ],
+  "files": [
+    "packages/ui/src/components/toggle-group.tsx",
+    "packages/ui/src/tests/toggle-group.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add toggle-group"
+  }
+}

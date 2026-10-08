@@ -1,0 +1,23 @@
+{
+  "name": "message-scroller",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Message Scroller",
+  "description": "Conversation log that sticks to the bottom, shows a jump to latest pill and announces new messages politely.",
+  "docsPath": "/docs/components/radix/message-scroller",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@phosphor-icons/react"
+  ],
+  "category": "ai",
+  "files": [
+    "packages/ui/src/components/message-scroller.tsx",
+    "packages/ui/src/lib/use-prefers-reduced-motion.ts",
+    "packages/ui/src/tests/message-scroller.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add message-scroller"
+  }
+}

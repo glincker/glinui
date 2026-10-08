@@ -1,0 +1,22 @@
+{
+  "name": "button-group",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Button Group",
+  "description": "Merges adjacent buttons into one segmented control with shared borders.",
+  "docsPath": "/docs/components/radix/button-group",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@radix-ui/react-slot",
+    "class-variance-authority"
+  ],
+  "files": [
+    "packages/ui/src/components/button-group.tsx",
+    "packages/ui/src/tests/button-group.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add button-group"
+  }
+}

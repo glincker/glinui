@@ -31,7 +31,7 @@ export const DotPattern = React.forwardRef<SVGSVGElement, DotPatternProps>(
         ref={ref}
         aria-hidden
         className={cn(
-          "pointer-events-none absolute inset-0 h-full w-full fill-neutral-400/40",
+          "pointer-events-none absolute inset-0 h-full w-full text-[color:var(--color-foreground)]",
           className
         )}
         {...props}

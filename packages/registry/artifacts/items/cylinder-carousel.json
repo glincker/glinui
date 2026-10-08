@@ -1,0 +1,41 @@
+{
+  "name": "cylinder-carousel",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Cylinder Carousel",
+  "description": "Slides on a rotating 3D ring with buttons, arrow keys, swipe and a pausable autoplay.",
+  "docsPath": "/docs/components/radix/cylinder-carousel",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@glinui/motion",
+    "@phosphor-icons/react"
+  ],
+  "category": "layout",
+  "files": [
+    "packages/ui/src/components/cylinder-carousel.tsx",
+    "packages/ui/src/components/motion-engine.tsx",
+    "packages/ui/src/tests/cylinder-carousel.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add cylinder-carousel"
+  },
+  "provenance": {
+    "sourceId": "vengeance-ui",
+    "sourceName": "Vengeance UI",
+    "author": "Ashutoshx7",
+    "upstreamUrl": "https://github.com/Ashutoshx7/VengeanceUI",
+    "upstreamComponentUrl": "https://github.com/Ashutoshx7/VengeanceUI/blob/0376d8e37b4a565016cce1064d7b96905c4494ab/src/components/ui/cylinder-carousel.tsx",
+    "license": "MIT",
+    "spdx": "MIT",
+    "copyright": "Copyright (c) 2025-2026 Ashutoshx7",
+    "commit": "0376d8e37b4a565016cce1064d7b96905c4494ab",
+    "adaptedFrom": "src/components/ui/cylinder-carousel.tsx",
+    "adaptedAt": "2026-10-07",
+    "status": "active",
+    "licenseSha256": "b90027fc729c84a7e3b976b046996a685f5b1a2f448f5bc3514ce32314b77c46",
+    "licenseSnapshotPath": "packages/registry/licenses/vengeance-ui-0376d8e.txt",
+    "changes": "ReactNode items instead of image urls, tokens, keyboard and aria carousel semantics, inert rear slides, autoplay pause, reduced motion, RTL"
+  }
+}

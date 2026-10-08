@@ -2,7 +2,7 @@ import { getRegistryItem } from "@glinui/registry"
 import { Ripple } from "@glinui/ui"
 import { ComponentDocLayout } from "@/components/docs/component-doc-layout"
 import { ExampleBlock } from "@/components/docs/example-block"
-import { InstallTabs } from "@/components/docs/install-tabs"
+import { ComponentHero, ComponentInstall } from "@/components/docs/component-hero"
 import { getComponentSources } from "@/lib/get-component-source"
 import { PropsTable } from "@/components/docs/props-table"
 import { createDocsMetadata } from "@/lib/docs-metadata"
@@ -23,38 +23,33 @@ export const metadata = createDocsMetadata({
   title="Ripple"
   description={item?.description ?? "Concentric expanding rings."}
 >
-  ## Installation
-
-  <InstallTabs sources={sources} command={item?.install.package ?? "pnpm add @glinui/ui @glinui/tokens"} />
-
-  ### Registry
-
-  <InstallTabs command={item?.install.registry ?? "pnpm dlx @glinui/cli@latest add ripple"} />
-
-  ## Usage
-
-  Place `Ripple` inside a relative container. The rings expand outward from the center.
-
-  ### Basic
-
-  <ExampleBlock
-    codeDefaultOpen
+  <ComponentHero
+    componentId="ripple"
+    title="Ripple"
     code={`import { Ripple } from "@glinui/ui"
 
 export function RippleDemo() {
   return (
-    <div className="relative flex h-48 w-full items-center justify-center overflow-hidden rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
+    <div className="relative flex h-72 w-full items-center justify-center overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--surface-1)]">
       <span className="z-10 text-sm font-medium">Ripple</span>
       <Ripple />
     </div>
   )
 }`}
   >
-    <div className="relative flex h-48 w-full items-center justify-center overflow-hidden rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
+    <div className="relative flex h-72 w-full items-center justify-center overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--surface-1)]">
       <span className="z-10 text-sm font-medium">Ripple</span>
       <Ripple />
     </div>
-  </ExampleBlock>
+  </ComponentHero>
+
+  ## Installation
+
+  <ComponentInstall componentId="ripple" sources={sources} />
+
+  ## Usage
+
+  Place `Ripple` inside a relative container. The rings expand outward from the center.
 
   ## Examples
 
@@ -65,14 +60,14 @@ export function RippleDemo() {
 
 export function RippleGlassDemo() {
   return (
-    <div className="relative flex h-48 w-full items-center justify-center overflow-hidden rounded-xl border border-white/20 bg-white/30 backdrop-blur-xl dark:border-white/10 dark:bg-white/5">
+    <div className="relative flex h-48 w-full items-center justify-center overflow-hidden rounded-xl border border-[var(--glass-border)] bg-[var(--glass-readable)] backdrop-blur-xl">
       <span className="z-10 text-sm font-medium">Glass Ripple</span>
       <Ripple variant="glass" count={4} />
     </div>
   )
 }`}
   >
-    <div className="relative flex h-48 w-full items-center justify-center overflow-hidden rounded-xl border border-white/20 bg-white/30 backdrop-blur-xl dark:border-white/10 dark:bg-white/5">
+    <div className="relative flex h-48 w-full items-center justify-center overflow-hidden rounded-xl border border-[var(--glass-border)] bg-[var(--glass-readable)] backdrop-blur-xl">
       <span className="z-10 text-sm font-medium">Glass Ripple</span>
       <Ripple variant="glass" count={4} />
     </div>
@@ -85,14 +80,14 @@ export function RippleGlassDemo() {
 
 export function RippleAccentDemo() {
   return (
-    <div className="relative flex h-48 w-full items-center justify-center overflow-hidden rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
+    <div className="relative flex h-48 w-full items-center justify-center overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--surface-1)]">
       <span className="z-10 text-sm font-medium">Accent</span>
       <Ripple variant="accent" count={5} duration={3} />
     </div>
   )
 }`}
   >
-    <div className="relative flex h-48 w-full items-center justify-center overflow-hidden rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
+    <div className="relative flex h-48 w-full items-center justify-center overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--surface-1)]">
       <span className="z-10 text-sm font-medium">Accent</span>
       <Ripple variant="accent" count={5} duration={3} />
     </div>
@@ -118,7 +113,7 @@ export function RippleAccentDemo() {
   ```
 
   {item?.files?.map((file) => (
-    <div key={file} className="font-mono text-sm text-neutral-600 dark:text-neutral-300">
+    <div key={file} className="font-mono text-sm text-[var(--color-muted)]">
       {file}
     </div>
   ))}

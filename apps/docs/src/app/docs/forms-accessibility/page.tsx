@@ -1,9 +1,12 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { CheckCircle2, ShieldCheck } from "lucide-react"
 
-import { Badge, Card, CardContent, CardDescription, CardHeader, CardTitle } from "@glinui/ui"
 import { CodeBlock } from "@/components/docs/code-block"
+import { Callout } from "@/components/docs-pages-b/callout"
+import { Checklist, ChecklistItem } from "@/components/docs-pages-b/checklist-item"
+import { DoDont } from "@/components/docs-pages-b/do-dont"
+import { PageHeader } from "@/components/docs-pages-b/page-header"
+import { PageSection } from "@/components/docs-pages-b/page-section"
 import { DEFAULT_DOCS_IMPLEMENTATION } from "@/lib/docs-config"
 import { createDocsMetadata } from "@/lib/docs-metadata"
 import { buildComponentHref } from "@/lib/docs-route"
@@ -31,7 +34,7 @@ export function BillingFrequency() {
   return (
     <fieldset className="space-y-3">
       <legend className="text-sm font-medium">Billing frequency</legend>
-      <RadioGroup defaultValue="monthly" aria-label="Billing frequency">
+      <RadioGroup defaultValue="monthly">
         <label htmlFor="monthly" className="flex items-center gap-2 text-sm">
           <RadioGroupItem id="monthly" value="monthly" />
           Monthly
@@ -49,10 +52,10 @@ const switchLabelSnippet = `import { Switch } from "@glinui/ui"
 
 export function MarketingToggle() {
   return (
-    <div className="flex items-center justify-between rounded-lg border border-border/60 p-4">
+    <div className="flex items-center justify-between rounded-lg border border-line-soft p-4">
       <div className="space-y-0.5">
         <p className="text-sm font-medium">Marketing emails</p>
-        <p className="text-sm text-neutral-500">Product updates and release notes.</p>
+        <p className="text-sm text-muted">Product updates and release notes.</p>
       </div>
       <Switch aria-label="Marketing emails" />
     </div>
@@ -62,132 +65,109 @@ export function MarketingToggle() {
 export const metadata: Metadata = createDocsMetadata({
   title: "Forms Accessibility",
   description:
-    "Labeling contracts and accessible form patterns for Input, Select, Textarea, Checkbox, Radio Group, and Switch.",
+    "Labeling rules and accessible form patterns for Input, Select, Textarea, Checkbox, Radio Group, and Switch, with copyable examples.",
   path: "/docs/forms-accessibility",
   keywords: ["form accessibility", "aria-label", "labeling patterns", "accessible forms"]
 })
 
+const componentLinks = [
+  { label: "Input", href: buildComponentHref("input", DEFAULT_DOCS_IMPLEMENTATION) },
+  { label: "Textarea", href: buildComponentHref("textarea", DEFAULT_DOCS_IMPLEMENTATION) },
+  { label: "Select", href: buildComponentHref("select", DEFAULT_DOCS_IMPLEMENTATION) },
+  { label: "Checkbox", href: buildComponentHref("checkbox", DEFAULT_DOCS_IMPLEMENTATION) },
+  { label: "Radio Group", href: buildComponentHref("radio-group", DEFAULT_DOCS_IMPLEMENTATION) },
+  { label: "Switch", href: buildComponentHref("switch", DEFAULT_DOCS_IMPLEMENTATION) }
+]
+
 export default function FormsAccessibilityPage() {
   return (
-    <main className="space-y-8">
-      <section className="relative overflow-hidden rounded-3xl border border-white/15 bg-[var(--glass-3-surface)] p-6 shadow-[var(--shadow-glass-md)]">
-        <div className="pointer-events-none absolute -left-12 top-0 h-36 w-36 rounded-full bg-cyan-300/25 blur-3xl dark:bg-cyan-400/15" />
-        <div className="pointer-events-none absolute -right-14 bottom-0 h-40 w-40 rounded-full bg-emerald-300/20 blur-3xl dark:bg-emerald-400/12" />
-        <div className="relative space-y-4">
-          <Badge variant="glass" className="w-fit">
-            Accessibility
-          </Badge>
-          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Forms Accessibility</h1>
-          <p className="max-w-3xl text-sm text-neutral-600 dark:text-neutral-300 sm:text-base">
-            Keep every form control in Glin UI explicitly labeled. Placeholder text is hint content only and should
-            never be the sole accessible name.
-          </p>
-        </div>
-      </section>
+    <main className="space-y-12">
+      <PageHeader
+        eyebrow="Accessibility"
+        title="Forms Accessibility"
+        lead="Give every form control an accessible name. Placeholder text is hint content only and should never be the sole label."
+      />
 
-      <section className="grid gap-4 md:grid-cols-2">
-        <Card variant="glass">
-          <CardHeader>
-            <CardTitle className="inline-flex items-center gap-2 text-base">
-              <ShieldCheck className="h-4 w-4" />
-              Labeling Contract
-            </CardTitle>
-            <CardDescription>Apply these rules to every field and control.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ul className="space-y-2 text-sm text-neutral-600 dark:text-neutral-300">
-              <li className="flex items-start gap-2">
-                <CheckCircle2 className="mt-0.5 h-4 w-4 text-emerald-500" />
-                <span>
-                  Use a visible <code>{`<label htmlFor="...">`}</code> whenever layout allows it.
-                </span>
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle2 className="mt-0.5 h-4 w-4 text-emerald-500" />
-                Use `aria-label` for icon-only or compact controls.
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle2 className="mt-0.5 h-4 w-4 text-emerald-500" />
-                <span>
-                  Use <code>{`<fieldset>`}</code> + <code>{`<legend>`}</code> for grouped options (radio/checkbox
-                  sets).
-                </span>
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle2 className="mt-0.5 h-4 w-4 text-emerald-500" />
-                Keep placeholder text as guidance, not identity.
-              </li>
-            </ul>
-          </CardContent>
-        </Card>
+      <PageSection
+        id="labeling-contract"
+        title="Labeling Contract"
+        description="Apply these rules to every field and control. Tick them off while reviewing a form."
+      >
+        <Checklist>
+          <ChecklistItem hint="Clicking the label also focuses the control.">
+            Use a visible <code className="font-mono text-[0.85em]">{`<label htmlFor="...">`}</code> whenever layout
+            allows it.
+          </ChecklistItem>
+          <ChecklistItem>
+            Use <code className="font-mono text-[0.85em]">aria-label</code> for icon-only or compact controls.
+          </ChecklistItem>
+          <ChecklistItem>
+            Group radio and checkbox sets with <code className="font-mono text-[0.85em]">{`<fieldset>`}</code> and{" "}
+            <code className="font-mono text-[0.85em]">{`<legend>`}</code>.
+          </ChecklistItem>
+          <ChecklistItem>Keep placeholder text as an example of the value, not the name of the field.</ChecklistItem>
+          <ChecklistItem>Connect error and help text with aria-describedby.</ChecklistItem>
+        </Checklist>
+      </PageSection>
 
-        <Card variant="glass">
-          <CardHeader>
-            <CardTitle className="text-base">Reference Components</CardTitle>
-            <CardDescription>Use these docs pages when implementing production forms.</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2 text-sm">
-            <Link
-              className="block text-neutral-700 underline-offset-4 hover:underline dark:text-neutral-200"
-              href={buildComponentHref("input", DEFAULT_DOCS_IMPLEMENTATION)}
-            >
-              Input
-            </Link>
-            <Link
-              className="block text-neutral-700 underline-offset-4 hover:underline dark:text-neutral-200"
-              href={buildComponentHref("textarea", DEFAULT_DOCS_IMPLEMENTATION)}
-            >
-              Textarea
-            </Link>
-            <Link
-              className="block text-neutral-700 underline-offset-4 hover:underline dark:text-neutral-200"
-              href={buildComponentHref("select", DEFAULT_DOCS_IMPLEMENTATION)}
-            >
-              Select
-            </Link>
-            <Link
-              className="block text-neutral-700 underline-offset-4 hover:underline dark:text-neutral-200"
-              href={buildComponentHref("checkbox", DEFAULT_DOCS_IMPLEMENTATION)}
-            >
-              Checkbox
-            </Link>
-            <Link
-              className="block text-neutral-700 underline-offset-4 hover:underline dark:text-neutral-200"
-              href={buildComponentHref("radio-group", DEFAULT_DOCS_IMPLEMENTATION)}
-            >
-              Radio Group
-            </Link>
-            <Link
-              className="block text-neutral-700 underline-offset-4 hover:underline dark:text-neutral-200"
-              href={buildComponentHref("switch", DEFAULT_DOCS_IMPLEMENTATION)}
-            >
-              Switch
-            </Link>
-          </CardContent>
-        </Card>
-      </section>
+      <PageSection id="do-dont" title="Do and don't">
+        <DoDont
+          dos={[
+            {
+              text: "Pair the label and control by id.",
+              code: `<label htmlFor="email">Email</label>\n<Input id="email" type="email" />`
+            },
+            { text: "Name icon-only controls.", code: `<Input aria-label="Search components" />` }
+          ]}
+          donts={[
+            {
+              text: "Use a placeholder as the only label. It disappears on input and is not a reliable name.",
+              code: `<Input placeholder="Email" />`
+            },
+            { text: "Use color alone to mark an invalid field. Add text that says what is wrong." }
+          ]}
+        />
+      </PageSection>
 
-      <section className="space-y-4">
-        <h2 className="text-2xl font-semibold tracking-tight">Patterns</h2>
-        <div className="grid gap-4 lg:grid-cols-2">
-          <article className="space-y-2">
-            <h3 className="text-sm font-semibold">Visible label + control</h3>
+      <PageSection id="patterns" title="Patterns" description="Copy these and adjust the copy and ids.">
+        <div className="grid gap-6 lg:grid-cols-2">
+          <article className="min-w-0 space-y-2">
+            <h3 className="type-h3">Visible label and control</h3>
             <CodeBlock language="tsx" code={visibleLabelSnippet} />
           </article>
-          <article className="space-y-2">
-            <h3 className="text-sm font-semibold">Compact control with `aria-label`</h3>
+          <article className="min-w-0 space-y-2">
+            <h3 className="type-h3">Compact control with aria-label</h3>
             <CodeBlock language="tsx" code={ariaLabelSnippet} />
           </article>
-          <article className="space-y-2">
-            <h3 className="text-sm font-semibold">Grouped options</h3>
+          <article className="min-w-0 space-y-2">
+            <h3 className="type-h3">Grouped options</h3>
             <CodeBlock language="tsx" code={groupedControlSnippet} />
           </article>
-          <article className="space-y-2">
-            <h3 className="text-sm font-semibold">Switch with descriptive text</h3>
+          <article className="min-w-0 space-y-2">
+            <h3 className="type-h3">Switch with descriptive text</h3>
             <CodeBlock language="tsx" code={switchLabelSnippet} />
           </article>
         </div>
-      </section>
+        <Callout variant="note" title="Switch labels">
+          The switch above uses aria-label because the visible text sits in a separate element. A real{" "}
+          <code>label</code> with <code>htmlFor</code> is preferable when the layout allows it.
+        </Callout>
+      </PageSection>
+
+      <PageSection id="components" title="Reference components">
+        <ul className="grid gap-px overflow-hidden rounded-card border border-line-soft bg-[var(--line-soft)] sm:grid-cols-2 lg:grid-cols-3">
+          {componentLinks.map((link) => (
+            <li key={link.label} className="bg-surface-1">
+              <Link
+                href={link.href}
+                className="block px-4 py-3 text-sm font-medium hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--color-accent)]"
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </PageSection>
     </main>
   )
 }

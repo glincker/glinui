@@ -45,7 +45,7 @@ describe("Select", () => {
     )
     const select = screen.getByTestId("select")
     expect(select.className).toContain("radial-gradient")
-    expect(select.className).toContain("h-12")
+    expect(select.className).toContain("h-10")
   })
 
   it("supports disabled attribute", () => {

@@ -53,7 +53,7 @@ export function ThemeProvider({
       setThemeState(defaultTheme)
     }
 
-    // Mark as ready — React batches these state updates, so the class
+    // Mark as ready, React batches these state updates, so the class
     // toggle effect below will only fire once with the correct values.
     setMounted(true)
 
@@ -64,7 +64,7 @@ export function ThemeProvider({
   const resolvedTheme: "light" | "dark" =
     theme === "system" ? (enableSystem ? systemTheme : "light") : theme
 
-  // Sync the class attribute with resolved theme — only after mounted to
+  // Sync the class attribute with resolved theme, only after mounted to
   // avoid overwriting the blocking script's initial class application.
   React.useEffect(() => {
     if (!mounted) return

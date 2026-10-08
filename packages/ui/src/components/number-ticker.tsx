@@ -2,115 +2,73 @@
 
 import * as React from "react"
 import { cn } from "../lib/cn"
-import { usePrefersReducedMotion } from "../lib/use-prefers-reduced-motion"
+import type { EngineControlProps } from "./reveal"
+import { useEngineRun } from "./motion-engine"
 
-export interface NumberTickerProps extends React.HTMLAttributes<HTMLSpanElement> {
+export interface NumberTickerProps
+  extends Omit<React.HTMLAttributes<HTMLSpanElement>, "children">,
+    EngineControlProps {
   value: number
   from?: number
+  /** Duration in seconds. */
   duration?: number
+  /** Delay in seconds. */
   delay?: number
   decimals?: number
   formatOptions?: Intl.NumberFormatOptions
 }
 
+function escapeHtml(text: string): string {
+  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+}
+
+/**
+ * Number that counts up when it enters the viewport. The count runs through the active
+ * motion engine (`engine` prop, MotionEngineProvider, or `data-glin-engine`; css by default).
+ * The accessible text is always the final value, the animated digits are aria-hidden.
+ */
 export const NumberTicker = React.forwardRef<HTMLSpanElement, NumberTickerProps>(
   (
-    {
-      className,
-      value,
-      from = 0,
-      duration = 1.5,
-      delay = 0,
-      decimals = 0,
-      formatOptions,
-      ...props
-    },
+    { className, value, from = 0, duration = 1.5, delay = 0, decimals = 0, formatOptions, engine, motion, ...props },
     ref
   ) => {
-    const innerRef = React.useRef<HTMLSpanElement>(null)
-    const combinedRef = useCombinedRef(ref, innerRef)
-    const [display, setDisplay] = React.useState(from)
-    const [hasAnimated, setHasAnimated] = React.useState(false)
-    const prefersReducedMotion = usePrefersReducedMotion()
+    const digitsRef = React.useRef<HTMLSpanElement | null>(null)
 
-    React.useEffect(() => {
-      if (prefersReducedMotion) {
-        setDisplay(value)
-        return
-      }
+    const format = React.useCallback(
+      (v: number) =>
+        formatOptions ? new Intl.NumberFormat(undefined, formatOptions).format(v) : v.toFixed(decimals),
+      [formatOptions, decimals]
+    )
+    const finalText = format(value)
 
-      const el = innerRef.current
-      if (!el) return
-
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting && !hasAnimated) {
-            setHasAnimated(true)
-
-            const timeout = window.setTimeout(() => {
-              const startTime = performance.now()
-              const durationMs = duration * 1000
-
-              const tick = (now: number) => {
-                const elapsed = now - startTime
-                const progress = Math.min(elapsed / durationMs, 1)
-                const eased = 1 - Math.pow(1 - progress, 3)
-                const current = from + (value - from) * eased
-                setDisplay(current)
-
-                if (progress < 1) {
-                  requestAnimationFrame(tick)
-                }
-              }
-
-              requestAnimationFrame(tick)
-            }, delay * 1000)
-
-            return () => window.clearTimeout(timeout)
-          }
-        },
-        { threshold: 0.1 }
-      )
-
-      observer.observe(el)
-      return () => observer.disconnect()
-    }, [value, from, duration, delay, prefersReducedMotion, hasAnimated])
-
-    const formatted = React.useMemo(() => {
-      if (formatOptions) {
-        return new Intl.NumberFormat(undefined, formatOptions).format(display)
-      }
-      return display.toFixed(decimals)
-    }, [display, decimals, formatOptions])
+    useEngineRun(
+      { engine, motion, hideRef: digitsRef },
+      (instance) => {
+        const el = digitsRef.current
+        if (!el) return
+        return instance.countTo(el, from, value, {
+          duration: duration * 1000,
+          delay: delay * 1000,
+          threshold: 0.1,
+          easing: "out",
+          format
+        })
+      },
+      [value, from, duration, delay, format]
+    )
 
     return (
-      <span
-        ref={combinedRef}
-        className={cn("tabular-nums", className)}
-        {...props}
-      >
-        {formatted}
+      <span ref={ref} className={cn("inline-grid tabular-nums", className)} data-glin-ticker="" {...props}>
+        <span className="col-start-1 row-start-1 opacity-0">{finalText}</span>
+        <span
+          ref={digitsRef}
+          aria-hidden="true"
+          className="col-start-1 row-start-1"
+          dangerouslySetInnerHTML={{ __html: escapeHtml(finalText) }}
+        />
       </span>
     )
   }
 )
 
 NumberTicker.displayName = "NumberTicker"
-
-function useCombinedRef<T>(
-  ...refs: (React.Ref<T> | React.MutableRefObject<T | null>)[]
-) {
-  return React.useCallback(
-    (node: T | null) => {
-      for (const ref of refs) {
-        if (typeof ref === "function") {
-          ref(node)
-        } else if (ref && typeof ref === "object") {
-          (ref as React.MutableRefObject<T | null>).current = node
-        }
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    refs
-  )
-}

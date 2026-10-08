@@ -1,8 +1,10 @@
+"use client"
+
 import * as React from "react"
 import { cn } from "../lib/cn"
 
 export interface GradientMeshProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Gradient color stops */
+  /** Gradient color stops. Defaults come from theme tokens. */
   colors?: string[]
   /** Animation duration in seconds */
   duration?: number
@@ -17,7 +19,7 @@ export const GradientMesh = React.forwardRef<HTMLDivElement, GradientMeshProps>(
     {
       className,
       children,
-      colors = ["#a855f7", "#ec4899", "#6366f1", "#06b6d4"],
+      colors = ["var(--color-accent)", "var(--tone-danger)", "var(--tone-info)", "var(--gradient-to)"],
       duration = 10,
       blur = 60,
       intensity = 0.6,
@@ -51,7 +53,7 @@ export const GradientMesh = React.forwardRef<HTMLDivElement, GradientMeshProps>(
           {meshLayers.map((layer) => (
             <div
               key={layer.id}
-              className="absolute animate-mesh-shift motion-reduce:[animation:none] [background-size:200%_200%]"
+              className="absolute -translate-x-1/2 -translate-y-1/2 animate-mesh-shift motion-reduce:[animation:none] [background-size:200%_200%]"
               style={{
                 "--mesh-duration": `${duration + layer.id * 2}s`,
                 width: `${layer.size}%`,
@@ -59,7 +61,6 @@ export const GradientMesh = React.forwardRef<HTMLDivElement, GradientMeshProps>(
                 left: `${layer.x}%`,
                 top: `${layer.y}%`,
                 background: `radial-gradient(circle at center, ${layer.color}, transparent 70%)`,
-                transform: "translate(-50%, -50%)",
                 animationDelay: `${-layer.id * (duration / colors.length)}s`,
               } as React.CSSProperties}
             />

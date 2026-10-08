@@ -1,0 +1,22 @@
+{
+  "name": "input-otp",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Input OTP",
+  "description": "A one-time-code input with segmented slots, paste and autofill support.",
+  "docsPath": "/docs/components/radix/input-otp",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@phosphor-icons/react",
+    "class-variance-authority"
+  ],
+  "files": [
+    "packages/ui/src/components/input-otp.tsx",
+    "packages/ui/src/tests/input-otp.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add input-otp"
+  }
+}

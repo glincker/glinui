@@ -1,0 +1,46 @@
+{
+  "name": "magic-card",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Magic Card",
+  "description": "Card whose border and surface light up under the pointer or keyboard focus.",
+  "docsPath": "/docs/components/radix/magic-card",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@glinui/motion"
+  ],
+  "category": "cards",
+  "registryDependencies": [
+    "card"
+  ],
+  "files": [
+    "packages/ui/src/components/magic-card.tsx",
+    "packages/ui/src/components/motion-engine.tsx",
+    "packages/ui/src/tests/magic-card.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add magic-card"
+  },
+  "provenance": {
+    "sourceId": "magic-ui",
+    "sourceName": "Magic UI",
+    "author": "Magic UI",
+    "upstreamUrl": "https://github.com/magicuidesign/magicui",
+    "upstreamComponentUrl": "https://magicui.design/docs/components/magic-card",
+    "license": "MIT",
+    "spdx": "MIT",
+    "copyright": "Copyright (c) Magic UI",
+    "commit": "cdb348cb4c72a9b54b554d8617801e479fbc8714",
+    "adaptedFrom": "apps/www/registry/magicui/magic-card.tsx",
+    "adaptedAt": "2026-10-07",
+    "status": "active",
+    "licenseSha256": "0147b84235ed916b8b4e89c1f80655351c5afe7d211b629be61f553a227b34ba",
+    "licenseSnapshotPath": "packages/registry/licenses/magic-ui-cdb348c.txt",
+    "changes": "Removed motion and next-themes, CSS variables written on animation frames, token colors, fine pointer gating and a glass variant.",
+    "upstreamInstall": {
+      "shadcn": "npx shadcn@latest add \"https://magicui.design/r/magic-card\""
+    }
+  }
+}

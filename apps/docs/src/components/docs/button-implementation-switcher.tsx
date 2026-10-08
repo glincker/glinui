@@ -1,6 +1,6 @@
 "use client"
 
-import { Info } from "lucide-react"
+import { Info } from "@phosphor-icons/react"
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@glinui/ui"
 

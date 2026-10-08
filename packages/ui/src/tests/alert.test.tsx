@@ -28,7 +28,7 @@ describe("Alert", () => {
     )
 
     const alert = screen.getByTestId("alert")
-    expect(alert.className).toContain("backdrop-blur-md")
+    expect(alert.className).toContain("backdrop-blur-xl")
     expect(alert.className).toContain("p-5")
   })
 })

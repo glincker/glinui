@@ -438,7 +438,7 @@ export function PrimitiveCatalog({ implementation = "radix" }: { implementation?
           <Link
             key={id}
             href={buildComponentHref(id, implementation)}
-            className="rounded-2xl border border-border/60 bg-[var(--glass-2-surface)] p-4 backdrop-blur-xl shadow-[0_0_0_1px_rgb(255_255_255_/_0.06)_inset,var(--shadow-soft)] transition duration-fast ease-standard hover:-translate-y-0.5 hover:bg-[var(--glass-3-surface)]"
+            className="rounded-2xl border border-border/60 bg-[var(--glass-2-surface)] p-4 backdrop-blur-xl [box-shadow:0_0_0_1px_rgb(255_255_255_/_0.06)_inset,var(--shadow-soft)] transition duration-fast ease-standard hover:-translate-y-0.5 hover:bg-[var(--glass-3-surface)]"
           >
             <p className="text-sm font-semibold">{primitiveTitles[id]}</p>
             <p className="mt-2 text-sm text-neutral-600">{primitiveDescriptions[id]}</p>
@@ -461,7 +461,7 @@ export function PrimitiveDocsDemo({
   const [toastOpen, setToastOpen] = useState(false)
 
   return (
-    <section className="space-y-4 rounded-2xl border border-border/60 bg-[var(--glass-3-surface)] p-6 backdrop-blur-2xl shadow-[0_0_0_1px_rgb(255_255_255_/_0.06)_inset,var(--shadow-elevated)]">
+    <section className="space-y-4 rounded-2xl border border-border/60 bg-[var(--glass-3-surface)] p-6 backdrop-blur-2xl [box-shadow:0_0_0_1px_rgb(255_255_255_/_0.06)_inset,var(--shadow-elevated)]">
       <header className="space-y-1">
         <h2 className="text-xl font-semibold">{primitiveTitles[component]}</h2>
         <p className="text-sm text-neutral-600">{primitiveDescriptions[component]}</p>

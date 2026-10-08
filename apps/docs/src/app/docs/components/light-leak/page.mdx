@@ -1,8 +1,8 @@
 import { getRegistryItem } from "@glinui/registry"
-import { LightLeak } from "@glinui/ui"
+import { S4Hero, S4Example } from "@/components/demos/s4-mdx"
 import { ComponentDocLayout } from "@/components/docs/component-doc-layout"
 import { ExampleBlock } from "@/components/docs/example-block"
-import { InstallTabs } from "@/components/docs/install-tabs"
+import { ComponentHero, ComponentInstall } from "@/components/docs/component-hero"
 import { getComponentSources } from "@/lib/get-component-source"
 import { PropsTable } from "@/components/docs/props-table"
 import { createDocsMetadata } from "@/lib/docs-metadata"
@@ -23,64 +23,29 @@ export const metadata = createDocsMetadata({
   title="Light Leak"
   description={item?.description ?? "Simulated lens flare and light leak overlay with drifting animation."}
 >
+  <S4Hero id="light-leak" title="Light Leak" />
+
   ## Installation
 
-  <InstallTabs sources={sources} command={item?.install.package ?? "pnpm add @glinui/ui @glinui/tokens"} />
-
-  ### Registry
-
-  <InstallTabs command={item?.install.registry ?? "pnpm dlx @glinui/cli@latest add light-leak"} />
+  <ComponentInstall componentId="light-leak" sources={sources} />
 
   ## Usage
 
   Place `LightLeak` inside a relative container. The warm gradient overlays drift across the surface.
 
-  ### Basic
-
-  <ExampleBlock
-    codeDefaultOpen
-    code={`import { LightLeak } from "@glinui/ui"
-
-export function LightLeakDemo() {
-  return (
-    <div className="relative flex h-64 w-full items-center justify-center overflow-hidden rounded-xl bg-neutral-950">
-      <LightLeak />
-      <span className="relative z-10 text-3xl font-bold text-white">Light Leak</span>
-    </div>
-  )
-}`}
-  >
-    <div className="relative flex h-64 w-full items-center justify-center overflow-hidden rounded-xl bg-neutral-950">
-      <LightLeak />
-      <span className="relative z-10 text-3xl font-bold text-white">Light Leak</span>
-    </div>
-  </ExampleBlock>
-
   ## Examples
 
-  ### Cool Tones
+  ### Variants
 
-  <ExampleBlock
-    code={`import { LightLeak } from "@glinui/ui"
+  <S4Example id="light-leak" index={1} />
 
-export function LightLeakCoolDemo() {
-  return (
-    <div className="relative flex h-64 w-full items-center justify-center overflow-hidden rounded-xl bg-neutral-950">
-      <LightLeak colors={["#06b6d4", "#3b82f6", "#8b5cf6"]} intensity={0.4} />
-      <span className="relative z-10 text-2xl font-bold text-white">Cool Leak</span>
-    </div>
-  )
-}`}
-  >
-    <div className="relative flex h-64 w-full items-center justify-center overflow-hidden rounded-xl bg-neutral-950">
-      <LightLeak colors={["#06b6d4", "#3b82f6", "#8b5cf6"]} intensity={0.4} />
-      <span className="relative z-10 text-2xl font-bold text-white">Cool Leak</span>
-    </div>
-  </ExampleBlock>
+  ### Behind a dashboard header
+
+  <S4Example id="light-leak" index={2} />
 
   ## Accessibility
 
-  - Renders with `aria-hidden` — invisible to assistive technologies.
+  - Renders with `aria-hidden`, invisible to assistive technologies.
   - Purely decorative.
 
   ## Reduced Motion
@@ -98,7 +63,7 @@ export function LightLeakCoolDemo() {
   ```
 
   {item?.files?.map((file) => (
-    <div key={file} className="font-mono text-sm text-neutral-600 dark:text-neutral-300">
+    <div key={file} className="font-mono text-sm text-[var(--color-muted)]">
       {file}
     </div>
   ))}

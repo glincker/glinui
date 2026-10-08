@@ -1,16 +1,15 @@
 import type { Metadata } from "next"
-import Link from "next/link"
-import { ArrowRight, Check, Layers, Minus, ShieldCheck, Sparkles, X } from "lucide-react"
 
-import { Badge, Button, GlassCard, Separator } from "@glinui/ui"
-
+import { CompareLockup } from "@/components/brand/compare-lockup"
+import { ComparePage } from "@/components/docs-pages-b/compare-page"
+import type { CompareRow } from "@/components/docs-pages-b/compare-table"
+import type { FaqEntry } from "@/components/docs-pages-b/json-ld"
 import { createDocsMetadata } from "@/lib/docs-metadata"
-import { createAbsoluteUrl } from "@/lib/seo"
 
 export const metadata: Metadata = createDocsMetadata({
   title: "Glin UI vs shadcn/ui",
   description:
-    "Feature-by-feature comparison of Glin UI and shadcn/ui with checkmark matrix for faster decision-making.",
+    "An honest comparison of Glin UI and shadcn/ui: ownership model, variants, OKLCH tokens, animations, copy-for-AI prompts, accessibility, and where shadcn/ui is the better pick.",
   path: "/docs/shadcn-alternative",
   keywords: [
     "shadcn alternative",
@@ -21,295 +20,127 @@ export const metadata: Metadata = createDocsMetadata({
   ]
 })
 
-const faqStructuredData = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "Is Glin UI a shadcn/ui alternative?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. Glin UI is a shadcn/ui alternative for teams that want a complete and cohesive liquid-glass design system with strong defaults."
-      }
-    },
-    {
-      "@type": "Question",
-      name: "What is the main difference between Glin UI and shadcn/ui?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "shadcn/ui is a flexible baseline assembled per project, while Glin UI provides a full visual system with pre-structured variants and consistent behavior."
-      }
-    }
-  ]
-}
-
-const breadcrumbStructuredData = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Docs",
-      item: createAbsoluteUrl("/docs")
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Glin UI vs shadcn/ui",
-      item: createAbsoluteUrl("/docs/shadcn-alternative")
-    }
-  ]
-}
-
-type FeatureState = "yes" | "partial" | "no"
-
-type FeatureRow = {
-  feature: string
-  detail: string
-  glinui: { state: FeatureState; note: string }
-  shadcn: { state: FeatureState; note: string }
-}
-
-const highlights = [
+const rows: CompareRow[] = [
   {
-    title: "Out-of-box visual system",
-    detail: "Glass variants, elevations, and semantic states are built into the component contract.",
-    icon: Sparkles
+    feature: "Code ownership",
+    glin: "Add components with the CLI, or install @glinui/ui as a package. Both paths are supported.",
+    other: "Copy components into your repo with the CLI. Package-style install is not the model.",
+    edge: "even"
   },
   {
-    title: "Operational consistency",
-    detail: "Lower variance between squads through shared component behavior.",
-    icon: Layers
+    feature: "Accessibility base",
+    glin: "Built on Radix UI primitives, with QA guides for forms, focus, screen readers, and contrast.",
+    other: "Built on accessible primitives. Quality of the final result depends on your edits.",
+    edge: "even"
   },
   {
-    title: "Accessibility confidence",
-    detail: "Stronger defaults for keyboard, focus, contrast, and reduced motion.",
-    icon: ShieldCheck
+    feature: "Design tokens",
+    glin: "OKLCH tokens in @glinui/tokens, exposed as a Tailwind preset (surfaces, elevation, radii, type).",
+    other: "CSS variables for theming, with a large set of community themes.",
+    edge: "glin"
+  },
+  {
+    feature: "Surface variants",
+    glin: "Solid, outline, and glass surface variants share one elevation scale.",
+    other: "Clean default look. Extra surface styles are yours to define.",
+    edge: "glin"
+  },
+  {
+    feature: "Animations",
+    glin: "A browsable animation hub plus a motion package with reduced-motion handling.",
+    other: "Minimal motion by default. Animations come from your own code or third-party libraries.",
+    edge: "glin"
+  },
+  {
+    feature: "AI-ready prompts",
+    glin: "Each component and color page has a copy-for-AI prompt with its API and tokens.",
+    other: "Has AI tooling and a registry that agents can read.",
+    edge: "even"
+  },
+  {
+    feature: "Ecosystem and community",
+    glin: "Young project with a smaller catalog and fewer third-party resources.",
+    other: "Very large community, many third-party registries, blocks, and tutorials.",
+    edge: "other"
+  },
+  {
+    feature: "Maturity and battle testing",
+    glin: "Newer, with less production mileage.",
+    other: "Widely used in production, with a long issue and fix history.",
+    edge: "other"
+  },
+  {
+    feature: "Starting from a blank slate",
+    glin: "Opinionated tokens and surface language. Easy to retheme, but you start from ours.",
+    other: "Neutral baseline that is easy to bend toward any brand.",
+    edge: "other"
   }
 ]
 
-const features: FeatureRow[] = [
+const faqs: FaqEntry[] = [
   {
-    feature: "Design language completeness",
-    detail: "Ready visual direction across many screens.",
-    glinui: { state: "yes", note: "Complete liquid-glass language with reusable surfaces." },
-    shadcn: { state: "partial", note: "Baseline kit; style language is project-owned." }
+    question: "Is Glin UI a shadcn/ui alternative?",
+    answer:
+      "Yes, for teams that want the same ownership model plus built-in OKLCH tokens, surface variants (including glass), an animation hub, and copy-for-AI prompts. shadcn/ui remains the stronger choice if you value the largest ecosystem."
   },
   {
-    feature: "Variant governance",
-    detail: "Keeping variants consistent across teams.",
-    glinui: { state: "yes", note: "Variant model is pre-structured across components." },
-    shadcn: { state: "partial", note: "Teams maintain variants and drift controls manually." }
+    question: "What is the main difference between Glin UI and shadcn/ui?",
+    answer:
+      "shadcn/ui is a neutral, widely adopted baseline that you shape per project. Glin UI ships a token system, shared surface and elevation scale, and motion guidance on top of accessible primitives, so you spend less time defining those yourself."
   },
   {
-    feature: "Scalability across squads",
-    detail: "Shipping with less style drift.",
-    glinui: { state: "yes", note: "Shared token and surface model scales cleanly." },
-    shadcn: { state: "partial", note: "Scales well with strict internal governance." }
+    question: "Can I own the code like I do with shadcn/ui?",
+    answer:
+      "Yes. Run the Glin UI CLI to add a component into your project, or install the @glinui/ui package if you prefer upgrades over local edits."
   },
   {
-    feature: "Accessibility baseline",
-    detail: "Reliable keyboard and screen-reader behavior.",
-    glinui: { state: "yes", note: "Radix-backed primitives plus docs-first QA guidance." },
-    shadcn: { state: "partial", note: "Strong primitives, final quality depends on implementation." }
-  },
-  {
-    feature: "Dark mode parity",
-    detail: "Balanced visuals in both themes.",
-    glinui: { state: "yes", note: "Surface behavior tuned for dark and light consistency." },
-    shadcn: { state: "partial", note: "Depends on custom theme and per-component tuning." }
-  },
-  {
-    feature: "Motion consistency",
-    detail: "Expressive animation without chaos.",
-    glinui: { state: "yes", note: "Motion intent and reduced-motion behavior are system-level." },
-    shadcn: { state: "partial", note: "Motion policy is usually assembled per project." }
-  },
-  {
-    feature: "Initial flexibility",
-    detail: "Ability to fully customize from primitives.",
-    glinui: { state: "partial", note: "Customizable but optimized around glass-first system." },
-    shadcn: { state: "yes", note: "Excellent for full custom assembly workflows." }
-  },
-  {
-    feature: "Long-term maintenance",
-    detail: "Cost of keeping UI clean after launch.",
-    glinui: { state: "yes", note: "Lower with system-driven usage and fewer one-offs." },
-    shadcn: { state: "no", note: "Can increase if variant and style decisions fragment." }
+    question: "Can I use both in one project?",
+    answer:
+      "Yes. Both use Tailwind and Radix-style primitives, so you can adopt Glin UI components one at a time and keep existing shadcn/ui components where they work."
   }
 ]
-
-const chooseGlin = [
-  "You want polished glass UI without defining every variant from scratch.",
-  "You need consistent behavior across many feature teams.",
-  "You care about predictable accessibility and motion defaults.",
-  "You want to ship quickly and reduce post-launch design debt.",
-  "You need a design language that scales with product growth."
-]
-
-const chooseShadcn = [
-  "You need maximum compose-from-primitives control.",
-  "You already have strong in-house design-system governance.",
-  "You are not targeting a glass-first visual language.",
-  "You accept higher implementation ownership per component."
-]
-
-function StatePill({ state }: { state: FeatureState }) {
-  if (state === "yes") {
-    return (
-      <span className="inline-flex items-center gap-1 rounded-full border border-emerald-300/55 bg-emerald-100/65 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-emerald-700 dark:border-emerald-400/35 dark:bg-emerald-400/15 dark:text-emerald-300">
-        <Check className="size-3.5" />
-        Yes
-      </span>
-    )
-  }
-
-  if (state === "partial") {
-    return (
-      <span className="inline-flex items-center gap-1 rounded-full border border-amber-300/55 bg-amber-100/70 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-amber-700 dark:border-amber-400/35 dark:bg-amber-400/15 dark:text-amber-300">
-        <Minus className="size-3.5" />
-        Partial
-      </span>
-    )
-  }
-
-  return (
-    <span className="inline-flex items-center gap-1 rounded-full border border-rose-300/55 bg-rose-100/70 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-rose-700 dark:border-rose-400/35 dark:bg-rose-400/15 dark:text-rose-300">
-      <X className="size-3.5" />
-      No
-    </span>
-  )
-}
-
-function FeatureCell({
-  title,
-  state,
-  note
-}: {
-  title: string
-  state: FeatureState
-  note: string
-}) {
-  return (
-    <div className="space-y-2 rounded-xl border border-white/20 bg-white/55 p-3 dark:border-white/10 dark:bg-white/[0.03]">
-      <div className="flex items-center justify-between gap-2">
-        <p className="text-xs font-semibold uppercase tracking-[0.1em] text-neutral-600 dark:text-neutral-300">{title}</p>
-        <StatePill state={state} />
-      </div>
-      <p className="text-sm text-neutral-700 dark:text-neutral-300">{note}</p>
-    </div>
-  )
-}
 
 export default function ShadcnAlternativePage() {
   return (
-    <main className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 pb-16 pt-8 sm:px-6 lg:px-8">
-      <script
-        type="application/ld+json"
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
-      />
-      <script
-        type="application/ld+json"
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData) }}
-      />
-
-      <section className="relative overflow-hidden rounded-3xl border border-white/20 [border-top-color:var(--glass-refraction-top)] bg-[radial-gradient(circle_at_14%_8%,rgb(147_197_253_/_0.2),transparent_36%),radial-gradient(circle_at_86%_10%,rgb(167_243_208_/_0.15),transparent_42%),var(--glass-3-surface)] p-6 shadow-[0_0_0_1px_rgb(255_255_255_/_0.08)_inset,var(--shadow-soft)] dark:border-white/[0.1] sm:p-8">
-        <div className="flex flex-wrap items-center gap-3">
-          <Badge variant="glass" className="tracking-[0.14em]">
-            COMPARISON GUIDE
-          </Badge>
-          <span className="inline-flex items-center gap-1 rounded-full border border-white/20 bg-white/45 px-3 py-1 text-[11px] font-medium text-neutral-700 dark:border-white/10 dark:bg-white/5 dark:text-neutral-300">
-            <Sparkles className="size-3.5" />
-            Pricing-style matrix
-          </span>
-        </div>
-        <h1 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">Glin UI vs shadcn/ui</h1>
-        <p className="mt-3 max-w-3xl text-sm leading-relaxed text-neutral-700 dark:text-neutral-300 sm:text-base">
-          Quick read: shadcn/ui is ideal for compose-it-yourself workflows. Glin UI is ideal when you want a
-          system-level glass language that is production-ready and easier to scale.
-        </p>
-        <div className="mt-6 flex flex-wrap gap-3">
-          <Button asChild variant="default">
-            <Link href="/docs/getting-started">
-              Start with Glin UI
-              <ArrowRight className="size-4" />
-            </Link>
-          </Button>
-          <Button asChild variant="glass">
-            <Link href="/docs/components">Browse all components</Link>
-          </Button>
-        </div>
-      </section>
-
-      <section className="grid gap-4 md:grid-cols-3">
-        {highlights.map((item) => (
-          <GlassCard key={item.title} className="border-white/20 p-4 dark:border-white/[0.1]">
-            <div className="inline-flex size-9 items-center justify-center rounded-xl border border-white/20 bg-white/50 dark:border-white/10 dark:bg-white/5">
-              <item.icon className="size-4 text-foreground" />
-            </div>
-            <h2 className="mt-3 text-base font-semibold">{item.title}</h2>
-            <p className="mt-1 text-sm text-neutral-700 dark:text-neutral-300">{item.detail}</p>
-          </GlassCard>
-        ))}
-      </section>
-
-      <GlassCard className="space-y-4 border-white/20 p-4 sm:p-5 dark:border-white/[0.1]">
-        <div className="space-y-2">
-          <h2 className="text-xl font-semibold">Feature comparison</h2>
-          <p className="text-sm text-neutral-700 dark:text-neutral-300">
-            Left column = capability area. Right columns = verdict plus practical implementation note.
+    <ComparePage
+      lockup={<CompareLockup other="shadcn-ui" joiner="vs" />}
+      eyebrow="Comparison"
+      title="Glin UI vs shadcn/ui"
+      lead="shadcn/ui is the default starting point for owned React components. Glin UI keeps that model and adds tokens, surface variants, animations, and AI prompts. Here is where each one is stronger."
+      path="/docs/shadcn-alternative"
+      breadcrumbName="Glin UI vs shadcn/ui"
+      otherName="shadcn/ui"
+      summary={
+        <>
+          <p>
+            Both libraries give you accessible React components styled with Tailwind that you can edit. The split is
+            in what ships around the components.
           </p>
-        </div>
-        <Separator />
-        <div className="space-y-3">
-          {features.map((row) => (
-            <div key={row.feature} className="grid gap-3 rounded-2xl border border-white/20 bg-white/45 p-4 dark:border-white/10 dark:bg-white/[0.03] lg:grid-cols-[1.1fr_1fr_1fr]">
-              <div>
-                <h3 className="text-sm font-semibold uppercase tracking-[0.1em] text-neutral-700 dark:text-neutral-200">{row.feature}</h3>
-                <p className="mt-1 text-xs text-neutral-500 dark:text-neutral-400">{row.detail}</p>
-              </div>
-              <FeatureCell title="Glin UI" state={row.glinui.state} note={row.glinui.note} />
-              <FeatureCell title="shadcn/ui" state={row.shadcn.state} note={row.shadcn.note} />
-            </div>
-          ))}
-        </div>
-      </GlassCard>
-
-      <section className="grid gap-4 lg:grid-cols-2">
-        <GlassCard className="border-white/20 p-5 dark:border-white/[0.1]">
-          <h2 className="text-lg font-semibold">Choose Glin UI when...</h2>
-          <Separator className="my-4" />
-          <ul className="space-y-2.5 text-sm text-neutral-700 dark:text-neutral-300">
-            {chooseGlin.map((item) => (
-              <li key={item} className="flex items-start gap-2.5">
-                <span className="mt-0.5 inline-flex size-4 items-center justify-center rounded-full border border-emerald-300/55 bg-emerald-100/70 text-emerald-700 dark:border-emerald-400/35 dark:bg-emerald-400/15 dark:text-emerald-300">
-                  <Check className="size-3" />
-                </span>
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </GlassCard>
-
-        <GlassCard className="border-white/20 p-5 dark:border-white/[0.1]">
-          <h2 className="text-lg font-semibold">Choose shadcn/ui when...</h2>
-          <Separator className="my-4" />
-          <ul className="space-y-2.5 text-sm text-neutral-700 dark:text-neutral-300">
-            {chooseShadcn.map((item) => (
-              <li key={item} className="flex items-start gap-2.5">
-                <span className="mt-0.5 inline-flex size-4 items-center justify-center rounded-full border border-amber-300/55 bg-amber-100/70 text-amber-700 dark:border-amber-400/35 dark:bg-amber-400/15 dark:text-amber-300">
-                  <Minus className="size-3" />
-                </span>
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </GlassCard>
-      </section>
-    </main>
+          <p>
+            Glin UI includes an OKLCH token system, a shared elevation scale, a motion package, and prompts you can
+            paste into an AI tool. shadcn/ui is leaner and has a much bigger community.
+          </p>
+        </>
+      }
+      rows={rows}
+      chooseGlin={[
+        "You want tokens, elevation, and motion decided up front so teams stay consistent.",
+        "You want solid, outline, and glass variants from one system.",
+        "You hand component context to AI tools and want ready prompts.",
+        "You like ownership via CLI but also want a package option."
+      ]}
+      chooseOther={[
+        "You want the largest community, registry ecosystem, and set of tutorials.",
+        "You need a neutral baseline to bend toward your own brand.",
+        "You prefer a smaller surface area with fewer opinions.",
+        "Production track record matters more than built-in extras."
+      ]}
+      faqs={faqs}
+      related={[
+        { href: "/docs/getting-started", label: "Getting started", description: "Install with the CLI or the package." },
+        { href: "/docs/tokens", label: "Design tokens", description: "OKLCH tokens and the Tailwind preset." },
+        { href: "/docs/radix-ui-components", label: "Radix UI components", description: "How Glin UI builds on Radix." }
+      ]}
+    />
   )
 }

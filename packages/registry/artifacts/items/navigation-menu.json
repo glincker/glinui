@@ -1,0 +1,23 @@
+{
+  "name": "navigation-menu",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Navigation Menu",
+  "description": "Site navigation with animated content panels, links and a shared viewport.",
+  "docsPath": "/docs/components/radix/navigation-menu",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@phosphor-icons/react",
+    "@radix-ui/react-navigation-menu",
+    "class-variance-authority"
+  ],
+  "files": [
+    "packages/ui/src/components/navigation-menu.tsx",
+    "packages/ui/src/tests/navigation-menu.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add navigation-menu"
+  }
+}

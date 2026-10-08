@@ -2,6 +2,8 @@
 
 import * as React from "react"
 import { cn } from "../lib/cn"
+import { panelSurface, resolvePanelVariant, type PanelVariantProp } from "../lib/panel"
+import type { SurfaceVariant } from "../lib/surface"
 import { usePrefersReducedMotion } from "../lib/use-prefers-reduced-motion"
 
 export interface GlassDockItem {
@@ -22,6 +24,25 @@ export interface GlassDockProps extends Omit<React.HTMLAttributes<HTMLDivElement
   distance?: number
   /** Position */
   position?: "bottom" | "top" | "left" | "right"
+  /**
+   * Surface look. Glass by default (its identity, with a readable opacity floor). Pass `glinr`, `plain`, `solid`,
+   * `soft`, `outline`, `ghost` or `gradient` for a crisp dock.
+   */
+  variant?: PanelVariantProp
+}
+
+/** Tile look per surface variant: raised key for glinr, flat for plain, tonal wash for glass. */
+const TILE: Record<SurfaceVariant, string> = {
+  glinr:
+    "border border-transparent [--face:var(--face-3,var(--surface-3))] [background:var(--sheen)_padding-box,linear-gradient(var(--face),var(--face))_padding-box,var(--ring-hot,var(--ring))_border-box] [box-shadow:var(--elev-1)]",
+  gradient:
+    "border border-transparent [--face:var(--face-3,var(--surface-3))] [background:var(--sheen)_padding-box,linear-gradient(var(--face),var(--face))_padding-box,var(--ring-hot,var(--ring))_border-box] [box-shadow:var(--elev-1)]",
+  plain: "border border-[color:var(--color-border)] bg-[var(--surface-2)]",
+  solid: "bg-[var(--surface-3)] [box-shadow:var(--elev-1)]",
+  soft: "bg-[var(--surface-3)] [box-shadow:var(--elev-1)]",
+  outline: "border border-[color:var(--color-border)] bg-transparent",
+  ghost: "bg-[color-mix(in_oklab,var(--color-foreground)_7%,transparent)]",
+  glass: "border border-[color:var(--glass-border)] bg-[color-mix(in_oklab,var(--color-foreground)_10%,transparent)]"
 }
 
 export const GlassDock = React.forwardRef<HTMLDivElement, GlassDockProps>(
@@ -33,6 +54,7 @@ export const GlassDock = React.forwardRef<HTMLDivElement, GlassDockProps>(
       magnification = 1.6,
       distance = 120,
       position = "bottom",
+      variant,
       ...props
     },
     ref
@@ -65,7 +87,7 @@ export const GlassDock = React.forwardRef<HTMLDivElement, GlassDockProps>(
       setMouseX(null)
     }, [])
 
-    const isHorizontal = position === "bottom" || position === "top"
+    const resolved = resolvePanelVariant(variant, "glass")
 
     const positionClasses = {
       bottom: "flex-row",
@@ -79,8 +101,11 @@ export const GlassDock = React.forwardRef<HTMLDivElement, GlassDockProps>(
         ref={setRefs}
         role="toolbar"
         aria-label="Dock"
+        data-variant={resolved}
         className={cn(
-          "inline-flex items-end gap-1.5 rounded-2xl border border-white/10 bg-white/5 p-2 shadow-lg backdrop-blur-xl",
+          panelSurface({ variant: resolved, shape: "dialog" }),
+          "inline-flex items-end gap-1.5 p-2 [box-shadow:var(--elev-2)]",
+          resolved === "plain" && "shadow-md",
           positionClasses[position],
           position === "left" || position === "right" ? "items-center" : "items-end",
           className
@@ -107,7 +132,7 @@ export const GlassDock = React.forwardRef<HTMLDivElement, GlassDockProps>(
               type="button"
               aria-label={item.label}
               title={item.label}
-              className="group relative flex flex-col items-center transition-transform duration-200 ease-out motion-reduce:transition-none"
+              className="group relative flex flex-col items-center rounded-xl outline-none transition-transform duration-200 ease-out focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] motion-reduce:transition-none"
               style={{
                 width: currentSize,
                 height: currentSize,
@@ -115,12 +140,12 @@ export const GlassDock = React.forwardRef<HTMLDivElement, GlassDockProps>(
               onClick={item.onClick}
             >
               <div
-                className="flex h-full w-full items-center justify-center rounded-xl bg-white/10 backdrop-blur-sm transition-shadow duration-200 hover:shadow-md"
+                className={cn("flex h-full w-full items-center justify-center rounded-xl text-foreground transition-shadow duration-200 hover:shadow-md motion-reduce:transition-none", TILE[resolved])}
                 style={{ fontSize: currentSize * 0.5 }}
               >
                 {item.icon}
               </div>
-              <span className="absolute -bottom-5 scale-0 whitespace-nowrap rounded-md bg-neutral-900 px-2 py-0.5 text-[10px] text-white opacity-0 transition-all duration-200 group-hover:scale-100 group-hover:opacity-100 dark:bg-neutral-100 dark:text-neutral-900">
+              <span className="absolute -bottom-5 scale-0 whitespace-nowrap rounded-md bg-[var(--neutral-solid)] px-2 py-0.5 text-[10px] text-[color:var(--neutral-solid-fg)] opacity-0 transition-all duration-200 group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100 motion-reduce:transition-none">
                 {item.label}
               </span>
             </button>

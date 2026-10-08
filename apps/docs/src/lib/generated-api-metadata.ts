@@ -31,23 +31,19 @@ export const generatedApiMetadata = {
         "fields": [
           {
             "name": "contentSize",
-            "type": "\"sm\" | \"md\" | \"lg\"",
+            "type": "Size",
             "optional": true,
             "description": "Padding size matching the trigger"
           },
           {
             "name": "size",
-            "type": "\"sm\" | \"md\" | \"lg\"",
-            "optional": true,
-            "description": "Variant option from accordionContentVariants.",
-            "defaultValue": "\"md\""
+            "type": "Size | null",
+            "optional": true
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"frosted\" | \"outline\" | \"ghost\" | \"separated\"",
-            "optional": true,
-            "description": "Variant option from accordionContentVariants.",
-            "defaultValue": "\"default\""
+            "type": "AccordionVariant | null",
+            "optional": true
           }
         ]
       },
@@ -56,17 +52,13 @@ export const generatedApiMetadata = {
         "fields": [
           {
             "name": "size",
-            "type": "\"sm\" | \"md\" | \"lg\"",
-            "optional": true,
-            "description": "Variant option from accordionItemVariants.",
-            "defaultValue": "\"md\""
+            "type": "Size | null",
+            "optional": true
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"frosted\" | \"outline\" | \"ghost\" | \"separated\"",
-            "optional": true,
-            "description": "Variant option from accordionItemVariants.",
-            "defaultValue": "\"default\""
+            "type": "AccordionVariant | null",
+            "optional": true
           }
         ]
       },
@@ -75,9 +67,9 @@ export const generatedApiMetadata = {
         "fields": [
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"frosted\" | \"outline\" | \"ghost\" | \"separated\"",
+            "type": "AccordionVariant",
             "optional": true,
-            "defaultValue": "\"default\""
+            "description": "Omitted follows the ambient style (glinr by default). `glass` is opt-in and needs a backdrop."
           }
         ]
       },
@@ -86,17 +78,13 @@ export const generatedApiMetadata = {
         "fields": [
           {
             "name": "size",
-            "type": "\"sm\" | \"md\" | \"lg\"",
-            "optional": true,
-            "description": "Variant option from accordionTriggerVariants.",
-            "defaultValue": "\"md\""
+            "type": "Size | null",
+            "optional": true
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"frosted\" | \"outline\" | \"ghost\" | \"separated\"",
-            "optional": true,
-            "description": "Variant option from accordionTriggerVariants.",
-            "defaultValue": "\"default\""
+            "type": "AccordionVariant | null",
+            "optional": true
           }
         ]
       }
@@ -116,7 +104,7 @@ export const generatedApiMetadata = {
         "fields": [
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"matte\"",
+            "type": "\"default\" | \"destructive\" | \"glass\" | \"matte\"",
             "optional": true,
             "description": "Variant option from alertDialogActionVariants.",
             "defaultValue": "\"default\""
@@ -127,23 +115,29 @@ export const generatedApiMetadata = {
         "name": "AlertDialogContentProps",
         "fields": [
           {
+            "name": "container",
+            "type": "HTMLElement | null",
+            "optional": true,
+            "description": "Element to portal into. When set, overlay and content use absolute positioning scoped to the nearest positioned ancestor."
+          },
+          {
             "name": "size",
             "type": "\"sm\" | \"md\" | \"lg\"",
             "optional": true,
-            "description": "Variant option from alertDialogContentVariants.",
+            "description": "Variant option from alertDialogSizeVariants.",
             "defaultValue": "\"md\""
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"matte\"",
+            "type": "PanelVariantProp",
             "optional": true,
-            "description": "Variant option from alertDialogContentVariants.",
-            "defaultValue": "\"glass\""
+            "description": "Surface look. Omit for the ambient design style (glinr by default). `glass` is opt-in and needs a rich backdrop."
           }
         ]
       }
     ],
     "explicitProps": [
+      "container",
       "size",
       "variant"
     ],
@@ -156,27 +150,184 @@ export const generatedApiMetadata = {
         "name": "AlertProps",
         "fields": [
           {
+            "name": "icon",
+            "type": "boolean | React.ReactNode",
+            "optional": true,
+            "description": "`true` renders the tone icon, a node renders a custom icon, `false` hides it. Defaults to the tone icon when a non-neutral `tone` is set."
+          },
+          {
             "name": "size",
             "type": "\"sm\" | \"md\" | \"lg\"",
             "optional": true,
-            "description": "Variant option from alertVariants.",
+            "description": "Variant option from alertSizeVariants.",
             "defaultValue": "\"md\""
           },
           {
-            "name": "variant",
-            "type": "\"default\" | \"glass\" | \"liquid\" | \"matte\" | \"glow\" | \"outline\" | \"ghost\" | \"success\" | \"warning\" | \"destructive\" | \"info\"",
+            "name": "tone",
+            "type": "SurfaceTone",
             "optional": true,
-            "description": "Variant option from alertVariants.",
-            "defaultValue": "\"default\""
+            "description": "Tone for the accent bar, tint and icon."
+          },
+          {
+            "name": "variant",
+            "type": "AlertVariant | null",
+            "optional": true,
+            "description": "Surface look. Omitted follows the ambient style (glinr by default, plain for minimal). Vocabulary: glinr, solid, plain, soft, outline, ghost, gradient, glass. Legacy names (default, destructive, success, warning, info, liquid, matte, glow, note, flag) keep working."
           }
         ]
       }
     ],
     "explicitProps": [
+      "icon",
       "size",
+      "tone",
       "variant"
     ],
     "sourceFile": "packages/ui/src/components/alert.tsx"
+  },
+  "animated-beam": {
+    "primaryPropsType": "AnimatedBeamProps",
+    "propsTypes": [
+      {
+        "name": "AnimatedBeamProps",
+        "fields": [
+          {
+            "name": "beamLength",
+            "type": "number",
+            "optional": true,
+            "description": "Length of the travelling segment as a share of the path, 0.05 to 1.",
+            "defaultValue": "0.35"
+          },
+          {
+            "name": "containerRef",
+            "type": "React.RefObject<HTMLElement | null>",
+            "optional": false,
+            "description": "Positioned (relative) element that contains both anchors. The beam is drawn in it."
+          },
+          {
+            "name": "curvature",
+            "type": "number",
+            "optional": true,
+            "description": "Upward bend of the curve in px. Negative bends downward.",
+            "defaultValue": "0"
+          },
+          {
+            "name": "delay",
+            "type": "number",
+            "optional": true,
+            "description": "Seconds before the first pass.",
+            "defaultValue": "0"
+          },
+          {
+            "name": "duration",
+            "type": "number",
+            "optional": true,
+            "description": "Seconds for one pass.",
+            "defaultValue": "4"
+          },
+          {
+            "name": "endXOffset",
+            "type": "number",
+            "optional": true,
+            "defaultValue": "0"
+          },
+          {
+            "name": "endYOffset",
+            "type": "number",
+            "optional": true,
+            "defaultValue": "0"
+          },
+          {
+            "name": "fromRef",
+            "type": "React.RefObject<HTMLElement | null>",
+            "optional": false
+          },
+          {
+            "name": "gradientStartColor",
+            "type": "string",
+            "optional": true,
+            "defaultValue": "\"var(--color-accent)\""
+          },
+          {
+            "name": "gradientStopColor",
+            "type": "string",
+            "optional": true,
+            "defaultValue": "\"color-mix(in oklab, var(--color-accent) 55%, var(--color-foreground))\""
+          },
+          {
+            "name": "pathColor",
+            "type": "string",
+            "optional": true,
+            "description": "Track color. Defaults to the soft line token.",
+            "defaultValue": "\"var(--line-soft, var(--color-border))\""
+          },
+          {
+            "name": "pathOpacity",
+            "type": "number",
+            "optional": true,
+            "defaultValue": "1"
+          },
+          {
+            "name": "pathWidth",
+            "type": "number",
+            "optional": true,
+            "defaultValue": "2"
+          },
+          {
+            "name": "repeatDelay",
+            "type": "number",
+            "optional": true,
+            "description": "Seconds to rest between passes.",
+            "defaultValue": "0"
+          },
+          {
+            "name": "reverse",
+            "type": "boolean",
+            "optional": true,
+            "description": "Travel from `toRef` to `fromRef`.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "startXOffset",
+            "type": "number",
+            "optional": true,
+            "defaultValue": "0"
+          },
+          {
+            "name": "startYOffset",
+            "type": "number",
+            "optional": true,
+            "defaultValue": "0"
+          },
+          {
+            "name": "toRef",
+            "type": "React.RefObject<HTMLElement | null>",
+            "optional": false
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "beamLength",
+      "containerRef",
+      "curvature",
+      "delay",
+      "duration",
+      "endXOffset",
+      "endYOffset",
+      "fromRef",
+      "gradientStartColor",
+      "gradientStopColor",
+      "pathColor",
+      "pathOpacity",
+      "pathWidth",
+      "repeatDelay",
+      "reverse",
+      "startXOffset",
+      "startYOffset",
+      "toRef"
+    ],
+    "sourceFile": "packages/ui/src/components/animated-beam.tsx"
   },
   "animated-gradient": {
     "primaryPropsType": "AnimatedGradientProps",
@@ -206,6 +357,112 @@ export const generatedApiMetadata = {
     ],
     "sourceFile": "packages/ui/src/components/animated-gradient.tsx"
   },
+  "aspect-ratio": {
+    "primaryPropsType": "AspectRatioProps",
+    "propsTypes": [
+      {
+        "name": "AspectRatioProps",
+        "fields": [
+          {
+            "name": "tone",
+            "type": "SurfaceTone",
+            "optional": true
+          },
+          {
+            "name": "variant",
+            "type": "SurfaceVariant | \"default\"",
+            "optional": true,
+            "description": "Surface variant. Omit (or `plain`) for a chromeless frame like the shadcn primitive. Vocabulary: glinr, solid, soft, outline, ghost, gradient, glass. Legacy `default` maps to glinr."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "tone",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/aspect-ratio.tsx"
+  },
+  "attachment": {
+    "primaryPropsType": "AttachmentProps",
+    "propsTypes": [
+      {
+        "name": "AttachmentProps",
+        "fields": [
+          {
+            "name": "display",
+            "optional": true,
+            "type": "\"chip\" | \"thumbnail\"",
+            "description": "Variant option from attachmentDisplay.",
+            "defaultValue": "\"chip\""
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "optional": false
+          },
+          {
+            "name": "onRemove",
+            "type": "() => void",
+            "optional": true
+          },
+          {
+            "name": "previewUrl",
+            "type": "string",
+            "optional": true,
+            "description": "Image URL. With `display=\"thumbnail\"` it fills the tile."
+          },
+          {
+            "name": "progress",
+            "type": "number",
+            "optional": true,
+            "description": "0 to 100. When defined and below 100 a progress bar is shown."
+          },
+          {
+            "name": "removeLabel",
+            "type": "string",
+            "optional": true
+          },
+          {
+            "name": "size",
+            "type": "number",
+            "optional": true,
+            "description": "Size in bytes."
+          },
+          {
+            "name": "tone",
+            "type": "SurfaceTone",
+            "optional": true
+          },
+          {
+            "name": "type",
+            "type": "string",
+            "optional": true,
+            "description": "MIME type or extension used to pick the icon."
+          },
+          {
+            "name": "variant",
+            "type": "SurfaceVariant | \"default\" | \"raised\" | \"frosted\"",
+            "optional": true,
+            "description": "Visual variant. Omit for the ambient design style (glinr by default). Vocabulary: glinr, solid, plain, soft, outline, ghost, gradient, glass."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "display",
+      "name",
+      "onRemove",
+      "previewUrl",
+      "progress",
+      "removeLabel",
+      "size",
+      "tone",
+      "type",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/attachment.tsx"
+  },
   "aurora-background": {
     "primaryPropsType": "AuroraBackgroundProps",
     "propsTypes": [
@@ -230,8 +487,8 @@ export const generatedApiMetadata = {
             "name": "colors",
             "type": "string[]",
             "optional": true,
-            "description": "Base colors for the aurora",
-            "defaultValue": "[\"#a855f7\", \"#6366f1\", \"#ec4899\"]"
+            "description": "Base colors for the aurora. Defaults come from theme tokens so the blobs read on light and dark scopes.",
+            "defaultValue": "[\"var(--color-accent)\", \"var(--tone-info)\", \"var(--gradient-to)\"]"
           },
           {
             "name": "duration",
@@ -306,10 +563,8 @@ export const generatedApiMetadata = {
           },
           {
             "name": "radius",
-            "type": "\"full\" | \"lg\" | \"md\" | \"square\"",
-            "optional": true,
-            "description": "Variant option from avatarVariants.",
-            "defaultValue": "\"full\""
+            "type": "AvatarRadius",
+            "optional": true
           },
           {
             "name": "ring",
@@ -319,10 +574,8 @@ export const generatedApiMetadata = {
           },
           {
             "name": "size",
-            "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\"",
-            "optional": true,
-            "description": "Variant option from avatarVariants.",
-            "defaultValue": "\"md\""
+            "type": "AvatarSize",
+            "optional": true
           },
           {
             "name": "src",
@@ -336,11 +589,16 @@ export const generatedApiMetadata = {
             "description": "Online/offline status indicator"
           },
           {
-            "name": "variant",
-            "type": "\"default\" | \"glass\" | \"liquid\" | \"matte\" | \"glow\" | \"outline\" | \"ghost\"",
+            "name": "tone",
+            "type": "SurfaceTone",
             "optional": true,
-            "description": "Variant option from avatarVariants.",
-            "defaultValue": "\"default\""
+            "description": "Colour tone for the vocabulary variants."
+          },
+          {
+            "name": "variant",
+            "type": "SurfaceVariant | ExtraVariant | \"default\" | \"primary\" | \"secondary\" | \"destructive\" | \"success\" | \"warning\" | \"info\" | \"raised\" | \"frosted\"",
+            "optional": true,
+            "description": "Visual variant. Omit for the ambient design style (glinr: ringed, raised face). Vocabulary: glinr, solid, plain, soft, outline, ghost, gradient, glass. liquid, matte and glow are avatar-specific."
           }
         ]
       }
@@ -357,6 +615,7 @@ export const generatedApiMetadata = {
       "spacing",
       "src",
       "status",
+      "tone",
       "variant"
     ],
     "sourceFile": "packages/ui/src/components/avatar.tsx"
@@ -368,27 +627,201 @@ export const generatedApiMetadata = {
         "name": "BadgeProps",
         "fields": [
           {
+            "name": "asChild",
+            "type": "boolean",
+            "optional": true,
+            "description": "Render the child element (for example an anchor) with badge styling.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "dot",
+            "type": "boolean",
+            "optional": true,
+            "description": "Show a glowing status dot before the content.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "dotTone",
+            "type": "BadgeDotTone",
+            "optional": true,
+            "description": "Dot color.",
+            "defaultValue": "\"ok\""
+          },
+          {
             "name": "size",
             "type": "\"sm\" | \"md\" | \"lg\"",
+            "optional": true
+          },
+          {
+            "name": "tone",
+            "type": "SurfaceTone",
             "optional": true,
-            "description": "Variant option from badgeVariants.",
-            "defaultValue": "\"md\""
+            "description": "Colour tone for the vocabulary variants."
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"liquid\" | \"matte\" | \"glow\" | \"outline\" | \"ghost\" | \"success\" | \"warning\" | \"destructive\" | \"info\"",
+            "type": "SurfaceVariant | ExtraVariant | \"default\" | \"primary\" | \"secondary\" | \"destructive\" | \"success\" | \"warning\" | \"info\" | \"raised\" | \"frosted\"",
             "optional": true,
-            "description": "Variant option from badgeVariants.",
-            "defaultValue": "\"default\""
+            "description": "Visual variant. Omit for the ambient design style (glinr by default). Vocabulary: glinr, solid, plain, soft, outline, ghost, gradient, glass. Legacy names (default, primary, secondary, destructive, success, warning, info, raised, frosted) still work; liquid, matte and glow stay badge-specific."
           }
         ]
       }
     ],
     "explicitProps": [
+      "asChild",
+      "dot",
+      "dotTone",
       "size",
+      "tone",
       "variant"
     ],
     "sourceFile": "packages/ui/src/components/badge.tsx"
+  },
+  "bento-grid": {
+    "primaryPropsType": "BentoGridProps",
+    "propsTypes": [
+      {
+        "name": "BentoCardProps",
+        "fields": [
+          {
+            "name": "background",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Decorative background layer (pattern, gradient, illustration). Hidden from assistive tech."
+          },
+          {
+            "name": "cta",
+            "type": "string",
+            "optional": true,
+            "description": "Call to action label, shown with an arrow when `href` is set."
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "optional": false
+          },
+          {
+            "name": "headingLevel",
+            "type": "2 | 3 | 4",
+            "optional": true,
+            "description": "Heading level for the card name.",
+            "defaultValue": "3"
+          },
+          {
+            "name": "href",
+            "type": "string",
+            "optional": true,
+            "description": "When set the whole card is a single anchor."
+          },
+          {
+            "name": "Icon",
+            "type": "React.ElementType<{ className?: string; \"aria-hidden\"?: boolean }>",
+            "optional": true,
+            "description": "Icon component (Phosphor icons work). Rendered decoratively."
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "optional": false,
+            "description": "Card title, rendered as a heading."
+          },
+          {
+            "name": "rel",
+            "type": "string",
+            "optional": true
+          },
+          {
+            "name": "target",
+            "type": "React.HTMLAttributeAnchorTarget",
+            "optional": true
+          },
+          {
+            "name": "variant",
+            "type": "SurfaceVariant | \"default\" | null",
+            "optional": true,
+            "description": "Surface look. Omitted follows the ambient style (glinr by default). `glass` is opt-in and needs a backdrop."
+          }
+        ]
+      },
+      {
+        "name": "BentoGridProps",
+        "fields": [
+          {
+            "name": "duration",
+            "type": "number",
+            "optional": true,
+            "description": "Per-card duration in ms."
+          },
+          {
+            "name": "engine",
+            "type": "EngineName",
+            "optional": true,
+            "description": "Engine override: `css` (default), `motion`, `gsap` or a registered custom engine."
+          },
+          {
+            "name": "entrance",
+            "type": "boolean",
+            "optional": true,
+            "description": "Reveal the cards in sequence when the grid enters the viewport. Off by default.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "immediate",
+            "type": "boolean",
+            "optional": true,
+            "description": "Play on mount instead of waiting for the viewport.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "motion",
+            "type": "MotionLevel",
+            "optional": true,
+            "description": "Motion override. `none` renders the static final state, `subtle` is opacity only."
+          },
+          {
+            "name": "order",
+            "type": "StaggerDirection",
+            "optional": true,
+            "description": "Order the cards appear in. Default `forward`.",
+            "defaultValue": "\"forward\""
+          },
+          {
+            "name": "step",
+            "type": "number",
+            "optional": true,
+            "description": "Delay between cards in ms. Default 70.",
+            "defaultValue": "70"
+          },
+          {
+            "name": "threshold",
+            "type": "number",
+            "optional": true,
+            "description": "Visible fraction required to trigger. Default 0.15."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "Icon",
+      "background",
+      "cta",
+      "description",
+      "duration",
+      "engine",
+      "entrance",
+      "headingLevel",
+      "href",
+      "immediate",
+      "motion",
+      "name",
+      "order",
+      "rel",
+      "step",
+      "target",
+      "threshold",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/bento-grid.tsx"
   },
   "blur-fade": {
     "primaryPropsType": "BlurFadeProps",
@@ -418,6 +851,18 @@ export const generatedApiMetadata = {
             "defaultValue": "500"
           },
           {
+            "name": "engine",
+            "type": "EngineName",
+            "optional": true,
+            "description": "Engine override: `css` (default), `motion`, `gsap` or a registered custom engine."
+          },
+          {
+            "name": "motion",
+            "type": "MotionLevel",
+            "optional": true,
+            "description": "Motion override. `none` renders the static final state, `subtle` is opacity only."
+          },
+          {
             "name": "once",
             "type": "boolean",
             "optional": true,
@@ -445,6 +890,8 @@ export const generatedApiMetadata = {
       "blur",
       "delay",
       "duration",
+      "engine",
+      "motion",
       "once",
       "threshold",
       "yOffset"
@@ -469,7 +916,7 @@ export const generatedApiMetadata = {
             "type": "string",
             "optional": true,
             "description": "Spotlight color",
-            "defaultValue": "\"#6366f1\""
+            "defaultValue": "\"var(--color-accent)\""
           },
           {
             "name": "intensity",
@@ -550,6 +997,262 @@ export const generatedApiMetadata = {
     ],
     "sourceFile": "packages/ui/src/components/border-beam.tsx"
   },
+  "border-trail": {
+    "primaryPropsType": "BorderTrailProps",
+    "propsTypes": [
+      {
+        "name": "BorderTrailProps",
+        "fields": [
+          {
+            "name": "borderWidth",
+            "type": "number",
+            "optional": true,
+            "description": "Border thickness in pixels.",
+            "defaultValue": "1"
+          },
+          {
+            "name": "color",
+            "type": "string",
+            "optional": true,
+            "description": "Trail color. Defaults to the variant token."
+          },
+          {
+            "name": "duration",
+            "type": "number",
+            "optional": true,
+            "description": "Seconds per lap.",
+            "defaultValue": "5"
+          },
+          {
+            "name": "radius",
+            "type": "number",
+            "optional": true,
+            "description": "Corner radius of the path in pixels. Defaults to the parent border radius."
+          },
+          {
+            "name": "size",
+            "type": "number",
+            "optional": true,
+            "description": "Length of the glowing segment in pixels.",
+            "defaultValue": "60"
+          },
+          {
+            "name": "variant",
+            "type": "\"default\" | \"plain\" | \"glass\"",
+            "optional": true,
+            "description": "Variant option from borderTrailVariants.",
+            "defaultValue": "\"default\""
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "borderWidth",
+      "color",
+      "duration",
+      "radius",
+      "size",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/border-trail.tsx"
+  },
+  "breadcrumb": {
+    "primaryPropsType": "BreadcrumbProps",
+    "propsTypes": [
+      {
+        "name": "BreadcrumbLinkProps",
+        "fields": [
+          {
+            "name": "asChild",
+            "type": "boolean",
+            "optional": true
+          }
+        ]
+      },
+      {
+        "name": "BreadcrumbProps",
+        "fields": [
+          {
+            "name": "variant",
+            "type": "PanelVariantProp",
+            "optional": true,
+            "description": "Surface look. Omit for the ambient design style (glinr by default): a bare trail whose current page is a raised pill. `solid`, `soft`, `outline`, `gradient` and `glass` wrap the trail in a pill; `glass` is opt-in and needs a rich backdrop."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "asChild",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/breadcrumb.tsx"
+  },
+  "browser-frame": {
+    "primaryPropsType": "BrowserFrameProps",
+    "propsTypes": [
+      {
+        "name": "BrowserFrameProps",
+        "fields": [
+          {
+            "name": "frameLabel",
+            "type": "string",
+            "optional": true,
+            "description": "Accessible name for the frame region."
+          },
+          {
+            "name": "mode",
+            "type": "\"default\" | \"simple\"",
+            "optional": true,
+            "description": "`default` shows an address bar, `simple` a centered window title only.",
+            "defaultValue": "\"default\""
+          },
+          {
+            "name": "title",
+            "type": "string",
+            "optional": true,
+            "description": "Window title for `simple` mode."
+          },
+          {
+            "name": "tone",
+            "type": "SurfaceTone",
+            "optional": true
+          },
+          {
+            "name": "url",
+            "type": "string",
+            "optional": true,
+            "description": "Text in the address bar.",
+            "defaultValue": "\"glinui.com\""
+          },
+          {
+            "name": "variant",
+            "type": "SurfaceVariant | \"default\" | \"raised\" | \"frosted\"",
+            "optional": true,
+            "description": "Visual variant. Omit for the ambient design style (glinr: lift shell with a raised chrome strip; plain: flat bordered window)."
+          },
+          {
+            "name": "viewportClassName",
+            "type": "string",
+            "optional": true,
+            "description": "Extra classes for the viewport (content) area."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "frameLabel",
+      "mode",
+      "title",
+      "tone",
+      "url",
+      "variant",
+      "viewportClassName"
+    ],
+    "sourceFile": "packages/ui/src/components/browser-frame.tsx"
+  },
+  "bubble": {
+    "primaryPropsType": "BubbleProps",
+    "propsTypes": [
+      {
+        "name": "BubbleProps",
+        "fields": [
+          {
+            "name": "align",
+            "type": "\"start\" | \"end\"",
+            "optional": true
+          },
+          {
+            "name": "grouped",
+            "type": "boolean",
+            "optional": true,
+            "description": "Tightens the aligned edge so stacked bubbles read as one group.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "tail",
+            "type": "boolean",
+            "optional": true,
+            "description": "Squares the corner nearest the avatar to point at the sender.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "tone",
+            "type": "SurfaceTone",
+            "optional": true
+          },
+          {
+            "name": "variant",
+            "type": "BubbleVariant",
+            "optional": true,
+            "description": "Visual variant. Omit for the ambient design style (glinr: raised ringed bubble; plain: flat bordered bubble). Vocabulary: glinr, solid, plain, soft, outline, ghost, gradient, glass. `accent` is solid + accent tone, `muted` is soft."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "align",
+      "grouped",
+      "tail",
+      "tone",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/bubble.tsx"
+  },
+  "button-group": {
+    "primaryPropsType": "ButtonGroupProps",
+    "propsTypes": [
+      {
+        "name": "ButtonGroupProps",
+        "fields": [
+          {
+            "name": "orientation",
+            "type": "\"horizontal\" | \"vertical\"",
+            "optional": true,
+            "description": "Variant option from buttonGroupVariants.",
+            "defaultValue": "\"vertical\""
+          },
+          {
+            "name": "size",
+            "type": "ButtonGroupContextValue[\"size\"]",
+            "optional": true,
+            "description": "Size applied to child Buttons that do not set their own."
+          },
+          {
+            "name": "tone",
+            "type": "SurfaceTone",
+            "optional": true,
+            "description": "Tone applied to child Buttons that do not set their own."
+          },
+          {
+            "name": "variant",
+            "type": "\"default\" | \"glass\" | \"glinr\" | \"solid\" | \"plain\" | \"soft\" | \"outline\" | \"ghost\" | \"gradient\"",
+            "optional": true,
+            "description": "Variant option from buttonGroupVariants.",
+            "defaultValue": "\"default\""
+          }
+        ]
+      },
+      {
+        "name": "ButtonGroupTextProps",
+        "fields": [
+          {
+            "name": "asChild",
+            "type": "boolean",
+            "optional": true,
+            "defaultValue": "false"
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "asChild",
+      "orientation",
+      "size",
+      "tone",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/button-group.tsx"
+  },
   "button": {
     "primaryPropsType": "ButtonProps",
     "propsTypes": [
@@ -563,25 +1266,57 @@ export const generatedApiMetadata = {
             "defaultValue": "false"
           },
           {
-            "name": "size",
-            "type": "\"sm\" | \"md\" | \"lg\"",
+            "name": "iconNudge",
+            "type": "boolean",
+            "optional": true
+          },
+          {
+            "name": "leadingIcon",
+            "type": "React.ReactNode",
             "optional": true,
-            "description": "Variant option from buttonVariants.",
-            "defaultValue": "\"md\""
+            "description": "Icon before the label (decorative)."
+          },
+          {
+            "name": "loading",
+            "type": "boolean",
+            "optional": true,
+            "description": "Show a spinner, set `aria-busy` and block interaction.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "size",
+            "type": "ButtonSize",
+            "optional": true
+          },
+          {
+            "name": "tone",
+            "type": "ButtonTone",
+            "optional": true,
+            "description": "Colour axis for the vocabulary variants."
+          },
+          {
+            "name": "trailingIcon",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Icon after the label (decorative)."
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"frosted\" | \"liquid\" | \"matte\" | \"glow\" | \"outline\" | \"ghost\"",
+            "type": "ButtonVariant",
             "optional": true,
-            "description": "Variant option from buttonVariants.",
-            "defaultValue": "\"default\""
+            "description": "Look. Omit for the ambient default (`glinr`, or `plain` / `glass` under `style=\"minimal\"` / `\"glass\"`). Legacy names (`default`, `primary`, `secondary`, `destructive`, `frosted`, `raised`) resolve to the vocabulary."
           }
         ]
       }
     ],
     "explicitProps": [
       "asChild",
+      "iconNudge",
+      "leadingIcon",
+      "loading",
       "size",
+      "tone",
+      "trailingIcon",
       "variant"
     ],
     "sourceFile": "packages/ui/src/components/button.tsx"
@@ -592,6 +1327,12 @@ export const generatedApiMetadata = {
       {
         "name": "CardContentProps",
         "fields": [
+          {
+            "name": "inset",
+            "type": "boolean",
+            "optional": true,
+            "description": "Recessed well with the concentric inner radius, for code, lists and inputs."
+          },
           {
             "name": "size",
             "type": "\"sm\" | \"md\" | \"lg\"",
@@ -633,12 +1374,49 @@ export const generatedApiMetadata = {
             "optional": true,
             "description": "Variant option from cardSectionVariants.",
             "defaultValue": "\"md\""
+          },
+          {
+            "name": "variant",
+            "type": "\"default\" | \"strip\"",
+            "optional": true,
+            "description": "`strip` renders a raised header band that bleeds to the card edges (glinr and solid cards).",
+            "defaultValue": "\"default\""
           }
         ]
       },
       {
         "name": "CardProps",
         "fields": [
+          {
+            "name": "elevation",
+            "type": "unknown",
+            "optional": true,
+            "description": "Variant option from cardVariants."
+          },
+          {
+            "name": "face",
+            "type": "unknown",
+            "optional": true,
+            "description": "Variant option from cardVariants."
+          },
+          {
+            "name": "inset",
+            "type": "boolean",
+            "optional": true,
+            "description": "Render a recessed well instead of a raised surface."
+          },
+          {
+            "name": "interactive",
+            "type": "boolean",
+            "optional": true,
+            "description": "Adds hover lift and a pointer cursor. Keyboard behavior stays with the consumer."
+          },
+          {
+            "name": "ring",
+            "type": "\"default\" | \"hot\" | \"brand\"",
+            "optional": true,
+            "description": "Variant option from cardVariants."
+          },
           {
             "name": "size",
             "type": "\"sm\" | \"md\" | \"lg\"",
@@ -647,10 +1425,17 @@ export const generatedApiMetadata = {
             "defaultValue": "\"md\""
           },
           {
-            "name": "variant",
-            "type": "\"default\" | \"glass\" | \"frosted\" | \"liquid\" | \"matte\" | \"outline\" | \"ghost\"",
+            "name": "tone",
+            "type": "SurfaceTone",
             "optional": true,
-            "description": "Variant option from cardVariants.",
+            "description": "Tone for soft, outline, ghost, gradient and glass.",
+            "defaultValue": "\"neutral\""
+          },
+          {
+            "name": "variant",
+            "type": "CardVariant | null",
+            "optional": true,
+            "description": "Surface look. Omitted (or `default`) follows the ambient design style: glinr, plain or glass. `glinr` lift shell, `plain` flat shadcn card, `solid` neutral tonal, `soft`, `outline`, `ghost`, `gradient`, `glass` (opt-in, needs a backdrop). Legacy `elevated`, `interactive`, `lift`, `frosted`, `liquid`, `matte` keep working.",
             "defaultValue": "\"default\""
           }
         ]
@@ -681,7 +1466,13 @@ export const generatedApiMetadata = {
     ],
     "explicitProps": [
       "className",
+      "elevation",
+      "face",
+      "inset",
+      "interactive",
+      "ring",
       "size",
+      "tone",
       "variant"
     ],
     "sourceFile": "packages/ui/src/components/card.tsx"
@@ -695,16 +1486,13 @@ export const generatedApiMetadata = {
           {
             "name": "size",
             "type": "\"sm\" | \"md\" | \"lg\"",
-            "optional": true,
-            "description": "Variant option from checkboxVariants.",
-            "defaultValue": "\"md\""
+            "optional": true
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"frosted\" | \"liquid\" | \"matte\" | \"outline\"",
+            "type": "ControlVariantProp",
             "optional": true,
-            "description": "Variant option from checkboxVariants.",
-            "defaultValue": "\"default\""
+            "description": "Surface look. Omit to follow the ambient design style (glinr = inset well with a raised accent check). Also: solid, plain, soft, outline, ghost, glass (opt-in), liquid, matte, frosted."
           }
         ]
       }
@@ -724,23 +1512,19 @@ export const generatedApiMetadata = {
           {
             "name": "size",
             "type": "\"sm\" | \"md\" | \"lg\"",
-            "optional": true,
-            "description": "Variant option from chipVariants.",
-            "defaultValue": "\"md\""
+            "optional": true
           },
           {
             "name": "tone",
-            "type": "\"neutral\" | \"info\" | \"success\" | \"warning\" | \"danger\"",
+            "type": "SurfaceTone",
             "optional": true,
-            "description": "Variant option from chipVariants.",
-            "defaultValue": "\"neutral\""
+            "description": "Colour tone. Tinted faces are built with color-mix on the surface tokens."
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"outline\" | \"ghost\"",
+            "type": "SurfaceVariant | \"default\" | \"primary\" | \"secondary\" | \"destructive\" | \"success\" | \"warning\" | \"info\" | \"raised\" | \"frosted\"",
             "optional": true,
-            "description": "Variant option from chipVariants.",
-            "defaultValue": "\"default\""
+            "description": "Visual variant. Omit for the ambient design style (glinr: raised pill with a hairline ring). Vocabulary: glinr, solid, plain, soft, outline, ghost, gradient, glass. Legacy `default` follows the ambient style."
           }
         ]
       }
@@ -762,8 +1546,8 @@ export const generatedApiMetadata = {
             "name": "colors",
             "type": "[string, string]",
             "optional": true,
-            "description": "Colors for the channels [red, blue]",
-            "defaultValue": "[\"#ff0040\", \"#0080ff\"]"
+            "description": "Colors for the channels [red, blue]. Defaults come from theme tokens; the fringes sit behind the base text so they read on any stage.",
+            "defaultValue": "[\"var(--tone-danger)\", \"var(--tone-info)\"]"
           },
           {
             "name": "duration",
@@ -789,6 +1573,204 @@ export const generatedApiMetadata = {
     ],
     "sourceFile": "packages/ui/src/components/chromatic-text.tsx"
   },
+  "circular-gallery": {
+    "primaryPropsType": "CircularGalleryProps",
+    "propsTypes": [
+      {
+        "name": "CircularGalleryProps",
+        "fields": [
+          {
+            "name": "autoRotate",
+            "type": "boolean",
+            "optional": true,
+            "description": "Rotate on a timer. Needs motion level full. Pauses on hover, focus and drag.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "autoRotateInterval",
+            "type": "number",
+            "optional": true,
+            "description": "Milliseconds between automatic steps.",
+            "defaultValue": "3200"
+          },
+          {
+            "name": "defaultValue",
+            "type": "number",
+            "optional": true,
+            "defaultValue": "0"
+          },
+          {
+            "name": "items",
+            "type": "CircularGalleryItem[]",
+            "optional": false
+          },
+          {
+            "name": "label",
+            "type": "string",
+            "optional": true,
+            "description": "Accessible name of the gallery.",
+            "defaultValue": "\"Gallery\""
+          },
+          {
+            "name": "onValueChange",
+            "type": "(index: number) => void",
+            "optional": true
+          },
+          {
+            "name": "radius",
+            "type": "number",
+            "optional": true,
+            "description": "Ring radius in pixels. Defaults to a size that fits the tiles."
+          },
+          {
+            "name": "showCaption",
+            "type": "boolean",
+            "optional": true,
+            "description": "Show the caption of the front tile under the ring.",
+            "defaultValue": "true"
+          },
+          {
+            "name": "tileHeight",
+            "type": "number",
+            "optional": true,
+            "defaultValue": "190"
+          },
+          {
+            "name": "tileWidth",
+            "type": "number",
+            "optional": true,
+            "defaultValue": "150"
+          },
+          {
+            "name": "tilt",
+            "type": "number",
+            "optional": true,
+            "description": "Camera tilt in degrees. Positive looks down on the ring.",
+            "defaultValue": "8"
+          },
+          {
+            "name": "value",
+            "type": "number",
+            "optional": true,
+            "description": "Controlled front item index."
+          },
+          {
+            "name": "variant",
+            "type": "SurfaceVariant | \"default\"",
+            "optional": true
+          },
+          {
+            "name": "wheel",
+            "type": "boolean",
+            "optional": true,
+            "description": "Let the wheel or trackpad rotate the ring. Off by default so page scroll is never captured.",
+            "defaultValue": "false"
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "autoRotate",
+      "autoRotateInterval",
+      "defaultValue",
+      "items",
+      "label",
+      "onValueChange",
+      "radius",
+      "showCaption",
+      "tileHeight",
+      "tileWidth",
+      "tilt",
+      "value",
+      "variant",
+      "wheel"
+    ],
+    "sourceFile": "packages/ui/src/components/circular-gallery.tsx"
+  },
+  "code-panel": {
+    "primaryPropsType": "CodePanelProps",
+    "propsTypes": [
+      {
+        "name": "CodePanelProps",
+        "fields": [
+          {
+            "name": "actions",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Header slot on the right. When `copyValue` is set a CopyButton is appended."
+          },
+          {
+            "name": "codeLabel",
+            "type": "string",
+            "optional": true,
+            "description": "Accessible label for the scrollable code region.",
+            "defaultValue": "\"Code\""
+          },
+          {
+            "name": "copyValue",
+            "type": "string",
+            "optional": true,
+            "description": "Adds a CopyButton to the header copying this text."
+          },
+          {
+            "name": "hideHeader",
+            "type": "boolean",
+            "optional": true,
+            "description": "Hide the header bar entirely.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "onCopy",
+            "type": "(value: string) => void",
+            "optional": true,
+            "description": "Called when the built-in CopyButton succeeds."
+          },
+          {
+            "name": "preClassName",
+            "type": "string",
+            "optional": true,
+            "description": "Classes for the `pre` element."
+          },
+          {
+            "name": "tabs",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Header slot after the title, for example a tab group."
+          },
+          {
+            "name": "title",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Header title (usually a file name)."
+          },
+          {
+            "name": "tone",
+            "type": "SurfaceTone",
+            "optional": true
+          },
+          {
+            "name": "variant",
+            "type": "SurfaceVariant | \"default\" | \"raised\" | \"frosted\"",
+            "optional": true,
+            "description": "Visual variant. Omit for the ambient design style: glinr is the canonical raised panel (header strip + inset well), plain is a flat bordered code block, glass is opt-in and needs a backdrop."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "actions",
+      "codeLabel",
+      "copyValue",
+      "hideHeader",
+      "onCopy",
+      "preClassName",
+      "tabs",
+      "title",
+      "tone",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/code-panel.tsx"
+  },
   "code": {
     "primaryPropsType": "CodeProps",
     "propsTypes": [
@@ -798,25 +1780,219 @@ export const generatedApiMetadata = {
           {
             "name": "size",
             "type": "\"sm\" | \"md\" | \"lg\"",
-            "optional": true,
-            "description": "Variant option from codeVariants.",
-            "defaultValue": "\"md\""
+            "optional": true
+          },
+          {
+            "name": "tone",
+            "type": "SurfaceTone",
+            "optional": true
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"outline\" | \"ghost\"",
+            "type": "SurfaceVariant | \"block\" | \"default\" | \"primary\" | \"secondary\" | \"destructive\" | \"success\" | \"warning\" | \"info\" | \"raised\" | \"frosted\"",
             "optional": true,
-            "description": "Variant option from codeVariants.",
-            "defaultValue": "\"default\""
+            "description": "Visual variant. Omit for the ambient design style (glinr by default). `block` renders a full width code well: inset well under glinr, flat bordered block under plain."
           }
         ]
       }
     ],
     "explicitProps": [
       "size",
+      "tone",
       "variant"
     ],
     "sourceFile": "packages/ui/src/components/code.tsx"
+  },
+  "collapsible": {
+    "primaryPropsType": "CollapsibleProps",
+    "propsTypes": [
+      {
+        "name": "CollapsibleContentProps",
+        "fields": []
+      },
+      {
+        "name": "CollapsibleProps",
+        "fields": [
+          {
+            "name": "tone",
+            "type": "SurfaceTone",
+            "optional": true
+          },
+          {
+            "name": "variant",
+            "type": "SurfaceVariant | \"default\" | \"raised\" | \"frosted\"",
+            "optional": true,
+            "description": "Surface variant. Omit for the ambient design style (glinr by default, plain under `minimal`). Vocabulary: glinr, solid, plain, soft, outline, ghost, gradient, glass. `ghost` is chromeless like the shadcn primitive."
+          }
+        ]
+      },
+      {
+        "name": "CollapsibleTriggerProps",
+        "fields": []
+      }
+    ],
+    "explicitProps": [
+      "tone",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/collapsible.tsx"
+  },
+  "combobox": {
+    "primaryPropsType": "ComboboxProps",
+    "propsTypes": [
+      {
+        "name": "ComboboxProps",
+        "fields": [
+          {
+            "name": "aria-describedby",
+            "type": "string",
+            "optional": true
+          },
+          {
+            "name": "aria-invalid",
+            "type": "boolean | \"true\" | \"false\"",
+            "optional": true
+          },
+          {
+            "name": "aria-label",
+            "type": "string",
+            "optional": true
+          },
+          {
+            "name": "aria-labelledby",
+            "type": "string",
+            "optional": true
+          },
+          {
+            "name": "className",
+            "type": "string",
+            "optional": true
+          },
+          {
+            "name": "clearable",
+            "type": "boolean",
+            "optional": true,
+            "description": "Allow selecting the active option again to clear it.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "contentClassName",
+            "type": "string",
+            "optional": true,
+            "description": "Extra class for the popover panel."
+          },
+          {
+            "name": "defaultValue",
+            "type": "string",
+            "optional": true,
+            "description": "Initial value for uncontrolled usage.",
+            "defaultValue": "\"\""
+          },
+          {
+            "name": "disabled",
+            "type": "boolean",
+            "optional": true
+          },
+          {
+            "name": "emptyText",
+            "type": "string",
+            "optional": true,
+            "description": "Message shown when no option matches.",
+            "defaultValue": "\"No results found.\""
+          },
+          {
+            "name": "id",
+            "type": "string",
+            "optional": true
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "optional": true,
+            "description": "Form field name; renders a hidden input with the value."
+          },
+          {
+            "name": "onOpenChange",
+            "type": "(open: boolean) => void",
+            "optional": true
+          },
+          {
+            "name": "onValueChange",
+            "type": "(value: string) => void",
+            "optional": true,
+            "description": "Fires when the selection changes. Empty string means cleared."
+          },
+          {
+            "name": "open",
+            "type": "boolean",
+            "optional": true,
+            "description": "Controlled open state."
+          },
+          {
+            "name": "options",
+            "type": "ComboboxOption[]",
+            "optional": false
+          },
+          {
+            "name": "placeholder",
+            "type": "string",
+            "optional": true,
+            "description": "Trigger text when nothing is selected.",
+            "defaultValue": "\"Select an option\""
+          },
+          {
+            "name": "searchPlaceholder",
+            "type": "string",
+            "optional": true,
+            "description": "Placeholder inside the search input.",
+            "defaultValue": "\"Search...\""
+          },
+          {
+            "name": "size",
+            "type": "\"sm\" | \"md\" | \"lg\"",
+            "optional": true,
+            "description": "Variant option from comboboxSizeVariants.",
+            "defaultValue": "\"md\""
+          },
+          {
+            "name": "value",
+            "type": "string",
+            "optional": true,
+            "description": "Controlled selected value."
+          },
+          {
+            "name": "variant",
+            "type": "ControlVariantProp",
+            "optional": true,
+            "description": "Trigger look. Omit to follow the ambient design style (glinr = inset well). Same vocabulary as Input."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "aria-describedby",
+      "aria-invalid",
+      "aria-label",
+      "aria-labelledby",
+      "className",
+      "clearable",
+      "contentClassName",
+      "defaultValue",
+      "disabled",
+      "emptyText",
+      "id",
+      "name",
+      "onOpenChange",
+      "onValueChange",
+      "open",
+      "options",
+      "placeholder",
+      "searchPlaceholder",
+      "size",
+      "value",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/combobox.tsx"
   },
   "command": {
     "primaryPropsType": "CommandProps",
@@ -833,10 +2009,9 @@ export const generatedApiMetadata = {
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"frosted\" | \"outline\" | \"ghost\" | \"liquid\" | \"matte\"",
+            "type": "PanelVariantProp",
             "optional": true,
-            "description": "Variant option from commandVariants.",
-            "defaultValue": "\"default\""
+            "description": "Surface look. Omit for the ambient design style (glinr by default). `glass` is opt-in and needs a rich backdrop to read as frosted."
           }
         ]
       }
@@ -846,6 +2021,218 @@ export const generatedApiMetadata = {
       "variant"
     ],
     "sourceFile": "packages/ui/src/components/command.tsx"
+  },
+  "context-menu": {
+    "primaryPropsType": "ContextMenuProps",
+    "propsTypes": [
+      {
+        "name": "ContextMenuContentProps",
+        "fields": [
+          {
+            "name": "variant",
+            "type": "ContextMenuVariant",
+            "optional": true,
+            "description": "Surface look. Omit for the ambient design style (glinr by default). `glass` is opt-in and needs a rich backdrop."
+          }
+        ]
+      },
+      {
+        "name": "ContextMenuProps",
+        "fields": [
+          {
+            "name": "variant",
+            "type": "ContextMenuVariant",
+            "optional": true,
+            "description": "Surface treatment shared by every floating panel in this menu."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/context-menu.tsx"
+  },
+  "copy-button": {
+    "primaryPropsType": "CopyButtonProps",
+    "propsTypes": [
+      {
+        "name": "CopyButtonProps",
+        "fields": [
+          {
+            "name": "copiedLabel",
+            "type": "string",
+            "optional": true,
+            "description": "Label shown (and announced) after copying.",
+            "defaultValue": "\"Copied\""
+          },
+          {
+            "name": "getValue",
+            "type": "() => string",
+            "optional": true,
+            "description": "Lazily resolve the text to copy (wins over `value`)."
+          },
+          {
+            "name": "iconOnly",
+            "type": "boolean",
+            "optional": true,
+            "description": "Hide the text label and keep only the icon (label stays as the accessible name).",
+            "defaultValue": "false"
+          },
+          {
+            "name": "label",
+            "type": "string",
+            "optional": true,
+            "description": "Idle label.",
+            "defaultValue": "\"Copy\""
+          },
+          {
+            "name": "onCopy",
+            "type": "(value: string) => void",
+            "optional": true,
+            "description": "Called after a successful copy with the copied text (analytics hook)."
+          },
+          {
+            "name": "resetMs",
+            "type": "number",
+            "optional": true,
+            "description": "Milliseconds before returning to the idle state.",
+            "defaultValue": "1600"
+          },
+          {
+            "name": "value",
+            "type": "string",
+            "optional": true,
+            "description": "Static text to copy.",
+            "defaultValue": "\"\""
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "copiedLabel",
+      "getValue",
+      "iconOnly",
+      "label",
+      "onCopy",
+      "resetMs",
+      "value"
+    ],
+    "sourceFile": "packages/ui/src/components/copy-button.tsx"
+  },
+  "count-up": {
+    "primaryPropsType": "CountUpProps",
+    "propsTypes": [
+      {
+        "name": "CountUpProps",
+        "fields": [
+          {
+            "name": "decimals",
+            "type": "number",
+            "optional": true
+          },
+          {
+            "name": "delay",
+            "type": "number",
+            "optional": true
+          },
+          {
+            "name": "duration",
+            "type": "number",
+            "optional": true,
+            "description": "Duration in ms."
+          },
+          {
+            "name": "engine",
+            "type": "EngineName",
+            "optional": true,
+            "description": "Engine override: `css` (default), `motion`, `gsap` or a registered custom engine."
+          },
+          {
+            "name": "format",
+            "type": "(value: number) => string",
+            "optional": true,
+            "description": "Custom formatter. Receives the raw value. Overrides decimals and locale."
+          },
+          {
+            "name": "from",
+            "type": "number",
+            "optional": true,
+            "description": "Start value. Default 0.",
+            "defaultValue": "0"
+          },
+          {
+            "name": "immediate",
+            "type": "boolean",
+            "optional": true,
+            "defaultValue": "false"
+          },
+          {
+            "name": "locale",
+            "type": "string",
+            "optional": true
+          },
+          {
+            "name": "motion",
+            "type": "MotionLevel",
+            "optional": true,
+            "description": "Motion override. `none` renders the static final state, `subtle` is opacity only."
+          },
+          {
+            "name": "once",
+            "type": "boolean",
+            "optional": true,
+            "defaultValue": "true"
+          },
+          {
+            "name": "prefix",
+            "type": "string",
+            "optional": true,
+            "defaultValue": "\"\""
+          },
+          {
+            "name": "spring",
+            "type": "SpringInput",
+            "optional": true
+          },
+          {
+            "name": "suffix",
+            "type": "string",
+            "optional": true,
+            "defaultValue": "\"\""
+          },
+          {
+            "name": "threshold",
+            "type": "number",
+            "optional": true
+          },
+          {
+            "name": "value",
+            "type": "number",
+            "optional": false,
+            "description": "Final value."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "decimals",
+      "delay",
+      "duration",
+      "engine",
+      "format",
+      "from",
+      "immediate",
+      "locale",
+      "motion",
+      "once",
+      "prefix",
+      "spring",
+      "suffix",
+      "threshold",
+      "value"
+    ],
+    "sourceFile": "packages/ui/src/components/count-up.tsx"
   },
   "counter": {
     "primaryPropsType": "CounterProps",
@@ -862,9 +2249,12 @@ export const generatedApiMetadata = {
           {
             "name": "size",
             "type": "\"sm\" | \"md\" | \"lg\"",
-            "optional": true,
-            "description": "Variant option from counterVariants.",
-            "defaultValue": "\"md\""
+            "optional": true
+          },
+          {
+            "name": "tone",
+            "type": "SurfaceTone",
+            "optional": true
           },
           {
             "name": "value",
@@ -873,10 +2263,9 @@ export const generatedApiMetadata = {
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"outline\" | \"ghost\"",
+            "type": "SurfaceVariant | \"default\" | \"primary\" | \"secondary\" | \"destructive\" | \"success\" | \"warning\" | \"info\" | \"raised\" | \"frosted\"",
             "optional": true,
-            "description": "Variant option from counterVariants.",
-            "defaultValue": "\"default\""
+            "description": "Visual variant. Omit for the ambient design style (glinr by default)."
           }
         ]
       }
@@ -884,10 +2273,207 @@ export const generatedApiMetadata = {
     "explicitProps": [
       "max",
       "size",
+      "tone",
       "value",
       "variant"
     ],
     "sourceFile": "packages/ui/src/components/counter.tsx"
+  },
+  "cta-band": {
+    "primaryPropsType": "CtaBandProps",
+    "propsTypes": [
+      {
+        "name": "CtaBandProps",
+        "fields": [
+          {
+            "name": "background",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Decorative background slot such as a gradient mesh. Rendered aria-hidden behind the content."
+          },
+          {
+            "name": "description",
+            "type": "React.ReactNode",
+            "optional": true
+          },
+          {
+            "name": "emailCapture",
+            "type": "CtaEmailCapture",
+            "optional": true,
+            "description": "Built-in email capture form (the split layout shows it in place of the actions)."
+          },
+          {
+            "name": "eyebrow",
+            "type": "React.ReactNode",
+            "optional": true
+          },
+          {
+            "name": "footnote",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Free slot under the actions, for a custom form or fine print."
+          },
+          {
+            "name": "glow",
+            "type": "boolean",
+            "optional": true,
+            "description": "Soft token glow behind the content. On by default for `boxed-gradient`."
+          },
+          {
+            "name": "layout",
+            "type": "CtaBandLayout",
+            "optional": true,
+            "defaultValue": "\"centered\""
+          },
+          {
+            "name": "primary",
+            "type": "CtaAction",
+            "optional": true
+          },
+          {
+            "name": "secondary",
+            "type": "CtaAction",
+            "optional": true
+          },
+          {
+            "name": "title",
+            "type": "React.ReactNode",
+            "optional": false
+          },
+          {
+            "name": "variant",
+            "type": "BlockVariant",
+            "optional": true,
+            "description": "Shell look. Omit to follow the ambient style."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "background",
+      "description",
+      "emailCapture",
+      "eyebrow",
+      "footnote",
+      "glow",
+      "layout",
+      "primary",
+      "secondary",
+      "title",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/cta-band.tsx"
+  },
+  "cylinder-carousel": {
+    "primaryPropsType": "CylinderCarouselProps",
+    "propsTypes": [
+      {
+        "name": "CylinderCarouselProps",
+        "fields": [
+          {
+            "name": "autoPlay",
+            "type": "boolean",
+            "optional": true,
+            "description": "Rotate on a timer. Needs motion level full. Pauses on hover and focus, with a visible pause button.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "autoPlayInterval",
+            "type": "number",
+            "optional": true,
+            "description": "Milliseconds between automatic steps.",
+            "defaultValue": "3500"
+          },
+          {
+            "name": "cardHeight",
+            "type": "number",
+            "optional": true,
+            "description": "Slide height in pixels.",
+            "defaultValue": "280"
+          },
+          {
+            "name": "cardWidth",
+            "type": "number",
+            "optional": true,
+            "description": "Slide width in pixels.",
+            "defaultValue": "200"
+          },
+          {
+            "name": "defaultValue",
+            "type": "number",
+            "optional": true,
+            "description": "Uncontrolled initial front slide index.",
+            "defaultValue": "0"
+          },
+          {
+            "name": "gap",
+            "type": "number",
+            "optional": true,
+            "description": "Gap between neighbouring slides on the ring, in pixels.",
+            "defaultValue": "24"
+          },
+          {
+            "name": "getSlideLabel",
+            "type": "(index: number, total: number) => string",
+            "optional": true,
+            "description": "Name for the slide, receives the 0 based index. Defaults to \"n of N\"."
+          },
+          {
+            "name": "items",
+            "type": "React.ReactNode[]",
+            "optional": false,
+            "description": "Slide content. Any ReactNode, no image urls required."
+          },
+          {
+            "name": "label",
+            "type": "string",
+            "optional": true,
+            "description": "Accessible name of the carousel region.",
+            "defaultValue": "\"Carousel\""
+          },
+          {
+            "name": "onValueChange",
+            "type": "(index: number) => void",
+            "optional": true
+          },
+          {
+            "name": "showControls",
+            "type": "boolean",
+            "optional": true,
+            "description": "Show previous and next buttons.",
+            "defaultValue": "true"
+          },
+          {
+            "name": "value",
+            "type": "number",
+            "optional": true,
+            "description": "Controlled front slide index."
+          },
+          {
+            "name": "variant",
+            "type": "SurfaceVariant | \"default\"",
+            "optional": true,
+            "description": "Surface of each slide frame. Omit to follow the ambient style."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "autoPlay",
+      "autoPlayInterval",
+      "cardHeight",
+      "cardWidth",
+      "defaultValue",
+      "gap",
+      "getSlideLabel",
+      "items",
+      "label",
+      "onValueChange",
+      "showControls",
+      "value",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/cylinder-carousel.tsx"
   },
   "data-table": {
     "primaryPropsType": "DataTableProps",
@@ -993,6 +2579,13 @@ export const generatedApiMetadata = {
         "name": "DepthCardProps",
         "fields": [
           {
+            "name": "autoPlay",
+            "type": "boolean",
+            "optional": true,
+            "description": "Runs a slow looping synthetic pointer so the tilt, glare and layer parallax are visible without hovering (demos, screenshots, touch). Needs motion level full. A real pointer takes over while hovering.",
+            "defaultValue": "false"
+          },
+          {
             "name": "glare",
             "type": "boolean",
             "optional": true,
@@ -1004,7 +2597,7 @@ export const generatedApiMetadata = {
             "type": "number",
             "optional": true,
             "description": "Glare max opacity",
-            "defaultValue": "0.2"
+            "defaultValue": "0.35"
           },
           {
             "name": "hoverScale",
@@ -1028,9 +2621,23 @@ export const generatedApiMetadata = {
             "defaultValue": "800"
           }
         ]
+      },
+      {
+        "name": "DepthLayerProps",
+        "fields": [
+          {
+            "name": "depth",
+            "type": "keyof typeof LAYER_DEPTH",
+            "optional": true,
+            "description": "How far the layer floats above the card face (1 closest, 4 highest).",
+            "defaultValue": "2"
+          }
+        ]
       }
     ],
     "explicitProps": [
+      "autoPlay",
+      "depth",
       "glare",
       "glareOpacity",
       "hoverScale",
@@ -1112,6 +2719,12 @@ export const generatedApiMetadata = {
         "name": "DropdownMenuContentProps",
         "fields": [
           {
+            "name": "container",
+            "type": "HTMLElement | null",
+            "optional": true,
+            "description": "Element to portal into. Defaults to document.body."
+          },
+          {
             "name": "size",
             "type": "\"sm\" | \"md\" | \"lg\"",
             "optional": true,
@@ -1120,10 +2733,9 @@ export const generatedApiMetadata = {
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"frosted\" | \"outline\" | \"ghost\"",
+            "type": "PanelVariantProp",
             "optional": true,
-            "description": "Variant option from dropdownMenuContentVariants.",
-            "defaultValue": "\"default\""
+            "description": "Surface look. Omit for the ambient design style (glinr by default). `glass` is opt-in and needs a rich backdrop."
           }
         ]
       },
@@ -1204,10 +2816,8 @@ export const generatedApiMetadata = {
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"frosted\" | \"outline\" | \"ghost\"",
-            "optional": true,
-            "description": "Variant option from dropdownMenuContentVariants.",
-            "defaultValue": "\"default\""
+            "type": "PanelVariantProp",
+            "optional": true
           }
         ]
       },
@@ -1256,11 +2866,332 @@ export const generatedApiMetadata = {
       }
     ],
     "explicitProps": [
+      "container",
       "inset",
       "size",
       "variant"
     ],
     "sourceFile": "packages/ui/src/components/dropdown-menu.tsx"
+  },
+  "empty": {
+    "primaryPropsType": "EmptyProps",
+    "propsTypes": [
+      {
+        "name": "EmptyMediaProps",
+        "fields": [
+          {
+            "name": "variant",
+            "type": "\"default\" | \"icon\"",
+            "optional": true,
+            "description": "Variant option from emptyMediaVariants.",
+            "defaultValue": "\"default\""
+          }
+        ]
+      },
+      {
+        "name": "EmptyProps",
+        "fields": [
+          {
+            "name": "tone",
+            "type": "SurfaceTone",
+            "optional": true
+          },
+          {
+            "name": "variant",
+            "type": "SurfaceVariant | \"dashed\" | \"default\" | \"raised\" | \"frosted\"",
+            "optional": true,
+            "description": "Visual variant. Omit for the ambient design style (glinr: lift shell; plain: shadcn dashed block). Vocabulary: glinr, solid, plain, soft, outline, ghost, gradient, glass. `dashed` is kept as an alias look."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "tone",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/empty.tsx"
+  },
+  "faq-section": {
+    "primaryPropsType": "FaqSectionProps",
+    "propsTypes": [
+      {
+        "name": "FaqSectionProps",
+        "fields": [
+          {
+            "name": "aside",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Extra content under the title in the two-column layout, such as a contact card."
+          },
+          {
+            "name": "categories",
+            "type": "boolean",
+            "optional": true,
+            "description": "Group items into category tabs (items need a `category`).",
+            "defaultValue": "false"
+          },
+          {
+            "name": "description",
+            "type": "React.ReactNode",
+            "optional": true
+          },
+          {
+            "name": "eyebrow",
+            "type": "React.ReactNode",
+            "optional": true
+          },
+          {
+            "name": "items",
+            "type": "FaqItem[]",
+            "optional": false
+          },
+          {
+            "name": "jsonLd",
+            "type": "boolean",
+            "optional": true,
+            "description": "Render a FAQPage JSON-LD script.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "layout",
+            "type": "FaqSectionLayout",
+            "optional": true,
+            "defaultValue": "\"two-column\""
+          },
+          {
+            "name": "multiple",
+            "type": "boolean",
+            "optional": true,
+            "description": "Allow several items open at once.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "title",
+            "type": "React.ReactNode",
+            "optional": true
+          },
+          {
+            "name": "variant",
+            "type": "AccordionVariant",
+            "optional": true,
+            "description": "Accordion look. Omit to follow the ambient style."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "aside",
+      "categories",
+      "description",
+      "eyebrow",
+      "items",
+      "jsonLd",
+      "layout",
+      "multiple",
+      "title",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/faq-section.tsx"
+  },
+  "feature-grid": {
+    "primaryPropsType": "FeatureGridProps",
+    "propsTypes": [
+      {
+        "name": "FeatureGridProps",
+        "fields": [
+          {
+            "name": "description",
+            "type": "React.ReactNode",
+            "optional": true
+          },
+          {
+            "name": "eyebrow",
+            "type": "React.ReactNode",
+            "optional": true
+          },
+          {
+            "name": "features",
+            "type": "FeatureItem[]",
+            "optional": false
+          },
+          {
+            "name": "headingLevel",
+            "type": "2 | 3",
+            "optional": true,
+            "description": "Level of the section heading. Cards use the next level. Default 2.",
+            "defaultValue": "2"
+          },
+          {
+            "name": "layout",
+            "type": "FeatureGridLayout",
+            "optional": true,
+            "defaultValue": "\"three-up\""
+          },
+          {
+            "name": "title",
+            "type": "React.ReactNode",
+            "optional": true
+          },
+          {
+            "name": "variant",
+            "type": "BlockLook | \"default\" | null",
+            "optional": true,
+            "description": "Block shell: glinr (open), plain, glass panel. Omit for the ambient style."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "description",
+      "eyebrow",
+      "features",
+      "headingLevel",
+      "layout",
+      "title",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/feature-grid.tsx"
+  },
+  "field": {
+    "primaryPropsType": "FieldProps",
+    "propsTypes": [
+      {
+        "name": "FieldErrorProps",
+        "fields": [
+          {
+            "name": "errors",
+            "type": "Array<{ message?: string } | undefined>",
+            "optional": true,
+            "description": "Error objects (for example from a form library). Messages are de-duplicated."
+          }
+        ]
+      },
+      {
+        "name": "FieldLabelProps",
+        "fields": []
+      },
+      {
+        "name": "FieldLegendProps",
+        "fields": [
+          {
+            "name": "variant",
+            "type": "\"legend\" | \"label\"",
+            "optional": true,
+            "defaultValue": "\"legend\""
+          }
+        ]
+      },
+      {
+        "name": "FieldProps",
+        "fields": [
+          {
+            "name": "disabled",
+            "type": "boolean",
+            "optional": true,
+            "description": "Marks the field disabled.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "invalid",
+            "type": "boolean",
+            "optional": true,
+            "description": "Marks the field invalid and wires aria-invalid onto its control.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "orientation",
+            "type": "\"vertical\" | \"horizontal\" | \"responsive\"",
+            "optional": true,
+            "description": "Variant option from fieldVariants.",
+            "defaultValue": "\"vertical\""
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "disabled",
+      "errors",
+      "invalid",
+      "orientation",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/field.tsx"
+  },
+  "flickering-grid": {
+    "primaryPropsType": "FlickeringGridProps",
+    "propsTypes": [
+      {
+        "name": "FlickeringGridProps",
+        "fields": [
+          {
+            "name": "color",
+            "type": "string",
+            "optional": true,
+            "description": "Any CSS color, including var(), oklch() and color-mix(). Defaults to the foreground token.",
+            "defaultValue": "\"var(--color-foreground)\""
+          },
+          {
+            "name": "flickerChance",
+            "type": "number",
+            "optional": true,
+            "description": "Chance per second that a square re-rolls its opacity.",
+            "defaultValue": "0.3"
+          },
+          {
+            "name": "gridGap",
+            "type": "number",
+            "optional": true,
+            "description": "Gap between squares in px.",
+            "defaultValue": "6"
+          },
+          {
+            "name": "maxFps",
+            "type": "number",
+            "optional": true,
+            "description": "Frame cap for the flicker loop.",
+            "defaultValue": "30"
+          },
+          {
+            "name": "maxOpacity",
+            "type": "number",
+            "optional": true,
+            "description": "Highest opacity a square can reach. Keep at or below 0.3 behind text.",
+            "defaultValue": "0.3"
+          },
+          {
+            "name": "seed",
+            "type": "number",
+            "optional": true,
+            "description": "Seed for the deterministic starting pattern.",
+            "defaultValue": "7"
+          },
+          {
+            "name": "squareSize",
+            "type": "number",
+            "optional": true,
+            "description": "Square edge in px.",
+            "defaultValue": "4"
+          },
+          {
+            "name": "variant",
+            "type": "\"square\" | \"round\"",
+            "optional": true,
+            "defaultValue": "\"square\""
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "color",
+      "flickerChance",
+      "gridGap",
+      "maxFps",
+      "maxOpacity",
+      "seed",
+      "squareSize",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/flickering-grid.tsx"
   },
   "floating-panel": {
     "primaryPropsType": "FloatingPanelProps",
@@ -1322,6 +3253,182 @@ export const generatedApiMetadata = {
     ],
     "sourceFile": "packages/ui/src/components/floating-panel.tsx"
   },
+  "footer-block": {
+    "primaryPropsType": "FooterBlockProps",
+    "propsTypes": [
+      {
+        "name": "FooterBlockProps",
+        "fields": [
+          {
+            "name": "brand",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Logo, name and tagline."
+          },
+          {
+            "name": "copyright",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Copyright line."
+          },
+          {
+            "name": "groups",
+            "type": "FooterLinkGroup[]",
+            "optional": true,
+            "defaultValue": "[]"
+          },
+          {
+            "name": "layout",
+            "type": "FooterBlockLayout",
+            "optional": true,
+            "defaultValue": "\"columns\""
+          },
+          {
+            "name": "legal",
+            "type": "FooterLink[]",
+            "optional": true,
+            "description": "Legal links such as Privacy and Terms."
+          },
+          {
+            "name": "newsletter",
+            "type": "FooterNewsletter",
+            "optional": true
+          },
+          {
+            "name": "social",
+            "type": "FooterSocial[]",
+            "optional": true
+          },
+          {
+            "name": "themeToggle",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Slot for a theme toggle."
+          },
+          {
+            "name": "variant",
+            "type": "BlockVariant",
+            "optional": true,
+            "description": "Surface look. Omit to follow the ambient style. `glass` is opt-in and needs a backdrop."
+          },
+          {
+            "name": "wordmark",
+            "type": "string",
+            "optional": true,
+            "description": "Oversized text for the `big-wordmark` layout."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "brand",
+      "copyright",
+      "groups",
+      "layout",
+      "legal",
+      "newsletter",
+      "social",
+      "themeToggle",
+      "variant",
+      "wordmark"
+    ],
+    "sourceFile": "packages/ui/src/components/footer-block.tsx"
+  },
+  "generate-button": {
+    "primaryPropsType": "GenerateButtonProps",
+    "propsTypes": [
+      {
+        "name": "GenerateButtonProps",
+        "fields": [
+          {
+            "name": "children",
+            "type": "React.ReactElement",
+            "optional": true,
+            "description": "With `asChild`, pass the element to render, for example an anchor."
+          },
+          {
+            "name": "defaultGenerating",
+            "type": "boolean",
+            "optional": true,
+            "description": "Initial generating state when uncontrolled.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "generatingLabel",
+            "type": "string",
+            "optional": true,
+            "description": "Label shown (and announced) while generating.",
+            "defaultValue": "\"Generating\""
+          },
+          {
+            "name": "hue",
+            "type": "number",
+            "optional": true,
+            "description": "Highlight hue, 0 to 360. Defaults to a violet-blue."
+          },
+          {
+            "name": "isGenerating",
+            "type": "boolean",
+            "optional": true,
+            "description": "Controlled generating state."
+          },
+          {
+            "name": "label",
+            "type": "string",
+            "optional": true,
+            "description": "Idle label.",
+            "defaultValue": "\"Generate\""
+          },
+          {
+            "name": "leadingIcon",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Icon before the label. Defaults to a sparkle."
+          },
+          {
+            "name": "loading",
+            "type": "boolean",
+            "optional": true,
+            "description": "Submitting state: spinner, aria-busy and a disabled button (separate from the generating glow).",
+            "defaultValue": "false"
+          },
+          {
+            "name": "onGeneratingChange",
+            "type": "(generating: boolean) => void",
+            "optional": true,
+            "description": "Called with the requested next state when the button is activated."
+          },
+          {
+            "name": "size",
+            "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"icon\"",
+            "optional": true,
+            "description": "Variant option from generateButtonVariants.",
+            "defaultValue": "\"md\""
+          },
+          {
+            "name": "trailingIcon",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Icon after the label."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "children",
+      "defaultGenerating",
+      "generatingLabel",
+      "hue",
+      "isGenerating",
+      "label",
+      "leadingIcon",
+      "loading",
+      "onGeneratingChange",
+      "size",
+      "trailingIcon"
+    ],
+    "sourceFile": "packages/ui/src/components/generate-button.tsx"
+  },
   "glass-breadcrumb": {
     "primaryPropsType": "GlassBreadcrumbProps",
     "propsTypes": [
@@ -1346,6 +3453,12 @@ export const generatedApiMetadata = {
             "optional": true,
             "description": "Separator character",
             "defaultValue": "\"/\""
+          },
+          {
+            "name": "variant",
+            "type": "PanelVariantProp",
+            "optional": true,
+            "description": "Surface look. Glass by default (its identity, with a readable opacity floor). Pass `glinr`, `plain`, `solid`, `soft`, `outline`, `ghost` or `gradient` for a crisp trail."
           }
         ]
       }
@@ -1353,7 +3466,8 @@ export const generatedApiMetadata = {
     "explicitProps": [
       "items",
       "maxItems",
-      "separator"
+      "separator",
+      "variant"
     ],
     "sourceFile": "packages/ui/src/components/glass-breadcrumb.tsx"
   },
@@ -1364,17 +3478,17 @@ export const generatedApiMetadata = {
         "name": "GlassCardProps",
         "fields": [
           {
-            "name": "size",
-            "type": "\"sm\" | \"md\" | \"lg\"",
+            "name": "hoverLift",
+            "type": "boolean",
             "optional": true,
-            "description": "Variant option from glassCardVariants.",
-            "defaultValue": "\"md\""
+            "description": "Lift on hover. Default true.",
+            "defaultValue": "true"
           }
         ]
       }
     ],
     "explicitProps": [
-      "size"
+      "hoverLift"
     ],
     "sourceFile": "packages/ui/src/components/glass-card.tsx"
   },
@@ -1417,6 +3531,12 @@ export const generatedApiMetadata = {
             "optional": true,
             "description": "Position",
             "defaultValue": "\"bottom\""
+          },
+          {
+            "name": "variant",
+            "type": "PanelVariantProp",
+            "optional": true,
+            "description": "Surface look. Glass by default (its identity, with a readable opacity floor). Pass `glinr`, `plain`, `solid`, `soft`, `outline`, `ghost` or `gradient` for a crisp dock."
           }
         ]
       }
@@ -1426,7 +3546,8 @@ export const generatedApiMetadata = {
       "iconSize",
       "items",
       "magnification",
-      "position"
+      "position",
+      "variant"
     ],
     "sourceFile": "packages/ui/src/components/glass-dock.tsx"
   },
@@ -1459,6 +3580,12 @@ export const generatedApiMetadata = {
             "optional": true,
             "description": "Variant option from glassNavbarVariants.",
             "defaultValue": "\"md\""
+          },
+          {
+            "name": "variant",
+            "type": "PanelVariantProp",
+            "optional": true,
+            "description": "Surface look. The navbar is glass by default (its identity, with readable opacity floors so it stays legible on any backdrop). Pass `glinr`, `plain`, `solid`, `soft`, `outline`, `ghost` or `gradient` for a crisp bar. Glass needs content scrolling underneath to look frosted."
           }
         ]
       }
@@ -1467,7 +3594,8 @@ export const generatedApiMetadata = {
       "disableScrollTracking",
       "elevation",
       "scrollThreshold",
-      "size"
+      "size",
+      "variant"
     ],
     "sourceFile": "packages/ui/src/components/glass-navbar.tsx"
   },
@@ -1476,50 +3604,122 @@ export const generatedApiMetadata = {
     "propsTypes": [
       {
         "name": "GlassToggleProps",
+        "fields": []
+      }
+    ],
+    "explicitProps": [],
+    "sourceFile": "packages/ui/src/components/glass-toggle.tsx"
+  },
+  "glin-provider": {
+    "primaryPropsType": "GlinProviderProps",
+    "propsTypes": [
+      {
+        "name": "GlinProviderProps",
         "fields": [
           {
-            "name": "activeColor",
+            "name": "children",
+            "type": "React.ReactNode",
+            "optional": true
+          },
+          {
+            "name": "className",
+            "type": "string",
+            "optional": true
+          },
+          {
+            "name": "defaults",
+            "type": "Partial<GlinConfig>",
+            "optional": true,
+            "description": "Initial values. Anything missing falls back to DEFAULT_GLIN_CONFIG."
+          },
+          {
+            "name": "onConfigChange",
+            "type": "(config: GlinConfig) => void",
+            "optional": true
+          },
+          {
+            "name": "storageKey",
             "type": "string",
             "optional": true,
-            "description": "Color when checked"
+            "description": "localStorage key. When set, the config is persisted and restored after mount."
           },
           {
-            "name": "checked",
-            "type": "boolean",
+            "name": "target",
+            "type": "GlinTarget",
             "optional": true,
-            "description": "Controlled checked state"
-          },
-          {
-            "name": "defaultChecked",
-            "type": "boolean",
-            "optional": true,
-            "description": "Default checked state",
-            "defaultValue": "false"
-          },
-          {
-            "name": "onCheckedChange",
-            "type": "(checked: boolean) => void",
-            "optional": true,
-            "description": "Callback when toggle state changes"
-          },
-          {
-            "name": "size",
-            "type": "\"sm\" | \"md\" | \"lg\"",
-            "optional": true,
-            "description": "Size variant",
-            "defaultValue": "\"md\""
+            "description": "Where data attributes are written. \"document\" lets portals inherit.",
+            "defaultValue": "\"self\""
           }
         ]
       }
     ],
     "explicitProps": [
-      "activeColor",
-      "checked",
-      "defaultChecked",
-      "onCheckedChange",
-      "size"
+      "children",
+      "className",
+      "defaults",
+      "onConfigChange",
+      "storageKey",
+      "target"
     ],
-    "sourceFile": "packages/ui/src/components/glass-toggle.tsx"
+    "sourceFile": "packages/ui/src/components/glin-provider.tsx"
+  },
+  "glin-theme": {
+    "primaryPropsType": "ThemeScopeProps",
+    "propsTypes": [
+      {
+        "name": "ThemeScopeProps",
+        "fields": [
+          {
+            "name": "asChild",
+            "type": "boolean",
+            "optional": true,
+            "description": "Render onto the child element instead of a div.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "base",
+            "type": "ThemeScopeBase",
+            "optional": true,
+            "description": "Base color (neutral scale) for this subtree. Omit to inherit."
+          },
+          {
+            "name": "fill",
+            "type": "boolean",
+            "optional": true,
+            "description": "Paint the scope's page background so it reads as a section.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "luminance",
+            "type": "ThemeScopeLuminance",
+            "optional": true,
+            "description": "Backdrop brightness hint for glass: tunes opacity floors and borders."
+          },
+          {
+            "name": "surface",
+            "type": "ThemeScopeSurface",
+            "optional": true,
+            "description": "Default surface look for descendants that read `--glin-surface`."
+          },
+          {
+            "name": "theme",
+            "type": "ThemeScopeTheme",
+            "optional": true,
+            "description": "Force a theme for this subtree. `inherit` adds no theme attribute.",
+            "defaultValue": "\"inherit\""
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "asChild",
+      "base",
+      "fill",
+      "luminance",
+      "surface",
+      "theme"
+    ],
+    "sourceFile": "packages/ui/src/components/glin-theme.tsx"
   },
   "glow-border": {
     "primaryPropsType": "GlowBorderProps",
@@ -1554,6 +3754,12 @@ export const generatedApiMetadata = {
             "optional": true,
             "description": "Glow spread in px",
             "defaultValue": "2"
+          },
+          {
+            "name": "variant",
+            "type": "SurfaceVariant | \"default\" | null",
+            "optional": true,
+            "description": "Face inside the glow. Omitted follows the ambient style (glinr by default). `glass` is opt-in."
           }
         ]
       }
@@ -1562,9 +3768,94 @@ export const generatedApiMetadata = {
       "borderRadius",
       "duration",
       "glowColor",
-      "glowSize"
+      "glowSize",
+      "variant"
     ],
     "sourceFile": "packages/ui/src/components/glow-border.tsx"
+  },
+  "gooey-text-reveal": {
+    "primaryPropsType": "GooeyTextRevealProps",
+    "propsTypes": [
+      {
+        "name": "GooeyTextRevealProps",
+        "fields": [
+          {
+            "name": "as",
+            "type": "GooeyTag",
+            "optional": true,
+            "description": "Element to render.",
+            "defaultValue": "\"h2\""
+          },
+          {
+            "name": "blur",
+            "type": "number",
+            "optional": true,
+            "description": "Blur radius in pixels at the start of a reveal. Larger values give fatter blobs.",
+            "defaultValue": "12"
+          },
+          {
+            "name": "duration",
+            "type": "number",
+            "optional": true,
+            "description": "Duration of one word reveal or one morph in milliseconds.",
+            "defaultValue": "900"
+          },
+          {
+            "name": "hold",
+            "type": "number",
+            "optional": true,
+            "description": "Time each phrase rests before the next morph, in milliseconds (morph mode).",
+            "defaultValue": "2200"
+          },
+          {
+            "name": "once",
+            "type": "boolean",
+            "optional": true,
+            "description": "Reveal once (true) or replay every time the text re-enters the viewport (reveal mode, trigger view).",
+            "defaultValue": "true"
+          },
+          {
+            "name": "stagger",
+            "type": "number",
+            "optional": true,
+            "description": "Delay between words in milliseconds (reveal mode).",
+            "defaultValue": "90"
+          },
+          {
+            "name": "text",
+            "type": "string | string[]",
+            "optional": false,
+            "description": "A string reveals word by word with a liquid edge. An array of two or more strings morphs from one to the next in a loop, like a droplet changing shape."
+          },
+          {
+            "name": "trigger",
+            "type": "\"mount\" | \"view\"",
+            "optional": true,
+            "description": "Start on mount or when scrolled into view (reveal mode).",
+            "defaultValue": "\"view\""
+          },
+          {
+            "name": "variant",
+            "type": "\"default\" | \"plain\" | \"glass\"",
+            "optional": true,
+            "description": "Variant option from gooeyTextRevealVariants.",
+            "defaultValue": "\"default\""
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "as",
+      "blur",
+      "duration",
+      "hold",
+      "once",
+      "stagger",
+      "text",
+      "trigger",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/gooey-text-reveal.tsx"
   },
   "gradient-mesh": {
     "primaryPropsType": "GradientMeshProps",
@@ -1583,8 +3874,8 @@ export const generatedApiMetadata = {
             "name": "colors",
             "type": "string[]",
             "optional": true,
-            "description": "Gradient color stops",
-            "defaultValue": "[\"#a855f7\", \"#ec4899\", \"#6366f1\", \"#06b6d4\"]"
+            "description": "Gradient color stops. Defaults come from theme tokens.",
+            "defaultValue": "[\"var(--color-accent)\", \"var(--tone-danger)\", \"var(--tone-info)\", \"var(--gradient-to)\"]"
           },
           {
             "name": "duration",
@@ -1611,6 +3902,153 @@ export const generatedApiMetadata = {
     ],
     "sourceFile": "packages/ui/src/components/gradient-mesh.tsx"
   },
+  "gradient-text": {
+    "primaryPropsType": "GradientTextProps",
+    "propsTypes": [
+      {
+        "name": "GradientTextProps",
+        "fields": [
+          {
+            "name": "badge",
+            "type": "boolean",
+            "optional": true,
+            "description": "Wrap the text in a pill badge. `variant` styles the pill surface.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "effect",
+            "type": "\"flow\" | \"shine\"",
+            "optional": true,
+            "description": "`flow` slides a looping two color gradient, `shine` sweeps a glint over muted text.",
+            "defaultValue": "\"flow\""
+          },
+          {
+            "name": "from",
+            "type": "string",
+            "optional": true,
+            "description": "Gradient start color (flow) or text color (shine). Any CSS color, defaults to Glin tokens."
+          },
+          {
+            "name": "speed",
+            "type": "number",
+            "optional": true,
+            "description": "Animation speed multiplier. 1 is a 6 second loop for flow, 3 seconds for shine.",
+            "defaultValue": "1"
+          },
+          {
+            "name": "to",
+            "type": "string",
+            "optional": true,
+            "description": "Gradient end color (flow) or glint color (shine)."
+          },
+          {
+            "name": "variant",
+            "type": "SurfaceVariant | \"default\"",
+            "optional": true,
+            "description": "Badge surface (with `badge`). Omit for the ambient design style (glinr by default). Vocabulary: glinr, solid, plain, soft, outline, ghost, gradient, glass."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "badge",
+      "effect",
+      "from",
+      "speed",
+      "to",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/gradient-text.tsx"
+  },
+  "grid-pattern": {
+    "primaryPropsType": "GridPatternProps",
+    "propsTypes": [
+      {
+        "name": "GridPatternProps",
+        "fields": [
+          {
+            "name": "fade",
+            "type": "\"none\" | \"radial\" | \"top\" | \"bottom\"",
+            "optional": true,
+            "description": "Variant option from gridPatternVariants.",
+            "defaultValue": "\"none\""
+          },
+          {
+            "name": "height",
+            "type": "number",
+            "optional": true,
+            "description": "Cell height in px.",
+            "defaultValue": "40"
+          },
+          {
+            "name": "interactive",
+            "type": "boolean",
+            "optional": true,
+            "description": "Cells light up on hover (CSS only). Content above the pattern will block pointer events.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "squareColor",
+            "type": "string",
+            "optional": true,
+            "description": "Fill of highlighted and hovered cells. Defaults to the accent token.",
+            "defaultValue": "\"var(--color-accent)\""
+          },
+          {
+            "name": "squares",
+            "type": "GridPatternSquare[]",
+            "optional": true,
+            "description": "Highlighted cells as [column, row] pairs."
+          },
+          {
+            "name": "strokeDasharray",
+            "type": "string",
+            "optional": true,
+            "defaultValue": "\"0\""
+          },
+          {
+            "name": "variant",
+            "type": "\"grid\" | \"stripes\"",
+            "optional": true,
+            "description": "Variant option from gridPatternVariants.",
+            "defaultValue": "\"grid\""
+          },
+          {
+            "name": "width",
+            "type": "number",
+            "optional": true,
+            "description": "Cell width in px.",
+            "defaultValue": "40"
+          },
+          {
+            "name": "x",
+            "type": "number",
+            "optional": true,
+            "defaultValue": "-1"
+          },
+          {
+            "name": "y",
+            "type": "number",
+            "optional": true,
+            "defaultValue": "-1"
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "fade",
+      "height",
+      "interactive",
+      "squareColor",
+      "squares",
+      "strokeDasharray",
+      "variant",
+      "width",
+      "x",
+      "y"
+    ],
+    "sourceFile": "packages/ui/src/components/grid-pattern.tsx"
+  },
   "heading": {
     "primaryPropsType": "HeadingProps",
     "propsTypes": [
@@ -1625,7 +4063,7 @@ export const generatedApiMetadata = {
           },
           {
             "name": "size",
-            "type": "\"sm\" | \"md\" | \"lg\"",
+            "type": "\"sm\" | \"md\" | \"lg\" | \"display\" | \"h2\" | \"h3\"",
             "optional": true,
             "description": "Variant option from headingVariants.",
             "defaultValue": "\"md\""
@@ -1647,12 +4085,163 @@ export const generatedApiMetadata = {
     ],
     "sourceFile": "packages/ui/src/components/heading.tsx"
   },
+  "hero-section": {
+    "primaryPropsType": "HeroSectionProps",
+    "propsTypes": [
+      {
+        "name": "HeroSectionProps",
+        "fields": [
+          {
+            "name": "announcement",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Small pill above the headline. A string gets a dot, a node is rendered as given."
+          },
+          {
+            "name": "announcementHref",
+            "type": "string",
+            "optional": true,
+            "description": "Link target for the announcement pill."
+          },
+          {
+            "name": "background",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Decorative layer behind the content (AuroraBackground, GridPattern, a gradient). Hidden from assistive tech."
+          },
+          {
+            "name": "description",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Lede paragraph under the headline."
+          },
+          {
+            "name": "entrance",
+            "type": "boolean",
+            "optional": true,
+            "description": "Entrance reveal of the copy. Follows the motion level; none at level none. Default true.",
+            "defaultValue": "true"
+          },
+          {
+            "name": "headingLevel",
+            "type": "1 | 2",
+            "optional": true,
+            "description": "Heading level of the headline. Default 1.",
+            "defaultValue": "1"
+          },
+          {
+            "name": "layout",
+            "type": "\"centered\" | \"split\" | \"stacked-media\"",
+            "optional": true,
+            "description": "Variant option from contentVariants.",
+            "defaultValue": "\"centered\""
+          },
+          {
+            "name": "logos",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Optional strip under the actions (a LogoCloud, avatars, a rating line)."
+          },
+          {
+            "name": "media",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Media slot: end column for `split`, below the copy for `stacked-media`."
+          },
+          {
+            "name": "primaryAction",
+            "type": "HeroAction",
+            "optional": true
+          },
+          {
+            "name": "secondaryAction",
+            "type": "HeroAction",
+            "optional": true
+          },
+          {
+            "name": "title",
+            "type": "React.ReactNode",
+            "optional": false,
+            "description": "Headline, rendered as the page level heading."
+          },
+          {
+            "name": "variant",
+            "type": "BlockLook | \"default\" | null",
+            "optional": true,
+            "description": "Block shell. Omit for the ambient style: glinr (open canvas), plain, or glass panel."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "announcement",
+      "announcementHref",
+      "background",
+      "description",
+      "entrance",
+      "headingLevel",
+      "layout",
+      "logos",
+      "media",
+      "primaryAction",
+      "secondaryAction",
+      "title",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/hero-section.tsx"
+  },
+  "highlight-grid": {
+    "primaryPropsType": "HighlightGridProps",
+    "propsTypes": [
+      {
+        "name": "HighlightGridProps",
+        "fields": [
+          {
+            "name": "cellRenderer",
+            "type": "(cell: HighlightGridCell, state: HighlightGridCellState) => React.ReactNode",
+            "optional": true
+          },
+          {
+            "name": "cells",
+            "type": "HighlightGridCell[]",
+            "optional": false
+          },
+          {
+            "name": "columns",
+            "type": "1 | 2 | 3 | 4 | 5 | 6",
+            "optional": true,
+            "description": "Columns from the lg breakpoint up. Narrow screens use 1 or 2.",
+            "defaultValue": "3"
+          },
+          {
+            "name": "variant",
+            "type": "HighlightGridVariant",
+            "optional": true,
+            "description": "Highlight panel look. `glinr` is an accent wash with a soft border, `plain` a neutral wash, `glass` a blurred sheet."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "cellRenderer",
+      "cells",
+      "columns",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/highlight-grid.tsx"
+  },
   "hover-card": {
     "primaryPropsType": "HoverCardProps",
     "propsTypes": [
       {
         "name": "HoverCardContentProps",
         "fields": [
+          {
+            "name": "container",
+            "type": "HTMLElement | null",
+            "optional": true,
+            "description": "Element to portal into. Defaults to document.body."
+          },
           {
             "name": "side",
             "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
@@ -1675,10 +4264,9 @@ export const generatedApiMetadata = {
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"outline\" | \"ghost\"",
+            "type": "PanelVariantProp",
             "optional": true,
-            "description": "Variant option from hoverCardContentVariants.",
-            "defaultValue": "\"glass\""
+            "description": "Surface look. Omit for the ambient design style (glinr by default). `glass` is opt-in and needs a rich backdrop."
           }
         ]
       },
@@ -1704,6 +4292,7 @@ export const generatedApiMetadata = {
     ],
     "explicitProps": [
       "closeDelay",
+      "container",
       "openDelay",
       "side",
       "sideOffset",
@@ -1711,6 +4300,96 @@ export const generatedApiMetadata = {
       "variant"
     ],
     "sourceFile": "packages/ui/src/components/hover-card.tsx"
+  },
+  "hyper-text": {
+    "primaryPropsType": "HyperTextProps",
+    "propsTypes": [
+      {
+        "name": "HyperTextProps",
+        "fields": [
+          {
+            "name": "as",
+            "type": "HyperTextTag",
+            "optional": true,
+            "description": "Element to render.",
+            "defaultValue": "\"div\""
+          },
+          {
+            "name": "characterSet",
+            "type": "string | readonly string[]",
+            "optional": true,
+            "description": "Characters used while scrambling. Defaults to A to Z.",
+            "defaultValue": "DEFAULT_CHARACTER_SET"
+          },
+          {
+            "name": "children",
+            "type": "string",
+            "optional": false,
+            "description": "The text to reveal."
+          },
+          {
+            "name": "delay",
+            "type": "number",
+            "optional": true,
+            "description": "Delay before an automatic run (view or mount) in milliseconds.",
+            "defaultValue": "0"
+          },
+          {
+            "name": "duration",
+            "type": "number",
+            "optional": true,
+            "description": "Scramble length in milliseconds.",
+            "defaultValue": "800"
+          },
+          {
+            "name": "engine",
+            "type": "EngineName",
+            "optional": true,
+            "description": "Engine override: `css` (default), `motion`, `gsap` or a registered custom engine."
+          },
+          {
+            "name": "focusable",
+            "type": "boolean",
+            "optional": true,
+            "description": "Make the element tabbable so keyboard users can trigger the hover effect.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "motion",
+            "type": "MotionLevel",
+            "optional": true,
+            "description": "Motion override. `none` renders the static final state, `subtle` is opacity only."
+          },
+          {
+            "name": "tabular",
+            "type": "boolean",
+            "optional": true,
+            "description": "Render every glyph in a one character wide cell so the line never changes width.",
+            "defaultValue": "true"
+          },
+          {
+            "name": "trigger",
+            "type": "HyperTextTrigger",
+            "optional": true,
+            "description": "When the scramble runs: pointer or keyboard focus, once in view, or once on mount.",
+            "defaultValue": "\"hover\""
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "as",
+      "characterSet",
+      "children",
+      "delay",
+      "duration",
+      "engine",
+      "focusable",
+      "motion",
+      "tabular",
+      "trigger"
+    ],
+    "sourceFile": "packages/ui/src/components/hyper-text.tsx"
   },
   "icon-frame": {
     "primaryPropsType": "IconFrameProps",
@@ -1726,20 +4405,277 @@ export const generatedApiMetadata = {
             "defaultValue": "\"md\""
           },
           {
-            "name": "variant",
-            "type": "\"default\" | \"glass\" | \"outline\" | \"ghost\"",
+            "name": "tone",
+            "type": "SurfaceTone",
             "optional": true,
-            "description": "Variant option from iconFrameVariants.",
-            "defaultValue": "\"default\""
+            "description": "Tone for the icon color and tinted looks.",
+            "defaultValue": "\"neutral\""
+          },
+          {
+            "name": "variant",
+            "type": "IconFrameVariant | null",
+            "optional": true,
+            "description": "Omitted follows the ambient style (glinr by default). `glass` is opt-in and needs a backdrop."
           }
         ]
       }
     ],
     "explicitProps": [
       "size",
+      "tone",
       "variant"
     ],
     "sourceFile": "packages/ui/src/components/icon-frame.tsx"
+  },
+  "image-comparison": {
+    "primaryPropsType": "ImageComparisonProps",
+    "propsTypes": [
+      {
+        "name": "ImageComparisonProps",
+        "fields": [
+          {
+            "name": "after",
+            "type": "React.ReactNode",
+            "optional": false,
+            "description": "Layer shown behind, revealed past the handle. Any ReactNode."
+          },
+          {
+            "name": "afterLabel",
+            "type": "string",
+            "optional": true,
+            "defaultValue": "\"After\""
+          },
+          {
+            "name": "before",
+            "type": "React.ReactNode",
+            "optional": false,
+            "description": "Layer shown from the start edge up to the handle. Any ReactNode."
+          },
+          {
+            "name": "beforeLabel",
+            "type": "string",
+            "optional": true,
+            "defaultValue": "\"Before\""
+          },
+          {
+            "name": "defaultValue",
+            "type": "number",
+            "optional": true,
+            "defaultValue": "50"
+          },
+          {
+            "name": "hover",
+            "type": "boolean",
+            "optional": true,
+            "description": "Follow a fine pointer without pressing. Touch still drags.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "label",
+            "type": "string",
+            "optional": true,
+            "description": "Accessible name of the slider handle.",
+            "defaultValue": "\"Comparison position\""
+          },
+          {
+            "name": "onValueChange",
+            "type": "(value: number) => void",
+            "optional": true
+          },
+          {
+            "name": "orientation",
+            "type": "\"horizontal\" | \"vertical\"",
+            "optional": true,
+            "defaultValue": "\"horizontal\""
+          },
+          {
+            "name": "showLabels",
+            "type": "boolean",
+            "optional": true,
+            "description": "Show the visible Before and After chips.",
+            "defaultValue": "true"
+          },
+          {
+            "name": "step",
+            "type": "number",
+            "optional": true,
+            "description": "Arrow key step in percent. Shift or Page keys move 5 steps.",
+            "defaultValue": "2"
+          },
+          {
+            "name": "value",
+            "type": "number",
+            "optional": true,
+            "description": "Handle position, 0 to 100 (percent of the before layer shown)."
+          },
+          {
+            "name": "variant",
+            "type": "SurfaceVariant | \"default\"",
+            "optional": true
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "after",
+      "afterLabel",
+      "before",
+      "beforeLabel",
+      "defaultValue",
+      "hover",
+      "label",
+      "onValueChange",
+      "orientation",
+      "showLabels",
+      "step",
+      "value",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/image-comparison.tsx"
+  },
+  "input-group": {
+    "primaryPropsType": "InputGroupProps",
+    "propsTypes": [
+      {
+        "name": "InputGroupAddonProps",
+        "fields": [
+          {
+            "name": "align",
+            "type": "\"inline-start\" | \"inline-end\" | \"block-start\" | \"block-end\"",
+            "optional": true,
+            "description": "Variant option from inputGroupAddonVariants.",
+            "defaultValue": "\"inline-start\""
+          }
+        ]
+      },
+      {
+        "name": "InputGroupButtonProps",
+        "fields": [
+          {
+            "name": "size",
+            "type": "\"xs\" | \"sm\"",
+            "optional": true,
+            "defaultValue": "\"xs\""
+          }
+        ]
+      },
+      {
+        "name": "InputGroupProps",
+        "fields": [
+          {
+            "name": "size",
+            "type": "\"sm\" | \"md\" | \"lg\"",
+            "optional": true,
+            "description": "Variant option from inputGroupSizeVariants.",
+            "defaultValue": "\"xs\""
+          },
+          {
+            "name": "variant",
+            "type": "ControlVariantProp",
+            "optional": true,
+            "description": "Surface look, shared with Input. Omit to follow the ambient design style (glinr = inset well). The group owns the surface; the control inside stays transparent so radii stay concentric.",
+            "defaultValue": "\"ghost\""
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "align",
+      "size",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/input-group.tsx"
+  },
+  "input-otp": {
+    "primaryPropsType": "InputOTPProps",
+    "propsTypes": [
+      {
+        "name": "InputOTPProps",
+        "fields": [
+          {
+            "name": "containerClassName",
+            "type": "string",
+            "optional": true,
+            "description": "Class for the outer container."
+          },
+          {
+            "name": "defaultValue",
+            "type": "string",
+            "optional": true,
+            "description": "Initial value for uncontrolled usage.",
+            "defaultValue": "\"\""
+          },
+          {
+            "name": "maxLength",
+            "type": "number",
+            "optional": false,
+            "description": "Number of characters. Required."
+          },
+          {
+            "name": "onChange",
+            "type": "(value: string) => void",
+            "optional": true,
+            "description": "Fires with the new value on every accepted change."
+          },
+          {
+            "name": "onComplete",
+            "type": "(value: string) => void",
+            "optional": true,
+            "description": "Fires once when the value reaches maxLength."
+          },
+          {
+            "name": "pattern",
+            "type": "string",
+            "optional": true,
+            "description": "Regular expression source the whole value must match, e.g. REGEXP_ONLY_DIGITS.",
+            "defaultValue": "REGEXP_ONLY_DIGITS"
+          },
+          {
+            "name": "size",
+            "type": "\"sm\" | \"md\" | \"lg\"",
+            "optional": true,
+            "description": "Variant option from inputOTPSlotVariants.",
+            "defaultValue": "\"md\""
+          },
+          {
+            "name": "value",
+            "type": "string",
+            "optional": true,
+            "description": "Controlled value."
+          },
+          {
+            "name": "variant",
+            "type": "ControlVariantProp",
+            "optional": true,
+            "description": "Surface look of the slots. Omit to follow the ambient design style. Same vocabulary as Input."
+          }
+        ]
+      },
+      {
+        "name": "InputOTPSlotProps",
+        "fields": [
+          {
+            "name": "index",
+            "type": "number",
+            "optional": false,
+            "description": "Zero-based position this slot renders."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "containerClassName",
+      "defaultValue",
+      "index",
+      "maxLength",
+      "onChange",
+      "onComplete",
+      "pattern",
+      "size",
+      "value",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/input-otp.tsx"
   },
   "input": {
     "primaryPropsType": "InputProps",
@@ -1749,17 +4685,16 @@ export const generatedApiMetadata = {
         "fields": [
           {
             "name": "size",
-            "type": "\"sm\" | \"md\" | \"lg\"",
+            "type": "unknown",
             "optional": true,
-            "description": "Variant option from inputVariants.",
+            "description": "Variant option from inputSizeVariants.",
             "defaultValue": "\"md\""
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"frosted\" | \"liquid\" | \"matte\" | \"outline\" | \"ghost\" | \"underline\" | \"filled\"",
+            "type": "ControlVariantProp",
             "optional": true,
-            "description": "Variant option from inputVariants.",
-            "defaultValue": "\"default\""
+            "description": "Surface look. Omit to follow the ambient design style (glinr = inset well, minimal = plain). Also: solid, plain, soft, outline, ghost, glass (opt-in, needs a backdrop), plus the legacy liquid, matte, frosted, underline, filled."
           }
         ]
       }
@@ -1770,6 +4705,179 @@ export const generatedApiMetadata = {
     ],
     "sourceFile": "packages/ui/src/components/input.tsx"
   },
+  "install-command": {
+    "primaryPropsType": "InstallCommandProps",
+    "propsTypes": [
+      {
+        "name": "InstallCommandProps",
+        "fields": [
+          {
+            "name": "commands",
+            "type": "Record<string, string>",
+            "optional": true,
+            "description": "Custom tab label to full command map. Keys become the tabs, in insertion order."
+          },
+          {
+            "name": "defaultValue",
+            "type": "string",
+            "optional": true,
+            "description": "Initial tab when uncontrolled. Defaults to the first tab."
+          },
+          {
+            "name": "onCopy",
+            "type": "(command: string, tab: string) => void",
+            "optional": true,
+            "description": "Called after a successful copy with the copied command (without the `$`)."
+          },
+          {
+            "name": "onValueChange",
+            "type": "(value: string) => void",
+            "optional": true,
+            "description": "Called when the tab changes."
+          },
+          {
+            "name": "packageName",
+            "type": "string",
+            "optional": true,
+            "description": "Package name(s); builds npm / pnpm / yarn / bun commands. Ignored when `commands` is set.",
+            "defaultValue": "\"@glinui/ui\""
+          },
+          {
+            "name": "tabsLabel",
+            "type": "string",
+            "optional": true,
+            "description": "Accessible name of the tab list.",
+            "defaultValue": "\"Package manager\""
+          },
+          {
+            "name": "title",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Header title."
+          },
+          {
+            "name": "value",
+            "type": "string",
+            "optional": true,
+            "description": "Controlled active tab."
+          },
+          {
+            "name": "variant",
+            "type": "CodePanelProps[\"variant\"]",
+            "optional": true,
+            "description": "Surface variant of the underlying CodePanel. Omit for the ambient design style (glinr canonical, plain flat block, glass opt-in)."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "commands",
+      "defaultValue",
+      "onCopy",
+      "onValueChange",
+      "packageName",
+      "tabsLabel",
+      "title",
+      "value",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/install-command.tsx"
+  },
+  "interactive-hover-button": {
+    "primaryPropsType": "InteractiveHoverButtonProps",
+    "propsTypes": [
+      {
+        "name": "InteractiveHoverButtonProps",
+        "fields": [
+          {
+            "name": "leadingIcon",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Icon before the label (decorative)."
+          },
+          {
+            "name": "loading",
+            "type": "boolean",
+            "optional": true,
+            "description": "Show a spinner, set aria-busy and block interaction.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "size",
+            "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"icon\"",
+            "optional": true,
+            "description": "Variant option from interactiveHoverButtonVariants.",
+            "defaultValue": "\"md\""
+          },
+          {
+            "name": "trailingIcon",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Icon after the label. Defaults to an arrow that mirrors in RTL on the hover face."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "leadingIcon",
+      "loading",
+      "size",
+      "trailingIcon"
+    ],
+    "sourceFile": "packages/ui/src/components/interactive-hover-button.tsx"
+  },
+  "item": {
+    "primaryPropsType": "ItemProps",
+    "propsTypes": [
+      {
+        "name": "ItemMediaProps",
+        "fields": [
+          {
+            "name": "variant",
+            "type": "\"default\" | \"icon\" | \"image\"",
+            "optional": true,
+            "description": "Variant option from itemMediaVariants.",
+            "defaultValue": "\"default\""
+          }
+        ]
+      },
+      {
+        "name": "ItemProps",
+        "fields": [
+          {
+            "name": "asChild",
+            "type": "boolean",
+            "optional": true,
+            "description": "Render as the child element (e.g. a link) instead of a div.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "size",
+            "type": "\"default\" | \"sm\"",
+            "optional": true
+          },
+          {
+            "name": "tone",
+            "type": "SurfaceTone",
+            "optional": true
+          },
+          {
+            "name": "variant",
+            "type": "SurfaceVariant | \"muted\" | \"default\" | \"raised\" | \"frosted\"",
+            "optional": true,
+            "description": "Visual variant. Omit for the ambient design style (glinr: lift shell; plain: shadcn bordered row). Vocabulary: glinr, solid, plain, soft, outline, ghost, gradient, glass. `muted` is an alias of soft."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "asChild",
+      "size",
+      "tone",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/item.tsx"
+  },
   "kbd": {
     "primaryPropsType": "KbdProps",
     "propsTypes": [
@@ -1779,22 +4887,25 @@ export const generatedApiMetadata = {
           {
             "name": "size",
             "type": "\"sm\" | \"md\" | \"lg\"",
-            "optional": true,
-            "description": "Variant option from kbdVariants.",
-            "defaultValue": "\"md\""
+            "optional": true
+          },
+          {
+            "name": "tone",
+            "type": "SurfaceTone",
+            "optional": true
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"outline\" | \"ghost\"",
+            "type": "SurfaceVariant | \"default\" | \"primary\" | \"secondary\" | \"destructive\" | \"success\" | \"warning\" | \"info\" | \"raised\" | \"frosted\"",
             "optional": true,
-            "description": "Variant option from kbdVariants.",
-            "defaultValue": "\"default\""
+            "description": "Visual variant. Omit for the ambient design style (glinr: tactile raised key)."
           }
         ]
       }
     ],
     "explicitProps": [
       "size",
+      "tone",
       "variant"
     ],
     "sourceFile": "packages/ui/src/components/kbd.tsx"
@@ -1814,10 +4925,9 @@ export const generatedApiMetadata = {
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"outline\" | \"ghost\"",
+            "type": "\"default\" | \"glinr\" | \"plain\" | \"solid\" | \"soft\" | \"outline\" | \"ghost\" | \"glass\" | \"gradient\" | \"frosted\"",
             "optional": true,
-            "description": "Variant option from labelVariants.",
-            "defaultValue": "\"default\""
+            "description": "Chip treatment. Omit (or glinr, plain, default) for a plain text label that adapts to any ambient style. Also: solid, soft, outline, ghost, glass (opt-in)."
           }
         ]
       }
@@ -1845,8 +4955,8 @@ export const generatedApiMetadata = {
             "name": "colors",
             "type": "string[]",
             "optional": true,
-            "description": "Colors for the light leaks",
-            "defaultValue": "[\"#f97316\", \"#eab308\", \"#f43f5e\"]"
+            "description": "Colors for the light leaks. Defaults come from theme tokens.",
+            "defaultValue": "[\"var(--tone-warning)\", \"var(--tone-danger)\", \"var(--color-accent)\"]"
           },
           {
             "name": "count",
@@ -1881,12 +4991,95 @@ export const generatedApiMetadata = {
     ],
     "sourceFile": "packages/ui/src/components/light-leak.tsx"
   },
+  "light-rays": {
+    "primaryPropsType": "LightRaysProps",
+    "propsTypes": [
+      {
+        "name": "LightRaysProps",
+        "fields": [
+          {
+            "name": "blur",
+            "type": "number",
+            "optional": true,
+            "description": "Blur radius in px. Defaults to 24 (soft) or 6 (crisp)."
+          },
+          {
+            "name": "color",
+            "type": "string",
+            "optional": true,
+            "description": "Any CSS color. Defaults to the accent token.",
+            "defaultValue": "\"var(--color-accent)\""
+          },
+          {
+            "name": "count",
+            "type": "number",
+            "optional": true,
+            "description": "Number of rays, capped at 24.",
+            "defaultValue": "7"
+          },
+          {
+            "name": "intensity",
+            "type": "number",
+            "optional": true,
+            "description": "Overall strength from 0 to 1. Keep at or below 0.5 behind text.",
+            "defaultValue": "0.35"
+          },
+          {
+            "name": "length",
+            "type": "string",
+            "optional": true,
+            "description": "CSS length of each ray, for example \"70%\" or \"28rem\".",
+            "defaultValue": "\"120%\""
+          },
+          {
+            "name": "seed",
+            "type": "number",
+            "optional": true,
+            "description": "Seed for the deterministic ray layout.",
+            "defaultValue": "1"
+          },
+          {
+            "name": "speed",
+            "type": "number",
+            "optional": true,
+            "description": "Seconds for one sway cycle.",
+            "defaultValue": "14"
+          },
+          {
+            "name": "variant",
+            "type": "\"soft\" | \"crisp\"",
+            "optional": true,
+            "description": "Variant option from lightRaysVariants.",
+            "defaultValue": "\"soft\""
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "blur",
+      "color",
+      "count",
+      "intensity",
+      "length",
+      "seed",
+      "speed",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/light-rays.tsx"
+  },
   "link": {
     "primaryPropsType": "LinkProps",
     "propsTypes": [
       {
         "name": "LinkProps",
         "fields": [
+          {
+            "name": "hideArrow",
+            "type": "boolean",
+            "optional": true,
+            "description": "Arrow variant only: hide the trailing arrow icon.",
+            "defaultValue": "false"
+          },
           {
             "name": "size",
             "type": "\"sm\" | \"md\" | \"lg\"",
@@ -1903,7 +5096,7 @@ export const generatedApiMetadata = {
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"outline\" | \"ghost\"",
+            "type": "\"default\" | \"glass\" | \"outline\" | \"ghost\" | \"arrow\"",
             "optional": true,
             "description": "Variant option from linkVariants.",
             "defaultValue": "\"default\""
@@ -1912,6 +5105,7 @@ export const generatedApiMetadata = {
       }
     ],
     "explicitProps": [
+      "hideArrow",
       "size",
       "underline",
       "variant"
@@ -1938,6 +5132,122 @@ export const generatedApiMetadata = {
       "intensity"
     ],
     "sourceFile": "packages/ui/src/components/liquid-button.tsx"
+  },
+  "logo-cloud": {
+    "primaryPropsType": "LogoCloudProps",
+    "propsTypes": [
+      {
+        "name": "LogoCloudProps",
+        "fields": [
+          {
+            "name": "fadeEdges",
+            "type": "boolean",
+            "optional": true,
+            "description": "Mask the start and end of the marquee. Default true.",
+            "defaultValue": "true"
+          },
+          {
+            "name": "grayscale",
+            "type": "boolean",
+            "optional": true,
+            "description": "Grayscale until hover or focus. Default true.",
+            "defaultValue": "true"
+          },
+          {
+            "name": "items",
+            "type": "LogoCloudEntry[]",
+            "optional": false
+          },
+          {
+            "name": "layout",
+            "type": "\"grid\" | \"marquee\"",
+            "optional": true,
+            "description": "`grid` is a static responsive list. `marquee` scrolls (static grid under reduced motion).",
+            "defaultValue": "\"grid\""
+          },
+          {
+            "name": "listLabel",
+            "type": "string",
+            "optional": true,
+            "description": "Accessible label of the list. Defaults to \"Trusted by\".",
+            "defaultValue": "\"Trusted by\""
+          },
+          {
+            "name": "speed",
+            "type": "number",
+            "optional": true,
+            "description": "Seconds for one marquee loop.",
+            "defaultValue": "40"
+          },
+          {
+            "name": "title",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Optional line above the logos."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "fadeEdges",
+      "grayscale",
+      "items",
+      "layout",
+      "listLabel",
+      "speed",
+      "title"
+    ],
+    "sourceFile": "packages/ui/src/components/logo-cloud.tsx"
+  },
+  "magic-card": {
+    "primaryPropsType": "MagicCardProps",
+    "propsTypes": [
+      {
+        "name": "MagicCardProps",
+        "fields": [
+          {
+            "name": "autoPlay",
+            "type": "boolean",
+            "optional": true,
+            "description": "Runs a slow looping synthetic pointer so the highlight is visible without hovering (demos, screenshots, touch). Needs motion level full. A real pointer takes over while hovering.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "gradientColor",
+            "type": "string",
+            "optional": true,
+            "description": "Spotlight fill. Defaults to a soft tint of the accent token."
+          },
+          {
+            "name": "gradientFrom",
+            "type": "string",
+            "optional": true,
+            "description": "Border highlight start color. Defaults to the accent token."
+          },
+          {
+            "name": "gradientSize",
+            "type": "number",
+            "optional": true,
+            "description": "Radius in pixels of the spotlight and border highlight.",
+            "defaultValue": "280"
+          },
+          {
+            "name": "gradientTo",
+            "type": "string",
+            "optional": true,
+            "description": "Border highlight end color. Defaults to the signal token."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "autoPlay",
+      "gradientColor",
+      "gradientFrom",
+      "gradientSize",
+      "gradientTo"
+    ],
+    "sourceFile": "packages/ui/src/components/magic-card.tsx"
   },
   "magnetic-cta": {
     "primaryPropsType": "MagneticCTAProps",
@@ -1988,6 +5298,7 @@ export const generatedApiMetadata = {
             "name": "gap",
             "type": "number",
             "optional": true,
+            "description": "Space between items and between loop copies, in px.",
             "defaultValue": "16"
           },
           {
@@ -1995,6 +5306,12 @@ export const generatedApiMetadata = {
             "type": "boolean",
             "optional": true,
             "defaultValue": "false"
+          },
+          {
+            "name": "repeat",
+            "type": "number",
+            "optional": true,
+            "description": "Fixed number of content copies. By default the marquee measures itself and renders just enough copies to fill the container."
           },
           {
             "name": "reverse",
@@ -2006,6 +5323,7 @@ export const generatedApiMetadata = {
             "name": "speed",
             "type": "number",
             "optional": true,
+            "description": "Seconds for one full loop.",
             "defaultValue": "30"
           }
         ]
@@ -2015,10 +5333,202 @@ export const generatedApiMetadata = {
       "direction",
       "gap",
       "pauseOnHover",
+      "repeat",
       "reverse",
       "speed"
     ],
     "sourceFile": "packages/ui/src/components/marquee.tsx"
+  },
+  "menubar": {
+    "primaryPropsType": "MenubarProps",
+    "propsTypes": [
+      {
+        "name": "MenubarContentProps",
+        "fields": [
+          {
+            "name": "variant",
+            "type": "MenubarVariant",
+            "optional": true,
+            "description": "Surface look. Defaults to the bar's variant, then the ambient design style."
+          }
+        ]
+      },
+      {
+        "name": "MenubarProps",
+        "fields": [
+          {
+            "name": "variant",
+            "type": "MenubarVariant",
+            "optional": true,
+            "description": "Surface look of the bar and its menus. Omit for the ambient design style (glinr by default)."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/menubar.tsx"
+  },
+  "message-scroller": {
+    "primaryPropsType": "MessageScrollerProps",
+    "propsTypes": [
+      {
+        "name": "MessageScrollerProps",
+        "fields": [
+          {
+            "name": "jumpLabel",
+            "type": "string",
+            "optional": true,
+            "description": "Label of the jump pill.",
+            "defaultValue": "\"Jump to latest\""
+          },
+          {
+            "name": "label",
+            "type": "string",
+            "optional": true,
+            "description": "Accessible name of the log region.",
+            "defaultValue": "\"Conversation\""
+          },
+          {
+            "name": "onAtBottomChange",
+            "type": "(atBottom: boolean) => void",
+            "optional": true,
+            "description": "Fires when the stuck-to-bottom state flips."
+          },
+          {
+            "name": "threshold",
+            "type": "number",
+            "optional": true,
+            "description": "Distance in px from the bottom that still counts as \"at the bottom\".",
+            "defaultValue": "80"
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "jumpLabel",
+      "label",
+      "onAtBottomChange",
+      "threshold"
+    ],
+    "sourceFile": "packages/ui/src/components/message-scroller.tsx"
+  },
+  "message": {
+    "primaryPropsType": "MessageProps",
+    "propsTypes": [
+      {
+        "name": "MessageActionProps",
+        "fields": [
+          {
+            "name": "label",
+            "type": "string",
+            "optional": false,
+            "description": "Accessible name, also used as the native tooltip.",
+            "defaultValue": "\"Copy message\""
+          },
+          {
+            "name": "pressed",
+            "type": "boolean",
+            "optional": true,
+            "description": "Toggle state for stateful actions such as thumbs up."
+          }
+        ]
+      },
+      {
+        "name": "MessageAvatarProps",
+        "fields": []
+      },
+      {
+        "name": "MessageContentProps",
+        "fields": [
+          {
+            "name": "actions",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Rendered under the bubble, typically `MessageActions`."
+          },
+          {
+            "name": "bare",
+            "type": "boolean",
+            "optional": true,
+            "description": "Render children without a bubble (plain assistant prose).",
+            "defaultValue": "false"
+          }
+        ]
+      },
+      {
+        "name": "MessageCopyActionProps",
+        "fields": [
+          {
+            "name": "label",
+            "type": "string",
+            "optional": true,
+            "defaultValue": "\"Copy message\""
+          },
+          {
+            "name": "onCopy",
+            "type": "(value: string) => void",
+            "optional": true
+          },
+          {
+            "name": "pressed",
+            "type": "boolean",
+            "optional": true,
+            "description": "Toggle state for stateful actions such as thumbs up."
+          },
+          {
+            "name": "resetAfter",
+            "type": "number",
+            "optional": true,
+            "description": "How long the success state shows, in ms.",
+            "defaultValue": "1500"
+          },
+          {
+            "name": "value",
+            "type": "string",
+            "optional": false
+          }
+        ]
+      },
+      {
+        "name": "MessageProps",
+        "fields": [
+          {
+            "name": "grouped",
+            "type": "boolean",
+            "optional": true,
+            "description": "Stacked message from the same sender: tighter spacing and corners.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "role",
+            "type": "MessageRole",
+            "optional": true,
+            "defaultValue": "\"assistant\""
+          },
+          {
+            "name": "variant",
+            "type": "BubbleVariant",
+            "optional": true,
+            "description": "Surface treatment passed down to the assistant bubble. Omit for the ambient design style (glinr by default). Vocabulary: glinr, solid, plain, soft, outline, ghost, gradient, glass. User messages stay solid accent unless a bubble sets its own variant."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "actions",
+      "bare",
+      "grouped",
+      "label",
+      "onCopy",
+      "pressed",
+      "resetAfter",
+      "role",
+      "value",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/message.tsx"
   },
   "meteor-shower": {
     "primaryPropsType": "MeteorShowerProps",
@@ -2082,18 +5592,23 @@ export const generatedApiMetadata = {
         "name": "ModalContentProps",
         "fields": [
           {
+            "name": "container",
+            "type": "HTMLElement | null",
+            "optional": true,
+            "description": "Element to portal into. When set, overlay and content use absolute positioning scoped to the nearest positioned ancestor."
+          },
+          {
             "name": "size",
             "type": "\"sm\" | \"md\" | \"lg\"",
             "optional": true,
-            "description": "Variant option from modalContentVariants.",
+            "description": "Variant option from modalSizeVariants.",
             "defaultValue": "\"md\""
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"frosted\" | \"matte\"",
+            "type": "PanelVariantProp",
             "optional": true,
-            "description": "Variant option from modalContentVariants.",
-            "defaultValue": "\"glass\""
+            "description": "Surface look. Omit for the ambient design style (glinr by default). `glass` is opt-in and needs a colourful or photographic backdrop to read as frosted."
           }
         ]
       },
@@ -2127,6 +5642,7 @@ export const generatedApiMetadata = {
       }
     ],
     "explicitProps": [
+      "container",
       "size",
       "variant"
     ],
@@ -2171,10 +5687,9 @@ export const generatedApiMetadata = {
           },
           {
             "name": "variant",
-            "type": "\"glass\" | \"solid\" | \"underline\"",
+            "type": "ControlVariantProp",
             "optional": true,
-            "description": "Visual variant",
-            "defaultValue": "\"glass\""
+            "description": "Look. Omit to follow the ambient design style (glinr = raised pill track with a sliding key). Also: solid, plain, soft, outline, ghost, underline, glass (opt-in, needs a backdrop)."
           }
         ]
       }
@@ -2188,6 +5703,160 @@ export const generatedApiMetadata = {
       "variant"
     ],
     "sourceFile": "packages/ui/src/components/morphing-tabs.tsx"
+  },
+  "morphing-text": {
+    "primaryPropsType": "MorphingTextProps",
+    "propsTypes": [
+      {
+        "name": "MorphingTextProps",
+        "fields": [
+          {
+            "name": "cooldownTime",
+            "type": "number",
+            "optional": true,
+            "description": "Seconds each text rests before the next morph.",
+            "defaultValue": "0.5"
+          },
+          {
+            "name": "morphTime",
+            "type": "number",
+            "optional": true,
+            "description": "Seconds a morph takes.",
+            "defaultValue": "1.5"
+          },
+          {
+            "name": "texts",
+            "type": "string[]",
+            "optional": false,
+            "description": "Words or phrases to cycle through."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "cooldownTime",
+      "morphTime",
+      "texts"
+    ],
+    "sourceFile": "packages/ui/src/components/morphing-text.tsx"
+  },
+  "motion-engine": {
+    "primaryPropsType": "MotionEngineProviderProps",
+    "propsTypes": [
+      {
+        "name": "MotionEngineProviderProps",
+        "fields": [
+          {
+            "name": "children",
+            "type": "React.ReactNode",
+            "optional": true
+          },
+          {
+            "name": "engine",
+            "type": "EngineName",
+            "optional": true
+          },
+          {
+            "name": "motion",
+            "type": "MotionLevel",
+            "optional": true,
+            "description": "Motion level. Named `motion` to match GlinProvider and the `motion` prop on components."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "children",
+      "engine",
+      "motion"
+    ],
+    "sourceFile": "packages/ui/src/components/motion-engine.tsx"
+  },
+  "navigation-menu": {
+    "primaryPropsType": "NavigationMenuProps",
+    "propsTypes": [
+      {
+        "name": "NavigationMenuProps",
+        "fields": [
+          {
+            "name": "variant",
+            "type": "NavigationMenuVariant",
+            "optional": true,
+            "description": "Surface look of the viewport panel and trigger pills. Omit for the ambient design style (glinr by default)."
+          },
+          {
+            "name": "viewport",
+            "type": "boolean",
+            "optional": true,
+            "description": "Render content in a shared animated viewport (default) or inline per item.",
+            "defaultValue": "true"
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "variant",
+      "viewport"
+    ],
+    "sourceFile": "packages/ui/src/components/navigation-menu.tsx"
+  },
+  "neon-gradient-card": {
+    "primaryPropsType": "NeonGradientCardProps",
+    "propsTypes": [
+      {
+        "name": "NeonGradientCardProps",
+        "fields": [
+          {
+            "name": "borderRadius",
+            "type": "number",
+            "optional": true,
+            "description": "Outer corner radius in pixels.",
+            "defaultValue": "20"
+          },
+          {
+            "name": "borderSize",
+            "type": "number",
+            "optional": true,
+            "description": "Ring thickness in pixels.",
+            "defaultValue": "2"
+          },
+          {
+            "name": "contentClassName",
+            "type": "string",
+            "optional": true,
+            "description": "Class for the inner content face."
+          },
+          {
+            "name": "duration",
+            "type": "number",
+            "optional": true,
+            "description": "Seconds per gradient cycle.",
+            "defaultValue": "6"
+          },
+          {
+            "name": "neonColors",
+            "type": "Partial<NeonColors>",
+            "optional": true,
+            "description": "Gradient colors. Default to the accent and signal tokens."
+          },
+          {
+            "name": "variant",
+            "type": "NeonVariant | null",
+            "optional": true,
+            "description": "Face under the neon ring. Omitted follows the ambient style (glinr by default). `glass` is opt-in."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "borderRadius",
+      "borderSize",
+      "contentClassName",
+      "duration",
+      "neonColors",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/neon-gradient-card.tsx"
   },
   "number-ticker": {
     "primaryPropsType": "NumberTickerProps",
@@ -2205,13 +5874,21 @@ export const generatedApiMetadata = {
             "name": "delay",
             "type": "number",
             "optional": true,
+            "description": "Delay in seconds.",
             "defaultValue": "0"
           },
           {
             "name": "duration",
             "type": "number",
             "optional": true,
+            "description": "Duration in seconds.",
             "defaultValue": "1.5"
+          },
+          {
+            "name": "engine",
+            "type": "EngineName",
+            "optional": true,
+            "description": "Engine override: `css` (default), `motion`, `gsap` or a registered custom engine."
           },
           {
             "name": "formatOptions",
@@ -2225,6 +5902,12 @@ export const generatedApiMetadata = {
             "defaultValue": "0"
           },
           {
+            "name": "motion",
+            "type": "MotionLevel",
+            "optional": true,
+            "description": "Motion override. `none` renders the static final state, `subtle` is opacity only."
+          },
+          {
             "name": "value",
             "type": "number",
             "optional": false
@@ -2236,8 +5919,10 @@ export const generatedApiMetadata = {
       "decimals",
       "delay",
       "duration",
+      "engine",
       "formatOptions",
       "from",
+      "motion",
       "value"
     ],
     "sourceFile": "packages/ui/src/components/number-ticker.tsx"
@@ -2319,6 +6004,44 @@ export const generatedApiMetadata = {
     ],
     "sourceFile": "packages/ui/src/components/orbiting-circles.tsx"
   },
+  "pagination": {
+    "primaryPropsType": "PaginationProps",
+    "propsTypes": [
+      {
+        "name": "PaginationLinkProps",
+        "fields": [
+          {
+            "name": "isActive",
+            "type": "boolean",
+            "optional": true
+          },
+          {
+            "name": "size",
+            "type": "NonNullable<VariantProps<typeof paginationLinkVariants>[\"size\"]>",
+            "optional": true,
+            "defaultValue": "\"icon\""
+          }
+        ]
+      },
+      {
+        "name": "PaginationProps",
+        "fields": [
+          {
+            "name": "variant",
+            "type": "PanelVariantProp",
+            "optional": true,
+            "description": "Look of the page links. Omit for the ambient design style (glinr by default): pill links with a raised current page. `plain` is the shadcn outline look; `glass` is opt-in and needs a rich backdrop."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "isActive",
+      "size",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/pagination.tsx"
+  },
   "particle-field": {
     "primaryPropsType": "ParticleFieldProps",
     "propsTypes": [
@@ -2394,6 +6117,12 @@ export const generatedApiMetadata = {
         "name": "PopoverContentProps",
         "fields": [
           {
+            "name": "container",
+            "type": "HTMLElement | null",
+            "optional": true,
+            "description": "Element to portal into. Defaults to document.body."
+          },
+          {
             "name": "size",
             "type": "\"sm\" | \"md\" | \"lg\"",
             "optional": true,
@@ -2402,10 +6131,9 @@ export const generatedApiMetadata = {
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"frosted\" | \"outline\" | \"ghost\"",
+            "type": "PanelVariantProp",
             "optional": true,
-            "description": "Variant option from popoverContentVariants.",
-            "defaultValue": "\"default\""
+            "description": "Surface look. Omit for the ambient design style (glinr by default). `glass` is opt-in and needs a rich backdrop."
           }
         ]
       },
@@ -2434,10 +6162,128 @@ export const generatedApiMetadata = {
       }
     ],
     "explicitProps": [
+      "container",
       "size",
       "variant"
     ],
     "sourceFile": "packages/ui/src/components/popover.tsx"
+  },
+  "pricing-section": {
+    "primaryPropsType": "PricingSectionProps",
+    "propsTypes": [
+      {
+        "name": "PricingSectionProps",
+        "fields": [
+          {
+            "name": "billing",
+            "type": "BillingPeriod",
+            "optional": true,
+            "description": "Controlled billing period."
+          },
+          {
+            "name": "comparison",
+            "type": "PricingComparisonRow[]",
+            "optional": true
+          },
+          {
+            "name": "currency",
+            "type": "string",
+            "optional": true,
+            "description": "ISO 4217 code for `Intl.NumberFormat`. Default USD.",
+            "defaultValue": "\"USD\""
+          },
+          {
+            "name": "defaultBilling",
+            "type": "BillingPeriod",
+            "optional": true,
+            "description": "Initial billing period when uncontrolled. Default `monthly`.",
+            "defaultValue": "\"monthly\""
+          },
+          {
+            "name": "description",
+            "type": "React.ReactNode",
+            "optional": true
+          },
+          {
+            "name": "headingLevel",
+            "type": "2 | 3",
+            "optional": true,
+            "defaultValue": "2"
+          },
+          {
+            "name": "hideToggle",
+            "type": "boolean",
+            "optional": true,
+            "description": "Hide the toggle (single period).",
+            "defaultValue": "false"
+          },
+          {
+            "name": "highlightEffect",
+            "type": "\"shine\" | \"none\"",
+            "optional": true,
+            "description": "Edge effect on the highlighted card. Default `shine`.",
+            "defaultValue": "\"shine\""
+          },
+          {
+            "name": "layout",
+            "type": "\"cards\" | \"table\"",
+            "optional": true,
+            "description": "`cards` shows tier cards, `table` a comparison table built from `comparison`.",
+            "defaultValue": "\"cards\""
+          },
+          {
+            "name": "locale",
+            "type": "string",
+            "optional": true,
+            "description": "BCP 47 locale for formatting. Default is the runtime locale."
+          },
+          {
+            "name": "onBillingChange",
+            "type": "(billing: BillingPeriod) => void",
+            "optional": true
+          },
+          {
+            "name": "tiers",
+            "type": "PricingTier[]",
+            "optional": false
+          },
+          {
+            "name": "title",
+            "type": "React.ReactNode",
+            "optional": true
+          },
+          {
+            "name": "variant",
+            "type": "BlockLook | \"default\" | null",
+            "optional": true
+          },
+          {
+            "name": "yearlyNote",
+            "type": "string",
+            "optional": true,
+            "description": "Text on the yearly side of the toggle, for example \"Save 20%\"."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "billing",
+      "comparison",
+      "currency",
+      "defaultBilling",
+      "description",
+      "headingLevel",
+      "hideToggle",
+      "highlightEffect",
+      "layout",
+      "locale",
+      "onBillingChange",
+      "tiers",
+      "title",
+      "variant",
+      "yearlyNote"
+    ],
+    "sourceFile": "packages/ui/src/components/pricing-section.tsx"
   },
   "prism-border": {
     "primaryPropsType": "PrismBorderProps",
@@ -2533,9 +6379,8 @@ export const generatedApiMetadata = {
           },
           {
             "name": "variant",
-            "type": "NonNullable<VariantProps<typeof progressVariants>[\"variant\"]>",
-            "optional": true,
-            "defaultValue": "\"default\""
+            "type": "ControlVariantProp",
+            "optional": true
           }
         ]
       },
@@ -2564,10 +6409,9 @@ export const generatedApiMetadata = {
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"liquid\" | \"matte\"",
+            "type": "ControlVariantProp",
             "optional": true,
-            "description": "Variant option from progressVariants.",
-            "defaultValue": "\"default\""
+            "description": "Look. Omit to follow the ambient design style (glinr = inset track, accent fill). Also: solid, plain, soft, outline, ghost, gradient, glass (opt-in), liquid, matte."
           }
         ]
       }
@@ -2584,6 +6428,198 @@ export const generatedApiMetadata = {
     ],
     "sourceFile": "packages/ui/src/components/progress.tsx"
   },
+  "progressive-blur": {
+    "primaryPropsType": "ProgressiveBlurProps",
+    "propsTypes": [
+      {
+        "name": "ProgressiveBlurProps",
+        "fields": [
+          {
+            "name": "blurIntensity",
+            "type": "number",
+            "optional": true,
+            "description": "Extra blur in pixels added per layer (the strongest layer blurs by `(layers - 1) * blurIntensity`).",
+            "defaultValue": "1"
+          },
+          {
+            "name": "blurLayers",
+            "type": "number",
+            "optional": true,
+            "description": "Number of stacked backdrop-filter layers, clamped to 2..8.",
+            "defaultValue": "MAX_LAYERS"
+          },
+          {
+            "name": "direction",
+            "type": "\"top\" | \"bottom\" | \"start\" | \"end\"",
+            "optional": true,
+            "description": "Variant option from progressiveBlurVariants.",
+            "defaultValue": "\"bottom\""
+          },
+          {
+            "name": "size",
+            "type": "number | string",
+            "optional": true,
+            "description": "Thickness of the overlay along its axis. A number is pixels, a string is any CSS length."
+          },
+          {
+            "name": "variant",
+            "type": "\"default\" | \"plain\" | \"glass\"",
+            "optional": true,
+            "description": "Variant option from progressiveBlurVariants.",
+            "defaultValue": "\"default\""
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "blurIntensity",
+      "blurLayers",
+      "direction",
+      "size",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/progressive-blur.tsx"
+  },
+  "prompt-input": {
+    "primaryPropsType": "PromptInputProps",
+    "propsTypes": [
+      {
+        "name": "PromptInputProps",
+        "fields": [
+          {
+            "name": "actions",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Rendered at the start of the footer, e.g. attach and model buttons."
+          },
+          {
+            "name": "attachments",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Rendered above the textarea, e.g. a row of `Attachment`."
+          },
+          {
+            "name": "defaultValue",
+            "type": "string",
+            "optional": true,
+            "defaultValue": "\"\""
+          },
+          {
+            "name": "disabled",
+            "type": "boolean",
+            "optional": true,
+            "defaultValue": "false"
+          },
+          {
+            "name": "label",
+            "type": "string",
+            "optional": true,
+            "description": "Accessible name of the textarea.",
+            "defaultValue": "\"Message\""
+          },
+          {
+            "name": "loading",
+            "type": "boolean",
+            "optional": true,
+            "description": "A response is streaming: input becomes read-only and send is blocked.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "maxLength",
+            "type": "number",
+            "optional": true
+          },
+          {
+            "name": "onStop",
+            "type": "() => void",
+            "optional": true,
+            "description": "When set and `loading`, the send button becomes a stop button."
+          },
+          {
+            "name": "onSubmit",
+            "type": "(value: string) => void",
+            "optional": true,
+            "description": "Called with the trimmed value when the user sends."
+          },
+          {
+            "name": "onValueChange",
+            "type": "(value: string) => void",
+            "optional": true
+          },
+          {
+            "name": "placeholder",
+            "type": "string",
+            "optional": true,
+            "defaultValue": "\"Ask anything\""
+          },
+          {
+            "name": "rows",
+            "type": "number",
+            "optional": true,
+            "defaultValue": "1"
+          },
+          {
+            "name": "sendLabel",
+            "type": "string",
+            "optional": true,
+            "defaultValue": "\"Send message\""
+          },
+          {
+            "name": "showHint",
+            "type": "boolean",
+            "optional": true,
+            "description": "Show the keyboard hint and character count.",
+            "defaultValue": "true"
+          },
+          {
+            "name": "stopLabel",
+            "type": "string",
+            "optional": true,
+            "defaultValue": "\"Stop generating\""
+          },
+          {
+            "name": "submitOn",
+            "type": "\"enter\" | \"mod-enter\"",
+            "optional": true,
+            "description": "`enter` sends on Enter (Shift+Enter newline). `mod-enter` sends on Cmd/Ctrl+Enter.",
+            "defaultValue": "\"enter\""
+          },
+          {
+            "name": "value",
+            "type": "string",
+            "optional": true
+          },
+          {
+            "name": "variant",
+            "type": "ControlVariantProp",
+            "optional": true,
+            "description": "Shell look. Omit to follow the ambient design style (glinr = raised shell). Same vocabulary as Input."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "actions",
+      "attachments",
+      "defaultValue",
+      "disabled",
+      "label",
+      "loading",
+      "maxLength",
+      "onStop",
+      "onSubmit",
+      "onValueChange",
+      "placeholder",
+      "rows",
+      "sendLabel",
+      "showHint",
+      "stopLabel",
+      "submitOn",
+      "value",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/prompt-input.tsx"
+  },
   "pulsating-button": {
     "primaryPropsType": "PulsatingButtonProps",
     "propsTypes": [
@@ -2593,27 +6629,21 @@ export const generatedApiMetadata = {
           {
             "name": "pulseColor",
             "type": "string",
-            "optional": true
+            "optional": true,
+            "description": "Ring colour. Defaults to the accent token, visible on light and dark scopes."
           },
           {
             "name": "pulseDuration",
             "type": "number",
             "optional": true,
+            "description": "Seconds per pulse.",
             "defaultValue": "2"
           },
           {
-            "name": "size",
-            "type": "\"sm\" | \"md\" | \"lg\"",
-            "optional": true,
-            "description": "Variant option from pulsatingButtonVariants.",
-            "defaultValue": "\"md\""
-          },
-          {
             "name": "variant",
-            "type": "\"default\" | \"accent\" | \"glass\"",
+            "type": "ButtonVariant | \"accent\"",
             "optional": true,
-            "description": "Variant option from pulsatingButtonVariants.",
-            "defaultValue": "\"default\""
+            "description": "Vocabulary or legacy variant. `accent` is kept as an alias of `primary`. Omit for the ambient default."
           }
         ]
       }
@@ -2621,10 +6651,66 @@ export const generatedApiMetadata = {
     "explicitProps": [
       "pulseColor",
       "pulseDuration",
-      "size",
       "variant"
     ],
     "sourceFile": "packages/ui/src/components/pulsating-button.tsx"
+  },
+  "questionnaire": {
+    "primaryPropsType": "QuestionnaireProps",
+    "propsTypes": [
+      {
+        "name": "QuestionnaireProps",
+        "fields": [
+          {
+            "name": "defaultAnswers",
+            "type": "QuestionnaireAnswers",
+            "optional": true
+          },
+          {
+            "name": "onStepChange",
+            "type": "(index: number) => void",
+            "optional": true
+          },
+          {
+            "name": "onSubmit",
+            "type": "(answers: QuestionnaireAnswers) => void",
+            "optional": true
+          },
+          {
+            "name": "questions",
+            "type": "QuestionnaireQuestion[]",
+            "optional": false
+          },
+          {
+            "name": "submitLabel",
+            "type": "string",
+            "optional": true,
+            "defaultValue": "\"Submit\""
+          },
+          {
+            "name": "tone",
+            "type": "SurfaceTone",
+            "optional": true
+          },
+          {
+            "name": "variant",
+            "type": "SurfaceVariant | \"default\" | \"raised\" | \"frosted\"",
+            "optional": true,
+            "description": "Visual variant. Omit for the ambient design style (glinr by default). Vocabulary: glinr, solid, plain, soft, outline, ghost, gradient, glass."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "defaultAnswers",
+      "onStepChange",
+      "onSubmit",
+      "questions",
+      "submitLabel",
+      "tone",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/questionnaire.tsx"
   },
   "radio-group": {
     "primaryPropsType": "RadioGroupProps",
@@ -2653,10 +6739,9 @@ export const generatedApiMetadata = {
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"liquid\" | \"matte\" | \"outline\"",
+            "type": "ControlVariantProp",
             "optional": true,
-            "description": "Surface treatment for the radio item shell.",
-            "defaultValue": "\"default\""
+            "description": "Surface treatment for the radio item shell. Omit to follow the ambient design style. Also: solid, plain, soft, outline, ghost, glass (opt-in), liquid, matte, frosted."
           }
         ]
       },
@@ -2779,6 +6864,18 @@ export const generatedApiMetadata = {
             "defaultValue": "0.8"
           },
           {
+            "name": "engine",
+            "type": "EngineName",
+            "optional": true,
+            "description": "Engine override: `css` (default), `motion`, `gsap` or a registered custom engine."
+          },
+          {
+            "name": "motion",
+            "type": "MotionLevel",
+            "optional": true,
+            "description": "Motion override. `none` renders the static final state, `subtle` is opacity only."
+          },
+          {
             "name": "text",
             "type": "string",
             "optional": false,
@@ -2805,11 +6902,134 @@ export const generatedApiMetadata = {
       "delay",
       "direction",
       "duration",
+      "engine",
+      "motion",
       "text",
       "threshold",
       "triggerOnView"
     ],
     "sourceFile": "packages/ui/src/components/reveal-text.tsx"
+  },
+  "reveal": {
+    "primaryPropsType": "RevealProps",
+    "propsTypes": [
+      {
+        "name": "EngineControlProps",
+        "fields": [
+          {
+            "name": "engine",
+            "type": "EngineName",
+            "optional": true,
+            "description": "Engine override: `css` (default), `motion`, `gsap` or a registered custom engine."
+          },
+          {
+            "name": "motion",
+            "type": "MotionLevel",
+            "optional": true,
+            "description": "Motion override. `none` renders the static final state, `subtle` is opacity only."
+          }
+        ]
+      },
+      {
+        "name": "RevealProps",
+        "fields": [
+          {
+            "name": "as",
+            "type": "RevealTag",
+            "optional": true,
+            "defaultValue": "\"div\""
+          },
+          {
+            "name": "children",
+            "type": "React.ReactNode",
+            "optional": true
+          },
+          {
+            "name": "delay",
+            "type": "number",
+            "optional": true,
+            "description": "Delay in ms."
+          },
+          {
+            "name": "direction",
+            "type": "RevealDirection",
+            "optional": true,
+            "description": "Direction the content travels in. Default `up`."
+          },
+          {
+            "name": "distance",
+            "type": "number",
+            "optional": true,
+            "description": "Travel distance in px for slide variants."
+          },
+          {
+            "name": "duration",
+            "type": "number",
+            "optional": true,
+            "description": "Duration in ms. Defaults to the engine default (520)."
+          },
+          {
+            "name": "engine",
+            "type": "EngineName",
+            "optional": true,
+            "description": "Engine override: `css` (default), `motion`, `gsap` or a registered custom engine."
+          },
+          {
+            "name": "immediate",
+            "type": "boolean",
+            "optional": true,
+            "description": "Play on mount instead of waiting for the viewport.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "motion",
+            "type": "MotionLevel",
+            "optional": true,
+            "description": "Motion override. `none` renders the static final state, `subtle` is opacity only."
+          },
+          {
+            "name": "once",
+            "type": "boolean",
+            "optional": true,
+            "description": "Animate only the first time it enters the viewport. Default true.",
+            "defaultValue": "true"
+          },
+          {
+            "name": "spring",
+            "type": "SpringInput",
+            "optional": true
+          },
+          {
+            "name": "threshold",
+            "type": "number",
+            "optional": true,
+            "description": "Visible fraction (0 to 1) required to trigger. Default 0.15."
+          },
+          {
+            "name": "variant",
+            "type": "RevealVariant",
+            "optional": true,
+            "defaultValue": "\"slide\""
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "as",
+      "children",
+      "delay",
+      "direction",
+      "distance",
+      "duration",
+      "engine",
+      "immediate",
+      "motion",
+      "once",
+      "spring",
+      "threshold",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/reveal.tsx"
   },
   "ripple-button": {
     "primaryPropsType": "RippleButtonProps",
@@ -2821,28 +7041,19 @@ export const generatedApiMetadata = {
             "name": "rippleColor",
             "type": "string",
             "optional": true,
-            "description": "Ripple color"
-          },
-          {
-            "name": "size",
-            "type": "\"sm\" | \"md\" | \"lg\"",
-            "optional": true,
-            "description": "Button size",
-            "defaultValue": "\"md\""
+            "description": "Ripple colour. Defaults to the button's own text colour at 30 percent, so it shows on light and dark surfaces."
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"frosted\" | \"outline\"",
+            "type": "ButtonVariant",
             "optional": true,
-            "description": "Button variant",
-            "defaultValue": "\"default\""
+            "description": "Vocabulary or legacy variant. Omit for the ambient default."
           }
         ]
       }
     ],
     "explicitProps": [
       "rippleColor",
-      "size",
       "variant"
     ],
     "sourceFile": "packages/ui/src/components/ripple-button.tsx"
@@ -2889,6 +7100,43 @@ export const generatedApiMetadata = {
     ],
     "sourceFile": "packages/ui/src/components/ripple.tsx"
   },
+  "scroll-area": {
+    "primaryPropsType": "ScrollAreaProps",
+    "propsTypes": [
+      {
+        "name": "ScrollAreaProps",
+        "fields": [
+          {
+            "name": "tone",
+            "type": "SurfaceTone",
+            "optional": true
+          },
+          {
+            "name": "variant",
+            "type": "SurfaceVariant | \"default\"",
+            "optional": true,
+            "description": "Surface variant. Omit (or `plain`) for a chromeless scroll region like the shadcn primitive. Vocabulary: glinr, solid, soft, outline, ghost, gradient, glass. Legacy `default` maps to glinr."
+          },
+          {
+            "name": "viewportClassName",
+            "type": "string",
+            "optional": true,
+            "description": "Class names for the scrollable viewport."
+          }
+        ]
+      },
+      {
+        "name": "ScrollBarProps",
+        "fields": []
+      }
+    ],
+    "explicitProps": [
+      "tone",
+      "variant",
+      "viewportClassName"
+    ],
+    "sourceFile": "packages/ui/src/components/scroll-area.tsx"
+  },
   "select": {
     "primaryPropsType": "SelectProps",
     "propsTypes": [
@@ -2907,17 +7155,16 @@ export const generatedApiMetadata = {
           },
           {
             "name": "size",
-            "type": "\"sm\" | \"md\" | \"lg\"",
+            "type": "unknown",
             "optional": true,
-            "description": "Variant option from selectVariants.",
+            "description": "Variant option from selectSizeVariants.",
             "defaultValue": "\"md\""
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"frosted\" | \"liquid\" | \"matte\" | \"outline\" | \"ghost\"",
+            "type": "ControlVariantProp",
             "optional": true,
-            "description": "Variant option from selectVariants.",
-            "defaultValue": "\"default\""
+            "description": "Surface look. Omit to follow the ambient design style. Same vocabulary as Input."
           }
         ]
       }
@@ -2971,10 +7218,9 @@ export const generatedApiMetadata = {
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"gradient\" | \"dashed\" | \"dotted\" | \"outline\" | \"ghost\"",
+            "type": "VariantProps<typeof lineVariants>[\"variant\"]",
             "optional": true,
-            "description": "Variant option from lineVariants.",
-            "defaultValue": "\"default\""
+            "description": "Line style. Omitted (or `default`) follows the ambient design style: glinr (engraved hairline), plain (flat 1px border color) or glass. Other names are fixed styles."
           }
         ]
       }
@@ -2996,6 +7242,12 @@ export const generatedApiMetadata = {
         "name": "SheetContentProps",
         "fields": [
           {
+            "name": "container",
+            "type": "HTMLElement | null",
+            "optional": true,
+            "description": "Element to portal into. When set, overlay and content use absolute positioning scoped to the nearest positioned ancestor."
+          },
+          {
             "name": "side",
             "type": "\"top\" | \"bottom\" | \"left\" | \"right\"",
             "optional": true,
@@ -3011,10 +7263,9 @@ export const generatedApiMetadata = {
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"frosted\" | \"outline\" | \"ghost\"",
+            "type": "PanelVariantProp",
             "optional": true,
-            "description": "Variant option from sheetContentVariants.",
-            "defaultValue": "\"default\""
+            "description": "Surface look. Omit for the ambient design style (glinr by default). `glass` is opt-in and needs a rich backdrop."
           }
         ]
       },
@@ -3067,6 +7318,7 @@ export const generatedApiMetadata = {
       }
     ],
     "explicitProps": [
+      "container",
       "side",
       "size",
       "variant"
@@ -3083,27 +7335,20 @@ export const generatedApiMetadata = {
             "name": "shimmerColor",
             "type": "string",
             "optional": true,
-            "defaultValue": "\"rgba(255,255,255,0.3)\""
+            "description": "Sweep colour. Defaults to the button's own text colour at 35 percent, so it shows on light and dark surfaces."
           },
           {
             "name": "shimmerDuration",
             "type": "number",
             "optional": true,
+            "description": "Seconds per sweep.",
             "defaultValue": "2"
           },
           {
-            "name": "size",
-            "type": "\"sm\" | \"md\" | \"lg\"",
-            "optional": true,
-            "description": "Variant option from shimmerButtonVariants.",
-            "defaultValue": "\"md\""
-          },
-          {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"accent\"",
+            "type": "ButtonVariant | \"accent\"",
             "optional": true,
-            "description": "Variant option from shimmerButtonVariants.",
-            "defaultValue": "\"default\""
+            "description": "Vocabulary or legacy variant. `accent` is kept as an alias of `primary`. Omit for the ambient default."
           }
         ]
       }
@@ -3111,10 +7356,208 @@ export const generatedApiMetadata = {
     "explicitProps": [
       "shimmerColor",
       "shimmerDuration",
-      "size",
       "variant"
     ],
     "sourceFile": "packages/ui/src/components/shimmer-button.tsx"
+  },
+  "shine-border": {
+    "primaryPropsType": "ShineBorderProps",
+    "propsTypes": [
+      {
+        "name": "ShineBorderProps",
+        "fields": [
+          {
+            "name": "borderWidth",
+            "type": "number",
+            "optional": true,
+            "description": "Border thickness in pixels.",
+            "defaultValue": "1"
+          },
+          {
+            "name": "duration",
+            "type": "number",
+            "optional": true,
+            "description": "Seconds for one full sweep cycle.",
+            "defaultValue": "14"
+          },
+          {
+            "name": "shineColor",
+            "type": "string | string[]",
+            "optional": true,
+            "description": "One color or a list of colors. Defaults to the accent token."
+          },
+          {
+            "name": "variant",
+            "type": "\"default\" | \"plain\" | \"glass\"",
+            "optional": true,
+            "description": "Variant option from shineBorderVariants.",
+            "defaultValue": "\"default\""
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "borderWidth",
+      "duration",
+      "shineColor",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/shine-border.tsx"
+  },
+  "sidebar-context": {
+    "primaryPropsType": "SidebarProviderProps",
+    "propsTypes": [
+      {
+        "name": "SidebarProviderProps",
+        "fields": [
+          {
+            "name": "defaultOpen",
+            "type": "boolean",
+            "optional": true,
+            "description": "Initial open state when uncontrolled.",
+            "defaultValue": "true"
+          },
+          {
+            "name": "onOpenChange",
+            "type": "(open: boolean) => void",
+            "optional": true
+          },
+          {
+            "name": "open",
+            "type": "boolean",
+            "optional": true,
+            "description": "Controlled open state."
+          },
+          {
+            "name": "storageKey",
+            "type": "string | null",
+            "optional": true,
+            "description": "localStorage key used to persist the desktop open state. Pass null to disable.",
+            "defaultValue": "SIDEBAR_DEFAULT_STORAGE_KEY"
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "defaultOpen",
+      "onOpenChange",
+      "open",
+      "storageKey"
+    ],
+    "sourceFile": "packages/ui/src/components/sidebar-context.tsx"
+  },
+  "sidebar": {
+    "primaryPropsType": "SidebarProps",
+    "propsTypes": [
+      {
+        "name": "SidebarGroupProps",
+        "fields": [
+          {
+            "name": "collapsible",
+            "type": "boolean",
+            "optional": true,
+            "description": "Let users collapse this group by activating its label.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "defaultOpen",
+            "type": "boolean",
+            "optional": true,
+            "description": "Initial open state for a collapsible group.",
+            "defaultValue": "true"
+          }
+        ]
+      },
+      {
+        "name": "SidebarMenuButtonProps",
+        "fields": [
+          {
+            "name": "asChild",
+            "type": "boolean",
+            "optional": true,
+            "defaultValue": "false"
+          },
+          {
+            "name": "isActive",
+            "type": "boolean",
+            "optional": true,
+            "description": "Marks the current page. Sets aria-current=\"page\".",
+            "defaultValue": "false"
+          },
+          {
+            "name": "size",
+            "type": "\"sm\" | \"md\" | \"lg\"",
+            "optional": true,
+            "description": "Variant option from menuButtonVariants.",
+            "defaultValue": "\"md\""
+          },
+          {
+            "name": "tooltip",
+            "type": "string",
+            "optional": true,
+            "description": "Tooltip shown only while the sidebar is collapsed to icons."
+          },
+          {
+            "name": "variant",
+            "type": "\"default\" | \"outline\"",
+            "optional": true,
+            "description": "Variant option from menuButtonVariants.",
+            "defaultValue": "\"default\""
+          }
+        ]
+      },
+      {
+        "name": "SidebarProps",
+        "fields": [
+          {
+            "name": "collapsible",
+            "type": "\"offcanvas\" | \"icon\" | \"none\"",
+            "optional": true,
+            "description": "How the sidebar collapses on desktop.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "containerClassName",
+            "type": "string",
+            "optional": true,
+            "description": "Class names for the outer docking element (height, position). Defaults to sticky full viewport height."
+          },
+          {
+            "name": "label",
+            "type": "string",
+            "optional": true,
+            "description": "Accessible name for the navigation landmark.",
+            "defaultValue": "\"Sidebar\""
+          },
+          {
+            "name": "side",
+            "type": "\"start\" | \"end\"",
+            "optional": true,
+            "description": "Which inline edge the sidebar docks to.",
+            "defaultValue": "\"start\""
+          },
+          {
+            "name": "variant",
+            "type": "PanelVariantProp",
+            "optional": true,
+            "description": "Surface look. Omit for the ambient design style (glinr by default): a lifted rail with hairline separators and a raised pill for the active item. `glass` is opt-in and needs a rich backdrop."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "asChild",
+      "collapsible",
+      "containerClassName",
+      "defaultOpen",
+      "isActive",
+      "label",
+      "side",
+      "size",
+      "tooltip",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/sidebar.tsx"
   },
   "skeleton": {
     "primaryPropsType": "SkeletonProps",
@@ -3137,10 +7580,9 @@ export const generatedApiMetadata = {
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"liquid\" | \"matte\" | \"outline\" | \"ghost\"",
+            "type": "ControlVariantProp",
             "optional": true,
-            "description": "Variant option from skeletonVariants.",
-            "defaultValue": "\"default\""
+            "description": "Placeholder look. Omit to follow the ambient design style (glinr = inset well). Same vocabulary as Input."
           }
         ]
       }
@@ -3167,10 +7609,9 @@ export const generatedApiMetadata = {
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"outline\" | \"ghost\" | \"liquid\"",
+            "type": "ControlVariantProp",
             "optional": true,
-            "description": "Variant option from sliderVariants.",
-            "defaultValue": "\"default\""
+            "description": "Surface look. Omit to follow the ambient design style (glinr = inset track, accent range, raised key thumb). Also: solid, plain, soft, outline, ghost, glass (opt-in), liquid."
           }
         ]
       }
@@ -3181,6 +7622,261 @@ export const generatedApiMetadata = {
     ],
     "sourceFile": "packages/ui/src/components/slider.tsx"
   },
+  "sparkles-text": {
+    "primaryPropsType": "SparklesTextProps",
+    "propsTypes": [
+      {
+        "name": "SparklesTextProps",
+        "fields": [
+          {
+            "name": "as",
+            "type": "\"div\" | \"span\" | \"p\" | \"h1\" | \"h2\" | \"h3\" | \"h4\" | \"h5\" | \"h6\"",
+            "optional": true,
+            "description": "Element to render.",
+            "defaultValue": "\"div\""
+          },
+          {
+            "name": "children",
+            "type": "React.ReactNode",
+            "optional": false
+          },
+          {
+            "name": "colors",
+            "type": "SparklesTextColors",
+            "optional": true,
+            "description": "Sparkle colors. Any CSS color, defaults to Glin tokens.",
+            "defaultValue": "DEFAULT_COLORS"
+          },
+          {
+            "name": "sparklesCount",
+            "type": "number",
+            "optional": true,
+            "description": "Number of sparkles alive at once. Capped at 24.",
+            "defaultValue": "10"
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "as",
+      "children",
+      "colors",
+      "sparklesCount"
+    ],
+    "sourceFile": "packages/ui/src/components/sparkles-text.tsx"
+  },
+  "spinner": {
+    "primaryPropsType": "SpinnerProps",
+    "propsTypes": [
+      {
+        "name": "SpinnerProps",
+        "fields": [
+          {
+            "name": "label",
+            "type": "string",
+            "optional": true,
+            "description": "Accessible label announced to assistive tech.",
+            "defaultValue": "\"Loading\""
+          },
+          {
+            "name": "size",
+            "type": "\"sm\" | \"md\" | \"lg\" | \"xl\"",
+            "optional": true,
+            "description": "Variant option from spinnerVariants.",
+            "defaultValue": "\"md\""
+          },
+          {
+            "name": "variant",
+            "type": "ControlVariantProp | \"muted\" | \"current\"",
+            "optional": true,
+            "description": "Color treatment. Omit to follow the ambient design style (glinr = accent, minimal = foreground). Also: solid, soft, outline, ghost, glass (chip, opt-in), muted, current."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "label",
+      "size",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/spinner.tsx"
+  },
+  "spinning-text": {
+    "primaryPropsType": "SpinningTextProps",
+    "propsTypes": [
+      {
+        "name": "SpinningTextProps",
+        "fields": [
+          {
+            "name": "children",
+            "type": "string",
+            "optional": false,
+            "description": "The string laid out on the ring. It becomes the accessible name."
+          },
+          {
+            "name": "duration",
+            "type": "number",
+            "optional": true,
+            "description": "Seconds per full turn.",
+            "defaultValue": "10"
+          },
+          {
+            "name": "fontSize",
+            "type": "number",
+            "optional": true,
+            "description": "Glyph size in rem.",
+            "defaultValue": "1"
+          },
+          {
+            "name": "pauseOnHover",
+            "type": "boolean",
+            "optional": true,
+            "description": "Pause the rotation while hovered or focused within.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "radius",
+            "type": "number",
+            "optional": true,
+            "description": "Ring radius in ch units.",
+            "defaultValue": "5"
+          },
+          {
+            "name": "reverse",
+            "type": "boolean",
+            "optional": true,
+            "description": "Spin counter-clockwise. In RTL documents the default direction is mirrored.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "variant",
+            "type": "\"default\" | \"plain\" | \"glass\"",
+            "optional": true,
+            "description": "Variant option from spinningTextVariants.",
+            "defaultValue": "\"default\""
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "children",
+      "duration",
+      "fontSize",
+      "pauseOnHover",
+      "radius",
+      "reverse",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/spinning-text.tsx"
+  },
+  "split-text": {
+    "primaryPropsType": "SplitTextProps",
+    "propsTypes": [
+      {
+        "name": "SplitTextProps",
+        "fields": [
+          {
+            "name": "as",
+            "type": "SplitTextTag",
+            "optional": true,
+            "defaultValue": "\"p\""
+          },
+          {
+            "name": "by",
+            "type": "\"words\" | \"chars\"",
+            "optional": true,
+            "description": "Reveal granularity. Default `words`.",
+            "defaultValue": "\"words\""
+          },
+          {
+            "name": "delay",
+            "type": "number",
+            "optional": true
+          },
+          {
+            "name": "duration",
+            "type": "number",
+            "optional": true
+          },
+          {
+            "name": "engine",
+            "type": "EngineName",
+            "optional": true,
+            "description": "Engine override: `css` (default), `motion`, `gsap` or a registered custom engine."
+          },
+          {
+            "name": "immediate",
+            "type": "boolean",
+            "optional": true,
+            "defaultValue": "false"
+          },
+          {
+            "name": "motion",
+            "type": "MotionLevel",
+            "optional": true,
+            "description": "Motion override. `none` renders the static final state, `subtle` is opacity only."
+          },
+          {
+            "name": "once",
+            "type": "boolean",
+            "optional": true,
+            "defaultValue": "true"
+          },
+          {
+            "name": "order",
+            "type": "StaggerDirection",
+            "optional": true,
+            "defaultValue": "\"forward\""
+          },
+          {
+            "name": "spring",
+            "type": "SpringInput",
+            "optional": true
+          },
+          {
+            "name": "step",
+            "type": "number",
+            "optional": true,
+            "description": "Delay between parts in ms. Default 40 for words and 18 for chars."
+          },
+          {
+            "name": "text",
+            "type": "string",
+            "optional": false,
+            "description": "The text to split. Plain string only."
+          },
+          {
+            "name": "threshold",
+            "type": "number",
+            "optional": true
+          },
+          {
+            "name": "variant",
+            "type": "RevealVariant",
+            "optional": true,
+            "defaultValue": "\"blur-slide\""
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "as",
+      "by",
+      "delay",
+      "duration",
+      "engine",
+      "immediate",
+      "motion",
+      "once",
+      "order",
+      "spring",
+      "step",
+      "text",
+      "threshold",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/split-text.tsx"
+  },
   "spotlight-card": {
     "primaryPropsType": "SpotlightCardProps",
     "propsTypes": [
@@ -3188,15 +7884,31 @@ export const generatedApiMetadata = {
         "name": "SpotlightCardProps",
         "fields": [
           {
+            "name": "autoPlay",
+            "type": "boolean",
+            "optional": true,
+            "description": "Runs a slow looping synthetic pointer so the spotlight is visible without hovering (demos, screenshots, touch). Off at reduced motion. A real pointer takes over while hovering.",
+            "defaultValue": "false"
+          },
+          {
             "name": "spotlightClassName",
             "type": "string",
             "optional": true
+          },
+          {
+            "name": "spotlightSize",
+            "type": "number",
+            "optional": true,
+            "description": "Spotlight radius in pixels.",
+            "defaultValue": "300"
           }
         ]
       }
     ],
     "explicitProps": [
-      "spotlightClassName"
+      "autoPlay",
+      "spotlightClassName",
+      "spotlightSize"
     ],
     "sourceFile": "packages/ui/src/components/spotlight-card.tsx"
   },
@@ -3268,6 +7980,119 @@ export const generatedApiMetadata = {
     ],
     "sourceFile": "packages/ui/src/components/spotlight.tsx"
   },
+  "stagger-list": {
+    "primaryPropsType": "StaggerListProps",
+    "propsTypes": [
+      {
+        "name": "StaggerListProps",
+        "fields": [
+          {
+            "name": "as",
+            "type": "StaggerListTag",
+            "optional": true,
+            "defaultValue": "\"div\""
+          },
+          {
+            "name": "children",
+            "type": "React.ReactNode",
+            "optional": true
+          },
+          {
+            "name": "delay",
+            "type": "number",
+            "optional": true
+          },
+          {
+            "name": "direction",
+            "type": "RevealDirection",
+            "optional": true
+          },
+          {
+            "name": "distance",
+            "type": "number",
+            "optional": true
+          },
+          {
+            "name": "duration",
+            "type": "number",
+            "optional": true
+          },
+          {
+            "name": "engine",
+            "type": "EngineName",
+            "optional": true,
+            "description": "Engine override: `css` (default), `motion`, `gsap` or a registered custom engine."
+          },
+          {
+            "name": "immediate",
+            "type": "boolean",
+            "optional": true,
+            "defaultValue": "false"
+          },
+          {
+            "name": "motion",
+            "type": "MotionLevel",
+            "optional": true,
+            "description": "Motion override. `none` renders the static final state, `subtle` is opacity only."
+          },
+          {
+            "name": "once",
+            "type": "boolean",
+            "optional": true,
+            "defaultValue": "true"
+          },
+          {
+            "name": "order",
+            "type": "StaggerDirection",
+            "optional": true,
+            "description": "Order the children appear in. Default `forward`.",
+            "defaultValue": "\"forward\""
+          },
+          {
+            "name": "spring",
+            "type": "SpringInput",
+            "optional": true
+          },
+          {
+            "name": "step",
+            "type": "number",
+            "optional": true,
+            "description": "Delay between children in ms. Default 60.",
+            "defaultValue": "60"
+          },
+          {
+            "name": "threshold",
+            "type": "number",
+            "optional": true
+          },
+          {
+            "name": "variant",
+            "type": "RevealVariant",
+            "optional": true,
+            "defaultValue": "\"slide\""
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "as",
+      "children",
+      "delay",
+      "direction",
+      "distance",
+      "duration",
+      "engine",
+      "immediate",
+      "motion",
+      "once",
+      "order",
+      "spring",
+      "step",
+      "threshold",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/stagger-list.tsx"
+  },
   "status-dot": {
     "primaryPropsType": "StatusDotProps",
     "propsTypes": [
@@ -3311,12 +8136,68 @@ export const generatedApiMetadata = {
     ],
     "sourceFile": "packages/ui/src/components/status-dot.tsx"
   },
+  "streaming-text": {
+    "primaryPropsType": "StreamingTextProps",
+    "propsTypes": [
+      {
+        "name": "StreamingTextProps",
+        "fields": [
+          {
+            "name": "caret",
+            "type": "boolean",
+            "optional": true,
+            "description": "Show a blinking caret while revealing.",
+            "defaultValue": "true"
+          },
+          {
+            "name": "instant",
+            "type": "boolean",
+            "optional": true,
+            "description": "Skip the animation and render everything at once.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "onDone",
+            "type": "() => void",
+            "optional": true,
+            "description": "Called once each time the full text has been revealed."
+          },
+          {
+            "name": "speed",
+            "type": "number",
+            "optional": true,
+            "description": "Milliseconds per character.",
+            "defaultValue": "24"
+          },
+          {
+            "name": "text",
+            "type": "string",
+            "optional": false
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "caret",
+      "instant",
+      "onDone",
+      "speed",
+      "text"
+    ],
+    "sourceFile": "packages/ui/src/components/streaming-text.tsx"
+  },
   "switch": {
     "primaryPropsType": "SwitchProps",
     "propsTypes": [
       {
         "name": "SwitchProps",
         "fields": [
+          {
+            "name": "activeColor",
+            "type": "string",
+            "optional": true,
+            "description": "Custom checked color (any CSS color). Applied as a CSS custom property, no inline style."
+          },
           {
             "name": "checked",
             "type": "boolean",
@@ -3330,10 +8211,35 @@ export const generatedApiMetadata = {
             "description": "Initial checked state for uncontrolled usage."
           },
           {
+            "name": "description",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Helper text under the label, linked through aria-describedby."
+          },
+          {
             "name": "disabled",
             "type": "boolean",
             "optional": true,
             "description": "Prevents interaction and applies muted styling."
+          },
+          {
+            "name": "fieldClassName",
+            "type": "string",
+            "optional": true,
+            "description": "Class applied to the label row wrapper (only when label or description is set)."
+          },
+          {
+            "name": "label",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Field label. Renders a clickable label row."
+          },
+          {
+            "name": "loading",
+            "type": "boolean",
+            "optional": true,
+            "description": "Shows a spinner in the thumb, makes the switch inert and sets aria-busy.",
+            "defaultValue": "false"
           },
           {
             "name": "name",
@@ -3342,16 +8248,56 @@ export const generatedApiMetadata = {
             "description": "Form field name submitted with form data."
           },
           {
+            "name": "offIcon",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Icon shown inside the thumb when off (sized to the thumb)."
+          },
+          {
+            "name": "offLabel",
+            "type": "string",
+            "optional": true,
+            "description": "Text for the off state when `showLabels` is set.",
+            "defaultValue": "\"Off\""
+          },
+          {
             "name": "onCheckedChange",
             "type": "(checked: boolean) => void",
             "optional": true,
             "description": "Callback fired when the checked state changes."
           },
           {
+            "name": "onIcon",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Icon shown inside the thumb when on (sized to the thumb)."
+          },
+          {
+            "name": "onLabel",
+            "type": "string",
+            "optional": true,
+            "description": "Text for the on state when `showLabels` is set.",
+            "defaultValue": "\"On\""
+          },
+          {
             "name": "required",
             "type": "boolean",
             "optional": true,
             "description": "Marks the switch as required within a form."
+          },
+          {
+            "name": "showLabels",
+            "type": "boolean",
+            "optional": true,
+            "description": "Render \"On\"/\"Off\" text inside the track (large size only).",
+            "defaultValue": "false"
+          },
+          {
+            "name": "size",
+            "type": "SwitchSize",
+            "optional": true,
+            "description": "Track and thumb size: sm 36x20, md 44x24, lg 52x28.",
+            "defaultValue": "\"md\""
           },
           {
             "name": "value",
@@ -3361,21 +8307,31 @@ export const generatedApiMetadata = {
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"frosted\" | \"liquid\" | \"matte\"",
+            "type": "ControlVariantProp",
             "optional": true,
-            "description": "Variant option from switchVariants.",
-            "defaultValue": "\"default\""
+            "description": "Track look. Omit to follow the ambient design style (glinr = inset well track with a raised accent fill). Also: solid, plain, soft, outline, ghost, glass (opt-in, liquid fill), liquid, matte, frosted."
           }
         ]
       }
     ],
     "explicitProps": [
+      "activeColor",
       "checked",
       "defaultChecked",
+      "description",
       "disabled",
+      "fieldClassName",
+      "label",
+      "loading",
       "name",
+      "offIcon",
+      "offLabel",
       "onCheckedChange",
+      "onIcon",
+      "onLabel",
       "required",
+      "showLabels",
+      "size",
       "value",
       "variant"
     ],
@@ -3465,9 +8421,7 @@ export const generatedApiMetadata = {
           {
             "name": "size",
             "type": "\"sm\" | \"md\" | \"lg\"",
-            "optional": true,
-            "description": "Variant option from tableWrapperVariants.",
-            "defaultValue": "\"md\""
+            "optional": true
           },
           {
             "name": "stickyFirstColumn",
@@ -3489,10 +8443,16 @@ export const generatedApiMetadata = {
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"outline\" | \"ghost\" | \"liquid\" | \"matte\"",
+            "type": "SurfaceVariant | \"liquid\" | \"matte\" | \"lift\" | \"default\" | \"raised\" | \"frosted\"",
             "optional": true,
-            "description": "Variant option from tableWrapperVariants.",
-            "defaultValue": "\"default\""
+            "description": "Visual variant. Omit for the ambient design style (glinr: lift wrapper with a raised header strip; plain: shadcn table). Vocabulary: glinr, solid, plain, soft, outline, ghost, gradient, glass. liquid, matte and the legacy `lift` alias stay supported."
+          },
+          {
+            "name": "wide",
+            "type": "boolean | string",
+            "optional": true,
+            "description": "Force a minimum table width so the wrapper scrolls horizontally on narrow screens.",
+            "defaultValue": "false"
           }
         ]
       },
@@ -3506,6 +8466,31 @@ export const generatedApiMetadata = {
             "defaultValue": "\"default\""
           }
         ]
+      },
+      {
+        "name": "YesNoProps",
+        "fields": [
+          {
+            "name": "noLabel",
+            "type": "string",
+            "optional": true,
+            "description": "Screen reader text for the no state.",
+            "defaultValue": "\"No\""
+          },
+          {
+            "name": "value",
+            "type": "boolean",
+            "optional": false,
+            "description": "True renders a check, false renders a minus."
+          },
+          {
+            "name": "yesLabel",
+            "type": "string",
+            "optional": true,
+            "description": "Screen reader text for the yes state.",
+            "defaultValue": "\"Yes\""
+          }
+        ]
       }
     ],
     "explicitProps": [
@@ -3514,6 +8499,7 @@ export const generatedApiMetadata = {
       "grid",
       "interactive",
       "layout",
+      "noLabel",
       "noWrap",
       "rowDividers",
       "size",
@@ -3523,7 +8509,10 @@ export const generatedApiMetadata = {
       "striped",
       "tone",
       "truncate",
-      "variant"
+      "value",
+      "variant",
+      "wide",
+      "yesLabel"
     ],
     "sourceFile": "packages/ui/src/components/table.tsx"
   },
@@ -3535,17 +8524,13 @@ export const generatedApiMetadata = {
         "fields": [
           {
             "name": "size",
-            "type": "\"sm\" | \"md\" | \"lg\"",
-            "optional": true,
-            "description": "Variant option from tabsContentVariants.",
-            "defaultValue": "\"md\""
+            "type": "TabsSize",
+            "optional": true
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"outline\" | \"ghost\" | \"liquid\" | \"matte\"",
-            "optional": true,
-            "description": "Variant option from tabsContentVariants.",
-            "defaultValue": "\"default\""
+            "type": "TabsVariant",
+            "optional": true
           }
         ]
       },
@@ -3554,40 +8539,45 @@ export const generatedApiMetadata = {
         "fields": [
           {
             "name": "size",
-            "type": "\"sm\" | \"md\" | \"lg\"",
-            "optional": true,
-            "description": "Variant option from tabsListVariants.",
-            "defaultValue": "\"md\""
+            "type": "TabsSize",
+            "optional": true
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"outline\" | \"ghost\" | \"liquid\" | \"matte\"",
-            "optional": true,
-            "description": "Variant option from tabsListVariants.",
-            "defaultValue": "\"default\""
+            "type": "TabsVariant",
+            "optional": true
           }
         ]
       },
       {
         "name": "TabsProps",
-        "fields": []
+        "fields": [
+          {
+            "name": "size",
+            "type": "TabsSize",
+            "optional": true,
+            "description": "Default size for every part inside."
+          },
+          {
+            "name": "variant",
+            "type": "TabsVariant",
+            "optional": true,
+            "description": "Default look for every list, trigger and panel inside. Each part can still set its own."
+          }
+        ]
       },
       {
         "name": "TabsTriggerProps",
         "fields": [
           {
             "name": "size",
-            "type": "\"sm\" | \"md\" | \"lg\"",
-            "optional": true,
-            "description": "Variant option from tabsTriggerVariants.",
-            "defaultValue": "\"md\""
+            "type": "TabsSize",
+            "optional": true
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"outline\" | \"ghost\" | \"liquid\" | \"matte\"",
-            "optional": true,
-            "description": "Variant option from tabsTriggerVariants.",
-            "defaultValue": "\"default\""
+            "type": "TabsVariant",
+            "optional": true
           }
         ]
       }
@@ -3598,12 +8588,242 @@ export const generatedApiMetadata = {
     ],
     "sourceFile": "packages/ui/src/components/tabs.tsx"
   },
+  "terminal": {
+    "primaryPropsType": "TerminalProps",
+    "propsTypes": [
+      {
+        "name": "AnimatedSpanProps",
+        "fields": [
+          {
+            "name": "delay",
+            "type": "number",
+            "optional": true,
+            "description": "Milliseconds to wait after this line's turn before it appears.",
+            "defaultValue": "0"
+          }
+        ]
+      },
+      {
+        "name": "TerminalProps",
+        "fields": [
+          {
+            "name": "copyValue",
+            "type": "string",
+            "optional": true,
+            "description": "Text copied by the button. Defaults to the full transcript."
+          },
+          {
+            "name": "engine",
+            "type": "EngineName",
+            "optional": true,
+            "description": "Engine override: `css` (default), `motion`, `gsap` or a registered custom engine."
+          },
+          {
+            "name": "motion",
+            "type": "MotionLevel",
+            "optional": true,
+            "description": "Motion override. `none` renders the static final state, `subtle` is opacity only."
+          },
+          {
+            "name": "outputClassName",
+            "type": "string",
+            "optional": true,
+            "description": "Class for the scrolling output area."
+          },
+          {
+            "name": "sequence",
+            "type": "boolean",
+            "optional": true,
+            "description": "Reveal animated children one after another.",
+            "defaultValue": "true"
+          },
+          {
+            "name": "showCopy",
+            "type": "boolean",
+            "optional": true,
+            "description": "Show the copy button.",
+            "defaultValue": "true"
+          },
+          {
+            "name": "startOnView",
+            "type": "boolean",
+            "optional": true,
+            "description": "Wait until the terminal is scrolled into view before playing.",
+            "defaultValue": "true"
+          },
+          {
+            "name": "title",
+            "type": "string",
+            "optional": true,
+            "description": "Window title in the chrome."
+          },
+          {
+            "name": "tone",
+            "type": "SurfaceTone",
+            "optional": true
+          },
+          {
+            "name": "variant",
+            "type": "SurfaceVariant | \"default\" | \"raised\" | \"frosted\"",
+            "optional": true,
+            "description": "Visual variant. Omit for the ambient design style (glinr: lift shell, raised chrome strip, inset output well; plain: flat bordered terminal)."
+          }
+        ]
+      },
+      {
+        "name": "TypingAnimationProps",
+        "fields": [
+          {
+            "name": "as",
+            "type": "\"span\" | \"div\" | \"p\"",
+            "optional": true,
+            "defaultValue": "\"span\""
+          },
+          {
+            "name": "children",
+            "type": "string",
+            "optional": false,
+            "description": "Text to type. Must be a string."
+          },
+          {
+            "name": "delay",
+            "type": "number",
+            "optional": true,
+            "description": "Milliseconds to wait after this line's turn before typing starts.",
+            "defaultValue": "0"
+          },
+          {
+            "name": "duration",
+            "type": "number",
+            "optional": true,
+            "description": "Milliseconds per character.",
+            "defaultValue": "60"
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "as",
+      "children",
+      "copyValue",
+      "delay",
+      "duration",
+      "engine",
+      "motion",
+      "outputClassName",
+      "sequence",
+      "showCopy",
+      "startOnView",
+      "title",
+      "tone",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/terminal.tsx"
+  },
+  "testimonials-wall": {
+    "primaryPropsType": "TestimonialsWallProps",
+    "propsTypes": [
+      {
+        "name": "TestimonialsWallProps",
+        "fields": [
+          {
+            "name": "description",
+            "type": "React.ReactNode",
+            "optional": true
+          },
+          {
+            "name": "duration",
+            "type": "number",
+            "optional": true,
+            "description": "Seconds for one marquee loop.",
+            "defaultValue": "40"
+          },
+          {
+            "name": "eyebrow",
+            "type": "React.ReactNode",
+            "optional": true
+          },
+          {
+            "name": "items",
+            "type": "TestimonialItem[]",
+            "optional": false
+          },
+          {
+            "name": "layout",
+            "type": "TestimonialsWallLayout",
+            "optional": true,
+            "defaultValue": "\"masonry-columns\""
+          },
+          {
+            "name": "title",
+            "type": "React.ReactNode",
+            "optional": true
+          },
+          {
+            "name": "variant",
+            "type": "BlockVariant",
+            "optional": true,
+            "description": "Shell look of the cards. Omit to follow the ambient style."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "description",
+      "duration",
+      "eyebrow",
+      "items",
+      "layout",
+      "title",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/testimonials-wall.tsx"
+  },
   "text-reveal": {
     "primaryPropsType": "TextRevealProps",
     "propsTypes": [
       {
         "name": "TextRevealProps",
         "fields": [
+          {
+            "name": "duration",
+            "type": "number",
+            "optional": true,
+            "description": "Duration per word in ms (`reveal` mode)."
+          },
+          {
+            "name": "engine",
+            "type": "EngineName",
+            "optional": true,
+            "description": "Engine override: `css` (default), `motion`, `gsap` or a registered custom engine."
+          },
+          {
+            "name": "immediate",
+            "type": "boolean",
+            "optional": true,
+            "description": "Play on mount instead of waiting for the viewport (`reveal` mode).",
+            "defaultValue": "false"
+          },
+          {
+            "name": "mode",
+            "type": "\"scroll\" | \"reveal\"",
+            "optional": true,
+            "description": "`scroll` (default) scrubs word opacity with scroll position and is css only. `reveal` plays a timed word-by-word reveal once in view, driven by the active motion engine.",
+            "defaultValue": "\"scroll\""
+          },
+          {
+            "name": "motion",
+            "type": "MotionLevel",
+            "optional": true,
+            "description": "Motion override. `none` renders the static final state, `subtle` is opacity only."
+          },
+          {
+            "name": "step",
+            "type": "number",
+            "optional": true,
+            "description": "Delay between words in ms (`reveal` mode). Default 60.",
+            "defaultValue": "60"
+          },
           {
             "name": "text",
             "type": "string",
@@ -3613,6 +8833,12 @@ export const generatedApiMetadata = {
       }
     ],
     "explicitProps": [
+      "duration",
+      "engine",
+      "immediate",
+      "mode",
+      "motion",
+      "step",
       "text"
     ],
     "sourceFile": "packages/ui/src/components/text-reveal.tsx"
@@ -3624,6 +8850,27 @@ export const generatedApiMetadata = {
         "name": "TextProps",
         "fields": [
           {
+            "name": "as",
+            "type": "\"p\" | \"span\" | \"div\"",
+            "optional": true,
+            "description": "Element to render. Use `span` with `tone` for an inline mark.",
+            "defaultValue": "\"p\""
+          },
+          {
+            "name": "dot",
+            "type": "boolean",
+            "optional": true,
+            "description": "Eyebrow variant only: show the accent dot before the label.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "lead",
+            "type": "\"true\" | \"false\"",
+            "optional": true,
+            "description": "Variant option from textVariants.",
+            "defaultValue": "false"
+          },
+          {
             "name": "size",
             "type": "\"sm\" | \"md\" | \"lg\"",
             "optional": true,
@@ -3631,8 +8878,14 @@ export const generatedApiMetadata = {
             "defaultValue": "\"md\""
           },
           {
+            "name": "tone",
+            "type": "\"live\" | \"violet\"",
+            "optional": true,
+            "description": "Variant option from textVariants."
+          },
+          {
             "name": "variant",
-            "type": "\"default\" | \"muted\" | \"glass\" | \"ghost\"",
+            "type": "\"default\" | \"muted\" | \"glass\" | \"ghost\" | \"eyebrow\"",
             "optional": true,
             "description": "Variant option from textVariants.",
             "defaultValue": "\"default\""
@@ -3641,7 +8894,11 @@ export const generatedApiMetadata = {
       }
     ],
     "explicitProps": [
+      "as",
+      "dot",
+      "lead",
       "size",
+      "tone",
       "variant"
     ],
     "sourceFile": "packages/ui/src/components/text.tsx"
@@ -3656,15 +8913,14 @@ export const generatedApiMetadata = {
             "name": "size",
             "type": "\"sm\" | \"md\" | \"lg\"",
             "optional": true,
-            "description": "Variant option from textareaVariants.",
+            "description": "Variant option from textareaSizeVariants.",
             "defaultValue": "\"md\""
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"frosted\" | \"liquid\" | \"matte\" | \"outline\" | \"ghost\" | \"underline\" | \"filled\"",
+            "type": "ControlVariantProp",
             "optional": true,
-            "description": "Variant option from textareaVariants.",
-            "defaultValue": "\"default\""
+            "description": "Surface look. Omit to follow the ambient design style. Same vocabulary as Input."
           }
         ]
       }
@@ -3674,6 +8930,76 @@ export const generatedApiMetadata = {
       "variant"
     ],
     "sourceFile": "packages/ui/src/components/textarea.tsx"
+  },
+  "thinking": {
+    "primaryPropsType": "ThinkingProps",
+    "propsTypes": [
+      {
+        "name": "ThinkingProps",
+        "fields": [
+          {
+            "name": "active",
+            "type": "boolean",
+            "optional": true,
+            "description": "True while the model is working. False renders the finished label.",
+            "defaultValue": "true"
+          },
+          {
+            "name": "children",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Reasoning details. When provided the header becomes a disclosure button."
+          },
+          {
+            "name": "defaultOpen",
+            "type": "boolean",
+            "optional": true,
+            "defaultValue": "false"
+          },
+          {
+            "name": "doneLabel",
+            "type": "string",
+            "optional": true,
+            "description": "Label once finished, e.g. \"Thought for 4 seconds\".",
+            "defaultValue": "\"Thought process\""
+          },
+          {
+            "name": "indicator",
+            "type": "\"dots\" | \"shimmer\"",
+            "optional": true,
+            "description": "Indicator style while active.",
+            "defaultValue": "\"dots\""
+          },
+          {
+            "name": "label",
+            "type": "string",
+            "optional": true,
+            "defaultValue": "\"Thinking\""
+          },
+          {
+            "name": "onOpenChange",
+            "type": "(open: boolean) => void",
+            "optional": true
+          },
+          {
+            "name": "open",
+            "type": "boolean",
+            "optional": true
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "active",
+      "children",
+      "defaultOpen",
+      "doneLabel",
+      "indicator",
+      "label",
+      "onOpenChange",
+      "open"
+    ],
+    "sourceFile": "packages/ui/src/components/thinking.tsx"
   },
   "toast": {
     "primaryPropsType": "ToastProps",
@@ -3697,11 +9023,17 @@ export const generatedApiMetadata = {
             "defaultValue": "\"md\""
           },
           {
-            "name": "variant",
-            "type": "\"default\" | \"glass\" | \"frosted\" | \"matte\"",
+            "name": "tone",
+            "type": "\"none\" | \"success\" | \"warning\" | \"danger\" | \"info\"",
             "optional": true,
             "description": "Variant option from toastVariants.",
-            "defaultValue": "\"glass\""
+            "defaultValue": "\"none\""
+          },
+          {
+            "name": "variant",
+            "type": "PanelVariantProp | ToastStatus",
+            "optional": true,
+            "description": "Surface look, or a status (`success`, `warning`, `destructive`, `info`) which keeps the ambient look and adds a status bar. Omit for the ambient design style (glinr by default). `glass` is opt-in."
           }
         ]
       },
@@ -3716,9 +9048,76 @@ export const generatedApiMetadata = {
     ],
     "explicitProps": [
       "size",
+      "tone",
       "variant"
     ],
     "sourceFile": "packages/ui/src/components/toast.tsx"
+  },
+  "toggle-group": {
+    "primaryPropsType": "ToggleGroupProps",
+    "propsTypes": [
+      {
+        "name": "ToggleGroupItemProps",
+        "fields": [
+          {
+            "name": "variant",
+            "type": "ControlVariantProp",
+            "optional": true
+          }
+        ]
+      },
+      {
+        "name": "ToggleGroupProps",
+        "fields": [
+          {
+            "name": "spacing",
+            "type": "ToggleGroupSpacing",
+            "optional": true,
+            "description": "Gap between items. 0 merges items into one segmented control.",
+            "defaultValue": "0"
+          },
+          {
+            "name": "variant",
+            "type": "ControlVariantProp",
+            "optional": true,
+            "description": "Surface look for every item. Omit to follow the ambient design style. Same vocabulary as Toggle."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "spacing",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/toggle-group.tsx"
+  },
+  "toggle": {
+    "primaryPropsType": "ToggleProps",
+    "propsTypes": [
+      {
+        "name": "ToggleProps",
+        "fields": [
+          {
+            "name": "size",
+            "type": "\"sm\" | \"md\" | \"lg\"",
+            "optional": true,
+            "description": "Variant option from toggleVariants.",
+            "defaultValue": "\"md\""
+          },
+          {
+            "name": "variant",
+            "type": "ControlVariantProp",
+            "optional": true,
+            "description": "Surface look. Omit to follow the ambient design style (glinr = raised key that presses in when on). Also: solid, plain, soft, outline, ghost, glass (opt-in)."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "size",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/toggle.tsx"
   },
   "tooltip": {
     "primaryPropsType": "TooltipProps",
@@ -3726,6 +9125,12 @@ export const generatedApiMetadata = {
       {
         "name": "TooltipContentProps",
         "fields": [
+          {
+            "name": "container",
+            "type": "HTMLElement | null",
+            "optional": true,
+            "description": "Element to portal into. Defaults to document.body."
+          },
           {
             "name": "side",
             "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
@@ -3741,10 +9146,9 @@ export const generatedApiMetadata = {
           },
           {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"frosted\"",
+            "type": "PanelVariantProp",
             "optional": true,
-            "description": "Variant option from tooltipContentVariants.",
-            "defaultValue": "\"default\""
+            "description": "Surface look. Omit for the ambient design style: a compact high-contrast pill that inverts per theme scope (dark pill in light, light pill in dark). `glass` is opt-in and needs a rich backdrop."
           }
         ]
       },
@@ -3779,6 +9183,7 @@ export const generatedApiMetadata = {
       }
     ],
     "explicitProps": [
+      "container",
       "defaultOpen",
       "delayDuration",
       "onOpenChange",
@@ -3815,11 +9220,15 @@ export const generatedApiMetadata = {
             "description": "Tree data"
           },
           {
+            "name": "tone",
+            "type": "SurfaceTone",
+            "optional": true
+          },
+          {
             "name": "variant",
-            "type": "\"default\" | \"glass\" | \"outline\" | \"ghost\"",
+            "type": "SurfaceVariant | \"default\" | \"raised\" | \"frosted\"",
             "optional": true,
-            "description": "Variant option from treeVariants.",
-            "defaultValue": "\"default\""
+            "description": "Visual variant. Omit for the ambient design style (glinr: lift shell; plain: flat bordered list)."
           }
         ]
       }
@@ -3828,6 +9237,7 @@ export const generatedApiMetadata = {
       "className",
       "defaultExpanded",
       "nodes",
+      "tone",
       "variant"
     ],
     "sourceFile": "packages/ui/src/components/tree.tsx"
@@ -3867,11 +9277,23 @@ export const generatedApiMetadata = {
             "defaultValue": "30"
           },
           {
+            "name": "engine",
+            "type": "EngineName",
+            "optional": true,
+            "description": "Engine override: `css` (default), `motion`, `gsap` or a registered custom engine."
+          },
+          {
             "name": "loop",
             "type": "boolean",
             "optional": true,
             "description": "Loop the typing animation. Default: false",
             "defaultValue": "false"
+          },
+          {
+            "name": "motion",
+            "type": "MotionLevel",
+            "optional": true,
+            "description": "Motion override. `none` renders the static final state, `subtle` is opacity only."
           },
           {
             "name": "onComplete",
@@ -3913,7 +9335,9 @@ export const generatedApiMetadata = {
       "cursorChar",
       "delay",
       "deleteSpeed",
+      "engine",
       "loop",
+      "motion",
       "onComplete",
       "pauseDuration",
       "speed",
@@ -3943,6 +9367,18 @@ export const generatedApiMetadata = {
             "defaultValue": "2500"
           },
           {
+            "name": "engine",
+            "type": "EngineName",
+            "optional": true,
+            "description": "Engine override: `css` (default), `motion`, `gsap` or a registered custom engine."
+          },
+          {
+            "name": "motion",
+            "type": "MotionLevel",
+            "optional": true,
+            "description": "Motion override. `none` renders the static final state, `subtle` is opacity only."
+          },
+          {
             "name": "words",
             "type": "string[]",
             "optional": false,
@@ -3954,9 +9390,11 @@ export const generatedApiMetadata = {
     "explicitProps": [
       "animationDuration",
       "duration",
+      "engine",
+      "motion",
       "words"
     ],
     "sourceFile": "packages/ui/src/components/word-rotate.tsx"
   }
 } as const satisfies Record<string, GeneratedApiComponentEntry>
-export const generatedApiMetadataGeneratedAt = "2026-02-19T17:59:28.468Z" as const
+export const generatedApiMetadataGeneratedAt = "2026-10-08T01:41:21.546Z" as const

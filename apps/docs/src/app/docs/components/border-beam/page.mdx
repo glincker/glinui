@@ -1,8 +1,11 @@
 import { getRegistryItem } from "@glinui/registry"
-import { BorderBeam } from "@glinui/ui"
+import { BorderBeam, Card } from "@glinui/ui"
+import { BorderBeamHero, BorderBeamVariants, BorderBeamTones, BorderBeamLayout } from "@/components/demos/family-demos"
+import { MetricsBeam } from "@/components/demos/s5-motion"
+import { s5Code } from "@/lib/s5-code.generated"
 import { ComponentDocLayout } from "@/components/docs/component-doc-layout"
 import { ExampleBlock } from "@/components/docs/example-block"
-import { InstallTabs } from "@/components/docs/install-tabs"
+import { ComponentHero, ComponentInstall } from "@/components/docs/component-hero"
 import { getComponentSources } from "@/lib/get-component-source"
 import { PropsTable } from "@/components/docs/props-table"
 import { createDocsMetadata } from "@/lib/docs-metadata"
@@ -23,79 +26,107 @@ export const metadata = createDocsMetadata({
   title="Border Beam"
   description={item?.description ?? "Light beam traveling along container border."}
 >
+  <ComponentHero
+    componentId="border-beam"
+    title="Border Beam"
+    stage="md"
+    code={s5Code.MetricsBeam}
+  >
+    <MetricsBeam />
+  </ComponentHero>
+
   ## Installation
 
-  <InstallTabs sources={sources} command={item?.install.package ?? "pnpm add @glinui/ui @glinui/tokens"} />
-
-  ### Registry
-
-  <InstallTabs command={item?.install.registry ?? "pnpm dlx @glinui/cli@latest add border-beam"} />
+  <ComponentInstall componentId="border-beam" sources={sources} />
 
   ## Usage
 
   Wrap any container with `position: relative` and place `BorderBeam` inside. The beam travels along the border using CSS `offset-path`.
 
-  ### Basic
-
-  <ExampleBlock
-    codeDefaultOpen
-    code={`import { BorderBeam } from "@glinui/ui"
-
-export function BorderBeamDemo() {
-  return (
-    <div className="relative h-40 w-full max-w-md rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
-      <BorderBeam />
-    </div>
-  )
-}`}
-  >
-    <div className="relative h-40 w-full max-w-md rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
-      <BorderBeam />
-    </div>
-  </ExampleBlock>
+  A beam of accent light travels the edge of a glinr metrics card. The beam is a decorative overlay, so the card underneath keeps its normal surface.
 
   ## Examples
 
-  ### Custom Colors
+  ### Variants
+
+  `glinr` is the default, `plain` is the flat shadcn look, `solid` is a neutral tonal face and `glass` is opt-in. Glass needs a backdrop, so the set below sits on a vivid one.
 
   <ExampleBlock
-    code={`import { BorderBeam } from "@glinui/ui"
+    code={`import { BorderBeam, Card } from "@glinui/ui"
 
-export function BorderBeamColorDemo() {
+// Omit variant to follow the ambient style (glinr by default).
+export function BorderBeamVariants() {
   return (
-    <div className="relative h-40 w-full max-w-md rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
-      <BorderBeam colorFrom="#6366f1" colorTo="#a855f7" />
-    </div>
+    <>
+      <Card variant="glinr" className="relative">
+  <BorderBeam size={180} />
+        ...
+      </Card>
+      <Card variant="plain" className="relative">
+  <BorderBeam size={180} />
+        ...
+      </Card>
+      <Card variant="solid" className="relative">
+  <BorderBeam size={180} />
+        ...
+      </Card>
+      <Card variant="glass" className="relative">
+  <BorderBeam size={180} />
+        ...
+      </Card>
+    </>
   )
 }`}
   >
-    <div className="relative h-40 w-full max-w-md rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
-      <BorderBeam colorFrom="#6366f1" colorTo="#a855f7" />
-    </div>
+    <BorderBeamVariants />
   </ExampleBlock>
 
-  ### Slow Duration
+  ### Colors
+
+  `colorFrom` takes any token or color.
 
   <ExampleBlock
-    code={`import { BorderBeam } from "@glinui/ui"
+    code={`import { BorderBeam, Card } from "@glinui/ui"
 
-export function BorderBeamSlowDemo() {
+export function BorderBeamTones() {
   return (
-    <div className="relative h-40 w-full max-w-md rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
-      <BorderBeam duration={12} size={150} />
-    </div>
+    <Card className="relative">
+  <BorderBeam colorFrom="var(--tone-success)" />
+      ...
+    </Card>
   )
 }`}
   >
-    <div className="relative h-40 w-full max-w-md rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
-      <BorderBeam duration={12} size={150} />
-    </div>
+    <BorderBeamTones />
   </ExampleBlock>
+
+  ### In a layout
+
+  Beam cards as metric tiles in a dashboard row.
+
+  <ExampleBlock
+    code={`// Beam cards as metric tiles in a dashboard row.
+import { BorderBeam, Card } from "@glinui/ui"
+
+export function BorderBeamLayout() {
+  return (
+    <section className="grid gap-4 sm:grid-cols-3">
+      ...
+    </section>
+  )
+}`}
+  >
+    <BorderBeamLayout />
+  </ExampleBlock>
+
+  ## Engines
+
+  The `engine` prop is not applicable. Looping offset-path beam in css; path driven. It stays css only and still honors motion level `none` and reduced motion.
 
   ## Accessibility
 
   - `BorderBeam` is purely decorative and does not receive focus.
-  - No interactive elements — safe for screen readers.
+  - No interactive elements, safe for screen readers.
 
   ## Reduced Motion
 

@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Slider",
   "description": "Range input control built on Radix slider primitive with glass thumb/track styling.",
-  "docsPath": "/docs/components/slider",
+  "docsPath": "/docs/components/radix/slider",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

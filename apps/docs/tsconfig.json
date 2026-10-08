@@ -3,21 +3,38 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "next-themes": ["./src/lib/next-themes"],
-      "@glinui/ui": ["../../packages/ui/src/index.ts"],
-      "@glinui/ui/*": ["../../packages/ui/src/*"],
-      "@glinui/registry": ["../../packages/registry/src/index.ts"],
-      "@glinui/tokens": ["../../packages/tokens/src/index.ts"],
-      "@glinui/motion": ["../../packages/motion/src/index.ts"]
+      "@/*": [
+        "./src/*"
+      ],
+      "next-themes": [
+        "./src/lib/next-themes"
+      ],
+      "@glinui/ui": [
+        "../../packages/ui/src/index.ts"
+      ],
+      "@glinui/ui/*": [
+        "../../packages/ui/src/*"
+      ],
+      "@glinui/registry": [
+        "../../packages/registry/src/index.ts"
+      ],
+      "@glinui/tokens": [
+        "../../packages/tokens/src/index.ts"
+      ],
+      "@glinui/motion": [
+        "../../packages/motion/src/index.ts"
+      ]
     }
   },
   "include": [
+    ".next/types/**/*.ts",
+    "content/**/*.mdx",
     "next-env.d.ts",
     "src/**/*.ts",
     "src/**/*.tsx",
-    "content/**/*.mdx",
-    ".next/types/**/*.ts"
+    ".next-b1/types/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }

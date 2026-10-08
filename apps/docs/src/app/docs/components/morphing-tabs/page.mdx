@@ -1,8 +1,9 @@
 import { getRegistryItem } from "@glinui/registry"
 import { MorphingTabs } from "@glinui/ui"
+import { SigHero } from "@/components/demos/s2-signature-mdx"
 import { ComponentDocLayout } from "@/components/docs/component-doc-layout"
 import { ExampleBlock } from "@/components/docs/example-block"
-import { InstallTabs } from "@/components/docs/install-tabs"
+import { ComponentHero, ComponentInstall } from "@/components/docs/component-hero"
 import { getComponentSources } from "@/lib/get-component-source"
 import { PropsTable } from "@/components/docs/props-table"
 import { createDocsMetadata } from "@/lib/docs-metadata"
@@ -23,51 +24,15 @@ export const metadata = createDocsMetadata({
   title="Morphing Tabs"
   description={item?.description ?? "Tab component with a smoothly sliding indicator that morphs between items."}
 >
+  <SigHero id="morphing-tabs" title="Morphing Tabs" name="MorphingTabsHero" stage="lg" />
+
   ## Installation
 
-  <InstallTabs sources={sources} command={item?.install.package ?? "pnpm add @glinui/ui @glinui/tokens"} />
-
-  ### Registry
-
-  <InstallTabs command={item?.install.registry ?? "pnpm dlx @glinui/cli@latest add morphing-tabs"} />
+  <ComponentInstall componentId="morphing-tabs" sources={sources} />
 
   ## Usage
 
   `MorphingTabs` is a `"use client"` component. Pass an array of `items` with `id` and `label`. The active indicator smoothly slides between tabs.
-
-  ### Basic
-
-  <ExampleBlock
-    codeDefaultOpen
-    code={`"use client"
-import { MorphingTabs } from "@glinui/ui"
-
-export function MorphingTabsDemo() {
-  return (
-    <div className="flex items-center justify-center p-8">
-      <MorphingTabs
-        items={[
-          { id: "overview", label: "Overview" },
-          { id: "features", label: "Features" },
-          { id: "pricing", label: "Pricing" },
-          { id: "docs", label: "Docs" }
-        ]}
-      />
-    </div>
-  )
-}`}
-  >
-    <div className="flex items-center justify-center p-8">
-      <MorphingTabs
-        items={[
-          { id: "overview", label: "Overview" },
-          { id: "features", label: "Features" },
-          { id: "pricing", label: "Pricing" },
-          { id: "docs", label: "Docs" }
-        ]}
-      />
-    </div>
-  </ExampleBlock>
 
   ## Examples
 
@@ -137,6 +102,100 @@ export function MorphingTabsSolidDemo() {
         ]}
       />
     </div>
+  </ExampleBlock>
+
+  ### Variants
+
+  Omit `variant` to follow the ambient design style: `glinr` is the raised pill track with a sliding key, `plain` is the flat shadcn track. The indicator moves with `transform` only.
+
+  <ExampleBlock
+    code={`"use client"
+import { MorphingTabs } from "@glinui/ui"
+
+export function MorphingTabsVariantsDemo() {
+  return (
+    <div className="flex flex-col items-start gap-4">
+      <MorphingTabs variant="glinr" items={[
+          { id: "a", label: "One" },
+          { id: "b", label: "Two" },
+          { id: "c", label: "Three" }
+        ]} />
+      <MorphingTabs variant="plain" items={[
+          { id: "a", label: "One" },
+          { id: "b", label: "Two" },
+          { id: "c", label: "Three" }
+        ]} />
+      <MorphingTabs variant="soft" items={[
+          { id: "a", label: "One" },
+          { id: "b", label: "Two" },
+          { id: "c", label: "Three" }
+        ]} />
+      <MorphingTabs variant="outline" items={[
+          { id: "a", label: "One" },
+          { id: "b", label: "Two" },
+          { id: "c", label: "Three" }
+        ]} />
+      <MorphingTabs variant="ghost" items={[
+          { id: "a", label: "One" },
+          { id: "b", label: "Two" },
+          { id: "c", label: "Three" }
+        ]} />
+    </div>
+  )
+}`}
+  >
+    <div className="flex flex-col items-start gap-4">
+      <MorphingTabs variant="glinr" items={[
+          { id: "a", label: "One" },
+          { id: "b", label: "Two" },
+          { id: "c", label: "Three" }
+        ]} />
+      <MorphingTabs variant="plain" items={[
+          { id: "a", label: "One" },
+          { id: "b", label: "Two" },
+          { id: "c", label: "Three" }
+        ]} />
+      <MorphingTabs variant="soft" items={[
+          { id: "a", label: "One" },
+          { id: "b", label: "Two" },
+          { id: "c", label: "Three" }
+        ]} />
+      <MorphingTabs variant="outline" items={[
+          { id: "a", label: "One" },
+          { id: "b", label: "Two" },
+          { id: "c", label: "Three" }
+        ]} />
+      <MorphingTabs variant="ghost" items={[
+          { id: "a", label: "One" },
+          { id: "b", label: "Two" },
+          { id: "c", label: "Three" }
+        ]} />
+    </div>
+  </ExampleBlock>
+
+  ### Glass (opt-in)
+
+  Glass needs a backdrop behind it: switch the stage backdrop to Photo or Vivid.
+
+  <ExampleBlock
+    code={`"use client"
+import { MorphingTabs } from "@glinui/ui"
+
+export function MorphingTabsGlassDemo() {
+  return (
+      <MorphingTabs variant="glass" items={[
+          { id: "a", label: "One" },
+          { id: "b", label: "Two" },
+          { id: "c", label: "Three" }
+        ]} />
+  )
+}`}
+  >
+      <MorphingTabs variant="glass" items={[
+          { id: "a", label: "One" },
+          { id: "b", label: "Two" },
+          { id: "c", label: "Three" }
+        ]} />
   </ExampleBlock>
 
   ## Accessibility

@@ -123,7 +123,7 @@ const CHECK_SRC = String.raw`
     if (cache.has(s)) return cache.get(s);
     cx.clearRect(0, 0, 1, 1); cx.fillStyle = '#000'; cx.fillStyle = s; cx.fillRect(0, 0, 1, 1);
     const d = cx.getImageData(0, 0, 1, 1).data;
-    const a = d[3] / 255; const v = a ? [d[0] * 255 / d[3], d[1] * 255 / d[3], d[2] * 255 / d[3], a] : [0, 0, 0, 0];
+    const a = d[3] / 255; const v = a ? [d[0], d[1], d[2], a] : [0, 0, 0, 0];
     cache.set(s, v); return v;
   };
   const lum = (c) => { const f = (x) => { x /= 255; return x <= .03928 ? x / 12.92 : Math.pow((x + .055) / 1.055, 2.4); }; return .2126 * f(c[0]) + .7152 * f(c[1]) + .0722 * f(c[2]); };
@@ -270,7 +270,7 @@ const HOOK_SRC = String.raw`
 `
 
 const THEME_SRC = (t) =>
-  `(async()=>{const d=document.documentElement;d.classList.toggle('dark',${t === "dark"});d.style.colorScheme='${t}';await new Promise(r=>setTimeout(r,350));return 'ok'})()`
+  `(async()=>{if(!document.getElementById('sweep-nt')){const st=document.createElement('style');st.id='sweep-nt';st.textContent='*,*::before,*::after{transition:none!important}';document.head.appendChild(st)}const d=document.documentElement;d.classList.toggle('dark',${t === "dark"});d.style.colorScheme='${t}';await new Promise(r=>setTimeout(r,350));return 'ok'})()`
 
 // ---------- per page ----------
 const animIds = await loadAnimIds()

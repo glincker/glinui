@@ -32,12 +32,11 @@ export const RetroGrid = React.forwardRef<HTMLDivElement, RetroGridProps>(
         ref={ref}
         aria-hidden
         className={cn(
-          "pointer-events-none absolute inset-0 overflow-hidden [perspective:200px]",
+          "pointer-events-none absolute inset-0 overflow-hidden [--retro-grid-duration:10s] [perspective:200px]",
           className
         )}
         style={{
           "--retro-grid-cell": `${cellSize}px`,
-          "--retro-grid-duration": "10s",
           ...style,
         } as React.CSSProperties}
         {...props}
