@@ -113,7 +113,7 @@ test("about pages exist and are wired into sitemap, sidebar, palette and footer"
     assert.match(read("src/app/sitemap.ts"), new RegExp(`route: "/docs/${route}"`))
     assert.match(read("src/components/layout/docs-sidebar.tsx"), new RegExp(`href: "/docs/${route}", label: "${label}"`))
     assert.match(read("src/components/layout/command-palette.tsx"), new RegExp(`href: "/docs/${route}"`))
-    assert.match(read("src/components/layout/site-footer.tsx"), new RegExp(`href: "/docs/${route}"`))
+    assert.match(read("src/lib/site-links.ts"), new RegExp(`href: "/docs/${route}"`))
   }
 })
 

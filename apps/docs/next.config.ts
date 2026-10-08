@@ -1,6 +1,6 @@
 import type { NextConfig } from "next"
 import createMDX from "@next/mdx"
-import { rehypeAutolinkHeadings, rehypeSlugifyHeadings } from "./mdx-plugins"
+import { rehypeAutolinkHeadings, rehypeSlugifyHeadings, remarkStripFrontmatter } from "./mdx-plugins"
 
 const nextConfig: NextConfig = {
   output: "export",
@@ -18,6 +18,7 @@ const nextConfig: NextConfig = {
 
 const withMDX = createMDX({
   options: {
+    remarkPlugins: [remarkStripFrontmatter],
     rehypePlugins: [rehypeSlugifyHeadings, rehypeAutolinkHeadings]
   }
 })

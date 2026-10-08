@@ -20,7 +20,7 @@ export const SITE_LOCALE = "en_US"
 export const ORGANIZATION_NAME = "GLINR STUDIO"
 export const ORGANIZATION_HANDLE = "@glincker"
 export const ORGANIZATION_GITHUB_URL = "https://github.com/GLINCKER/glinui"
-export const DEFAULT_OG_IMAGE_PATH = "/opengraph-image.png"
+export const DEFAULT_OG_IMAGE_PATH = "/og.png"
 export const DEFAULT_KEYWORDS = [
   "react component library",
   "design system for react",
@@ -51,3 +51,7 @@ export function createAbsoluteUrl(path = "/") {
 export function isLocalSiteUrl(url: string) {
   return /localhost|127\.0\.0\.1/.test(url)
 }
+
+/** Shown on /privacy and /terms and used as their sitemap lastmod. Update when the copy changes. */
+export const LEGAL_LAST_UPDATED = "2026-10-07"
+export const ISSUES_URL = "https://github.com/GLINCKER/glinui/issues"

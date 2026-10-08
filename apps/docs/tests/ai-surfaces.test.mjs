@@ -50,5 +50,5 @@ test("/docs/ai and /docs/variants are registered in every nav surface", () => {
   const sitemap = read("src/app/sitemap.ts")
   assert.match(sitemap, /route: "\/docs\/ai"/)
   assert.match(sitemap, /route: "\/docs\/variants"/)
-  assert.match(read("src/components/layout/site-footer.tsx"), /href: "\/docs\/ai", label: "AI-ready docs"/)
+  assert.match(read("src/lib/site-links.ts"), /href: "\/docs\/ai", label: "AI-ready docs"/)
 })

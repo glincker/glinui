@@ -54,6 +54,24 @@ function sliceJson(source, startMarker, open, close) {
   throw new Error(`unterminated block: ${startMarker}`)
 }
 
+/** Blog posts from src/content/blog/*.mdx (single-line frontmatter), newest first. */
+function loadBlogPosts() {
+  const dir = join(docsRoot, "src", "content", "blog")
+  if (!existsSync(dir)) return []
+  return readdirSync(dir)
+    .filter((f) => f.endsWith(".mdx"))
+    .map((f) => {
+      const match = /^---\r?\n([\s\S]*?)\r?\n---/.exec(read(join(dir, f)))
+      const data = {}
+      for (const line of (match?.[1] ?? "").split(/\r?\n/)) {
+        const i = line.indexOf(":")
+        if (i > 0) data[line.slice(0, i).trim()] = line.slice(i + 1).trim()
+      }
+      return { slug: f.replace(/\.mdx$/, ""), title: clean(data.title ?? f), description: clean(data.description ?? ""), date: data.date ?? "" }
+    })
+    .sort((x, y) => (x.date < y.date ? 1 : -1))
+}
+
 // ---------- taxonomy (parsed as text) ----------
 function loadTaxonomy() {
   const src = read(join(lib, "taxonomy.ts"))
@@ -326,25 +344,51 @@ function main() {
     .map((cat) => ({ cat, list: rendered.filter((r) => r.categoryId === cat.id).sort((a, b) => idx(a.meta.name) - idx(b.meta.name) || a.meta.name.localeCompare(b.meta.name)) }))
     .filter((s) => s.list.length)
 
+  const u = (path) => `${SITE_URL}${path}`
   const llms = [
-    "# GLINUI",
+    "# Glin UI",
     "",
-    `> GLINUI is an open source React component library with design tokens, glass surfaces and motion. ${rendered.length} components, Tailwind only, Phosphor icons, accessible and reduced-motion aware. Each component has a plain markdown page for AI assistants.`,
+    `> Glin UI is a free, open-source design hub for the modern web: ${rendered.length} accessible React components, animations, OKLCH colors, design tokens and AI-ready docs. MIT licensed, Tailwind only, Phosphor icons, reduced-motion aware. Each component has a plain Markdown page for AI assistants.`,
     "",
-    "Conventions for generated code: tokens from `@glinui/tokens`, Tailwind utilities only (no inline styles), Phosphor icons, honor `prefers-reduced-motion`, variant names solid, soft, outline, ghost, gradient, glass. Install with `npx shadcn@latest add " + SITE_URL + "/r/<id>.json` or `pnpm dlx @glinui/cli@latest add <id>`.",
+    "Conventions for generated code: tokens from `@glinui/tokens`, Tailwind utilities only (no inline styles), Phosphor icons, honor `prefers-reduced-motion`, variants glinr, solid, plain, soft, outline, ghost, gradient and glass (opt-in). Install with `npx glinui add <id>` or `npx shadcn@latest add " + SITE_URL + "/r/<id>.json`.",
     "",
     "## Docs",
     "",
-    `- [AI-ready docs](${SITE_URL}/docs/ai): how to use these files and the Copy for AI button`,
-    `- [Getting started](${SITE_URL}/docs/getting-started): install and setup`,
-    `- [Full text](${SITE_URL}/llms-full.txt): every component page in one file`,
+    `- [Getting started](${u("/docs/getting-started")}): install and setup`,
+    `- [AI-ready docs](${u("/docs/ai")}): how to use these files and the Copy for AI button`,
+    `- [Variants](${u("/docs/variants")}): the surface variant and tone vocabulary`,
+    `- [Animation engines](${u("/docs/engines")}): CSS built in, motion and GSAP opt-in`,
+    `- [Animations](${u("/docs/animations")}): the animation hub`,
+    `- [Accessibility](${u("/docs/accessibility")}): keyboard, focus and screen reader practices`,
+    `- [Full text](${u("/llms-full.txt")}): every component page in one file`,
+    "",
+    "## Tokens and Colors",
+    "",
+    `- [Design tokens](${u("/docs/tokens")}): colors, surfaces, elevation, type, radius and motion tokens`,
+    `- [Colors](${u("/docs/colors")}): OKLCH color ramps and base colors`,
+    `- [Color contrast](${u("/docs/color-contrast")}): AA contrast guidance`,
     ""
   ]
   for (const { cat, list } of sections) {
-    llms.push(`## ${cat.title}`, "")
-    for (const r of list) llms.push(`- [${r.meta.title}](${SITE_URL}/md/${r.meta.name}.md): ${clean(r.meta.description)}`)
+    llms.push(`## Components: ${cat.title}`, "")
+    for (const r of list) llms.push(`- [${r.meta.title}](${u(`/md/${r.meta.name}.md`)}): ${clean(r.meta.description)}`)
     llms.push("")
   }
+  const posts = loadBlogPosts()
+  llms.push("## Blog", "")
+  for (const post of posts) llms.push(`- [${post.title}](${u(`/blog/${post.slug}`)}): ${post.description}`)
+  llms.push(`- [Blog index](${u("/blog")}): all posts, newest first`, "")
+  llms.push(
+    "## Optional",
+    "",
+    `- [Attribution](${u("/docs/attribution")}): credits for adapted components`,
+    `- [Free forever pledge](${u("/docs/free-forever")}): the MIT license pledge`,
+    `- [Privacy](${u("/privacy")}): what the site stores and loads`,
+    `- [Terms](${u("/terms")}): terms for the site and code`,
+    `- [Sitemap](${u("/sitemap.xml")}): every indexable URL`,
+    `- [RSS feed](${u("/blog/rss.xml")}): blog updates`,
+    ""
+  )
   writeFileSync(join(publicDir, "llms.txt"), clean(llms.join("\n")).trimEnd() + "\n")
 
   const body = sections.flatMap((s) => s.list.map((r) => r.text)).join("\n---\n\n")

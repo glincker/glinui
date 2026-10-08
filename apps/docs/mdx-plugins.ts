@@ -70,3 +70,16 @@ function slugify(value: string) {
     .replace(/[^\w\s-]/g, "")
     .replace(/\s+/g, "-")
 }
+
+/**
+ * Blog posts start with a `---` frontmatter block that lib/blog.ts reads separately. MDX parses it as a
+ * thematic break followed by a setext heading, so drop both nodes. Frontmatter values must stay on single lines.
+ */
+export function remarkStripFrontmatter() {
+  return (tree: Node) => {
+    const [first, second] = tree.children ?? []
+    if (first?.type === "thematicBreak" && second?.type === "heading") {
+      tree.children = (tree.children ?? []).slice(2)
+    }
+  }
+}

@@ -28,7 +28,8 @@
     "notices:generate": "node scripts/generate-third-party-notices.mjs",
     "licenses:check": "node scripts/check-upstream-licenses.mjs",
     "audit:classes": "node scripts/audit-classes.mjs",
-    "tokens:check": "node scripts/check-tokens.mjs"
+    "tokens:check": "node scripts/check-tokens.mjs",
+    "seo:ping": "node scripts/seo-ping.mjs"
   },
   "dependencies": {
     "@glinui/motion": "workspace:*",
