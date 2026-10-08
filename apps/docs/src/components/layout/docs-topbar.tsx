@@ -28,7 +28,8 @@ const topNav: Array<{ href: string; label: string; match: (pathname: string) => 
   { href: "/docs/components", label: "Components", match: (p) => p.startsWith("/docs/components") },
   { href: "/docs/animations", label: "Animations", match: (p) => p === "/docs/animations" || p === "/docs/motion" },
   { href: "/docs/tokens", label: "Tokens", match: (p) => p === "/docs/tokens" },
-  { href: "/docs/colors", label: "Colors", match: (p) => p === "/docs/colors" }
+  { href: "/docs/colors", label: "Colors", match: (p) => p === "/docs/colors" },
+  { href: "/blog", label: "Blog", match: (p) => p.startsWith("/blog") }
 ]
 
 const iconButton =

@@ -1,0 +1,103 @@
+---
+title: Glin UI v2: a free design hub for the modern web
+description: What changed in Glin UI v2: the glinr look, plain and glass variants, design tokens, animation engines, AI-ready docs and a free forever pledge.
+date: 2026-10-07
+tags: [release, design, tokens, open source]
+author: GLINR STUDIO
+---
+
+Glin UI started as a glass component library. Version 2 is a wider project: a free, MIT licensed design hub with React components, animations, colors, design tokens and docs written to be read by people and by AI tools. Glass is now one variant, not the identity.
+
+This post lists what changed, what you need to do if you already use Glin UI, and what comes next.
+
+## What changed
+
+The docs now cover 142 components, split into 105 primitives and 37 signature components. Every surface component shares one vocabulary of 8 variants and 6 tones.
+
+- **glinr** is the new signature look and the default. It uses concentric radii, a gradient hairline ring, a tonal shell, raised pills and inset wells.
+- **plain** is a flat, shadcn-like variant for teams that want a quiet interface.
+- **glass** is still here, and it is opt-in only. It is never the default.
+- The other variants are solid, soft, outline, ghost and gradient. The tones are neutral, accent, success, warning, danger and info.
+
+The default variant comes from the ambient design style. Set it once on the provider and every component follows, and an explicit `variant` prop always wins.
+
+```tsx
+import { GlinProvider } from "@glinui/ui"
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return <GlinProvider style="minimal">{children}</GlinProvider>
+}
+```
+
+The three styles are `glinr` (default), `minimal` (resolves to the plain variant) and `glass`.
+
+## Tokens and base colors
+
+All visual decisions live in `@glinui/tokens`: colors, surfaces, elevation, rings, type, radius, motion and glass. Components read tokens only, with no hardcoded neutral colors, and every token has a light and a dark value.
+
+There are six base colors, set with the `data-glin-base` attribute: obsidian (the default), neutral, zinc, slate, stone and gray. Brand accent is violet. Default fills stay neutral black and white, and violet is used for the accent tone, focus rings, links and selected states.
+
+A token health check runs in the repository. It fails on undefined variables, light and dark mismatches and low contrast in any base color.
+
+Two additions are merged on the main branch and available in the next release:
+
+- A Tailwind 4 entry, `@glinui/tokens/tailwind4.css`, with namespaced theme variables.
+- A precompiled stylesheet, `@glinui/ui/styles.css`, for apps that have no Tailwind setup or an incompatible one.
+
+## Animation engines
+
+Animation runs on one of three engines. The CSS engine is built in and needs nothing extra. The `motion` and `gsap` engines are opt-in, and neither is a hard dependency.
+
+```bash
+pnpm add motion   # for the motion engine
+pnpm add gsap     # for the gsap engine
+```
+
+```tsx
+import "@glinui/motion/register/motion"
+```
+
+The `data-glin-motion` option accepts none, subtle, full or system, and animations honor `prefers-reduced-motion`. GSAP stays an optional peer because it has its own license.
+
+## Copy for AI and llms.txt
+
+Every docs page has a Copy for AI menu with a prompt you can paste into your tool, plus Open in links. Each component also has a Markdown page at `/md/<id>.md`.
+
+For tools that read a site index, the docs publish [llms.txt](/llms.txt) and [llms-full.txt](/llms-full.txt). Both are generated from the same data as the docs, so they do not drift. See the [AI-ready docs page](/docs/ai) for details.
+
+## Attribution and the free forever pledge
+
+The code in this repository is and will remain MIT-licensed. Copies already released cannot be revoked. If we ever offer paid services, they will be separate products and will not change the license of code already published.
+
+Components adapted from other projects come only from MIT, Apache-2.0, BSD, ISC, 0BSD, CC0 or Unlicense sources, checked before we port anything. Each adapted file carries an attribution header, and the credits are listed on the [attribution page](/docs/attribution). The full wording is on the [free forever page](/docs/free-forever).
+
+## Install
+
+The CLI has four commands today: `init`, `add`, `list` and `diff`.
+
+```bash
+npx glinui init
+npx glinui add button
+npx glinui list
+npx glinui diff button
+```
+
+`add` accepts `--dry-run` to print what would change before it writes anything. You can also install the packages directly:
+
+```bash
+pnpm add @glinui/ui @glinui/tokens
+```
+
+## Migration notes
+
+- **The default look changed from glass to glinr.** If you want the old look, set `style="glass"` on `GlinProvider` or pass `variant="glass"` on a component.
+- **The accent changed from blue to violet.** If you pinned blue values in your own CSS, review them. Use the Customize panel in the docs to try other accents.
+- **Component docs moved to `/docs/components/radix/<id>`.** Short primitive URLs redirect, so existing links keep working.
+
+## What is next
+
+- Ship the Tailwind 4 entry and the precompiled stylesheet in a published release.
+- Keep restyling components to the glinr look and add more ports with clear provenance.
+- Grow the guides for tokens, colors and animation, and publish more posts here.
+
+Found a problem or want something added? Open an issue on [GitHub](https://github.com/GLINCKER/glinui/issues). Updates are also available through the [RSS feed](/blog/rss.xml).
