@@ -21,7 +21,7 @@
     "@changesets/changelog-github": "^0.5.2",
     "@changesets/cli": "^2.29.8",
     "@types/node": "^22.10.5",
-    "turbo": "^2.5.0",
+    "turbo": "^2.11.7",
     "typescript": "^5.7.3"
   }
 }
