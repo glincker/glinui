@@ -2,9 +2,11 @@ import { getRegistryItem } from "@glinui/registry"
 import { MagneticCTA } from "@glinui/ui"
 import { ComponentDocLayout } from "@/components/docs/component-doc-layout"
 import { ExampleBlock } from "@/components/docs/example-block"
-import { InstallTabs } from "@/components/docs/install-tabs"
+import { ComponentHero, ComponentInstall } from "@/components/docs/component-hero"
 import { getComponentSources } from "@/lib/get-component-source"
 import { PropsTable } from "@/components/docs/props-table"
+import * as S1Demos from "@/components/demos/s1-buttons"
+import { s1Code } from "@/lib/showcase-s1-code"
 import { createDocsMetadata } from "@/lib/docs-metadata"
 
 export const dynamic = "force-static"
@@ -23,34 +25,73 @@ export const metadata = createDocsMetadata({
   title="Magnetic CTA"
   description={item?.description ?? "Call-to-action button with subtle cursor-attraction on hover."}
 >
+  <ComponentHero
+    componentId="magnetic-cta"
+    title="Magnetic CTA"
+    code={s1Code.MagneticHero}
+  >
+    <S1Demos.MagneticHero />
+  </ComponentHero>
+
   ## Installation
 
-  <InstallTabs sources={sources} command={item?.install.package ?? "pnpm add @glinui/ui @glinui/tokens"} />
-
-  ### Registry
-
-  <InstallTabs command={item?.install.registry ?? "pnpm dlx @glinui/cli@latest add magnetic-cta"} />
+  <ComponentInstall componentId="magnetic-cta" sources={sources} />
 
   ## Usage
 
-  `MagneticCTA` wraps a `Button` and applies a pointer-driven CSS `translate` offset whenever the cursor enters the magnetic radius. The button itself remains fully accessible — the attraction is a decorative layer applied to the wrapper.
-
-  ### Basic
-
-  <ExampleBlock
-    codeDefaultOpen
-    code={`import { MagneticCTA } from "@glinui/ui"
-
-export function MagneticCTADemo() {
-  return <MagneticCTA variant="glass">Book a demo</MagneticCTA>
-}`}
-  >
-    <MagneticCTA variant="glass">Book a demo</MagneticCTA>
-  </ExampleBlock>
+  `MagneticCTA` wraps a `Button` and pulls it toward the cursor inside the magnetic radius. The default is a crisp `glinr` surface that adapts to the theme scope, so it looks right on every stage backdrop. The button stays fully accessible; the pull is a decorative transform.
 
   ## Examples
 
-  ### Custom Offset and Radius
+  ### Variants
+
+  Every variant of the shared vocabulary works, and the motion effect adapts to the surface colour. Omit `variant` for the ambient default (`glinr`).
+
+  <ExampleBlock
+    code={`import { MagneticCTA } from "@glinui/ui"
+
+export function MagneticCTAVariantsDemo() {
+  return (
+    <div className="flex flex-wrap items-center gap-3">
+      <MagneticCTA variant="glinr">glinr</MagneticCTA>
+      <MagneticCTA variant="solid">solid</MagneticCTA>
+      <MagneticCTA variant="plain">plain</MagneticCTA>
+      <MagneticCTA variant="soft">soft</MagneticCTA>
+      <MagneticCTA variant="outline">outline</MagneticCTA>
+      <MagneticCTA variant="ghost">ghost</MagneticCTA>
+      <MagneticCTA variant="gradient">gradient</MagneticCTA>
+    </div>
+  )
+}`}
+  >
+    <div className="flex flex-wrap items-center gap-3">
+      <MagneticCTA variant="glinr">glinr</MagneticCTA>
+      <MagneticCTA variant="solid">solid</MagneticCTA>
+      <MagneticCTA variant="plain">plain</MagneticCTA>
+      <MagneticCTA variant="soft">soft</MagneticCTA>
+      <MagneticCTA variant="outline">outline</MagneticCTA>
+      <MagneticCTA variant="ghost">ghost</MagneticCTA>
+      <MagneticCTA variant="gradient">gradient</MagneticCTA>
+    </div>
+  </ExampleBlock>
+
+  ### Glass (opt-in)
+
+  `glass` is never the default. It needs a colorful or photographic backdrop to read, so place it over imagery or inside a `ThemeScope` with a backdrop.
+
+  <ExampleBlock
+    code={`import { MagneticCTA } from "@glinui/ui"
+
+export function MagneticCTAGlassDemo() {
+  return (
+    <MagneticCTA variant="glass">Glass</MagneticCTA>
+  )
+}`}
+  >
+    <MagneticCTA variant="glass">Glass</MagneticCTA>
+  </ExampleBlock>
+
+  ### Custom offset and radius
 
   Increase `maxOffset` for a stronger pull and `magnetRadius` to activate the effect from further away.
 
@@ -60,10 +101,10 @@ export function MagneticCTADemo() {
 export function MagneticCTAStrongDemo() {
   return (
     <div className="flex flex-wrap gap-6">
-      <MagneticCTA variant="liquid" maxOffset={14} magnetRadius={180}>
+      <MagneticCTA variant="solid" maxOffset={14} magnetRadius={180}>
         Strong pull
       </MagneticCTA>
-      <MagneticCTA variant="glass" maxOffset={4} magnetRadius={80}>
+      <MagneticCTA variant="outline" maxOffset={4} magnetRadius={80}>
         Subtle pull
       </MagneticCTA>
     </div>
@@ -71,51 +112,44 @@ export function MagneticCTAStrongDemo() {
 }`}
   >
     <div className="flex flex-wrap gap-6">
-      <MagneticCTA variant="liquid" maxOffset={14} magnetRadius={180}>
+      <MagneticCTA variant="solid" maxOffset={14} magnetRadius={180}>
         Strong pull
       </MagneticCTA>
-      <MagneticCTA variant="glass" maxOffset={4} magnetRadius={80}>
+      <MagneticCTA variant="outline" maxOffset={4} magnetRadius={80}>
         Subtle pull
       </MagneticCTA>
     </div>
   </ExampleBlock>
 
-  ### Container Class
+  ### Container class
 
-  Use `containerClassName` to control the layout or dimensions of the magnetic wrapper element.
+  Use `containerClassName` to control the layout of the magnetic wrapper.
 
   <ExampleBlock
     code={`import { MagneticCTA } from "@glinui/ui"
 
 export function MagneticCTAContainerDemo() {
   return (
-    <MagneticCTA
-      variant="liquid"
-      containerClassName="flex justify-center w-full"
-    >
+    <MagneticCTA containerClassName="flex justify-center w-full">
       Centered CTA
     </MagneticCTA>
   )
 }`}
   >
-    <MagneticCTA
-      variant="liquid"
-      containerClassName="flex justify-center w-full"
-    >
+    <MagneticCTA containerClassName="flex justify-center w-full">
       Centered CTA
     </MagneticCTA>
   </ExampleBlock>
 
   ## Accessibility
 
-  - The magnetic cursor-follow effect is purely decorative and applied to an outer wrapper `<div>`.
-  - The inner `<button>` element retains all native semantics, focus management, and keyboard interactions.
-  - The focus ring is rendered on the button element and is not obscured by the transform offset.
-  - Screen readers receive no indication of the motion layer.
+  - Renders through `Button`: native `<button>`, 2px accent focus ring with offset, `disabled` and `aria-busy` states.
+  - Accessible name comes from the label. Decorative effect layers are `aria-hidden` and `pointer-events-none`.
+  - The focus ring stays on the button and is not hidden by the offset.
 
   ## Reduced Motion
 
-  When `prefers-reduced-motion` is active, the magnetic translation is reset to `translate(0, 0)` and the transition is removed entirely.
+  The pull is disabled under `prefers-reduced-motion` and `data-glin-motion="none"`: the offset resets to zero.
 
   ## API Reference
 

@@ -1,8 +1,9 @@
 import { getRegistryItem } from "@glinui/registry"
+import { S4Hero, S4Example } from "@/components/demos/s4-mdx"
 import { AnimatedGradient } from "@glinui/ui"
 import { ComponentDocLayout } from "@/components/docs/component-doc-layout"
 import { ExampleBlock } from "@/components/docs/example-block"
-import { InstallTabs } from "@/components/docs/install-tabs"
+import { ComponentHero, ComponentInstall } from "@/components/docs/component-hero"
 import { PropsTable } from "@/components/docs/props-table"
 import { getComponentSources } from "@/lib/get-component-source"
 import { createDocsMetadata } from "@/lib/docs-metadata"
@@ -23,32 +24,15 @@ export const metadata = createDocsMetadata({
   title="Animated Gradient"
   description={item?.description ?? "Animated color-shifting gradient background."}
 >
+  <S4Hero id="animated-gradient" title="Animated Gradient" />
+
   ## Installation
 
-  <InstallTabs command={item?.install.package ?? "pnpm add @glinui/ui @glinui/tokens"} sources={sources} />
+  <ComponentInstall componentId="animated-gradient" sources={sources} />
 
   ## Usage
 
   Use as a background container. The gradient shifts colors smoothly via CSS `background-position` animation.
-
-  ### Basic
-
-  <ExampleBlock
-    codeDefaultOpen
-    code={`import { AnimatedGradient } from "@glinui/ui"
-
-export function AnimatedGradientDemo() {
-  return (
-    <AnimatedGradient className="flex h-48 w-full items-center justify-center rounded-xl">
-      <span className="text-sm font-medium">Animated Gradient</span>
-    </AnimatedGradient>
-  )
-}`}
-  >
-    <AnimatedGradient className="flex h-48 w-full items-center justify-center rounded-xl">
-      <span className="text-sm font-medium">Animated Gradient</span>
-    </AnimatedGradient>
-  </ExampleBlock>
 
   ## Examples
 
@@ -67,7 +51,7 @@ export function AnimatedGradientVariantsDemo() {
         <span className="text-sm font-medium">Cool</span>
       </AnimatedGradient>
       <AnimatedGradient variant="aurora" className="flex h-32 items-center justify-center rounded-xl">
-        <span className="text-sm font-medium text-white">Aurora</span>
+        <span className="text-sm font-medium text-[var(--color-foreground)]">Aurora</span>
       </AnimatedGradient>
       <AnimatedGradient variant="glass" className="flex h-32 items-center justify-center rounded-xl">
         <span className="text-sm font-medium">Glass</span>
@@ -84,7 +68,7 @@ export function AnimatedGradientVariantsDemo() {
         <span className="text-sm font-medium">Cool</span>
       </AnimatedGradient>
       <AnimatedGradient variant="aurora" className="flex h-32 items-center justify-center rounded-xl">
-        <span className="text-sm font-medium text-white">Aurora</span>
+        <span className="text-sm font-medium text-[var(--color-foreground)]">Aurora</span>
       </AnimatedGradient>
       <AnimatedGradient variant="glass" className="flex h-32 items-center justify-center rounded-xl">
         <span className="text-sm font-medium">Glass</span>
@@ -92,9 +76,13 @@ export function AnimatedGradientVariantsDemo() {
     </div>
   </ExampleBlock>
 
+  ### Pricing row
+
+  <S4Example id="animated-gradient" index={1} />
+
   ## Accessibility
 
-  - Decorative background container — content inside remains accessible.
+  - Decorative background container, content inside remains accessible.
   - No interactive elements in the gradient itself.
 
   ## Reduced Motion
@@ -112,7 +100,7 @@ export function AnimatedGradientVariantsDemo() {
   ```
 
   {item?.files?.map((file) => (
-    <div key={file} className="font-mono text-sm text-neutral-600 dark:text-neutral-300">
+    <div key={file} className="font-mono text-sm text-[var(--color-muted)]">
       {file}
     </div>
   ))}

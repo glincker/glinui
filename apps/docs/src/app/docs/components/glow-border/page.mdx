@@ -1,8 +1,9 @@
 import { getRegistryItem } from "@glinui/registry"
 import { GlowBorder } from "@glinui/ui"
+import { GlowBorderHero, GlowBorderVariants, GlowBorderTones, GlowBorderLayout } from "@/components/demos/family-demos"
 import { ComponentDocLayout } from "@/components/docs/component-doc-layout"
 import { ExampleBlock } from "@/components/docs/example-block"
-import { InstallTabs } from "@/components/docs/install-tabs"
+import { ComponentHero, ComponentInstall } from "@/components/docs/component-hero"
 import { getComponentSources } from "@/lib/get-component-source"
 import { PropsTable } from "@/components/docs/props-table"
 import { createDocsMetadata } from "@/lib/docs-metadata"
@@ -23,124 +24,105 @@ export const metadata = createDocsMetadata({
   title="Glow Border"
   description={item?.description ?? "Rotating conic-gradient glow effect around a container border."}
 >
+  <ComponentHero
+    componentId="glow-border"
+    title="Glow Border"
+    stage="md"
+    code={`import { GlowBorder } from "@glinui/ui"
+
+export function GlowBorderDemo() {
+  return (
+    <GlowBorder glowSize={3} borderRadius="1.25rem">
+      <div className="p-6"><IntegrationBody /></div>
+    </GlowBorder>
+  )
+}`}
+  >
+    <GlowBorderHero />
+  </ComponentHero>
+
   ## Installation
 
-  <InstallTabs sources={sources} command={item?.install.package ?? "pnpm add @glinui/ui @glinui/tokens"} />
-
-  ### Registry
-
-  <InstallTabs command={item?.install.registry ?? "pnpm dlx @glinui/cli@latest add glow-border"} />
+  <ComponentInstall componentId="glow-border" sources={sources} />
 
   ## Usage
 
   Wrap any content with `GlowBorder` to apply a continuously rotating conic-gradient glow along the border. The glow is rendered via a CSS `@property`-animated conic gradient positioned behind the content.
 
-  ### Basic
-
-  <ExampleBlock
-    codeDefaultOpen
-    code={`import { GlowBorder } from "@glinui/ui"
-
-export function GlowBorderDemo() {
-  return (
-    <div className="flex items-center justify-center p-8">
-      <GlowBorder>
-        <div className="p-6">
-          <h3 className="text-lg font-semibold">Glow Border</h3>
-          <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-            Rotating conic-gradient glow around the border.
-          </p>
-        </div>
-      </GlowBorder>
-    </div>
-  )
-}`}
-  >
-    <div className="flex items-center justify-center p-8">
-      <GlowBorder>
-        <div className="p-6">
-          <h3 className="text-lg font-semibold">Glow Border</h3>
-          <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-            Rotating conic-gradient glow around the border.
-          </p>
-        </div>
-      </GlowBorder>
-    </div>
-  </ExampleBlock>
+  A rotating conic glow circles an integration card. The face inside follows the ambient style (glinr by default); `variant="glass"` is opt-in.
 
   ## Examples
 
-  ### Custom Glow Color
+  ### Variants
 
-  Pass any valid CSS color to `glowColor` to match your brand palette.
+  `glinr` is the default, `plain` is the flat shadcn look, `solid` is a neutral tonal face and `glass` is opt-in. Glass needs a backdrop, so the set below sits on a vivid one.
 
   <ExampleBlock
     code={`import { GlowBorder } from "@glinui/ui"
 
-export function GlowBorderColorDemo() {
+// Omit variant to follow the ambient style (glinr by default).
+export function GlowBorderVariants() {
   return (
-    <div className="flex items-center justify-center p-8">
-      <GlowBorder glowColor="#6366f1">
-        <div className="p-6">
-          <h3 className="text-lg font-semibold">Indigo Glow</h3>
-          <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-            Custom glow color via the glowColor prop.
-          </p>
-        </div>
+    <>
+      <GlowBorder variant="glinr" glowSize={3}>
+        ...
       </GlowBorder>
-    </div>
+      <GlowBorder variant="plain" glowSize={3}>
+        ...
+      </GlowBorder>
+      <GlowBorder variant="solid" glowSize={3}>
+        ...
+      </GlowBorder>
+      <GlowBorder variant="glass" glowSize={3}>
+        ...
+      </GlowBorder>
+    </>
   )
 }`}
   >
-    <div className="flex items-center justify-center p-8">
-      <GlowBorder glowColor="#6366f1">
-        <div className="p-6">
-          <h3 className="text-lg font-semibold">Indigo Glow</h3>
-          <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-            Custom glow color via the glowColor prop.
-          </p>
-        </div>
-      </GlowBorder>
-    </div>
+    <GlowBorderVariants />
   </ExampleBlock>
 
-  ### Slow Duration
+  ### Colors
 
-  Increase `duration` to create a more subtle, languid rotation effect.
+  `glowColor` takes any token or color.
 
   <ExampleBlock
     code={`import { GlowBorder } from "@glinui/ui"
 
-export function GlowBorderSlowDemo() {
+export function GlowBorderTones() {
   return (
-    <div className="flex items-center justify-center p-8">
-      <GlowBorder duration={8}>
-        <div className="p-6">
-          <h3 className="text-lg font-semibold">Slow Glow</h3>
-          <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-            8-second rotation for a calm, ambient effect.
-          </p>
-        </div>
-      </GlowBorder>
-    </div>
+    <GlowBorder glowColor="var(--tone-success)" glowSize={3}>
+      ...
+    </GlowBorder>
   )
 }`}
   >
-    <div className="flex items-center justify-center p-8">
-      <GlowBorder duration={8}>
-        <div className="p-6">
-          <h3 className="text-lg font-semibold">Slow Glow</h3>
-          <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-            8-second rotation for a calm, ambient effect.
-          </p>
-        </div>
-      </GlowBorder>
-    </div>
+    <GlowBorderTones />
+  </ExampleBlock>
+
+  ### In a layout
+
+  A pricing row where the highlighted plan wears the glow.
+
+  <ExampleBlock
+    code={`// A pricing row where the highlighted plan wears the glow.
+import { GlowBorder } from "@glinui/ui"
+
+export function GlowBorderLayout() {
+  return (
+    <section className="grid gap-4 sm:grid-cols-3">
+      ...
+    </section>
+  )
+}`}
+  >
+    <GlowBorderLayout />
   </ExampleBlock>
 
   ## Accessibility
 
-  - The glow pseudo-element is purely decorative and carries `aria-hidden` semantics — it does not affect the accessibility tree.
+  - The glow pseudo-element is purely decorative and carries `aria-hidden` semantics, it does not affect the accessibility tree.
   - `GlowBorder` does not alter the focusability or tab order of its children.
   - Keyboard navigation passes through to child content unchanged.
 

@@ -2,7 +2,7 @@ import { getRegistryItem } from "@glinui/registry"
 import { BlurSpotlight } from "@glinui/ui"
 import { ComponentDocLayout } from "@/components/docs/component-doc-layout"
 import { ExampleBlock } from "@/components/docs/example-block"
-import { InstallTabs } from "@/components/docs/install-tabs"
+import { ComponentHero, ComponentInstall } from "@/components/docs/component-hero"
 import { getComponentSources } from "@/lib/get-component-source"
 import { PropsTable } from "@/components/docs/props-table"
 import { createDocsMetadata } from "@/lib/docs-metadata"
@@ -23,39 +23,34 @@ export const metadata = createDocsMetadata({
   title="Blur Spotlight"
   description={item?.description ?? "Cursor-following ambient glow effect for background layers."}
 >
-  ## Installation
-
-  <InstallTabs sources={sources} command={item?.install.package ?? "pnpm add @glinui/ui @glinui/tokens"} />
-
-  ### Registry
-
-  <InstallTabs command={item?.install.registry ?? "pnpm dlx @glinui/cli@latest add blur-spotlight"} />
-
-  ## Usage
-
-  `BlurSpotlight` is a `"use client"` component. Place it inside a relative container. The glow follows the cursor within the parent element. Great for cards, hero sections, and interactive backgrounds.
-
-  ### Basic
-
-  <ExampleBlock
-    codeDefaultOpen
+  <ComponentHero
+    componentId="blur-spotlight"
+    title="Blur Spotlight"
     code={`"use client"
 import { BlurSpotlight } from "@glinui/ui"
 
 export function BlurSpotlightDemo() {
   return (
-    <div className="relative flex h-64 w-full items-center justify-center overflow-hidden rounded-xl border border-neutral-200 bg-neutral-950 dark:border-neutral-800">
+    <div className="relative flex h-72 w-full items-center justify-center overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--surface-1)]">
       <BlurSpotlight />
-      <span className="relative z-10 text-3xl font-bold text-white">Hover Me</span>
+      <span className="relative z-10 text-3xl font-bold text-[var(--color-foreground)]">Hover Me</span>
     </div>
   )
 }`}
   >
-    <div className="relative flex h-64 w-full items-center justify-center overflow-hidden rounded-xl border border-neutral-200 bg-neutral-950 dark:border-neutral-800">
+    <div className="relative flex h-72 w-full items-center justify-center overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--surface-1)]">
       <BlurSpotlight />
-      <span className="relative z-10 text-3xl font-bold text-white">Hover Me</span>
+      <span className="relative z-10 text-3xl font-bold text-[var(--color-foreground)]">Hover Me</span>
     </div>
-  </ExampleBlock>
+  </ComponentHero>
+
+  ## Installation
+
+  <ComponentInstall componentId="blur-spotlight" sources={sources} />
+
+  ## Usage
+
+  `BlurSpotlight` is a `"use client"` component. Place it inside a relative container. The glow follows the cursor within the parent element. Great for cards, hero sections, and interactive backgrounds.
 
   ## Examples
 
@@ -67,16 +62,16 @@ import { BlurSpotlight } from "@glinui/ui"
 
 export function BlurSpotlightCustomDemo() {
   return (
-    <div className="relative flex h-64 w-full items-center justify-center overflow-hidden rounded-xl border border-neutral-200 bg-neutral-950 dark:border-neutral-800">
+    <div className="relative flex h-64 w-full items-center justify-center overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--surface-1)]">
       <BlurSpotlight color="#ec4899" size={400} intensity={0.6} />
-      <span className="relative z-10 text-2xl font-bold text-white">Pink Glow</span>
+      <span className="relative z-10 text-2xl font-bold text-[var(--color-foreground)]">Pink Glow</span>
     </div>
   )
 }`}
   >
-    <div className="relative flex h-64 w-full items-center justify-center overflow-hidden rounded-xl border border-neutral-200 bg-neutral-950 dark:border-neutral-800">
+    <div className="relative flex h-64 w-full items-center justify-center overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--surface-1)]">
       <BlurSpotlight color="#ec4899" size={400} intensity={0.6} />
-      <span className="relative z-10 text-2xl font-bold text-white">Pink Glow</span>
+      <span className="relative z-10 text-2xl font-bold text-[var(--color-foreground)]">Pink Glow</span>
     </div>
   </ExampleBlock>
 
@@ -88,22 +83,22 @@ import { BlurSpotlight } from "@glinui/ui"
 
 export function BlurSpotlightSubtleDemo() {
   return (
-    <div className="relative flex h-64 w-full items-center justify-center overflow-hidden rounded-xl border border-neutral-200 bg-neutral-950 dark:border-neutral-800">
+    <div className="relative flex h-64 w-full items-center justify-center overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--surface-1)]">
       <BlurSpotlight size={200} blur={120} intensity={0.3} />
-      <span className="relative z-10 text-2xl font-bold text-white">Subtle</span>
+      <span className="relative z-10 text-2xl font-bold text-[var(--color-foreground)]">Subtle</span>
     </div>
   )
 }`}
   >
-    <div className="relative flex h-64 w-full items-center justify-center overflow-hidden rounded-xl border border-neutral-200 bg-neutral-950 dark:border-neutral-800">
+    <div className="relative flex h-64 w-full items-center justify-center overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--surface-1)]">
       <BlurSpotlight size={200} blur={120} intensity={0.3} />
-      <span className="relative z-10 text-2xl font-bold text-white">Subtle</span>
+      <span className="relative z-10 text-2xl font-bold text-[var(--color-foreground)]">Subtle</span>
     </div>
   </ExampleBlock>
 
   ## Accessibility
 
-  - The component renders with `aria-hidden` — invisible to assistive technologies.
+  - The component renders with `aria-hidden`, invisible to assistive technologies.
   - Purely decorative; carries no semantic meaning.
   - `pointer-events-none` ensures content beneath remains interactive.
 

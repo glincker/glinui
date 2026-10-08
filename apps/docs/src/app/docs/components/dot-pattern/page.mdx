@@ -1,8 +1,8 @@
 import { getRegistryItem } from "@glinui/registry"
-import { DotPattern } from "@glinui/ui"
+import { S4Hero, S4Example } from "@/components/demos/s4-mdx"
 import { ComponentDocLayout } from "@/components/docs/component-doc-layout"
 import { ExampleBlock } from "@/components/docs/example-block"
-import { InstallTabs } from "@/components/docs/install-tabs"
+import { ComponentHero, ComponentInstall } from "@/components/docs/component-hero"
 import { getComponentSources } from "@/lib/get-component-source"
 import { PropsTable } from "@/components/docs/props-table"
 import { createDocsMetadata } from "@/lib/docs-metadata"
@@ -23,89 +23,34 @@ export const metadata = createDocsMetadata({
   title="Dot Pattern"
   description={item?.description ?? "Static SVG dot grid background."}
 >
+  <S4Hero id="dot-pattern" title="Dot Pattern" />
+
   ## Installation
 
-  <InstallTabs sources={sources} command={item?.install.package ?? "pnpm add @glinui/ui @glinui/tokens"} />
-
-  ### Registry
-
-  <InstallTabs command={item?.install.registry ?? "pnpm dlx @glinui/cli@latest add dot-pattern"} />
+  <ComponentInstall componentId="dot-pattern" sources={sources} />
 
   ## Usage
 
   Place inside a relative container for a subtle dot grid background. Fully themeable via props.
 
-  ### Basic
-
-  <ExampleBlock
-    codeDefaultOpen
-    code={`import { DotPattern } from "@glinui/ui"
-
-export function DotPatternDemo() {
-  return (
-    <div className="relative flex h-48 w-full items-center justify-center overflow-hidden rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
-      <span className="z-10 text-sm font-medium">Dot Pattern</span>
-      <DotPattern />
-    </div>
-  )
-}`}
-  >
-    <div className="relative flex h-48 w-full items-center justify-center overflow-hidden rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
-      <span className="z-10 text-sm font-medium">Dot Pattern</span>
-      <DotPattern />
-    </div>
-  </ExampleBlock>
-
   ## Examples
 
-  ### Custom Size and Gap
+  ### Variants
 
-  <ExampleBlock
-    code={`import { DotPattern } from "@glinui/ui"
+  <S4Example id="dot-pattern" index={1} />
 
-export function DotPatternCustomDemo() {
-  return (
-    <div className="relative flex h-48 w-full items-center justify-center overflow-hidden rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
-      <span className="z-10 text-sm font-medium">Large Dots</span>
-      <DotPattern dotSize={2.5} gap={30} dotOpacity={0.3} />
-    </div>
-  )
-}`}
-  >
-    <div className="relative flex h-48 w-full items-center justify-center overflow-hidden rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
-      <span className="z-10 text-sm font-medium">Large Dots</span>
-      <DotPattern dotSize={2.5} gap={30} dotOpacity={0.3} />
-    </div>
-  </ExampleBlock>
+  ### Behind a sign in card
 
-  ### With Radial Fade
-
-  <ExampleBlock
-    code={`import { DotPattern } from "@glinui/ui"
-
-export function DotPatternFadeDemo() {
-  return (
-    <div className="relative flex h-48 w-full items-center justify-center overflow-hidden rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
-      <span className="z-10 text-sm font-medium">Radial Fade</span>
-      <DotPattern className="[mask-image:radial-gradient(300px_circle_at_center,white,transparent)]" />
-    </div>
-  )
-}`}
-  >
-    <div className="relative flex h-48 w-full items-center justify-center overflow-hidden rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
-      <span className="z-10 text-sm font-medium">Radial Fade</span>
-      <DotPattern className="[mask-image:radial-gradient(300px_circle_at_center,white,transparent)]" />
-    </div>
-  </ExampleBlock>
+  <S4Example id="dot-pattern" index={2} />
 
   ## Accessibility
 
-  - SVG is marked `aria-hidden` — invisible to screen readers.
+  - SVG is marked `aria-hidden`, invisible to screen readers.
   - Purely decorative background pattern.
 
   ## Reduced Motion
 
-  No animation — static SVG pattern. No reduced motion handling needed.
+  No animation, static SVG pattern. No reduced motion handling needed.
 
   ## API Reference
 
@@ -118,7 +63,7 @@ export function DotPatternFadeDemo() {
   ```
 
   {item?.files?.map((file) => (
-    <div key={file} className="font-mono text-sm text-neutral-600 dark:text-neutral-300">
+    <div key={file} className="font-mono text-sm text-[var(--color-muted)]">
       {file}
     </div>
   ))}

@@ -1,8 +1,10 @@
 import { getRegistryItem } from "@glinui/registry"
 import { Marquee, Badge } from "@glinui/ui"
+import { MarqueeTestimonials } from "@/components/demos/s5-motion"
+import { s5Code } from "@/lib/s5-code.generated"
 import { ComponentDocLayout } from "@/components/docs/component-doc-layout"
 import { ExampleBlock } from "@/components/docs/example-block"
-import { InstallTabs } from "@/components/docs/install-tabs"
+import { ComponentHero, ComponentInstall } from "@/components/docs/component-hero"
 import { getComponentSources } from "@/lib/get-component-source"
 import { PropsTable } from "@/components/docs/props-table"
 import { createDocsMetadata } from "@/lib/docs-metadata"
@@ -23,40 +25,21 @@ export const metadata = createDocsMetadata({
   title="Marquee"
   description={item?.description ?? "Infinite scrolling content strip."}
 >
+  <ComponentHero
+    componentId="marquee"
+    title="Marquee"
+    code={s5Code.MarqueeTestimonials}
+  >
+    <MarqueeTestimonials />
+  </ComponentHero>
+
   ## Installation
 
-  <InstallTabs sources={sources} command={item?.install.package ?? "pnpm add @glinui/ui @glinui/tokens"} />
-
-  ### Registry
-
-  <InstallTabs command={item?.install.registry ?? "pnpm dlx @glinui/cli@latest add marquee"} />
+  <ComponentInstall componentId="marquee" sources={sources} />
 
   ## Usage
 
   Place any elements as children. The marquee duplicates them to create a seamless infinite scroll loop.
-
-  ### Basic
-
-  <ExampleBlock
-    codeDefaultOpen
-    code={`import { Marquee, Badge } from "@glinui/ui"
-
-export function MarqueeDemo() {
-  return (
-    <Marquee className="py-4" gap={24}>
-      {["React", "Next.js", "Tailwind", "Radix", "TypeScript", "Vitest"].map((t) => (
-        <Badge key={t} variant="glass" className="mx-2 text-sm">{t}</Badge>
-      ))}
-    </Marquee>
-  )
-}`}
-  >
-    <Marquee className="py-4" gap={24}>
-      {["React", "Next.js", "Tailwind", "Radix", "TypeScript", "Vitest"].map((t) => (
-        <Badge key={t} variant="glass" className="mx-2 text-sm">{t}</Badge>
-      ))}
-    </Marquee>
-  </ExampleBlock>
 
   ## Examples
 
@@ -67,23 +50,19 @@ export function MarqueeDemo() {
 
 export function MarqueeVerticalDemo() {
   return (
-    <div className="h-48 overflow-hidden">
-      <Marquee direction="up" speed={20} gap={16}>
-        {["Alpha", "Beta", "Gamma", "Delta", "Epsilon"].map((t) => (
-          <Badge key={t} variant="outline" className="my-1">{t}</Badge>
-        ))}
-      </Marquee>
-    </div>
+    <Marquee direction="up" speed={20} gap={8} className="h-48">
+      {["Alpha", "Beta", "Gamma", "Delta", "Epsilon"].map((t) => (
+        <Badge key={t} variant="outline">{t}</Badge>
+      ))}
+    </Marquee>
   )
 }`}
   >
-    <div className="h-48 overflow-hidden">
-      <Marquee direction="up" speed={20} gap={16}>
-        {["Alpha", "Beta", "Gamma", "Delta", "Epsilon"].map((t) => (
-          <Badge key={t} variant="outline" className="my-1">{t}</Badge>
-        ))}
-      </Marquee>
-    </div>
+    <Marquee direction="up" speed={20} gap={8} className="h-48">
+      {["Alpha", "Beta", "Gamma", "Delta", "Epsilon"].map((t) => (
+        <Badge key={t} variant="outline">{t}</Badge>
+      ))}
+    </Marquee>
   </ExampleBlock>
 
   ### Pause on Hover
@@ -108,6 +87,10 @@ export function MarqueePauseDemo() {
     </Marquee>
   </ExampleBlock>
 
+  ## Engines
+
+  The `engine` prop is not applicable. Infinite css translate loop that must stay compositor-only. It stays css only and still honors motion level `none` and reduced motion.
+
   ## Accessibility
 
   - The duplicated children are marked `aria-hidden` to prevent screen readers from reading content twice.
@@ -128,7 +111,7 @@ export function MarqueePauseDemo() {
   ```
 
   {item?.files?.map((file) => (
-    <div key={file} className="font-mono text-sm text-neutral-600 dark:text-neutral-300">
+    <div key={file} className="font-mono text-sm text-[var(--color-muted)]">
       {file}
     </div>
   ))}

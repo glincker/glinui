@@ -1,8 +1,12 @@
 import { getRegistryItem } from "@glinui/registry"
 import { TextReveal } from "@glinui/ui"
+import { TextRevealStory } from "@/components/demos/s5-motion"
+import { s5Code } from "@/lib/s5-code.generated"
+import { EngineColumns } from "@/components/demos/s5-engines"
+import { engineCompareCode } from "@/components/demos/s5-engine-code"
 import { ComponentDocLayout } from "@/components/docs/component-doc-layout"
 import { ExampleBlock } from "@/components/docs/example-block"
-import { InstallTabs } from "@/components/docs/install-tabs"
+import { ComponentHero, ComponentInstall } from "@/components/docs/component-hero"
 import { getComponentSources } from "@/lib/get-component-source"
 import { PropsTable } from "@/components/docs/props-table"
 import { createDocsMetadata } from "@/lib/docs-metadata"
@@ -23,32 +27,21 @@ export const metadata = createDocsMetadata({
   title="Text Reveal"
   description={item?.description ?? "Word-by-word opacity reveal on scroll."}
 >
+  <ComponentHero
+    componentId="text-reveal"
+    title="Text Reveal"
+    code={s5Code.TextRevealStory}
+  >
+    <TextRevealStory />
+  </ComponentHero>
+
   ## Installation
 
-  <InstallTabs sources={sources} command={item?.install.package ?? "pnpm add @glinui/ui @glinui/tokens"} />
-
-  ### Registry
-
-  <InstallTabs command={item?.install.registry ?? "pnpm dlx @glinui/cli@latest add text-reveal"} />
+  <ComponentInstall componentId="text-reveal" sources={sources} />
 
   ## Usage
 
   Pass a `text` string. As the user scrolls, each word fades from dim to full opacity, creating a reading-pace reveal effect.
-
-  ### Basic
-
-  <ExampleBlock
-    codeDefaultOpen
-    code={`import { TextReveal } from "@glinui/ui"
-
-export function TextRevealDemo() {
-  return (
-    <TextReveal text="Glin UI brings liquid glass aesthetics to every component in your React application." />
-  )
-}`}
-  >
-    <TextReveal text="Glin UI brings liquid glass aesthetics to every component in your React application." />
-  </ExampleBlock>
 
   ## Examples
 
@@ -66,10 +59,20 @@ export function TextRevealLongDemo() {
     <TextReveal text="Design systems should feel alive. Every surface, every transition, every interaction should respond with purpose. Glin UI makes this effortless with composable glass primitives built for modern React." />
   </ExampleBlock>
 
+  ## Engines
+
+  `Text Reveal` drives its main animation through the pluggable motion engine. Pass `engine="css" | "motion" | "gsap"`, wrap a subtree in `MotionEngineProvider`, or set `data-glin-engine` on `<html>`. The css engine is built in and dependency free; `motion` and `gsap` are opt-in through `@glinui/motion/register/*`. Motion level `none` renders the final state and `subtle` is opacity only.
+
+  ### Engine comparison
+
+  <ExampleBlock code={engineCompareCode("text-reveal")}>
+    <EngineColumns id="text-reveal" />
+  </ExampleBlock>
+
   ## Accessibility
 
   - All text is in the DOM and readable by screen readers at all times.
-  - Opacity is visual only — content is never hidden from assistive technologies.
+  - Opacity is visual only, content is never hidden from assistive technologies.
 
   ## Reduced Motion
 
@@ -86,7 +89,7 @@ export function TextRevealLongDemo() {
   ```
 
   {item?.files?.map((file) => (
-    <div key={file} className="font-mono text-sm text-neutral-600 dark:text-neutral-300">
+    <div key={file} className="font-mono text-sm text-[var(--color-muted)]">
       {file}
     </div>
   ))}

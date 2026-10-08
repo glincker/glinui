@@ -2,9 +2,11 @@ import { getRegistryItem } from "@glinui/registry"
 import { ShimmerButton } from "@glinui/ui"
 import { ComponentDocLayout } from "@/components/docs/component-doc-layout"
 import { ExampleBlock } from "@/components/docs/example-block"
-import { InstallTabs } from "@/components/docs/install-tabs"
+import { ComponentHero, ComponentInstall } from "@/components/docs/component-hero"
 import { getComponentSources } from "@/lib/get-component-source"
 import { PropsTable } from "@/components/docs/props-table"
+import * as S1Demos from "@/components/demos/s1-buttons"
+import { s1Code } from "@/lib/showcase-s1-code"
 import { createDocsMetadata } from "@/lib/docs-metadata"
 
 export const dynamic = "force-static"
@@ -23,56 +25,71 @@ export const metadata = createDocsMetadata({
   title="Shimmer Button"
   description={item?.description ?? "Button with animated shimmer sweep overlay."}
 >
+  <ComponentHero
+    componentId="shimmer-button"
+    title="Shimmer Button"
+    code={s1Code.ShimmerPricing}
+  >
+    <S1Demos.ShimmerPricing />
+  </ComponentHero>
+
   ## Installation
 
-  <InstallTabs sources={sources} command={item?.install.package ?? "pnpm add @glinui/ui @glinui/tokens"} />
-
-  ### Registry
-
-  <InstallTabs command={item?.install.registry ?? "pnpm dlx @glinui/cli@latest add shimmer-button"} />
+  <ComponentInstall componentId="shimmer-button" sources={sources} />
 
   ## Usage
 
-  Drop-in button replacement with a sweeping shimmer animation overlay.
-
-  ### Basic
-
-  <ExampleBlock
-    codeDefaultOpen
-    code={`import { ShimmerButton } from "@glinui/ui"
-
-export function ShimmerButtonDemo() {
-  return <ShimmerButton>Get Started</ShimmerButton>
-}`}
-  >
-    <ShimmerButton>Get Started</ShimmerButton>
-  </ExampleBlock>
+  Crisp `glinr` surface with a light sweep layered under the label. The sweep takes the surface text colour at 35 percent, so it is visible on light and dark scopes and on every stage backdrop. Override with `shimmerColor` and `shimmerDuration`.
 
   ## Examples
 
   ### Variants
+
+  Every variant of the shared vocabulary works, and the motion effect adapts to the surface colour. Omit `variant` for the ambient default (`glinr`).
 
   <ExampleBlock
     code={`import { ShimmerButton } from "@glinui/ui"
 
 export function ShimmerButtonVariantsDemo() {
   return (
-    <div className="flex flex-wrap gap-3">
-      <ShimmerButton variant="default">Default</ShimmerButton>
-      <ShimmerButton variant="glass">Glass</ShimmerButton>
-      <ShimmerButton variant="accent">Accent</ShimmerButton>
+    <div className="flex flex-wrap items-center gap-3">
+      <ShimmerButton variant="glinr">glinr</ShimmerButton>
+      <ShimmerButton variant="solid">solid</ShimmerButton>
+      <ShimmerButton variant="plain">plain</ShimmerButton>
+      <ShimmerButton variant="soft">soft</ShimmerButton>
+      <ShimmerButton variant="outline">outline</ShimmerButton>
+      <ShimmerButton variant="ghost">ghost</ShimmerButton>
+      <ShimmerButton variant="gradient">gradient</ShimmerButton>
     </div>
   )
 }`}
   >
-    <div className="flex flex-wrap gap-3">
-      <ShimmerButton variant="default">Default</ShimmerButton>
-      <ShimmerButton variant="glass">Glass</ShimmerButton>
-      <ShimmerButton variant="accent">Accent</ShimmerButton>
+    <div className="flex flex-wrap items-center gap-3">
+      <ShimmerButton variant="glinr">glinr</ShimmerButton>
+      <ShimmerButton variant="solid">solid</ShimmerButton>
+      <ShimmerButton variant="plain">plain</ShimmerButton>
+      <ShimmerButton variant="soft">soft</ShimmerButton>
+      <ShimmerButton variant="outline">outline</ShimmerButton>
+      <ShimmerButton variant="ghost">ghost</ShimmerButton>
+      <ShimmerButton variant="gradient">gradient</ShimmerButton>
     </div>
   </ExampleBlock>
 
-  ### Sizes
+  ### Glass (opt-in)
+
+  `glass` is never the default. It needs a colorful or photographic backdrop to read, so place it over imagery or inside a `ThemeScope` with a backdrop.
+
+  <ExampleBlock
+    code={`import { ShimmerButton } from "@glinui/ui"
+
+export function ShimmerButtonGlassDemo() {
+  return (
+    <ShimmerButton variant="glass">Glass</ShimmerButton>
+  )
+}`}
+  >
+    <ShimmerButton variant="glass">Glass</ShimmerButton>
+  </ExampleBlock>
 
   <ExampleBlock
     code={`import { ShimmerButton } from "@glinui/ui"
@@ -80,29 +97,46 @@ export function ShimmerButtonVariantsDemo() {
 export function ShimmerButtonSizesDemo() {
   return (
     <div className="flex flex-wrap items-center gap-3">
-      <ShimmerButton size="sm">Small</ShimmerButton>
-      <ShimmerButton size="md">Medium</ShimmerButton>
-      <ShimmerButton size="lg">Large</ShimmerButton>
+      <ShimmerButton size="sm">SM</ShimmerButton>
+      <ShimmerButton size="md">MD</ShimmerButton>
+      <ShimmerButton size="lg">LG</ShimmerButton>
     </div>
   )
 }`}
   >
     <div className="flex flex-wrap items-center gap-3">
-      <ShimmerButton size="sm">Small</ShimmerButton>
-      <ShimmerButton size="md">Medium</ShimmerButton>
-      <ShimmerButton size="lg">Large</ShimmerButton>
+      <ShimmerButton size="sm">SM</ShimmerButton>
+      <ShimmerButton size="md">MD</ShimmerButton>
+      <ShimmerButton size="lg">LG</ShimmerButton>
     </div>
+  </ExampleBlock>
+
+  ### Custom sweep
+
+  <ExampleBlock
+    code={`import { ShimmerButton } from "@glinui/ui"
+
+export function ShimmerButtonColorDemo() {
+  return (
+    <ShimmerButton shimmerColor="rgb(255 255 255 / 0.5)" shimmerDuration={3} variant="primary">
+      Slow accent sweep
+    </ShimmerButton>
+  )
+}`}
+  >
+    <ShimmerButton shimmerColor="rgb(255 255 255 / 0.5)" shimmerDuration={3} variant="primary">
+      Slow accent sweep
+    </ShimmerButton>
   </ExampleBlock>
 
   ## Accessibility
 
-  - Renders a native `<button>` element with full keyboard support.
-  - Focus ring via `focus-visible` for keyboard navigation.
-  - Shimmer overlay is decorative (`pointer-events-none`).
+  - Renders through `Button`: native `<button>`, 2px accent focus ring with offset, `disabled` and `aria-busy` states.
+  - Accessible name comes from the label. Decorative effect layers are `aria-hidden` and `pointer-events-none`.
 
   ## Reduced Motion
 
-  Shimmer uses `motion-safe:animate-[...]` / `motion-reduce:hidden`. Under `prefers-reduced-motion`, the shimmer is hidden and the button renders as a standard styled button.
+  The sweep renders only at motion level `full`. It is removed under `prefers-reduced-motion` and `data-glin-motion="none"`, leaving a normal button.
 
   ## API Reference
 

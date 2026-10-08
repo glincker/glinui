@@ -2,10 +2,14 @@ import { getRegistryItem } from "@glinui/registry"
 import { GlassToggle } from "@glinui/ui"
 import { ComponentDocLayout } from "@/components/docs/component-doc-layout"
 import { ExampleBlock } from "@/components/docs/example-block"
-import { InstallTabs } from "@/components/docs/install-tabs"
+import { ComponentHero, ComponentInstall } from "@/components/docs/component-hero"
 import { getComponentSources } from "@/lib/get-component-source"
 import { PropsTable } from "@/components/docs/props-table"
+import * as S1Demos from "@/components/demos/s1-buttons"
+import { s1Code } from "@/lib/showcase-s1-code"
 import { createDocsMetadata } from "@/lib/docs-metadata"
+import { PhotoStage, StateMatrix, IconsDemo, RowsDemo, LoadingDemo, ControlledDemo, FormDemo } from "@/lib/switch-demos"
+import { demoCode } from "@/lib/switch-demo-code"
 
 export const dynamic = "force-static"
 export const item = getRegistryItem("glass-toggle")
@@ -23,45 +27,97 @@ export const metadata = createDocsMetadata({
   title="Glass Toggle"
   description={item?.description ?? "Toggle switch with liquid fill animation and frosted glass surface."}
 >
+  <ComponentHero
+    componentId="glass-toggle"
+    title="Glass Toggle"
+    code={s1Code.GlassQuickSettings}
+  >
+    <S1Demos.GlassQuickSettings />
+  </ComponentHero>
+
   ## Installation
 
-  <InstallTabs sources={sources} command={item?.install.package ?? "pnpm add @glinui/ui @glinui/tokens"} />
-
-  ### Registry
-
-  <InstallTabs command={item?.install.registry ?? "pnpm dlx @glinui/cli@latest add glass-toggle"} />
+  <ComponentInstall componentId="glass-toggle" sources={sources} />
 
   ## Usage
 
   `GlassToggle` is a `"use client"` component. It works in both controlled (`checked`) and uncontrolled (`defaultChecked`) modes.
 
-  ### Basic
+  ## Examples
+
+  ### State matrix
+
+  <ExampleBlock code={demoCode("glass").matrix}>
+    <PhotoStage>
+      <StateMatrix kind="glass" />
+    </PhotoStage>
+  </ExampleBlock>
+
+  ### With icons
+
+  <ExampleBlock code={demoCode("glass").icons}>
+    <PhotoStage>
+      <IconsDemo kind="glass" />
+    </PhotoStage>
+  </ExampleBlock>
+
+  ### With label and description
+
+  <ExampleBlock code={demoCode("glass").rows}>
+    <PhotoStage>
+      <RowsDemo kind="glass" />
+    </PhotoStage>
+  </ExampleBlock>
+
+  ### Loading
+
+  <ExampleBlock code={demoCode("glass").loading}>
+    <PhotoStage>
+      <LoadingDemo kind="glass" />
+    </PhotoStage>
+  </ExampleBlock>
+
+  ### Controlled
+
+  <ExampleBlock code={demoCode("glass").controlled}>
+    <PhotoStage>
+      <ControlledDemo kind="glass" />
+    </PhotoStage>
+  </ExampleBlock>
+
+  ### Form
+
+  <ExampleBlock code={demoCode("glass").form}>
+    <PhotoStage>
+      <FormDemo kind="glass" />
+    </PhotoStage>
+  </ExampleBlock>
+
+  ### Glass on photo backdrop
+
+  The glass track is translucent, so it reads best over color. The liquid fill wipes in from the inline start.
 
   <ExampleBlock
-    codeDefaultOpen
     code={`"use client"
 import { GlassToggle } from "@glinui/ui"
 
-export function GlassToggleDemo() {
+export function GlassOnPhoto() {
   return (
-    <div className="flex items-center justify-center gap-6 p-8">
-      <GlassToggle size="sm" />
-      <GlassToggle />
-      <GlassToggle size="lg" />
+    <div className="bg-[url('/photo.jpg')] p-8">
+      <GlassToggle defaultChecked />
     </div>
   )
 }`}
   >
-    <div className="flex items-center justify-center gap-6 p-8">
-      <GlassToggle size="sm" />
-      <GlassToggle />
+    <PhotoStage className="gap-6">
+      <GlassToggle defaultChecked />
       <GlassToggle size="lg" />
-    </div>
+    </PhotoStage>
   </ExampleBlock>
 
-  ## Examples
-
   ### Custom Color
+
+  `activeColor` sets a CSS custom property on the element (no inline style attribute).
 
   <ExampleBlock
     code={`"use client"
@@ -77,22 +133,25 @@ export function GlassToggleColorDemo() {
   )
 }`}
   >
-    <div className="flex items-center justify-center gap-6 p-8">
+    <PhotoStage className="gap-6">
       <GlassToggle defaultChecked activeColor="#22c55e" />
       <GlassToggle defaultChecked activeColor="#6366f1" />
       <GlassToggle defaultChecked activeColor="#f43f5e" />
-    </div>
+    </PhotoStage>
   </ExampleBlock>
 
   ## Accessibility
 
   - Renders with `role="switch"` and `aria-checked`.
-  - Supports keyboard activation via default button behavior.
-  - Disabled state removes pointer events and reduces opacity.
+  - Supports keyboard activation (Space) and a visible focus ring.
+  - Native form participation through `name`, `value`, `required` and `form`.
+  - `loading` sets `aria-busy` and makes the toggle inert.
+  - 44px minimum hit area at every size; thumb moves toward the inline end in RTL.
+  - Disabled state reduces opacity and blocks interaction.
 
   ## Reduced Motion
 
-  When `prefers-reduced-motion: reduce` is active, transition durations are removed for instant state changes.
+  When `prefers-reduced-motion: reduce` is active, or `data-glin-motion` is `none` or `subtle`, the thumb and fill change state instantly with no sliding transform.
 
   ## API Reference
 

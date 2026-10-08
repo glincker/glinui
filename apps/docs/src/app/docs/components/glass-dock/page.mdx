@@ -1,11 +1,12 @@
 import { getRegistryItem } from "@glinui/registry"
 import { GlassDock } from "@glinui/ui"
+import { SigHero } from "@/components/demos/s2-signature-mdx"
 import { ComponentDocLayout } from "@/components/docs/component-doc-layout"
 import { ExampleBlock } from "@/components/docs/example-block"
-import { InstallTabs } from "@/components/docs/install-tabs"
+import { ComponentHero, ComponentInstall } from "@/components/docs/component-hero"
 import { getComponentSources } from "@/lib/get-component-source"
 import { PropsTable } from "@/components/docs/props-table"
-import { Home, Search, Settings, User, Mail, FolderOpen, Camera, Music, Film, Globe, MessageCircle, Bell } from "lucide-react"
+import { House, MagnifyingGlass, Gear, User, Envelope, FolderOpen, Camera, MusicNote, FilmStrip, Globe, ChatCircle, Bell } from "@phosphor-icons/react/dist/ssr"
 import { createDocsMetadata } from "@/lib/docs-metadata"
 
 export const dynamic = "force-static"
@@ -24,63 +25,66 @@ export const metadata = createDocsMetadata({
   title="Glass Dock"
   description={item?.description ?? "macOS-style dock with proximity magnification and frosted glass surface."}
 >
+  <SigHero id="glass-dock" title="Glass Dock" name="GlassDockHero" stage="lg" />
+
   ## Installation
 
-  <InstallTabs sources={sources} command={item?.install.package ?? "pnpm add @glinui/ui @glinui/tokens"} />
-
-  ### Registry
-
-  <InstallTabs command={item?.install.registry ?? "pnpm dlx @glinui/cli@latest add glass-dock"} />
+  <ComponentInstall componentId="glass-dock" sources={sources} />
 
   ## Usage
 
   `GlassDock` is a `"use client"` component. Pass an array of `items` with `id`, `icon`, `label`, and optional `onClick`. Icons magnify as the cursor approaches.
 
-  ### Basic
+  ## Examples
+
+  ### Variants
+
+  `GlassDock` is glass by default, with a readable opacity floor so the icons stay legible on any backdrop. It also accepts the shared vocabulary: `glinr` renders the tiles as raised keys, `plain` is flat and shadcn-like. Glass looks frosted only over a colourful or photographic backdrop: pick one in the stage header.
 
   <ExampleBlock
-    codeDefaultOpen
     code={`"use client"
 import { GlassDock } from "@glinui/ui"
-import { Home, Search, Settings, User, Mail } from "lucide-react"
+import { House, Gear, User } from "@phosphor-icons/react"
 
-export function GlassDockDemo() {
+const variants = ["glinr", "plain", "solid", "soft", "outline", "ghost", "gradient", "glass"] as const
+
+export function GlassDockVariantsDemo() {
+  const items = [
+    { id: "home", icon: <House className="size-full" />, label: "Home" },
+    { id: "settings", icon: <Gear className="size-full" />, label: "Settings" },
+    { id: "profile", icon: <User className="size-full" />, label: "Profile" }
+  ]
   return (
-    <div className="flex items-center justify-center p-12">
-      <GlassDock
-        items={[
-          { id: "home", icon: <Home className="size-full" />, label: "Home" },
-          { id: "search", icon: <Search className="size-full" />, label: "Search" },
-          { id: "settings", icon: <Settings className="size-full" />, label: "Settings" },
-          { id: "profile", icon: <User className="size-full" />, label: "Profile" },
-          { id: "mail", icon: <Mail className="size-full" />, label: "Mail" }
-        ]}
-      />
+    <div className="grid gap-4 sm:grid-cols-2">
+      {variants.map((variant) => (
+        <GlassDock key={variant} variant={variant} iconSize={40} items={items} />
+      ))}
     </div>
   )
 }`}
   >
-    <div className="flex items-center justify-center p-12">
-      <GlassDock
-        items={[
-          { id: "home", icon: <Home className="size-full" />, label: "Home" },
-          { id: "search", icon: <Search className="size-full" />, label: "Search" },
-          { id: "settings", icon: <Settings className="size-full" />, label: "Settings" },
-          { id: "profile", icon: <User className="size-full" />, label: "Profile" },
-          { id: "mail", icon: <Mail className="size-full" />, label: "Mail" }
-        ]}
-      />
+    <div className="grid justify-items-start gap-4 pb-6 sm:grid-cols-2">
+      {["glinr", "plain", "solid", "soft", "outline", "ghost", "gradient", "glass"].map((variant) => (
+        <GlassDock
+          key={variant}
+          variant={variant}
+          iconSize={40}
+          items={[
+            { id: "home", icon: <House className="size-full" />, label: "Home" },
+            { id: "settings", icon: <Gear className="size-full" />, label: "Settings" },
+            { id: "profile", icon: <User className="size-full" />, label: "Profile" }
+          ]}
+        />
+      ))}
     </div>
   </ExampleBlock>
-
-  ## Examples
 
   ### High Magnification
 
   <ExampleBlock
     code={`"use client"
 import { GlassDock } from "@glinui/ui"
-import { FolderOpen, Camera, Music, Film, Globe, MessageCircle } from "lucide-react"
+import { FolderOpen, Camera, MusicNote, FilmStrip, Globe, ChatCircle } from "@phosphor-icons/react"
 
 export function GlassDockMagDemo() {
   return (
@@ -92,10 +96,10 @@ export function GlassDockMagDemo() {
         items={[
           { id: "files", icon: <FolderOpen className="size-full" />, label: "Files" },
           { id: "photos", icon: <Camera className="size-full" />, label: "Photos" },
-          { id: "music", icon: <Music className="size-full" />, label: "Music" },
-          { id: "video", icon: <Film className="size-full" />, label: "Video" },
+          { id: "music", icon: <MusicNote className="size-full" />, label: "Music" },
+          { id: "video", icon: <FilmStrip className="size-full" />, label: "Video" },
           { id: "web", icon: <Globe className="size-full" />, label: "Browser" },
-          { id: "messages", icon: <MessageCircle className="size-full" />, label: "Messages" }
+          { id: "messages", icon: <ChatCircle className="size-full" />, label: "Messages" }
         ]}
       />
     </div>
@@ -110,10 +114,10 @@ export function GlassDockMagDemo() {
         items={[
           { id: "files", icon: <FolderOpen className="size-full" />, label: "Files" },
           { id: "photos", icon: <Camera className="size-full" />, label: "Photos" },
-          { id: "music", icon: <Music className="size-full" />, label: "Music" },
-          { id: "video", icon: <Film className="size-full" />, label: "Video" },
+          { id: "music", icon: <MusicNote className="size-full" />, label: "Music" },
+          { id: "video", icon: <FilmStrip className="size-full" />, label: "Video" },
           { id: "web", icon: <Globe className="size-full" />, label: "Browser" },
-          { id: "messages", icon: <MessageCircle className="size-full" />, label: "Messages" }
+          { id: "messages", icon: <ChatCircle className="size-full" />, label: "Messages" }
         ]}
       />
     </div>
@@ -127,7 +131,7 @@ export function GlassDockMagDemo() {
 
   ## Reduced Motion
 
-  When `prefers-reduced-motion: reduce` is active, the magnification effect is disabled — all items remain at their base size.
+  When `prefers-reduced-motion: reduce` is active, the magnification effect is disabled, all items remain at their base size.
 
   ## API Reference
 

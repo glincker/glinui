@@ -2,9 +2,11 @@ import { getRegistryItem } from "@glinui/registry"
 import { LiquidButton } from "@glinui/ui"
 import { ComponentDocLayout } from "@/components/docs/component-doc-layout"
 import { ExampleBlock } from "@/components/docs/example-block"
-import { InstallTabs } from "@/components/docs/install-tabs"
+import { ComponentHero, ComponentInstall } from "@/components/docs/component-hero"
 import { getComponentSources } from "@/lib/get-component-source"
 import { PropsTable } from "@/components/docs/props-table"
+import * as S1Demos from "@/components/demos/s1-buttons"
+import { s1Code } from "@/lib/showcase-s1-code"
 import { createDocsMetadata } from "@/lib/docs-metadata"
 
 export const dynamic = "force-static"
@@ -12,7 +14,7 @@ export const item = getRegistryItem("liquid-button")
 export const sources = getComponentSources(item?.files)
 export const metadata = createDocsMetadata({
   title: "Liquid Button",
-  description: item?.description ?? "Button with fluid hover lift, press squish, and radial shine.",
+  description: item?.description ?? "Button with a liquid fill that rises on hover, a press squish and a lift.",
   path: "/docs/components/liquid-button"
 })
 
@@ -21,60 +23,29 @@ export const metadata = createDocsMetadata({
   componentId="liquid-button"
   implementation="css"
   title="Liquid Button"
-  description={item?.description ?? "Button with fluid hover lift, press squish, and radial shine."}
+  description={item?.description ?? "Button with a liquid fill that rises on hover, a press squish and a lift."}
 >
+  <ComponentHero
+    componentId="liquid-button"
+    title="Liquid Button"
+    code={s1Code.LiquidUpgrade}
+  >
+    <S1Demos.LiquidUpgrade />
+  </ComponentHero>
+
   ## Installation
 
-  <InstallTabs sources={sources} command={item?.install.package ?? "pnpm add @glinui/ui @glinui/tokens"} />
-
-  ### Registry
-
-  <InstallTabs command={item?.install.registry ?? "pnpm dlx @glinui/cli@latest add liquid-button"} />
+  <ComponentInstall componentId="liquid-button" sources={sources} />
 
   ## Usage
 
-  `LiquidButton` extends `Button` with stronger transform and brightness motion — intended for premium call-to-action moments. It supports all `Button` props and adds an `intensity` prop to control the effect level.
-
-  ### Basic
-
-  <ExampleBlock
-    codeDefaultOpen
-    code={`import { LiquidButton } from "@glinui/ui"
-
-export function LiquidButtonDemo() {
-  return <LiquidButton variant="liquid">Start Free Trial</LiquidButton>
-}`}
-  >
-    <LiquidButton variant="liquid">Start Free Trial</LiquidButton>
-  </ExampleBlock>
+  `LiquidButton` extends `Button`. The default is a crisp `glinr` surface; on hover or focus an accent liquid fill rises through it. The fill is an accent mix (override with the `--liquid-fill` custom property), so it reads on light and dark scopes. It accepts every `Button` prop and adds `intensity`.
 
   ## Examples
 
-  ### Intensity Variants
+  ### Variants
 
-  The `intensity` prop controls how pronounced the hover lift, press squish, and radial shine effects are.
-
-  <ExampleBlock
-    code={`import { LiquidButton } from "@glinui/ui"
-
-export function LiquidButtonIntensityDemo() {
-  return (
-    <div className="flex flex-wrap gap-3">
-      <LiquidButton variant="liquid" intensity="soft">Soft</LiquidButton>
-      <LiquidButton variant="liquid" intensity="strong">Strong</LiquidButton>
-    </div>
-  )
-}`}
-  >
-    <div className="flex flex-wrap gap-3">
-      <LiquidButton variant="liquid" intensity="soft">Soft</LiquidButton>
-      <LiquidButton variant="liquid" intensity="strong">Strong</LiquidButton>
-    </div>
-  </ExampleBlock>
-
-  ### Combined with Button Variants
-
-  `LiquidButton` accepts all inherited `Button` variant and size props, making it composable with any variant in the design system.
+  Every variant of the shared vocabulary works, and the motion effect adapts to the surface colour. Omit `variant` for the ambient default (`glinr`).
 
   <ExampleBlock
     code={`import { LiquidButton } from "@glinui/ui"
@@ -82,31 +53,92 @@ export function LiquidButtonIntensityDemo() {
 export function LiquidButtonVariantsDemo() {
   return (
     <div className="flex flex-wrap items-center gap-3">
-      <LiquidButton variant="default" intensity="soft" size="sm">Default / Soft / SM</LiquidButton>
-      <LiquidButton variant="liquid" intensity="soft" size="md">Liquid / Soft / MD</LiquidButton>
-      <LiquidButton variant="liquid" intensity="strong" size="lg">Liquid / Strong / LG</LiquidButton>
-      <LiquidButton variant="glass" intensity="soft" size="md">Glass / Soft / MD</LiquidButton>
+      <LiquidButton variant="glinr">glinr</LiquidButton>
+      <LiquidButton variant="solid">solid</LiquidButton>
+      <LiquidButton variant="plain">plain</LiquidButton>
+      <LiquidButton variant="soft">soft</LiquidButton>
+      <LiquidButton variant="outline">outline</LiquidButton>
+      <LiquidButton variant="ghost">ghost</LiquidButton>
+      <LiquidButton variant="gradient">gradient</LiquidButton>
     </div>
   )
 }`}
   >
     <div className="flex flex-wrap items-center gap-3">
-      <LiquidButton variant="default" intensity="soft" size="sm">Default / Soft / SM</LiquidButton>
-      <LiquidButton variant="liquid" intensity="soft" size="md">Liquid / Soft / MD</LiquidButton>
-      <LiquidButton variant="liquid" intensity="strong" size="lg">Liquid / Strong / LG</LiquidButton>
-      <LiquidButton variant="glass" intensity="soft" size="md">Glass / Soft / MD</LiquidButton>
+      <LiquidButton variant="glinr">glinr</LiquidButton>
+      <LiquidButton variant="solid">solid</LiquidButton>
+      <LiquidButton variant="plain">plain</LiquidButton>
+      <LiquidButton variant="soft">soft</LiquidButton>
+      <LiquidButton variant="outline">outline</LiquidButton>
+      <LiquidButton variant="ghost">ghost</LiquidButton>
+      <LiquidButton variant="gradient">gradient</LiquidButton>
+    </div>
+  </ExampleBlock>
+
+  ### Glass (opt-in)
+
+  `glass` is never the default. It needs a colorful or photographic backdrop to read, so place it over imagery or inside a `ThemeScope` with a backdrop.
+
+  <ExampleBlock
+    code={`import { LiquidButton } from "@glinui/ui"
+
+export function LiquidButtonGlassDemo() {
+  return (
+    <LiquidButton variant="glass">Glass</LiquidButton>
+  )
+}`}
+  >
+    <LiquidButton variant="glass">Glass</LiquidButton>
+  </ExampleBlock>
+
+  ### Intensity
+
+  <ExampleBlock
+    code={`import { LiquidButton } from "@glinui/ui"
+
+export function LiquidButtonIntensityDemo() {
+  return (
+    <div className="flex flex-wrap gap-3">
+      <LiquidButton intensity="soft">Soft</LiquidButton>
+      <LiquidButton intensity="strong">Strong</LiquidButton>
+    </div>
+  )
+}`}
+  >
+    <div className="flex flex-wrap gap-3">
+      <LiquidButton intensity="soft">Soft</LiquidButton>
+      <LiquidButton intensity="strong">Strong</LiquidButton>
+    </div>
+  </ExampleBlock>
+
+  <ExampleBlock
+    code={`import { LiquidButton } from "@glinui/ui"
+
+export function LiquidButtonSizesDemo() {
+  return (
+    <div className="flex flex-wrap items-center gap-3">
+      <LiquidButton size="sm">SM</LiquidButton>
+      <LiquidButton size="md">MD</LiquidButton>
+      <LiquidButton size="lg">LG</LiquidButton>
+    </div>
+  )
+}`}
+  >
+    <div className="flex flex-wrap items-center gap-3">
+      <LiquidButton size="sm">SM</LiquidButton>
+      <LiquidButton size="md">MD</LiquidButton>
+      <LiquidButton size="lg">LG</LiquidButton>
     </div>
   </ExampleBlock>
 
   ## Accessibility
 
-  - Inherits native `<button>` semantics and full keyboard interaction from `Button`.
-  - The radial shine is a decorative `::after` pseudo-element and is invisible to assistive technology.
-  - Keep CTA labels descriptive — avoid generic text like "Click here".
+  - Renders through `Button`: native `<button>`, 2px accent focus ring with offset, `disabled` and `aria-busy` states.
+  - Accessible name comes from the label. Decorative effect layers are `aria-hidden` and `pointer-events-none`.
 
   ## Reduced Motion
 
-  `transform` and `filter` transitions used for hover lift, press squish, and shine fade are all disabled when `prefers-reduced-motion` is active.
+  Scale, brightness and the fill transition are disabled under `prefers-reduced-motion` and `data-glin-motion="none"`.
 
   ## API Reference
 

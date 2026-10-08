@@ -1,11 +1,12 @@
 import { getRegistryItem } from "@glinui/registry"
+import { S4Hero, S4Example } from "@/components/demos/s4-mdx"
 import { OrbitingCircles } from "@glinui/ui"
 import { ComponentDocLayout } from "@/components/docs/component-doc-layout"
 import { ExampleBlock } from "@/components/docs/example-block"
-import { InstallTabs } from "@/components/docs/install-tabs"
+import { ComponentHero, ComponentInstall } from "@/components/docs/component-hero"
 import { getComponentSources } from "@/lib/get-component-source"
 import { PropsTable } from "@/components/docs/props-table"
-import { Zap, Palette, Sparkles, Globe, Moon, Star, Rocket, Flame, GitBranch, Database, Cloud, Lock, Shield, Cpu, Layers, Code2, Box } from "lucide-react"
+import { Lightning, Palette, Sparkle, Globe, Moon, Star, Rocket, Flame, GitBranch, Database, Cloud, Lock, Shield, Cpu, Stack, Code, Cube } from "@phosphor-icons/react/dist/ssr"
 import { createDocsMetadata } from "@/lib/docs-metadata"
 
 export const dynamic = "force-static"
@@ -24,55 +25,15 @@ export const metadata = createDocsMetadata({
   title="Orbiting Circles"
   description={item?.description ?? "CSS double-rotate orbit animation for icon constellations."}
 >
+  <S4Hero id="orbiting-circles" title="Orbiting Circles" />
+
   ## Installation
 
-  <InstallTabs sources={sources} command={item?.install.package ?? "pnpm add @glinui/ui @glinui/tokens"} />
-
-  ### Registry
-
-  <InstallTabs command={item?.install.registry ?? "pnpm dlx @glinui/cli@latest add orbiting-circles"} />
+  <ComponentInstall componentId="orbiting-circles" sources={sources} />
 
   ## Usage
 
   Place inside a relative container with a centered anchor element. Each `OrbitingCircles` instance wraps one child and orbits it around the center using the CSS double-rotate trick.
-
-  ### Basic
-
-  <ExampleBlock
-    codeDefaultOpen
-    code={`import { OrbitingCircles } from "@glinui/ui"
-import { Zap, Palette, Sparkles, Globe } from "lucide-react"
-
-export function OrbitingCirclesDemo() {
-  return (
-    <div className="relative flex h-80 w-full items-center justify-center overflow-hidden rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
-      <Globe className="size-8 text-neutral-400" />
-      <OrbitingCircles radius={80} duration={16} delay={0} path>
-        <Zap className="size-4 text-neutral-700 dark:text-neutral-300" />
-      </OrbitingCircles>
-      <OrbitingCircles radius={80} duration={16} delay={5}>
-        <Palette className="size-4 text-neutral-700 dark:text-neutral-300" />
-      </OrbitingCircles>
-      <OrbitingCircles radius={80} duration={16} delay={10}>
-        <Sparkles className="size-4 text-neutral-700 dark:text-neutral-300" />
-      </OrbitingCircles>
-    </div>
-  )
-}`}
-  >
-    <div className="relative flex h-80 w-full items-center justify-center overflow-hidden rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
-      <Globe className="size-8 text-neutral-400" />
-      <OrbitingCircles radius={80} duration={16} delay={0} path>
-        <Zap className="size-4 text-neutral-700 dark:text-neutral-300" />
-      </OrbitingCircles>
-      <OrbitingCircles radius={80} duration={16} delay={5}>
-        <Palette className="size-4 text-neutral-700 dark:text-neutral-300" />
-      </OrbitingCircles>
-      <OrbitingCircles radius={80} duration={16} delay={10}>
-        <Sparkles className="size-4 text-neutral-700 dark:text-neutral-300" />
-      </OrbitingCircles>
-    </div>
-  </ExampleBlock>
 
   ## Examples
 
@@ -82,35 +43,35 @@ export function OrbitingCirclesDemo() {
 
   <ExampleBlock
     code={`import { OrbitingCircles } from "@glinui/ui"
-import { Zap, Palette, Sparkles, Globe } from "lucide-react"
+import { Lightning, Palette, Sparkle, Globe } from "@phosphor-icons/react"
 
 export function OrbitingCirclesGlassDemo() {
   return (
-    <div className="relative flex h-80 w-full items-center justify-center overflow-hidden rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
+    <div className="relative flex h-80 w-full items-center justify-center overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--surface-1)]">
       <Globe className="size-8 text-neutral-400" />
       <OrbitingCircles variant="glass" iconSize={40} radius={90} duration={16} delay={0} path>
-        <Zap className="size-4 text-neutral-700 dark:text-neutral-300" />
+        <Lightning className="size-4 text-neutral-700 dark:text-neutral-300" />
       </OrbitingCircles>
       <OrbitingCircles variant="glass" iconSize={40} radius={90} duration={16} delay={5}>
         <Palette className="size-4 text-neutral-700 dark:text-neutral-300" />
       </OrbitingCircles>
       <OrbitingCircles variant="glass" iconSize={40} radius={90} duration={16} delay={10}>
-        <Sparkles className="size-4 text-neutral-700 dark:text-neutral-300" />
+        <Sparkle className="size-4 text-neutral-700 dark:text-neutral-300" />
       </OrbitingCircles>
     </div>
   )
 }`}
   >
-    <div className="relative flex h-80 w-full items-center justify-center overflow-hidden rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
+    <div className="relative flex h-80 w-full items-center justify-center overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--surface-1)]">
       <Globe className="size-8 text-neutral-400" />
       <OrbitingCircles variant="glass" iconSize={40} radius={90} duration={16} delay={0} path>
-        <Zap className="size-4 text-neutral-700 dark:text-neutral-300" />
+        <Lightning className="size-4 text-neutral-700 dark:text-neutral-300" />
       </OrbitingCircles>
       <OrbitingCircles variant="glass" iconSize={40} radius={90} duration={16} delay={5}>
         <Palette className="size-4 text-neutral-700 dark:text-neutral-300" />
       </OrbitingCircles>
       <OrbitingCircles variant="glass" iconSize={40} radius={90} duration={16} delay={10}>
-        <Sparkles className="size-4 text-neutral-700 dark:text-neutral-300" />
+        <Sparkle className="size-4 text-neutral-700 dark:text-neutral-300" />
       </OrbitingCircles>
     </div>
   </ExampleBlock>
@@ -121,59 +82,59 @@ export function OrbitingCirclesGlassDemo() {
 
   <ExampleBlock
     code={`import { OrbitingCircles } from "@glinui/ui"
-import { GitBranch, Database, Cloud, Lock, Shield, Cpu } from "lucide-react"
+import { GitBranch, Database, Cloud, Lock, Shield, Cpu } from "@phosphor-icons/react"
 
 export function OrbitingCircles3DDemo() {
   return (
-    <div className="relative flex h-96 w-full items-center justify-center overflow-hidden rounded-xl bg-[linear-gradient(135deg,rgb(240_244_248),rgb(226_232_240))] dark:bg-[linear-gradient(135deg,rgb(15_23_42),rgb(30_41_59))]">
-      <div className="flex size-14 items-center justify-center rounded-2xl border border-white/30 [border-top-color:var(--glass-refraction-top)] bg-white/60 shadow-[0_0_0_1px_rgb(255_255_255_/_0.4)_inset,0_12px_32px_-8px_rgb(15_23_42_/_0.2)] backdrop-blur-xl dark:border-white/[0.14] dark:bg-white/[0.1] dark:shadow-[0_0_0_1px_rgb(255_255_255_/_0.08)_inset,0_12px_32px_-8px_rgb(0_0_0_/_0.5)]">
-        <Cpu className="size-6 text-neutral-700 dark:text-neutral-200" />
+    <div className="relative flex h-96 w-full items-center justify-center overflow-hidden rounded-xl bg-[linear-gradient(135deg,var(--surface-1),var(--surface-3))]">
+      <div className="flex size-14 items-center justify-center rounded-2xl border border-[var(--glass-border)] [border-top-color:var(--glass-refraction-top)] bg-[var(--glass-readable)] [box-shadow:var(--glass-3-shadow)] backdrop-blur-xl">
+        <Cpu className="size-6 text-[var(--color-foreground)]" />
       </div>
       {/* Inner ring */}
       <OrbitingCircles variant="3d" iconSize={44} radius={80} duration={18} delay={0} path>
-        <GitBranch className="size-5 text-neutral-700 dark:text-neutral-200" />
+        <GitBranch className="size-5 text-[var(--color-foreground)]" />
       </OrbitingCircles>
       <OrbitingCircles variant="3d" iconSize={44} radius={80} duration={18} delay={6}>
-        <Database className="size-5 text-neutral-700 dark:text-neutral-200" />
+        <Database className="size-5 text-[var(--color-foreground)]" />
       </OrbitingCircles>
       <OrbitingCircles variant="3d" iconSize={44} radius={80} duration={18} delay={12}>
-        <Cloud className="size-5 text-neutral-700 dark:text-neutral-200" />
+        <Cloud className="size-5 text-[var(--color-foreground)]" />
       </OrbitingCircles>
-      {/* Outer ring — reverse */}
+      {/* Outer ring, reverse */}
       <OrbitingCircles variant="3d" iconSize={40} radius={140} duration={26} delay={0} reverse path>
-        <Lock className="size-4 text-neutral-600 dark:text-neutral-300" />
+        <Lock className="size-4 text-[var(--color-muted)]" />
       </OrbitingCircles>
       <OrbitingCircles variant="3d" iconSize={40} radius={140} duration={26} delay={8.5} reverse>
-        <Shield className="size-4 text-neutral-600 dark:text-neutral-300" />
+        <Shield className="size-4 text-[var(--color-muted)]" />
       </OrbitingCircles>
       <OrbitingCircles variant="3d" iconSize={40} radius={140} duration={26} delay={17} reverse>
-        <Layers className="size-4 text-neutral-600 dark:text-neutral-300" />
+        <Stack className="size-4 text-[var(--color-muted)]" />
       </OrbitingCircles>
     </div>
   )
 }`}
   >
-    <div className="relative flex h-96 w-full items-center justify-center overflow-hidden rounded-xl bg-[linear-gradient(135deg,rgb(240_244_248),rgb(226_232_240))] dark:bg-[linear-gradient(135deg,rgb(15_23_42),rgb(30_41_59))]">
-      <div className="flex size-14 items-center justify-center rounded-2xl border border-white/30 [border-top-color:var(--glass-refraction-top)] bg-white/60 shadow-[0_0_0_1px_rgb(255_255_255_/_0.4)_inset,0_12px_32px_-8px_rgb(15_23_42_/_0.2)] backdrop-blur-xl dark:border-white/[0.14] dark:bg-white/[0.1] dark:shadow-[0_0_0_1px_rgb(255_255_255_/_0.08)_inset,0_12px_32px_-8px_rgb(0_0_0_/_0.5)]">
-        <Cpu className="size-6 text-neutral-700 dark:text-neutral-200" />
+    <div className="relative flex h-96 w-full items-center justify-center overflow-hidden rounded-xl bg-[linear-gradient(135deg,var(--surface-1),var(--surface-3))]">
+      <div className="flex size-14 items-center justify-center rounded-2xl border border-[var(--glass-border)] [border-top-color:var(--glass-refraction-top)] bg-[var(--glass-readable)] [box-shadow:var(--glass-3-shadow)] backdrop-blur-xl">
+        <Cpu className="size-6 text-[var(--color-foreground)]" />
       </div>
       <OrbitingCircles variant="3d" iconSize={44} radius={80} duration={18} delay={0} path>
-        <GitBranch className="size-5 text-neutral-700 dark:text-neutral-200" />
+        <GitBranch className="size-5 text-[var(--color-foreground)]" />
       </OrbitingCircles>
       <OrbitingCircles variant="3d" iconSize={44} radius={80} duration={18} delay={6}>
-        <Database className="size-5 text-neutral-700 dark:text-neutral-200" />
+        <Database className="size-5 text-[var(--color-foreground)]" />
       </OrbitingCircles>
       <OrbitingCircles variant="3d" iconSize={44} radius={80} duration={18} delay={12}>
-        <Cloud className="size-5 text-neutral-700 dark:text-neutral-200" />
+        <Cloud className="size-5 text-[var(--color-foreground)]" />
       </OrbitingCircles>
       <OrbitingCircles variant="3d" iconSize={40} radius={140} duration={26} delay={0} reverse path>
-        <Lock className="size-4 text-neutral-600 dark:text-neutral-300" />
+        <Lock className="size-4 text-[var(--color-muted)]" />
       </OrbitingCircles>
       <OrbitingCircles variant="3d" iconSize={40} radius={140} duration={26} delay={8.5} reverse>
-        <Shield className="size-4 text-neutral-600 dark:text-neutral-300" />
+        <Shield className="size-4 text-[var(--color-muted)]" />
       </OrbitingCircles>
       <OrbitingCircles variant="3d" iconSize={40} radius={140} duration={26} delay={17} reverse>
-        <Layers className="size-4 text-neutral-600 dark:text-neutral-300" />
+        <Stack className="size-4 text-[var(--color-muted)]" />
       </OrbitingCircles>
     </div>
   </ExampleBlock>
@@ -182,20 +143,20 @@ export function OrbitingCircles3DDemo() {
 
   <ExampleBlock
     code={`import { OrbitingCircles } from "@glinui/ui"
-import { Moon, Star, Rocket, Flame, Box } from "lucide-react"
+import { Moon, Star, Rocket, Flame, Cube } from "@phosphor-icons/react"
 
 export function OrbitingCirclesReverseDemo() {
   return (
-    <div className="relative flex h-80 w-full items-center justify-center overflow-hidden rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
-      <Box className="size-7 text-neutral-400" />
-      {/* Inner ring — forward */}
+    <div className="relative flex h-80 w-full items-center justify-center overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--surface-1)]">
+      <Cube className="size-7 text-neutral-400" />
+      {/* Inner ring, forward */}
       <OrbitingCircles variant="glass" iconSize={36} radius={70} duration={14} delay={0} path>
         <Moon className="size-4 text-neutral-700 dark:text-neutral-300" />
       </OrbitingCircles>
       <OrbitingCircles variant="glass" iconSize={36} radius={70} duration={14} delay={7}>
         <Star className="size-4 text-neutral-700 dark:text-neutral-300" />
       </OrbitingCircles>
-      {/* Outer ring — reverse */}
+      {/* Outer ring, reverse */}
       <OrbitingCircles variant="glass" iconSize={36} radius={130} duration={22} delay={0} reverse path>
         <Rocket className="size-4 text-neutral-700 dark:text-neutral-300" />
       </OrbitingCircles>
@@ -206,8 +167,8 @@ export function OrbitingCirclesReverseDemo() {
   )
 }`}
   >
-    <div className="relative flex h-80 w-full items-center justify-center overflow-hidden rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
-      <Box className="size-7 text-neutral-400" />
+    <div className="relative flex h-80 w-full items-center justify-center overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--surface-1)]">
+      <Cube className="size-7 text-neutral-400" />
       <OrbitingCircles variant="glass" iconSize={36} radius={70} duration={14} delay={0} path>
         <Moon className="size-4 text-neutral-700 dark:text-neutral-300" />
       </OrbitingCircles>
@@ -222,6 +183,10 @@ export function OrbitingCirclesReverseDemo() {
       </OrbitingCircles>
     </div>
   </ExampleBlock>
+
+  ## Engines
+
+  The `engine` prop is not applicable. Endless css orbit rotation; continuous, not an entrance. It stays css only and still honors motion level `none` and reduced motion.
 
   ## Accessibility
 
@@ -244,7 +209,7 @@ export function OrbitingCirclesReverseDemo() {
   ```
 
   {item?.files?.map((file) => (
-    <div key={file} className="font-mono text-sm text-neutral-600 dark:text-neutral-300">
+    <div key={file} className="font-mono text-sm text-[var(--color-muted)]">
       {file}
     </div>
   ))}
