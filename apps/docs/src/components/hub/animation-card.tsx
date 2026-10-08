@@ -109,7 +109,7 @@ export function AnimationCard({ item }: { item: HubAnimation }) {
         <Link
           href={buildComponentHref(id, "radix")}
           aria-label={`Open ${title} docs`}
-          className="inline-flex size-8 shrink-0 items-center justify-center rounded-lg text-neutral-500 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]"
+          className="inline-flex size-8 shrink-0 items-center justify-center rounded-lg text-muted transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]"
         >
           <ArrowUpRight className="size-4" aria-hidden="true" />
         </Link>

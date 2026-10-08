@@ -67,7 +67,7 @@ export function GalleryGrid({ items }: { items: GalleryItem[] }) {
         count={total}
       />
       {sections.length === 0 ? (
-        <p className="py-16 text-center text-sm text-neutral-500">No components match your filters.</p>
+        <p className="py-16 text-center text-sm text-muted">No components match your filters.</p>
       ) : null}
       {sections.map((section) => {
         const meta = getCategory(section.category)
@@ -78,7 +78,7 @@ export function GalleryGrid({ items }: { items: GalleryItem[] }) {
               <h2 id={headingId} className="type-h3 flex scroll-mt-28 items-center gap-2">
                 <CategoryIcon name={meta.icon} className="size-5 text-[var(--color-accent)]" />
                 {meta.title}
-                <span className="font-mono text-xs font-normal tabular-nums text-neutral-500">{section.entries.length}</span>
+                <span className="font-mono text-xs font-normal tabular-nums text-muted">{section.entries.length}</span>
               </h2>
               <p className="text-sm text-neutral-600 dark:text-neutral-400">{meta.description}</p>
             </div>

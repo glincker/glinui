@@ -67,7 +67,7 @@ export default function ColorContrastPage() {
         title="WCAG targets"
         description="WCAG 2.x contrast ratios. AA is the common release bar. AAA is a stricter goal."
       >
-        <div className="overflow-x-auto rounded-card border border-line-soft bg-surface-1">
+        <div className="relative overflow-x-auto rounded-card border border-line-soft bg-surface-1">
           <table className="w-full min-w-[420px] border-collapse text-left text-sm">
             <caption className="sr-only">WCAG contrast targets by content type</caption>
             <thead>

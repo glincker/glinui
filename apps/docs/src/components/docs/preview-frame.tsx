@@ -163,7 +163,7 @@ export function PreviewFrame({
                 "h-8 rounded-lg px-3 text-[13px] font-medium transition-colors duration-150 motion-reduce:transition-none",
                 active === tab.id
                   ? "bg-black/[0.05] text-foreground dark:bg-white/[0.08]"
-                  : "text-neutral-500 hover:text-foreground dark:text-neutral-400"
+                  : "text-muted hover:text-foreground dark:text-neutral-400"
               )}
             >
               {tab.label}

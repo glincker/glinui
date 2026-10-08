@@ -5,7 +5,7 @@ export type KbdRow = { keys: string[]; action: string; context?: string }
 /** Keyboard reference table with mono keycaps. */
 export function KbdTable({ caption, rows }: { caption: string; rows: KbdRow[] }) {
   return (
-    <div className="overflow-x-auto rounded-card border border-line-soft bg-surface-1">
+    <div className="relative overflow-x-auto rounded-card border border-line-soft bg-surface-1">
       <table className="w-full min-w-[480px] border-collapse text-left text-sm">
         <caption className="sr-only">{caption}</caption>
         <thead>

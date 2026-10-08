@@ -21,7 +21,7 @@ type CodeSurfaceFrameProps = {
 }
 
 const copyButtonClass = cn(
-  "inline-flex size-8 items-center justify-center rounded-lg text-neutral-500 transition-[opacity,transform,color] duration-150",
+  "inline-flex size-8 items-center justify-center rounded-lg text-muted transition-[opacity,transform,color] duration-150",
   "hover:text-neutral-900 active:scale-95 dark:text-neutral-400 dark:hover:text-neutral-100",
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] motion-reduce:transition-none"
 )
@@ -149,7 +149,7 @@ export function PackageManagerTabs({
 }) {
   return (
     <div className="flex items-center gap-3">
-      <Terminal className="size-4 shrink-0 text-neutral-500 dark:text-neutral-400" aria-hidden />
+      <Terminal className="size-4 shrink-0 text-muted dark:text-neutral-400" aria-hidden />
       <div role="tablist" aria-label="Package manager" className="flex items-center gap-1">
         {PACKAGE_MANAGERS.map((pm) => {
           const active = pm === value
@@ -176,7 +176,7 @@ export function PackageManagerTabs({
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:rounded-md",
                 active
                   ? "text-neutral-900 dark:text-neutral-50"
-                  : "text-neutral-500 hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200"
+                  : "text-muted hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200"
               )}
             >
               <BrandIcon name={pm} size={14} variant={active ? "auto" : "mono"} className={active ? undefined : "opacity-70"} />

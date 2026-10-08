@@ -28,7 +28,7 @@ export function RelatedComponents({
         </h2>
         <Link
           href={`/docs/components?category=${category.id}`}
-          className="text-[13px] text-neutral-500 transition-colors hover:text-foreground dark:text-neutral-400"
+          className="text-[13px] text-muted transition-colors hover:text-foreground dark:text-neutral-400"
         >
           All in {category.title}
         </Link>
@@ -45,14 +45,14 @@ export function RelatedComponents({
               >
                 <span className="min-w-0">
                   <span className="block truncate text-sm font-medium text-foreground">{getTitle(id)}</span>
-                  <span className="mt-0.5 block font-mono text-[10px] uppercase tracking-[0.06em] text-neutral-500">
+                  <span className="mt-0.5 block font-mono text-[10px] uppercase tracking-[0.06em] text-muted">
                     {sibling ? "Same family" : getCategory(entry.category).title}
                     {entry.tags.includes("animated") ? " / animated" : ""}
                   </span>
                 </span>
                 <ArrowUpRight
                   aria-hidden="true"
-                  className="mt-0.5 size-3.5 shrink-0 text-neutral-400 transition-colors group-hover:text-[var(--color-accent)]"
+                  className="mt-0.5 size-3.5 shrink-0 text-muted transition-colors group-hover:text-[var(--color-accent)]"
                 />
               </Link>
             </li>

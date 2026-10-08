@@ -34,7 +34,7 @@ export function InstallSourceBlock({ componentId, command, sources, className }:
   return (
     <div className={cn("space-y-3", className)} data-install-source={active}>
       <div className="flex flex-wrap items-center gap-2">
-        <span id={`${groupId}-label`} className="text-[12px] font-medium text-neutral-500 dark:text-neutral-400">
+        <span id={`${groupId}-label`} className="text-[12px] font-medium text-muted dark:text-neutral-400">
           Install from
         </span>
         <div
@@ -54,7 +54,7 @@ export function InstallSourceBlock({ componentId, command, sources, className }:
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]",
                 active === option.id
                   ? "bg-[var(--surface-1)] text-neutral-900 [box-shadow:var(--elev-1)] dark:text-neutral-50"
-                  : "text-neutral-500 hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200"
+                  : "text-muted hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200"
               )}
             >
               {option.label}
@@ -67,7 +67,7 @@ export function InstallSourceBlock({ componentId, command, sources, className }:
       {active === "shadcn" ? (
         <div className="space-y-2">
           <InstallTabs command={buildShadcnCommand(componentId)} />
-          <p className="text-[12px] text-neutral-500 dark:text-neutral-400">
+          <p className="text-[12px] text-muted dark:text-neutral-400">
             Uses the shadcn registry JSON served at glinui.com/r. Files are copied into your project with your aliases.
           </p>
         </div>

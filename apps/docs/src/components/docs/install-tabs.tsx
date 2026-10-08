@@ -80,7 +80,7 @@ export function InstallTabs({ command, sources, className }: InstallTabsProps) {
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]",
                 mode === m
                   ? "bg-[var(--surface-1)] text-neutral-900 [box-shadow:var(--elev-1)] dark:text-neutral-50"
-                  : "text-neutral-500 hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200"
+                  : "text-muted hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200"
               )}
             >
               {m === "cli" ? <Terminal className="size-3.5" aria-hidden /> : <FileCode className="size-3.5" aria-hidden />}
@@ -108,7 +108,7 @@ export function InstallTabs({ command, sources, className }: InstallTabsProps) {
       {/* Manual view */}
       {mode === "manual" && hasSources ? (
         <div className="space-y-2">
-          <p className="text-[13px] text-neutral-500 dark:text-neutral-400">
+          <p className="text-[13px] text-muted dark:text-neutral-400">
             Copy and paste the following code into your project.
           </p>
 
@@ -131,7 +131,7 @@ export function InstallTabs({ command, sources, className }: InstallTabsProps) {
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]",
                     activeFileIndex === index
                       ? "bg-[var(--surface-1)] text-neutral-900 [box-shadow:var(--elev-1)] dark:text-neutral-50"
-                      : "text-neutral-500 hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200"
+                      : "text-muted hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200"
                   )}
                 >
                   {source.fileName}

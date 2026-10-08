@@ -72,7 +72,7 @@ export function DocsToc({
               <button
                 type="button"
                 onClick={scrollPageToTop}
-                className="inline-flex items-center gap-1 rounded-md text-[11px] text-neutral-400 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] dark:text-neutral-500 dark:hover:text-neutral-300"
+                className="inline-flex items-center gap-1 rounded-md text-[11px] text-muted transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] dark:text-neutral-400 dark:hover:text-neutral-300"
               >
                 <ArrowUp className="size-3" />
                 Back to top

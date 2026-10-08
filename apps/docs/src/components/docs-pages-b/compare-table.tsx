@@ -24,7 +24,7 @@ function EdgeLabel({ edge, otherName }: { edge: Edge; otherName: string }) {
 /** Honest feature table. The Edge column states who is ahead on each row. */
 export function CompareTable({ otherName, rows }: { otherName: string; rows: CompareRow[] }) {
   return (
-    <div className="overflow-x-auto rounded-card border border-line-soft bg-surface-1">
+    <div className="relative overflow-x-auto rounded-card border border-line-soft bg-surface-1">
       <table className="w-full min-w-[720px] border-collapse text-left text-sm">
         <caption className="sr-only">Feature comparison of Glin UI and {otherName}</caption>
         <thead>

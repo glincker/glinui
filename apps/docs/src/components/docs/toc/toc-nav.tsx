@@ -34,7 +34,7 @@ function TocLink({
         item.depth === 3 ? "pl-7 text-[12px]" : "pl-4 text-[13px]",
         active
           ? "font-medium text-foreground"
-          : "text-neutral-500 hover:text-foreground dark:text-neutral-400 dark:hover:text-neutral-200"
+          : "text-muted hover:text-foreground dark:text-neutral-400 dark:hover:text-neutral-200"
       )}
     >
       <span className={cn("block truncate", active && "text-[var(--color-accent)] dark:text-[var(--color-accent)]")}>
@@ -83,7 +83,7 @@ function TocSectionView({
                   onClick={() => setShowAll(true)}
                   className={cn(
                     linkBase,
-                    "inline-flex w-full items-center gap-1 pl-7 text-[12px] text-neutral-400 hover:text-foreground dark:text-neutral-500"
+                    "inline-flex w-full items-center gap-1 pl-7 text-[12px] text-muted hover:text-foreground dark:text-neutral-400"
                   )}
                 >
                   <CaretDown className="size-3" aria-hidden="true" />+{hidden} more

@@ -111,11 +111,11 @@ export function ExampleBlock({
         className="group relative w-full border-t border-black/[0.06] px-3 py-2 text-left transition-colors hover:bg-white/35 dark:border-white/[0.08] dark:hover:bg-white/[0.03]"
       >
         <div className="flex items-center justify-between">
-          <span className="inline-flex items-center gap-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-neutral-500 dark:text-neutral-400">
+          <span className="inline-flex items-center gap-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-muted dark:text-neutral-400">
             <Code className="size-3.5" />
             {codeOpen ? "Hide source" : "View source"}
           </span>
-          <span className="inline-flex items-center gap-1.5 text-[11px] text-neutral-500 dark:text-neutral-400">
+          <span className="inline-flex items-center gap-1.5 text-[11px] text-muted dark:text-neutral-400">
             <span>{codeOpen ? "Collapse" : "Expand"}</span>
             <CaretDown className={cn("size-3.5 transition-transform", codeOpen ? "rotate-180" : "rotate-0")} />
           </span>
@@ -123,7 +123,7 @@ export function ExampleBlock({
 
         {!codeOpen ? (
           <div className="relative mt-2 overflow-hidden rounded-lg border border-black/[0.05] bg-white/30 dark:border-white/[0.08] dark:bg-white/[0.02]">
-            <pre className="max-h-12 overflow-hidden px-3 py-2 font-mono text-[11px] leading-5 text-neutral-500 blur-[1px] dark:text-neutral-400">
+            <pre className="max-h-12 overflow-hidden px-3 py-2 font-mono text-[11px] leading-5 text-muted blur-[1px] dark:text-neutral-400">
               {codePreview}
             </pre>
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-white/95 to-transparent dark:from-[rgb(10_12_18_/_0.96)]" />
@@ -133,7 +133,7 @@ export function ExampleBlock({
 
       {resolvedSnippets.length > 1 ? (
         <div className="border-t border-black/[0.06] px-3 py-2 dark:border-white/[0.08]">
-          <label className="inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-neutral-500 dark:text-neutral-400">
+          <label className="inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-muted dark:text-neutral-400">
             Language
             <select
               value={activeSnippetLabel}

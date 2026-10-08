@@ -47,7 +47,7 @@ export function OriginalSourceCard({ provenance }: { provenance: Provenance }) {
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h3 className="text-sm font-medium text-foreground">{model.heading}</h3>
         <div className="flex items-center gap-2">
-          <span className="font-mono text-[10px] uppercase tracking-[0.08em] text-neutral-500 dark:text-neutral-400">{model.license}</span>
+          <span className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted dark:text-neutral-400">{model.license}</span>
           <StatusBadge label={model.statusLabel} tone={model.statusTone} />
         </div>
       </div>
@@ -61,7 +61,7 @@ export function OriginalSourceCard({ provenance }: { provenance: Provenance }) {
 
       {model.installCommand && model.installLabel && provenance.status === "active" ? (
         <div className="space-y-1.5">
-          <p className="text-[12px] text-neutral-500 dark:text-neutral-400">{model.installLabel}</p>
+          <p className="text-[12px] text-muted dark:text-neutral-400">{model.installLabel}</p>
           <UpstreamCommand command={model.installCommand} />
         </div>
       ) : null}
@@ -76,7 +76,7 @@ export function OriginalSourceCard({ provenance }: { provenance: Provenance }) {
         <ArrowSquareOut className="size-3.5" aria-hidden="true" />
       </a>
 
-      <p className="flex gap-2 text-[12px] text-neutral-500 dark:text-neutral-400">
+      <p className="flex gap-2 text-[12px] text-muted dark:text-neutral-400">
         <Info className="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
         {model.disclaimer}
       </p>

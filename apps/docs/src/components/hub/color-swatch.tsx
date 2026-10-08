@@ -11,7 +11,7 @@ function Badge({ pass, label }: { pass: boolean; label: string }) {
       className={`rounded px-1 font-mono text-[10px] font-medium leading-4 ring-1 ${
         pass
           ? "bg-signal-ok/15 text-foreground ring-signal-ok/40"
-          : "bg-[var(--surface-2)] text-neutral-500 ring-[var(--line-soft)] line-through"
+          : "bg-[var(--surface-2)] text-muted ring-[var(--line-soft)] line-through"
       }`}
     >
       {label}
@@ -31,7 +31,7 @@ export function ColorSwatch({ token, live }: { token: ColorTokenSpec; live: Toke
       <div className="space-y-1.5 p-3">
         <div className="flex items-baseline justify-between gap-2">
           <p className="text-[13px] font-medium text-foreground">{token.label}</p>
-          <p className="font-mono text-[11px] tabular-nums text-neutral-500">{color ? oklchToHex(color) : "..."}</p>
+          <p className="font-mono text-[11px] tabular-nums text-muted">{color ? oklchToHex(color) : "..."}</p>
         </div>
         <div className="-mx-1.5 flex flex-col items-start gap-0.5">
           <CopyChip value={token.name} label="variable name" />

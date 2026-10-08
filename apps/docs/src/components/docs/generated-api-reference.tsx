@@ -31,7 +31,7 @@ export function GeneratedApiReference({ componentId }: { componentId: ComponentI
               Beta
             </span>
           </div>
-          <CaretRight className="size-4 text-neutral-500 transition-transform duration-fast ease-standard group-open:rotate-90" />
+          <CaretRight className="size-4 text-muted transition-transform duration-fast ease-standard group-open:rotate-90" />
         </summary>
 
         <div className="space-y-4 border-t border-border/60 px-4 py-4">
@@ -39,7 +39,7 @@ export function GeneratedApiReference({ componentId }: { componentId: ComponentI
             Auto-extracted from TypeScript source in <code>{entry.sourceFile}</code>. This section is in beta and may
             lag behind hand-curated docs. Regenerate with <code>pnpm --filter @glinui/docs api:generate</code>.
           </p>
-          <p className="text-xs text-neutral-500 dark:text-neutral-400">
+          <p className="text-xs text-muted dark:text-neutral-400">
             Generated: {generatedApiMetadataGeneratedAt} · Full index:{" "}
             <Link href="/docs/api-metadata" className="underline decoration-neutral-400/50 underline-offset-4 hover:text-foreground">
               /docs/api-metadata
@@ -47,7 +47,7 @@ export function GeneratedApiReference({ componentId }: { componentId: ComponentI
           </p>
 
           <div className="rounded-xl border border-border/60 bg-background/30 p-3">
-            <p className="text-xs uppercase tracking-wide text-neutral-500 dark:text-neutral-400">Primary Props Type</p>
+            <p className="text-xs uppercase tracking-wide text-muted dark:text-neutral-400">Primary Props Type</p>
             <p className="mt-1 text-sm font-medium text-foreground">
               <code>{entry.primaryPropsType ?? "-"}</code>
             </p>
@@ -98,7 +98,7 @@ export function GeneratedApiReference({ componentId }: { componentId: ComponentI
                   </table>
                 </div>
               ) : (
-                <p className="text-xs text-neutral-500 dark:text-neutral-400">No explicit fields extracted for this props type.</p>
+                <p className="text-xs text-muted dark:text-neutral-400">No explicit fields extracted for this props type.</p>
               )}
             </div>
           ))}
