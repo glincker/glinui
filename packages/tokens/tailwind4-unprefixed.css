@@ -1,0 +1,77 @@
+/*
+ * Opt-in: the exact Tailwind 3 preset names (text-muted, bg-accent, rounded-card,
+ * font-sans, text-body, ease-out, bg-ring ...). Import AFTER tailwind4.css.
+ * These override a consumer's own shadcn --color-muted, --color-accent,
+ * --font-sans, --ease-out etc. in the Tailwind theme, so only use it when Glin
+ * is the primary design system. Each token is bridged through a --glin-* alias
+ * (the token variable shares its name with the Tailwind theme key, which would
+ * be circular).
+ */
+
+* {
+  --glin-background: var(--color-background);
+  --glin-foreground: var(--color-foreground);
+  --glin-border: var(--color-border);
+  --glin-surface: var(--color-surface);
+  --glin-brand: var(--color-brand);
+  --glin-brand-foreground: var(--color-brand-foreground);
+  --glin-accent: var(--color-accent);
+  --glin-accent-foreground: var(--color-accent-foreground);
+  --glin-muted: var(--color-muted);
+  --glin-subtle: var(--color-subtle);
+  --glin-signal-live: var(--color-signal-live);
+  --glin-signal-ok: var(--color-signal-ok);
+}
+
+:root {
+  --glin-radius-card: var(--radius-card);
+  --glin-radius-input: var(--radius-input);
+  --glin-radius-pill: var(--radius-pill);
+  --glin-font-sans: var(--font-sans);
+  --glin-font-mono: var(--font-mono);
+  --glin-text-caption: var(--text-caption);
+  --glin-text-body: var(--text-body);
+  --glin-text-lead: var(--text-lead);
+  --glin-text-sub: var(--text-sub);
+  --glin-text-h3: var(--text-h3);
+  --glin-text-h2: var(--text-h2);
+  --glin-text-display: var(--text-display);
+  --glin-ease-out: var(--ease-out);
+  --glin-ease-in-out: var(--ease-in-out);
+  --glin-ease-drawer: var(--ease-drawer);
+}
+
+@theme inline {
+  --color-background: var(--glin-background);
+  --color-foreground: var(--glin-foreground);
+  --color-border: var(--glin-border);
+  --color-surface: var(--glin-surface);
+  --color-brand: var(--glin-brand);
+  --color-brand-foreground: var(--glin-brand-foreground);
+  --color-accent: var(--glin-accent);
+  --color-accent-foreground: var(--glin-accent-foreground);
+  --color-muted: var(--glin-muted);
+  --color-subtle: var(--glin-subtle);
+  --color-signal-live: var(--glin-signal-live);
+  --color-signal-ok: var(--glin-signal-ok);
+  --radius-card: var(--glin-radius-card);
+  --radius-input: var(--glin-radius-input);
+  --radius-pill: var(--glin-radius-pill);
+  --font-sans: var(--glin-font-sans);
+  --font-mono: var(--glin-font-mono);
+  --text-caption: var(--glin-text-caption);
+  --text-body: var(--glin-text-body);
+  --text-lead: var(--glin-text-lead);
+  --text-sub: var(--glin-text-sub);
+  --text-h3: var(--glin-text-h3);
+  --text-h2: var(--glin-text-h2);
+  --text-display: var(--glin-text-display);
+  --ease-out: var(--glin-ease-out);
+  --ease-in-out: var(--glin-ease-in-out);
+  --ease-drawer: var(--glin-ease-drawer);
+}
+
+@utility bg-ring { background-image: var(--ring); }
+@utility bg-ring-hot { background-image: var(--ring-hot); }
+@utility bg-ring-brand { background-image: var(--ring-brand); }
+@utility bg-ring-violet { background-image: var(--ring-violet); }

@@ -17,7 +17,10 @@
     "./tailwind-preset": {
       "types": "./tailwind-preset.d.ts",
       "default": "./tailwind-preset.cjs"
-    }
+    },
+    "./tailwind4.css": "./tailwind4.css",
+    "./tailwind4-unprefixed.css": "./tailwind4-unprefixed.css",
+    "./tailwind4-animate.css": "./tailwind4-animate.css"
   },
   "files": [
     "dist",
@@ -28,7 +31,10 @@
     "bases.css",
     "tailwind-animate.cjs",
     "tailwind-preset.cjs",
-    "tailwind-preset.d.ts"
+    "tailwind-preset.d.ts",
+    "tailwind4.css",
+    "tailwind4-unprefixed.css",
+    "tailwind4-animate.css"
   ],
   "license": "MIT",
   "repository": {
@@ -55,6 +61,11 @@
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "echo 'lint: @glinui/tokens (todo)'",
-    "test": "echo 'test: @glinui/tokens (todo)'"
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@tailwindcss/node": "^4",
+    "tailwindcss": "^4",
+    "vitest": "3.2.4"
   }
 }

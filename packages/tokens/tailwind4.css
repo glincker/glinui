@@ -1,0 +1,116 @@
+/*
+ * Glin UI for Tailwind CSS 4 (CSS first). Replaces tailwind-preset.cjs.
+ *
+ *   @import "tailwindcss";
+ *   @import "@glinui/tokens/theme.css";
+ *   @import "@glinui/tokens/tailwind4.css";
+ *   @source "../node_modules/@glinui/ui/dist";
+ *
+ * (@source is relative to the CSS file; adjust the path.) Tailwind itself is
+ * imported by the consumer, never here.
+ *
+ * Naming: the Tailwind 3 preset names stay identical wherever they cannot clash.
+ * Names whose token already uses the same variable (muted, accent, background,
+ * radius-card, font-sans, text-body, ease-out ...) would be circular or would
+ * override a consumer's shadcn variables, so they are namespaced here with a
+ * glin- infix (text-glin-muted, rounded-glin-card). The exact preset names are in
+ * the opt-in tailwind4-unprefixed.css.
+ */
+
+@import "./tailwind4-animate.css";
+
+@custom-variant dark (&:where(.dark, .dark *, [data-glin-theme=dark], [data-glin-theme=dark] *));
+
+@theme inline {
+  /* Colors, exact preset names */
+  --color-surface-0: var(--surface-0);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-surface-well: var(--surface-well);
+  --color-line-soft: var(--line-soft);
+  --color-face-0: var(--face-0);
+  --color-face-1: var(--face-1);
+  --color-face-2: var(--face-2);
+  --color-floor-1: var(--floor-1);
+  --color-floor-2: var(--floor-2);
+  --color-well: var(--well);
+  --color-key: var(--key-bottom);
+  --color-key-top: var(--key-top);
+  --color-key-bottom: var(--key-bottom);
+  --color-key-white-top: var(--key-white-top);
+  --color-key-white-bottom: var(--key-white-bottom);
+  --color-key-foreground: var(--key-foreground);
+
+  /* Colors, namespaced (same variable name as the token) */
+  --color-glin-background: var(--color-background);
+  --color-glin-foreground: var(--color-foreground);
+  --color-glin-border: var(--color-border);
+  --color-glin-surface: var(--color-surface);
+  --color-glin-brand: var(--color-brand);
+  --color-glin-brand-foreground: var(--color-brand-foreground);
+  --color-glin-accent: var(--color-accent);
+  --color-glin-accent-foreground: var(--color-accent-foreground);
+  --color-glin-muted: var(--color-muted);
+  --color-glin-subtle: var(--color-subtle);
+  --color-glin-signal-live: var(--color-signal-live);
+  --color-glin-signal-ok: var(--color-signal-ok);
+
+  /* Elevation (shadow-elev-1, shadow-hl ...) */
+  --shadow-elev-1: var(--elev-1);
+  --shadow-elev-2: var(--elev-2);
+  --shadow-elev-3: var(--elev-3);
+  --shadow-elev-inset: var(--elev-inset);
+  --shadow-drop-1: var(--drop-1);
+  --shadow-drop-2: var(--drop-2);
+  --shadow-drop-3: var(--drop-3);
+  --shadow-drop-hover: var(--drop-hover);
+  --shadow-hl: var(--hl);
+  --shadow-hl-top: var(--hl-top);
+  --shadow-hl-strong: var(--hl-strong);
+
+  /* Radius, font, type, easing (namespaced) */
+  --radius-glin-card: var(--radius-card);
+  --radius-glin-input: var(--radius-input);
+  --radius-glin-pill: var(--radius-pill);
+  --font-glin-sans: var(--font-sans);
+  --font-glin-mono: var(--font-mono);
+  --text-glin-caption: var(--text-caption);
+  --text-glin-body: var(--text-body);
+  --text-glin-lead: var(--text-lead);
+  --text-glin-sub: var(--text-sub);
+  --text-glin-h3: var(--text-h3);
+  --text-glin-h2: var(--text-h2);
+  --text-glin-display: var(--text-display);
+  --ease-glin-out: var(--ease-out);
+  --ease-glin-in-out: var(--ease-in-out);
+  --ease-glin-drawer: var(--ease-drawer);
+
+  /* Layout and spacing (max-w-layout, p-gutter, h-nav, gap-s-4) */
+  --container-layout: var(--layout-max);
+  --spacing-gutter: var(--layout-gutter);
+  --spacing-section: var(--layout-section);
+  --spacing-nav: var(--layout-nav-h);
+  --spacing-s-1: var(--s-1);
+  --spacing-s-2: var(--s-2);
+  --spacing-s-3: var(--s-3);
+  --spacing-s-4: var(--s-4);
+  --spacing-s-5: var(--s-5);
+  --spacing-s-6: var(--s-6);
+  --spacing-s-8: var(--s-8);
+  --spacing-s-10: var(--s-10);
+  --spacing-s-12: var(--s-12);
+  --spacing-s-16: var(--s-16);
+  --spacing-s-20: var(--s-20);
+  --spacing-s-30: var(--s-30);
+}
+
+/* backgroundImage in the preset: no theme namespace in Tailwind 4, so utilities. */
+@utility bg-grain { background-image: var(--grain); }
+@utility bg-glow-top { background-image: var(--glow-top); }
+@utility bg-sheen { background-image: var(--sheen); }
+@utility bg-hairline { background-image: var(--hairline); }
+@utility bg-glin-ring { background-image: var(--ring); }
+@utility bg-glin-ring-hot { background-image: var(--ring-hot); }
+@utility bg-glin-ring-brand { background-image: var(--ring-brand); }
+@utility bg-glin-ring-violet { background-image: var(--ring-violet); }
