@@ -1,117 +1,93 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowSquareOut, GithubLogo } from "@phosphor-icons/react/dist/ssr"
+import { GithubLogo, Heart } from "@phosphor-icons/react/dist/ssr"
 
-type FooterLinkItem = { href: string; label: string; external?: boolean }
+import uiPackage from "../../../../../packages/ui/package.json"
+import {
+  bottomLinks,
+  FREE_FOREVER_HREF,
+  footerGroups,
+  GLINCKER_URL,
+  LICENSE_URL,
+  REPO_URL
+} from "@/lib/site-links"
 
-const columns: Array<{ title: string; links: FooterLinkItem[] }> = [
-  {
-    title: "Product",
-    links: [
-      { href: "/docs/components", label: "Components" },
-      { href: "/docs/animations", label: "Animations" },
-      { href: "/docs/colors", label: "Colors" },
-      { href: "/docs/tokens", label: "Tokens" },
-      { href: "/docs/motion", label: "Motion" }
-    ]
-  },
-  {
-    title: "Resources",
-    links: [
-      { href: "/docs/getting-started", label: "Getting Started" },
-      { href: "/docs/accessibility", label: "Accessibility Hub" },
-      { href: "/docs/api-metadata", label: "API Metadata" },
-      { href: "/docs/directory", label: "Directory" },
-      { href: "/docs/ai", label: "AI-ready docs" },
-      { href: "/docs/attribution", label: "Attribution" },
-      { href: "/docs/free-forever", label: "Free forever" }
-    ]
-  },
-  {
-    title: "Compare",
-    links: [
-      { href: "/docs/shadcn-alternative", label: "Glin UI vs shadcn/ui" },
-      { href: "/docs/magicui-alternative", label: "vs Magic UI" },
-      { href: "/docs/radix-ui-components", label: "Radix UI Components" },
-      { href: "/docs/glassmorphism-react-components", label: "Glassmorphism React Components" }
-    ]
-  },
-  {
-    title: "Community",
-    links: [
-      { href: "https://github.com/GLINCKER/glinui", label: "GitHub", external: true },
-      { href: "https://github.com/GLINCKER/glinui/discussions", label: "Discussions", external: true },
-      { href: "https://www.npmjs.com/package/@glinui/ui", label: "npm @glinui/ui", external: true }
-    ]
-  }
-]
+import { FooterColumn, footerRing } from "./footer-columns"
+import { ThemeToggle } from "@/components/theme-toggle"
+import { FooterEcosystem } from "./footer-ecosystem"
 
-const ring = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]"
+const VERSION: string = uiPackage.version
 
 export function SiteFooter() {
+  const year = new Date().getFullYear()
   return (
     <footer className="border-t border-[var(--line-soft)] bg-[var(--surface-0)]">
       <div className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr_1fr]">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.6fr_repeat(4,1fr)]">
           <div className="space-y-4 sm:col-span-2 lg:col-span-1">
-            <Link href="/" className={`inline-flex items-center gap-2 rounded-md ${ring}`}>
+            <Link href="/" className={`inline-flex items-center gap-2 rounded-md ${footerRing}`}>
               <Image src="/glincker-logo.png" alt="" width={24} height={24} unoptimized className="rounded-md dark:hidden" />
               <Image src="/glincker-logo.png" alt="" width={24} height={24} unoptimized className="hidden rounded-md invert dark:block" />
               <span className="text-sm font-semibold tracking-[-0.02em]">Glin UI</span>
             </Link>
-            <p className="type-body max-w-xs text-[var(--color-muted)]">Design modern UI for the modern web.</p>
+            <p className="type-body max-w-xs text-[var(--color-muted)]">
+              Free, open-source design hub for the modern web.
+            </p>
+            <p className="type-caption max-w-xs text-[var(--color-muted)]">
+              MIT licensed and free forever.{" "}
+              <Link href={FREE_FOREVER_HREF} className={`rounded-sm text-[var(--color-foreground)] underline underline-offset-2 ${footerRing}`}>
+                Read the pledge
+              </Link>
+            </p>
             <Link
-              href="https://github.com/GLINCKER/glinui"
+              href={REPO_URL}
               target="_blank"
-              rel="noreferrer"
-              aria-label="Glin UI on GitHub"
-              className={`inline-flex size-8 items-center justify-center rounded-md border border-[var(--line-soft)] text-[var(--color-muted)] hover:text-[var(--color-foreground)] ${ring}`}
+              rel="noopener"
+              className={`inline-flex min-h-11 items-center gap-2 rounded-md border border-[var(--line-soft)] px-3 text-sm text-[var(--color-foreground)] transition-colors hover:border-[var(--color-muted)] ${footerRing}`}
             >
-              <GithubLogo className="size-4" />
+              <GithubLogo aria-hidden className="size-4" />
+              Star on GitHub
             </Link>
           </div>
 
-          {columns.map((column) => (
-            <nav key={column.title} aria-label={`Footer ${column.title}`}>
-              <p className="type-eyebrow mb-3">{column.title}</p>
-              <ul className="space-y-2">
-                {column.links.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      {...(link.external ? { target: "_blank", rel: "noreferrer" } : {})}
-                      className={`rounded-sm text-sm text-[var(--color-muted)] transition-colors hover:text-[var(--color-foreground)] ${ring}`}
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
+          {footerGroups.map((group) => (
+            <FooterColumn key={group.id} group={group} />
           ))}
         </div>
 
-        <div className="mt-12 flex flex-col gap-3 border-t border-[var(--line-soft)] pt-6 type-caption text-[var(--color-muted)] sm:flex-row sm:items-center sm:justify-between">
-          <p>
-            MIT License.{" "}
-            <Link
-              href="https://github.com/GLINCKER/glinui/blob/main/LICENSE"
-              target="_blank"
-              rel="noreferrer"
-              className={`rounded-sm underline-offset-2 hover:underline ${ring}`}
-            >
-              View license
+        <FooterEcosystem />
+
+        <div className="mt-10 flex flex-col gap-4 border-t border-[var(--line-soft)] pt-6 type-caption text-[var(--color-muted)] lg:flex-row lg:items-center lg:justify-between">
+          <p className="flex flex-wrap items-center gap-x-2 gap-y-1">
+            <span>&copy; {year} GLINCKER.</span>
+            <Link href={LICENSE_URL} target="_blank" rel="noopener" className={`rounded-sm underline-offset-2 hover:underline ${footerRing}`}>
+              MIT License
             </Link>
+            <span className="inline-flex items-center gap-1">
+              Made with <Heart aria-hidden weight="fill" className="size-3" /> by
+              <Link href={GLINCKER_URL} target="_blank" rel="noopener" className={`rounded-sm underline-offset-2 hover:underline ${footerRing}`}>
+                GLINCKER
+              </Link>
+            </span>
+            <span>v{VERSION}</span>
           </p>
-          <Link
-            href="https://glincker.com"
-            target="_blank"
-            rel="noreferrer"
-            className={`inline-flex items-center gap-1 rounded-sm hover:text-[var(--color-foreground)] ${ring}`}
-          >
-            A GLINR product
-            <ArrowSquareOut className="size-3" />
-          </Link>
+          <div className="flex flex-wrap items-center gap-2">
+          <ThemeToggle />
+          <nav aria-label="Footer legal and feeds">
+            <ul className="flex flex-wrap gap-x-1 gap-y-1">
+              {bottomLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className={`inline-flex min-h-11 items-center rounded-sm px-2 hover:text-[var(--color-foreground)] ${footerRing}`}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          </div>
         </div>
       </div>
     </footer>
