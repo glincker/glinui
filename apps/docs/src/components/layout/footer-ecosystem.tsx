@@ -20,14 +20,14 @@ export function FooterEcosystem() {
           GLINCKER
         </Link>
       </h3>
-      <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+      <ul className="grid gap-x-8 gap-y-4 sm:grid-cols-2 lg:grid-cols-6 lg:[[data-docs-scroll-root]_&]:grid-cols-2 xl:[[data-docs-scroll-root]_&]:grid-cols-6">
         {ecosystemLinks.map((link) => (
-          <li key={link.href}>
+          <li key={link.href} className="lg:col-span-2 lg:[[data-docs-scroll-root]_&]:col-span-1 xl:[[data-docs-scroll-root]_&]:col-span-2">
             <Link
               href={link.href}
               target="_blank"
               rel="noopener"
-              className={`group flex min-h-11 flex-col rounded-lg border border-[var(--line-soft)] bg-[var(--surface-1)] px-3 py-2 transition-colors hover:border-[var(--color-muted)] ${footerRing}`}
+              className={`group flex h-full min-h-11 flex-col rounded-lg border border-[var(--line-soft)] bg-[var(--surface-1)] px-3 py-2 transition-colors hover:border-[var(--color-muted)] ${footerRing}`}
             >
               <span className="inline-flex items-center justify-between gap-2 text-sm font-medium text-[var(--color-foreground)]">
                 <span className="inline-flex items-center gap-2">

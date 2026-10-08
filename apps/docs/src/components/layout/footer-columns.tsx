@@ -10,15 +10,15 @@ export const footerRing =
 
 export function FooterColumn({ group }: { group: SiteLinkGroup }) {
   return (
-    <nav aria-label={`Footer ${group.title}`}>
+    <nav aria-label={`Footer ${group.title}`} className="min-w-0">
       <h3 className="type-eyebrow mb-3">{group.title}</h3>
-      <ul className="space-y-1">
+      <ul className="space-y-0 sm:space-y-1">
         {group.links.map((link) => (
           <li key={link.href}>
             <Link
               href={link.href}
               {...(link.external ? { target: "_blank", rel: "noopener" } : {})}
-              className={`inline-flex min-h-8 items-center gap-1.5 rounded-sm text-sm text-[var(--color-muted)] transition-colors hover:text-[var(--color-foreground)] ${footerRing}`}
+              className={`inline-flex min-h-11 items-center gap-2 sm:min-h-8 rounded-sm text-sm text-[var(--color-muted)] transition-colors hover:text-[var(--color-foreground)] ${footerRing}`}
             >
               {link.icon ? <FooterIcon icon={link.icon} /> : null}
               {link.label}
