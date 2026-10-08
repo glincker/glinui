@@ -69,14 +69,14 @@ export function FloatingComponentChrome({
           >
             <div className="flex items-center justify-between gap-3">
               <div className="min-w-0">
-                <div className="flex items-center gap-1 text-[11px] text-neutral-500 dark:text-neutral-400">
+                <div className="flex items-center gap-1 text-[11px] text-muted dark:text-neutral-400">
                   <span>Home</span>
                   <CaretRight className="size-3 opacity-50" />
                   <span>Components</span>
                   <CaretRight className="size-3 opacity-50" />
                   <span className="truncate text-foreground">{title}</span>
                 </div>
-                <p className="mt-1 truncate text-xs text-neutral-500 dark:text-neutral-400">
+                <p className="mt-1 truncate text-xs text-muted dark:text-neutral-400">
                   {badgeLabel} • {title}
                 </p>
               </div>

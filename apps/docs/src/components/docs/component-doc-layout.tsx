@@ -100,7 +100,7 @@ export function ComponentDocLayout({
         {/* Page header, open, no card wrapper */}
         <section id="overview" className="space-y-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <nav aria-label="Breadcrumb" className="text-[13px] text-neutral-500 dark:text-neutral-400">
+            <nav aria-label="Breadcrumb" className="text-[13px] text-muted dark:text-neutral-400">
               <ol className="flex flex-wrap items-center gap-1">
                 <li>
                   <Link

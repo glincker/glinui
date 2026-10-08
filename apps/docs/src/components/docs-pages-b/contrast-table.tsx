@@ -41,7 +41,7 @@ export function ContrastTable() {
   })
 
   return (
-    <div className="overflow-x-auto rounded-card border border-line-soft bg-surface-1">
+    <div className="relative overflow-x-auto rounded-card border border-line-soft bg-surface-1">
       <table className="w-full min-w-[560px] border-collapse text-left text-sm">
         <caption className="sr-only">Contrast ratios for core Glin UI token pairs</caption>
         <thead>

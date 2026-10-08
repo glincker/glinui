@@ -40,13 +40,13 @@ const SUPPORTED_LANGUAGES: ReadonlySet<string> = new Set([
 const plainTheme: PrismTheme = { plain: {}, styles: [] }
 
 const TOKEN_CLASSES: ReadonlyArray<readonly [ReadonlyArray<string>, string]> = [
-  [["comment", "prolog", "doctype", "cdata"], "italic text-neutral-400 dark:text-neutral-500"],
+  [["comment", "prolog", "doctype", "cdata"], "italic text-muted dark:text-neutral-400"],
   [["keyword", "operator", "tag"], "text-violet-700 dark:text-violet-300"],
   [["property", "attr-name", "variable"], "text-sky-700 dark:text-sky-300"],
   [["string", "attr-value", "template-string", "regex", "important"], "text-emerald-700 dark:text-emerald-300"],
   [["number", "boolean"], "text-amber-700 dark:text-amber-300"],
   [["function", "class-name", "builtin", "constant"], "text-indigo-700 dark:text-indigo-300"],
-  [["punctuation"], "text-neutral-500 dark:text-neutral-400"]
+  [["punctuation"], "text-muted dark:text-neutral-400"]
 ]
 
 function tokenClass(types: string[]): string {
@@ -90,7 +90,7 @@ export function CodeBlock({
   } else if (filename) {
     header = (
       <div className="flex items-center gap-2 py-2.5 text-[12px] font-medium text-neutral-600 dark:text-neutral-300">
-        <FileCode className="size-4 shrink-0 text-neutral-500 dark:text-neutral-400" aria-hidden />
+        <FileCode className="size-4 shrink-0 text-muted dark:text-neutral-400" aria-hidden />
         <span className="truncate font-mono">{filename}</span>
       </div>
     )
@@ -116,7 +116,7 @@ export function CodeBlock({
               {tokens.map((line, index) => (
                 <div key={index} className={cn("px-4", lineNumbers && "grid grid-cols-[2.5rem_1fr]")}>
                   {lineNumbers ? (
-                    <span aria-hidden className="select-none pr-3 text-right text-[12px] text-neutral-400 dark:text-neutral-600">
+                    <span aria-hidden className="select-none pr-3 text-right text-[12px] text-muted dark:text-neutral-600">
                       {index + 1}
                     </span>
                   ) : null}

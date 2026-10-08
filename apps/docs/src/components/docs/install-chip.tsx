@@ -20,13 +20,13 @@ export function InstallChip({ command, className }: { command: string; className
         className
       )}
     >
-      <Terminal className="size-3.5 shrink-0 text-neutral-500 dark:text-neutral-400" aria-hidden="true" />
+      <Terminal className="size-3.5 shrink-0 text-muted dark:text-neutral-400" aria-hidden="true" />
       <code className="min-w-0 truncate font-mono text-[12px] text-neutral-700 dark:text-neutral-300">{shown}</code>
       <button
         type="button"
         onClick={copy}
         aria-label={copied ? "Install command copied" : "Copy install command"}
-        className="inline-flex size-6 shrink-0 items-center justify-center rounded-md text-neutral-500 transition-[transform,opacity] duration-150 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] active:scale-95 motion-reduce:transition-none motion-reduce:active:scale-100 dark:text-neutral-400"
+        className="inline-flex size-6 shrink-0 items-center justify-center rounded-md text-muted transition-[transform,opacity] duration-150 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] active:scale-95 motion-reduce:transition-none motion-reduce:active:scale-100 dark:text-neutral-400"
       >
         <Icon className="size-3.5" aria-hidden="true" />
       </button>

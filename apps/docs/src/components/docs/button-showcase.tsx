@@ -15,7 +15,7 @@ const meshBg = [
 
 const card = `relative overflow-hidden rounded-2xl border border-black/[0.06] p-5 ${meshBg} shadow-[0_10px_24px_-20px_rgb(2_6_23_/_0.35)] dark:border-white/[0.1] dark:[box-shadow:0_0_0_1px_rgb(255_255_255_/_0.05)_inset,var(--shadow-soft)]`
 
-const label = "font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-neutral-400 dark:text-neutral-400"
+const label = "font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-muted dark:text-neutral-400"
 
 export function ButtonShowcase() {
   return (

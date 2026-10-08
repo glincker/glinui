@@ -44,7 +44,7 @@ export function DirectoryList({ items }: { items: readonly GeneratedRegistryEntr
       {/* Search + Filters */}
       <div className="space-y-3">
         <div className="relative">
-          <MagnifyingGlass className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-neutral-400 dark:text-neutral-500" />
+          <MagnifyingGlass className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted dark:text-neutral-400" />
           <input
             type="text"
             value={query}
@@ -71,14 +71,14 @@ export function DirectoryList({ items }: { items: readonly GeneratedRegistryEntr
                 "inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-all duration-fast ease-standard",
                 category === value
                   ? "border border-white/15 [border-top-color:var(--glass-refraction-top)] bg-[var(--glass-4-surface)] text-foreground [box-shadow:0_0_0_1px_rgb(255_255_255_/_0.08)_inset,var(--shadow-soft)] dark:border-white/[0.1] dark:bg-white/[0.08]"
-                  : "border border-transparent text-neutral-500 hover:text-foreground hover:bg-white/[0.06] dark:text-neutral-400 dark:hover:bg-white/[0.04]"
+                  : "border border-transparent text-muted hover:text-foreground hover:bg-white/[0.06] dark:text-neutral-400 dark:hover:bg-white/[0.04]"
               )}
             >
               <Icon className="size-3" />
               {label}
             </button>
           ))}
-          <span className="ml-auto text-xs tabular-nums text-neutral-400 dark:text-neutral-500">
+          <span className="ml-auto text-xs tabular-nums text-muted dark:text-neutral-400">
             {filtered.length} component{filtered.length !== 1 ? "s" : ""}
           </span>
         </div>
@@ -88,7 +88,7 @@ export function DirectoryList({ items }: { items: readonly GeneratedRegistryEntr
       {filtered.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-2xl border border-white/10 bg-[var(--glass-1-surface)] py-16 dark:border-white/[0.06]">
           <MagnifyingGlass className="size-8 text-neutral-300 dark:text-neutral-600" />
-          <p className="mt-3 text-sm text-neutral-500">No components match &ldquo;{query}&rdquo;</p>
+          <p className="mt-3 text-sm text-muted">No components match &ldquo;{query}&rdquo;</p>
           <button
             type="button"
             onClick={() => {
@@ -154,13 +154,13 @@ function DirectoryCard({ item }: { item: GeneratedRegistryEntry }) {
 
       {/* Install command */}
       <div className="mt-3 flex items-center gap-1.5 rounded-lg border border-white/10 bg-black/[0.04] px-2.5 py-1.5 dark:border-white/[0.06] dark:bg-black/20">
-        <code className="flex-1 truncate text-[11px] text-neutral-500 dark:text-neutral-400">
+        <code className="flex-1 truncate text-[11px] text-muted dark:text-neutral-400">
           {item.install.registry}
         </code>
         <button
           type="button"
           onClick={copyInstall}
-          className="shrink-0 rounded-md p-1 text-neutral-400 transition-colors hover:bg-white/10 hover:text-foreground dark:text-neutral-500 dark:hover:text-neutral-300"
+          className="shrink-0 rounded-md p-1 text-muted transition-colors hover:bg-white/10 hover:text-foreground dark:text-neutral-400 dark:hover:text-neutral-300"
           aria-label={`Copy install command for ${item.title}`}
         >
           {copied ? <Check className="size-3 text-emerald-500" /> : <Copy className="size-3" />}
@@ -182,7 +182,7 @@ function DirectoryCard({ item }: { item: GeneratedRegistryEntry }) {
           View Docs
           <ArrowRight className="size-3" />
         </Link>
-        <span className="text-[10px] text-neutral-400 dark:text-neutral-500">
+        <span className="text-[10px] text-muted dark:text-neutral-400">
           {item.importPath}
         </span>
       </div>

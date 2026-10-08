@@ -64,7 +64,7 @@ export function ComponentInstall({
   return (
     <div className="space-y-4">
       <InstallSourceBlock componentId={componentId} command={registryCommand} sources={sources} />
-      <p className="text-sm text-neutral-500 dark:text-neutral-400">
+      <p className="text-sm text-muted dark:text-neutral-400">
         Prefer the package? <InlineCopyCommand command={packageCommand} />
       </p>
     </div>

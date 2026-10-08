@@ -169,7 +169,7 @@ export function DocsSidebar({ open, onClose, onOpenSearch }: DocsSidebarProps) {
           <button
             type="button"
             onClick={onOpenSearch}
-            className="flex h-8 min-w-0 flex-1 items-center gap-2 rounded-md border border-[var(--line-soft)] bg-[var(--surface-1)] px-2.5 text-[13px] text-neutral-500 transition-colors hover:bg-[var(--surface-2)] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] dark:text-neutral-400"
+            className="flex h-8 min-w-0 flex-1 items-center gap-2 rounded-md border border-[var(--line-soft)] bg-[var(--surface-1)] px-2.5 text-[13px] text-muted transition-colors hover:bg-[var(--surface-2)] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] dark:text-neutral-400"
           >
             <MagnifyingGlass className="size-3.5 shrink-0" aria-hidden="true" />
             <span className="flex-1 truncate text-left">Search docs</span>
@@ -179,7 +179,7 @@ export function DocsSidebar({ open, onClose, onOpenSearch }: DocsSidebarProps) {
             type="button"
             onClick={onClose}
             aria-label="Close navigation"
-            className="inline-flex size-8 shrink-0 items-center justify-center rounded-md text-neutral-500 hover:bg-[var(--surface-2)] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] lg:hidden"
+            className="inline-flex size-8 shrink-0 items-center justify-center rounded-md text-muted hover:bg-[var(--surface-2)] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] lg:hidden"
           >
             <X className="size-4" aria-hidden="true" />
           </button>
@@ -228,7 +228,7 @@ function SidebarGroup({
       >
         <span>{group.title}</span>
         <span className="flex items-center gap-1.5">
-          {group.count ? <span className="font-mono text-[10px] font-normal tabular-nums opacity-60">{group.count}</span> : null}
+          {group.count ? <span className="font-mono text-[10px] font-normal tabular-nums text-muted">{group.count}</span> : null}
           <CaretRight
             className={cn(
               "size-3 transition-transform duration-150 ease-[var(--ease-out)] motion-reduce:transition-none",

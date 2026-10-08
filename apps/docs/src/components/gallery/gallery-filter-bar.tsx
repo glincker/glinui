@@ -68,7 +68,7 @@ export function GalleryFilterBar({
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
         <label className="relative block sm:w-56">
           <span className="sr-only">Search components</span>
-          <MagnifyingGlass aria-hidden="true" className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-neutral-500" />
+          <MagnifyingGlass aria-hidden="true" className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted" />
           <input
             type="search"
             value={query}
@@ -133,7 +133,7 @@ export function GalleryFilterBar({
             </button>
           ) : null}
         </div>
-        <label className="flex items-center gap-2 text-xs text-neutral-500">
+        <label className="flex items-center gap-2 text-xs text-muted">
           <span className="sr-only">Sort components</span>
           <select
             value={sort}
@@ -144,7 +144,7 @@ export function GalleryFilterBar({
             <option value="az">A to Z</option>
           </select>
         </label>
-        <p className="px-2 text-xs tabular-nums text-neutral-500" aria-live="polite">
+        <p className="px-2 text-xs tabular-nums text-muted" aria-live="polite">
           {count} shown
         </p>
       </div>

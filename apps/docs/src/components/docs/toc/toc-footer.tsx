@@ -7,7 +7,7 @@ import { primitiveTitles, type PrimitiveComponentId } from "@/lib/primitives"
 import { type DocsImplementation } from "@/lib/docs-route"
 
 const actionClass =
-  "inline-flex items-center gap-1 rounded-md px-2 py-1 text-[11px] text-neutral-400 transition-colors hover:bg-white/20 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] dark:text-neutral-500 dark:hover:bg-white/[0.04] dark:hover:text-neutral-300"
+  "inline-flex items-center gap-1 rounded-md px-2 py-1 text-[11px] text-muted transition-colors hover:bg-white/20 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] dark:text-neutral-400 dark:hover:bg-white/[0.04] dark:hover:text-neutral-300"
 
 export function TocFooter({
   previous,
