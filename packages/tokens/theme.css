@@ -1,5 +1,5 @@
 /**
- * Glin UI — Glass Design Tokens (Apple Liquid Glass spec)
+ * Glin UI design tokens: color, surface, elevation, type, motion, and the glass variant
  *
  * Key principles:
  * - saturate(180%) always paired with blur in backdrop-filter
@@ -9,14 +9,21 @@
  * - 4.5:1 contrast ratio for text on glass (WCAG AA)
  */
 
-:root {
+/* Registered so hover fades on key buttons and lifted faces interpolate */
+@property --face { syntax: "<color>"; inherits: false; initial-value: #0e0f11; }
+@property --key-top { syntax: "<color>"; inherits: true; initial-value: #ffffff; }
+@property --key-bottom { syntax: "<color>"; inherits: true; initial-value: #ffffff; }
+
+:root,
+.light,
+[data-glin-theme="light"] {
   /* ── Semantic colour ─────────────────────────────── */
   --color-background: oklch(0.985 0.002 240);
   --color-foreground: oklch(0.23 0.01 248);
   --color-surface: oklch(0.997 0.002 245);
   --color-border: oklch(0.89 0.01 246);
-  --color-accent: oklch(0.63 0.19 254);
-  --color-accent-foreground: oklch(0.99 0.003 240);
+  --color-accent: oklch(0.55 0.2 289);
+  --color-accent-foreground: oklch(0.99 0.003 290);
 
   /* ── Glass primitives ────────────────────────────── */
   --glass-blur-sm: 8px;
@@ -32,16 +39,12 @@
   --glass-base-rgb: 255 255 255;
   --glass-saturate-base: 180%;
   --glass-saturate-subtle-base: 130%;
-  --glass-saturate: calc(var(--glass-saturate-base) * var(--glass-adapt-saturate-multiplier));
-  --glass-saturate-subtle: calc(var(--glass-saturate-subtle-base) * var(--glass-adapt-saturate-multiplier));
 
+  --glass-surface-alpha: 0.18;
+  --glass-floor: 0.72;
   --glass-border-alpha: 0.20;
   --glass-border-strong-alpha: 0.35;
   --glass-refraction-top-alpha: 0.40;
-  --glass-surface: rgb(var(--glass-base-rgb) / calc(0.18 * var(--glass-adapt-surface-multiplier)));
-  --glass-border: rgb(255 255 255 / calc(var(--glass-border-alpha) * var(--glass-adapt-border-multiplier)));
-  --glass-border-strong: rgb(255 255 255 / calc(var(--glass-border-strong-alpha) * var(--glass-adapt-border-multiplier)));
-  --glass-refraction-top: rgb(255 255 255 / calc(var(--glass-refraction-top-alpha) * var(--glass-adapt-refraction-multiplier)));
 
   /* ── Glass opacity scale (crystal -> frosted) ───── */
   --glass-opacity-1: 0.06;
@@ -64,29 +67,14 @@
 
   /* ── Glass levels (blur + surface + shadow) ──────── */
   --glass-1-blur: 8px;
-  --glass-1-opacity: var(--glass-opacity-2);
-  --glass-1-surface: rgb(var(--glass-base-rgb) / calc(var(--glass-1-opacity) * var(--glass-adapt-surface-multiplier)));
-  --glass-1-shadow: var(--shadow-glass-sm);
 
   --glass-2-blur: 12px;
-  --glass-2-opacity: var(--glass-opacity-4);
-  --glass-2-surface: rgb(var(--glass-base-rgb) / calc(var(--glass-2-opacity) * var(--glass-adapt-surface-multiplier)));
-  --glass-2-shadow: var(--shadow-glass-sm);
 
   --glass-3-blur: 16px;
-  --glass-3-opacity: var(--glass-opacity-6);
-  --glass-3-surface: rgb(var(--glass-base-rgb) / calc(var(--glass-3-opacity) * var(--glass-adapt-surface-multiplier)));
-  --glass-3-shadow: var(--shadow-glass-md);
 
   --glass-4-blur: 24px;
-  --glass-4-opacity: var(--glass-opacity-8);
-  --glass-4-surface: rgb(var(--glass-base-rgb) / calc(var(--glass-4-opacity) * var(--glass-adapt-surface-multiplier)));
-  --glass-4-shadow: var(--shadow-glass-lg);
 
   --glass-5-blur: 40px;
-  --glass-5-opacity: var(--glass-opacity-10);
-  --glass-5-surface: rgb(var(--glass-base-rgb) / calc(var(--glass-5-opacity) * var(--glass-adapt-surface-multiplier)));
-  --glass-5-shadow: var(--shadow-glass-lg);
 
   /* ── Radius ──────────────────────────────────────── */
   --radius-sm: 0.5rem;
@@ -114,26 +102,137 @@
   --motion-normal: 250ms;
   --motion-slow: 400ms;
   --motion-spring: 500ms;
+  --motion-micro: 140ms;
+  --motion-overlay-in: 200ms;
+  --motion-overlay-out: 140ms;
+  --motion-drawer: 320ms;
   --easing-standard: cubic-bezier(0.2, 0.0, 0.0, 1.0);
   --easing-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --easing-glass: cubic-bezier(0.4, 0.0, 0.2, 1.0);
 
+  /* ── Brand + signal ──────────────────────────────── */
+  --color-signal-live: oklch(0.62 0.17 111);
+  --color-signal-ok: oklch(0.6 0.14 175);
+
+  /* ── Surface scale (tonal stacking, 0 = page, 3 = highest) ── */
+  --surface-2: oklch(0.97 0.003 245);
+  --surface-3: oklch(0.94 0.005 246);
+  --surface-well: oklch(0.955 0.004 246);
+  --color-muted: oklch(0.52 0.014 270);
+  --color-subtle: oklch(0.65 0.013 280);
+
+  /* ── Elevation (one light source above) ──────────── */
+  --edge-rgb: 0 0 0;
+  --ring-top: 0.14;
+  --ring-mid: 0.05;
+  --ring-bottom: 0.07;
+  --ring-brand: linear-gradient(180deg, oklch(0.55 0.2 289 / 0.6), oklch(0.55 0.2 289 / 0.16) 42%, oklch(0.55 0.2 289 / 0.24));
+  --sheen: linear-gradient(180deg, rgb(255 255 255 / 0.6), rgb(255 255 255 / 0));
+  --highlight: inset 0 1px 0 rgb(255 255 255 / 0.8);
+  --hairline: linear-gradient(90deg, transparent, rgb(var(--edge-rgb) / 0.12) 50%, transparent);
+  --line-soft: rgb(var(--edge-rgb) / 0.07);
+  --drop-1: 0 1px 1px rgb(0 0 0 / 0.06), 0 3px 6px -2px rgb(0 0 0 / 0.08);
+  --drop-2: 0 1px 1px rgb(0 0 0 / 0.06), 0 8px 16px -4px rgb(0 0 0 / 0.1), 0 24px 48px -12px rgb(0 0 0 / 0.12);
+  --drop-3: 0 2px 2px rgb(0 0 0 / 0.06), 0 12px 24px -6px rgb(0 0 0 / 0.12), 0 36px 72px -18px rgb(0 0 0 / 0.16);
+  --elev-inset: inset 0 2px 4px rgb(0 0 0 / 0.08), inset 0 0 0 1px rgb(0 0 0 / 0.04);
+
+  /* ── Type ────────────────────────────────────────── */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --text-caption: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-body: 1rem;
+  --text-lead: 1.1875rem;
+  --text-sub: 1.25rem;
+  --text-h3: 2rem;
+  --text-h2: clamp(2rem, 4.2vw, 3rem);
+  --text-display: clamp(2.75rem, 6.4vw, 4.25rem);
+
+  /* ── Layout ──────────────────────────────────────── */
+  --layout-max: 1200px;
+  --layout-gutter: clamp(16px, 4vw, 32px);
+  --layout-section: clamp(64px, 9vw, 120px);
+  --layout-nav-h: 64px;
+  --radius-card: 0.75rem;
+  --radius-input: 0.5rem;
+  --radius-pill: 9999px;
+
+  /* ── Motion curves ───────────────────────────────── */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-enter: var(--ease-out);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --ease-morph: var(--ease-in-out);
+
+  /* ── theauth parity: floors, hot rings, hairlines, keys, glows ── */
+  --floor-1: oklch(0.955 0.003 245);
+  --floor-2: oklch(0.97 0.003 245);
+  --ring-hot: linear-gradient(180deg, rgb(0 0 0 / 0.26), rgb(0 0 0 / 0.09) 45%, rgb(0 0 0 / 0.12));
+  --ring-brand-hot: linear-gradient(180deg, oklch(0.55 0.2 289 / 0.85), oklch(0.55 0.2 289 / 0.26) 42%, oklch(0.55 0.2 289 / 0.34));
+  --ring-violet: linear-gradient(180deg, oklch(0.55 0.2 289 / 0.6), oklch(0.55 0.2 289 / 0.16) 42%, oklch(0.55 0.2 289 / 0.24));
+  --drop-hover: 0 2px 2px rgb(0 0 0 / 0.06), 0 14px 28px -8px rgb(0 0 0 / 0.14), 0 32px 56px -16px rgb(0 0 0 / 0.18);
+  --hl: inset 0 0 0 0.5px rgb(0 0 0 / 0.08);
+  --hl-top: inset 0 2.5px 0 -2px rgb(255 255 255 / 0.9);
+  --hl-strong: inset 0 2.5px 0 -2px rgb(255 255 255 / 0.95), inset 0 0 0 0.5px rgb(0 0 0 / 0.12);
+  --glow-a: oklch(0.55 0.2 289 / 0.34);
+  --glow-b: oklch(0.6 0.14 175 / 0.3);
+  --glow-c: oklch(0.62 0.17 111 / 0.3);
+  --key-top: oklch(0.93 0.16 111);
+  --key-bottom: oklch(0.87 0.17 111);
+  --key-top-hover: oklch(0.96 0.13 111);
+  --key-bottom-hover: oklch(0.9 0.16 111);
+  --key-top-active: oklch(0.84 0.17 111);
+  --key-bottom-active: oklch(0.88 0.17 111);
+  --key-white-top: #ffffff;
+  --key-white-bottom: #e8e8ee;
+  --key-white-top-hover: #f6f6f9;
+  --key-white-bottom-hover: #dcdce3;
+  --key-white-top-active: #dcdce3;
+  --key-white-bottom-active: #e6e6ec;
+  --key-foreground: oklch(0.18 0.01 248);
+  --key-edge: rgb(0 0 0 / 0.18);
+  --key-glow: oklch(0.62 0.17 111 / 0.35);
+
+  /* ── Solid + tone tokens (base-color hook: override --neutral-solid* via [data-glin-base]) ── */
+  --neutral-solid: oklch(0.168 0.004 264);
+  --neutral-solid-fg: oklch(0.99 0.002 240);
+  --neutral-solid-hover: oklch(0.26 0.006 264);
+  --neutral-solid-active: oklch(0.12 0.004 264);
+  --ring-solid: linear-gradient(180deg, rgb(255 255 255 / 0.3), rgb(255 255 255 / 0.05) 45%, rgb(0 0 0 / 0.35));
+  --solid-hl: inset 0 1px 0 rgb(255 255 255 / 0.2);
+  --gradient-darken: 0%;
+  --tone-success: oklch(0.52 0.13 160);
+  --tone-success-fg: oklch(0.99 0.01 160);
+  --tone-success-text: oklch(0.42 0.11 160);
+  --tone-warning: oklch(0.8 0.16 78);
+  --tone-warning-fg: oklch(0.2 0.04 70);
+  --tone-warning-text: oklch(0.45 0.1 65);
+  --tone-danger: oklch(0.55 0.2 25);
+  --tone-danger-fg: oklch(0.99 0.01 25);
+  --tone-danger-text: oklch(0.47 0.18 25);
+  --tone-info: oklch(0.54 0.16 250);
+  --tone-info-fg: oklch(0.99 0.01 250);
+  --tone-info-text: oklch(0.44 0.14 255);
+
   color-scheme: light;
 }
 
-.dark {
-  --color-background: oklch(0.18 0.01 250);
+.dark,
+[data-glin-theme="dark"] {
+  --color-background: oklch(0.168 0.004 264.4);
   --color-foreground: oklch(0.95 0.01 247);
-  --color-surface: oklch(0.23 0.01 250);
-  --color-border: oklch(0.34 0.01 250);
-  --color-accent: oklch(0.74 0.19 252);
-  --color-accent-foreground: oklch(0.15 0.01 252);
+  --color-surface: oklch(0.198 0.004 229);
+  --color-border: oklch(0.323 0.009 248.1);
+  --color-accent: oklch(0.782 0.118 289.4);
+  --color-accent-foreground: oklch(0.168 0.004 264.4);
 
   --glass-base-rgb: 0 0 0;
+  --glass-surface-alpha: 0.40;
+  --glass-floor: 0.66;
   --glass-border-alpha: 0.10;
   --glass-border-strong-alpha: 0.18;
   --glass-refraction-top-alpha: 0.15;
-  --glass-surface: rgb(var(--glass-base-rgb) / calc(0.40 * var(--glass-adapt-surface-multiplier)));
 
   --glass-opacity-1: 0.16;
   --glass-opacity-2: 0.20;
@@ -146,23 +245,210 @@
   --glass-opacity-9: 0.62;
   --glass-opacity-10: 0.70;
 
-  --glass-1-opacity: var(--glass-opacity-2);
-  --glass-1-surface: rgb(var(--glass-base-rgb) / calc(var(--glass-1-opacity) * var(--glass-adapt-surface-multiplier)));
 
-  --glass-2-opacity: var(--glass-opacity-4);
-  --glass-2-surface: rgb(var(--glass-base-rgb) / calc(var(--glass-2-opacity) * var(--glass-adapt-surface-multiplier)));
 
-  --glass-3-opacity: var(--glass-opacity-6);
-  --glass-3-surface: rgb(var(--glass-base-rgb) / calc(var(--glass-3-opacity) * var(--glass-adapt-surface-multiplier)));
 
-  --glass-4-opacity: var(--glass-opacity-8);
-  --glass-4-surface: rgb(var(--glass-base-rgb) / calc(var(--glass-4-opacity) * var(--glass-adapt-surface-multiplier)));
 
-  --glass-5-opacity: var(--glass-opacity-10);
-  --glass-5-surface: rgb(var(--glass-base-rgb) / calc(var(--glass-5-opacity) * var(--glass-adapt-surface-multiplier)));
+
+  --color-signal-live: oklch(0.933 0.167 111.1);
+  --color-signal-ok: oklch(0.752 0.141 175.3);
+
+  --surface-2: oklch(0.242 0.007 248.1);
+  --surface-3: oklch(0.263 0.045 281);
+  --surface-well: oklch(0.139 0.003 246.3);
+  --color-muted: oklch(0.646 0.013 286);
+  --color-subtle: oklch(0.498 0.014 281);
+
+  --edge-rgb: 255 255 255;
+  --ring-top: 0.18;
+  --ring-mid: 0.04;
+  --ring-bottom: 0.06;
+  --ring-brand: linear-gradient(180deg, oklch(0.782 0.118 289.4 / 0.55), oklch(0.782 0.118 289.4 / 0.14) 42%, oklch(0.782 0.118 289.4 / 0.2));
+  --sheen: linear-gradient(180deg, rgb(255 255 255 / 0.035), rgb(255 255 255 / 0));
+  --highlight: inset 0 1px 0 rgb(255 255 255 / 0.07);
+  --hairline: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.14) 50%, transparent);
+  --line-soft: rgb(255 255 255 / 0.07);
+  --drop-1: 0 1px 1px rgb(0 0 0 / 0.5), 0 3px 6px -2px rgb(0 0 0 / 0.5);
+  --drop-2: 0 1px 1px rgb(0 0 0 / 0.5), 0 8px 16px -4px rgb(0 0 0 / 0.55), 0 24px 48px -12px rgb(0 0 0 / 0.65);
+  --drop-3: 0 2px 2px rgb(0 0 0 / 0.5), 0 12px 24px -6px rgb(0 0 0 / 0.6), 0 36px 72px -18px rgb(0 0 0 / 0.75);
+  --elev-inset: inset 0 2px 4px rgb(0 0 0 / 0.55), inset 0 0 0 1px rgb(255 255 255 / 0.035), 0 1px 0 rgb(255 255 255 / 0.05);
+
+  /* ── theauth parity: floors, hot rings, hairlines, keys, glows ── */
+  --floor-1: #050506;
+  --floor-2: #08090b;
+  --ring-hot: linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.09) 45%, rgba(255, 255, 255, 0.12));
+  --ring-brand-hot: linear-gradient(180deg, rgba(182, 171, 255, 0.85), rgba(182, 171, 255, 0.24) 42%, rgba(182, 171, 255, 0.32));
+  --ring-violet: linear-gradient(180deg, rgba(182, 171, 255, 0.55), rgba(182, 171, 255, 0.14) 42%, rgba(182, 171, 255, 0.2));
+  --drop-hover: 0 2px 2px rgba(0, 0, 0, 0.5), 0 14px 28px -8px rgba(0, 0, 0, 0.65), 0 32px 56px -16px rgba(0, 0, 0, 0.75);
+  --hl: inset 0 0 0 0.5px rgba(255, 255, 255, 0.1);
+  --hl-top: inset 0 2.5px 0 -2px rgba(255, 255, 255, 0.1);
+  --hl-strong: inset 0 2.5px 0 -2px rgba(255, 255, 255, 0.15), inset 0 0 0 0.5px rgba(255, 255, 255, 0.15);
+  --glow-a: rgba(182, 171, 255, 0.5);
+  --glow-b: rgba(0, 203, 170, 0.42);
+  --glow-c: rgba(238, 243, 95, 0.34);
+  --key-top: #f8fc8c;
+  --key-bottom: #eef35f;
+  --key-top-hover: #fbfdb4;
+  --key-bottom-hover: #f3f77a;
+  --key-top-active: #e6eb4c;
+  --key-bottom-active: #ecf159;
+  --key-white-top: #ffffff;
+  --key-white-bottom: #e2e2e7;
+  --key-white-top-hover: #f2f2f5;
+  --key-white-bottom-hover: #cfcfd5;
+  --key-white-top-active: #d2d2d7;
+  --key-white-bottom-active: #e2e2e6;
+  --key-foreground: #000000;
+  --key-edge: rgba(0, 0, 0, 0.4);
+  --key-glow: rgba(238, 243, 95, 0.35);
+
+  /* ── Solid + tone tokens ── */
+  --neutral-solid: oklch(0.96 0.004 247);
+  --neutral-solid-fg: oklch(0.168 0.004 264);
+  --neutral-solid-hover: oklch(1 0 0);
+  --neutral-solid-active: oklch(0.86 0.006 247);
+  --ring-solid: linear-gradient(180deg, rgb(255 255 255 / 0.9), rgb(0 0 0 / 0.05) 45%, rgb(0 0 0 / 0.3));
+  --solid-hl: inset 0 1px 0 rgb(255 255 255 / 0.9);
+  --gradient-darken: 38%;
+  --tone-success: oklch(0.74 0.15 160);
+  --tone-success-fg: oklch(0.18 0.04 160);
+  --tone-success-text: oklch(0.84 0.13 160);
+  --tone-warning: oklch(0.84 0.15 82);
+  --tone-warning-fg: oklch(0.2 0.04 70);
+  --tone-warning-text: oklch(0.88 0.13 85);
+  --tone-danger: oklch(0.7 0.18 25);
+  --tone-danger-fg: oklch(0.17 0.04 25);
+  --tone-danger-text: oklch(0.82 0.12 20);
+  --tone-info: oklch(0.74 0.12 250);
+  --tone-info-fg: oklch(0.17 0.03 250);
+  --tone-info-text: oklch(0.83 0.09 250);
 
   color-scheme: dark;
 }
+
+/* ── Derived tokens: re-resolved on EVERY scope element ──────────────
+   Values built with var() are computed where they are declared, so they
+   are declared on each theme scope and each luminance scope. Never move
+   these back to a single :root block. */
+:root,
+.light,
+.dark,
+[data-glin-theme],
+[data-glin-accent],
+[data-glin-radius],
+[data-glass-luminance],
+.glass-adapt-neutral,
+.glass-adapt-bright,
+.glass-adapt-dim {
+  --surface-0: var(--color-background);
+  --surface-1: var(--color-surface);
+  --color-brand: var(--color-accent);
+  --color-brand-foreground: var(--color-accent-foreground);
+
+  --glass-saturate: calc(var(--glass-saturate-base) * var(--glass-adapt-saturate-multiplier));
+  --glass-saturate-subtle: calc(var(--glass-saturate-subtle-base) * var(--glass-adapt-saturate-multiplier));
+  --glass-surface: rgb(var(--glass-base-rgb) / calc(var(--glass-surface-alpha) * var(--glass-adapt-surface-multiplier)));
+  --glass-border: rgb(255 255 255 / calc(var(--glass-border-alpha) * var(--glass-adapt-border-multiplier)));
+  --glass-border-strong: rgb(255 255 255 / calc(var(--glass-border-strong-alpha) * var(--glass-adapt-border-multiplier)));
+  --glass-refraction-top: rgb(255 255 255 / calc(var(--glass-refraction-top-alpha) * var(--glass-adapt-refraction-multiplier)));
+  /* Readable glass: opacity floor mixed on the surface colour (used by the glass variant) */
+  --glass-readable: color-mix(in oklab, var(--surface-1) min(100%, calc(var(--glass-floor) * 100% * var(--glass-adapt-surface-multiplier))), transparent);
+
+  --glass-1-opacity: var(--glass-opacity-2);
+  --glass-2-opacity: var(--glass-opacity-4);
+  --glass-3-opacity: var(--glass-opacity-6);
+  --glass-4-opacity: var(--glass-opacity-8);
+  --glass-5-opacity: var(--glass-opacity-10);
+  --glass-1-surface: rgb(var(--glass-base-rgb) / calc(var(--glass-1-opacity) * var(--glass-adapt-surface-multiplier)));
+  --glass-2-surface: rgb(var(--glass-base-rgb) / calc(var(--glass-2-opacity) * var(--glass-adapt-surface-multiplier)));
+  --glass-3-surface: rgb(var(--glass-base-rgb) / calc(var(--glass-3-opacity) * var(--glass-adapt-surface-multiplier)));
+  --glass-4-surface: rgb(var(--glass-base-rgb) / calc(var(--glass-4-opacity) * var(--glass-adapt-surface-multiplier)));
+  --glass-5-surface: rgb(var(--glass-base-rgb) / calc(var(--glass-5-opacity) * var(--glass-adapt-surface-multiplier)));
+  --glass-1-shadow: var(--shadow-glass-sm);
+  --glass-2-shadow: var(--shadow-glass-sm);
+  --glass-3-shadow: var(--shadow-glass-md);
+  --glass-4-shadow: var(--shadow-glass-lg);
+  --glass-5-shadow: var(--shadow-glass-lg);
+
+  --ring: linear-gradient(180deg, rgb(var(--edge-rgb) / var(--ring-top)), rgb(var(--edge-rgb) / var(--ring-mid)) 40%, rgb(var(--edge-rgb) / var(--ring-bottom)));
+  --ring-violet-hot: var(--ring-brand-hot);
+  --elev-1: var(--highlight), var(--drop-1);
+  --elev-2: var(--highlight), var(--drop-2);
+  --elev-3: var(--highlight), var(--drop-3);
+  --solid-elev-1: var(--solid-hl), var(--drop-1);
+  --solid-elev-2: var(--solid-hl), var(--drop-2);
+  --solid-elev-3: var(--solid-hl), var(--drop-3);
+  /* Concentric corners: inner radius = outer radius minus the padding between them */
+  --lift-pad: 0.5rem;
+  --lift-r-outer: var(--radius-xl);
+  --lift-r-inner: calc(var(--lift-r-outer) - var(--lift-pad));
+  /* Shadow aliases used by switch thumbs and docs demos (were referenced but never defined) */
+  --shadow-soft: var(--drop-1);
+  --shadow-lg: var(--drop-3);
+  --shadow-elevated: var(--elev-2);
+  --solid-elev-inset: inset 0 2px 4px rgb(0 0 0 / 0.35), inset 0 0 0 1px rgb(0 0 0 / 0.1);
+
+  /* Accent tone + gradient (follow data-glin-accent) */
+  --tone-accent: var(--color-accent);
+  --tone-accent-fg: var(--color-accent-foreground);
+  --tone-accent-text: color-mix(in oklab, var(--color-accent) 82%, var(--color-foreground));
+  --gradient-from: color-mix(in oklab, var(--color-accent), black var(--gradient-darken));
+  --gradient-to: color-mix(in oklab, var(--gradient-from) 62%, oklch(0.55 0.15 215));
+}
+
+/* ── Aliases resolved per element so nested scopes stay correct ── */
+:root,
+.light,
+.dark,
+[data-glin-theme] {
+  /* Face tones: solid fill under the sheen */
+  --face-0: var(--surface-0);
+  --face-1: var(--surface-1);
+  --face-2: var(--surface-2);
+  --well: var(--surface-well);
+  --hi: var(--highlight);
+  /* Thresholded noise used as a mask for dotted grain glows */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 9 0 0 0 -4.3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --ring-brand-soft: var(--ring-brand);
+
+  /* Hero top glow recipe (violet centre, teal left, lime right) */
+  --glow-top:
+    radial-gradient(54% 92% at 50% 0%, var(--glow-a), transparent 72%),
+    radial-gradient(38% 78% at 10% 0%, var(--glow-b), transparent 72%),
+    radial-gradient(36% 70% at 92% 0%, var(--glow-c), transparent 72%);
+
+  /* Spacing, 4px base */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-8: 32px;
+  --s-10: 40px;
+  --s-12: 48px;
+  --s-16: 64px;
+  --s-20: 80px;
+  --s-30: 120px;
+
+  /* Named palette aliases (theauth migration): mapped to semantic tokens */
+  --void: var(--floor-1);
+  --obsidian: var(--face-0);
+  --carbon: var(--face-1);
+  --graphite: var(--face-2);
+  --slate: var(--surface-3);
+  --ash: var(--color-border);
+  --steel: color-mix(in oklab, var(--color-border) 82%, var(--color-foreground));
+  --fog: var(--color-subtle);
+  --smoke: var(--color-muted);
+  --cloud: color-mix(in oklab, var(--color-muted) 75%, var(--color-foreground));
+  --silver: color-mix(in oklab, var(--color-foreground) 85%, var(--color-background));
+  --white: var(--color-foreground);
+  --violet: var(--color-accent);
+  --live: var(--color-signal-live);
+  --teal: var(--color-signal-ok);
+}
+
 
 /* ── Glass utility classes ─────────────────────────── */
 .glass-surface,
@@ -252,20 +538,25 @@
 
 /* ── Reduced transparency ──────────────────────────── */
 @media (prefers-reduced-transparency: reduce) {
-  :root {
+  :root,
+  .light,
+  [data-glin-theme="light"] {
     --glass-1-surface: rgba(255, 255, 255, 0.92);
     --glass-2-surface: rgba(255, 255, 255, 0.94);
     --glass-3-surface: rgba(255, 255, 255, 0.95);
     --glass-4-surface: rgba(255, 255, 255, 0.96);
     --glass-5-surface: rgba(255, 255, 255, 0.98);
+    --glass-readable: var(--surface-1);
   }
 
-  .dark {
+  .dark,
+  [data-glin-theme="dark"] {
     --glass-1-surface: rgba(0, 0, 0, 0.88);
     --glass-2-surface: rgba(0, 0, 0, 0.90);
     --glass-3-surface: rgba(0, 0, 0, 0.92);
     --glass-4-surface: rgba(0, 0, 0, 0.94);
     --glass-5-surface: rgba(0, 0, 0, 0.96);
+    --glass-readable: var(--surface-1);
   }
 
   .glass-surface,
@@ -279,6 +570,77 @@
   }
 }
 
+
+/* ── Skeleton shimmer ─────────────────────────────── */
+@keyframes skeleton-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ── Molecule animations ─────────────────────────── */
+@keyframes border-beam {
+  0% { offset-distance: 0%; }
+  100% { offset-distance: 100%; }
+}
+
+@keyframes marquee-x {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(-100% - var(--marquee-gap))); }
+}
+
+@keyframes marquee-y {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(calc(-100% - var(--marquee-gap))); }
+}
+
+@keyframes ripple-expand {
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+@keyframes meteor-fall {
+  0% { transform: rotate(var(--meteor-angle, 215deg)) translateX(0); opacity: 1; }
+  70% { opacity: 1; }
+  100% { transform: rotate(var(--meteor-angle, 215deg)) translateX(600px); opacity: 0; }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes pulsate-ring {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* ── Batch 2 molecule animations ────────────────────── */
+@keyframes retro-grid-scroll {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 var(--retro-grid-cell, 60px); }
+}
+
+@keyframes orbit {
+  0% { transform: rotate(calc(var(--orbit-start, 0) * 1deg)) translateY(calc(var(--orbit-radius, 100) * -1px)) rotate(calc(var(--orbit-start, 0) * -1deg)); }
+  100% { transform: rotate(calc(var(--orbit-start, 0) * 1deg + 360deg)) translateY(calc(var(--orbit-radius, 100) * -1px)) rotate(calc(var(--orbit-start, 0) * -1deg - 360deg)); }
+}
+
+@keyframes glow-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes word-rotate-in {
+  0% { transform: translateY(100%); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes word-rotate-out {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-100%); opacity: 0; }
+}
+
 /* ── Reduced motion ────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   :root {
@@ -286,5 +648,9 @@
     --motion-normal: 1ms;
     --motion-slow: 1ms;
     --motion-spring: 1ms;
+    --motion-micro: 1ms;
+    --motion-overlay-in: 1ms;
+    --motion-overlay-out: 1ms;
+    --motion-drawer: 1ms;
   }
 }

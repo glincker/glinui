@@ -1,0 +1,120 @@
+/**
+ * Glin UI animations for consumers without Tailwind.
+ * Import after theme.css: @import "@glinui/tokens/animations.css";
+ *
+ * Usage: add .glin-animate-in (or -out) plus optional modifiers, e.g.
+ *   <div class="glin-animate-in glin-fade glin-zoom glin-from-right">
+ * Radix/Base UI state: [data-state="open"] gets the in animation, "closed" the out.
+ * All movement is gated by prefers-reduced-motion: no-preference; reduced-motion
+ * users get an opacity-only crossfade.
+ */
+
+@keyframes glin-enter {
+  from {
+    opacity: var(--glin-enter-opacity, 1);
+    transform: translate3d(var(--glin-enter-x, 0), var(--glin-enter-y, 0), 0) scale(var(--glin-enter-scale, 1));
+  }
+}
+
+@keyframes glin-exit {
+  to {
+    opacity: var(--glin-exit-opacity, 1);
+    transform: translate3d(var(--glin-exit-x, 0), var(--glin-exit-y, 0), 0) scale(var(--glin-exit-scale, 1));
+  }
+}
+
+@keyframes glin-fade-in {
+  from { opacity: 0; }
+}
+
+@keyframes glin-fade-out {
+  to { opacity: 0; }
+}
+
+@keyframes glin-accordion-down {
+  from { height: 0; }
+  to { height: var(--radix-accordion-content-height); }
+}
+
+@keyframes glin-accordion-up {
+  from { height: var(--radix-accordion-content-height); }
+  to { height: 0; }
+}
+
+@keyframes glin-collapsible-down {
+  from { height: 0; }
+  to { height: var(--radix-collapsible-content-height); }
+}
+
+@keyframes glin-collapsible-up {
+  from { height: var(--radix-collapsible-content-height); }
+  to { height: 0; }
+}
+
+/* Reduced motion (default): opacity-only crossfade. */
+.glin-animate-in {
+  animation: glin-fade-in var(--motion-overlay-in, 200ms) var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)) both;
+}
+
+.glin-animate-out {
+  animation: glin-fade-out var(--motion-overlay-out, 140ms) var(--ease-exit, cubic-bezier(0.4, 0, 1, 1)) both;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .glin-animate-in {
+    animation-name: glin-enter;
+    animation-duration: var(--glin-duration, var(--motion-overlay-in, 200ms));
+    animation-timing-function: var(--glin-ease, var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)));
+  }
+
+  .glin-animate-out {
+    animation-name: glin-exit;
+    animation-duration: var(--glin-duration, var(--motion-overlay-out, 140ms));
+    animation-timing-function: var(--glin-ease, var(--ease-exit, cubic-bezier(0.4, 0, 1, 1)));
+  }
+
+  /* Modifiers: fade, zoom and direction (enter and exit share the values). */
+  .glin-fade { --glin-enter-opacity: 0; --glin-exit-opacity: 0; }
+  .glin-zoom { --glin-enter-scale: 0.95; --glin-exit-scale: 0.95; }
+  .glin-from-top { --glin-enter-y: -0.5rem; --glin-exit-y: -0.5rem; }
+  .glin-from-bottom { --glin-enter-y: 0.5rem; --glin-exit-y: 0.5rem; }
+  .glin-from-left { --glin-enter-x: -0.5rem; --glin-exit-x: -0.5rem; }
+  .glin-from-right { --glin-enter-x: 0.5rem; --glin-exit-x: 0.5rem; }
+
+  /* Drawer: full-edge slides with the drawer duration and easing. */
+  .glin-drawer { --glin-duration: var(--motion-drawer, 320ms); --glin-ease: var(--ease-drawer, cubic-bezier(0.32, 0.72, 0, 1)); }
+  .glin-drawer.glin-from-top { --glin-enter-y: -100%; --glin-exit-y: -100%; }
+  .glin-drawer.glin-from-bottom { --glin-enter-y: 100%; --glin-exit-y: 100%; }
+  .glin-drawer.glin-from-left { --glin-enter-x: -100%; --glin-exit-x: -100%; }
+  .glin-drawer.glin-from-right { --glin-enter-x: 100%; --glin-exit-x: 100%; }
+}
+
+/* Radix height animations (documented exception to transform/opacity only). */
+@media (prefers-reduced-motion: no-preference) {
+  .glin-accordion-content[data-state="open"] { animation: glin-accordion-down var(--motion-overlay-in, 200ms) var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)); }
+  .glin-accordion-content[data-state="closed"] { animation: glin-accordion-up var(--motion-overlay-out, 140ms) var(--ease-in-out, cubic-bezier(0.77, 0, 0.175, 1)); }
+  .glin-collapsible-content[data-state="open"] { animation: glin-collapsible-down var(--motion-overlay-in, 200ms) var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)); }
+  .glin-collapsible-content[data-state="closed"] { animation: glin-collapsible-up var(--motion-overlay-out, 140ms) var(--ease-in-out, cubic-bezier(0.77, 0, 0.175, 1)); }
+}
+
+/* ported components (a4) */
+/* Batch A4 keyframes (generate-button, terminal). Merged into animations.css by the integrator. */
+@keyframes glin-a4-gen-shine {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes glin-a4-gen-spark {
+  0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
+  50% { opacity: 0.55; transform: scale(0.82) rotate(12deg); }
+}
+
+@keyframes glin-a4-caret {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes glin-a4-line-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
