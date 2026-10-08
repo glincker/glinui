@@ -1,0 +1,10 @@
+/* Precompiled stylesheet entry. Built by scripts/build-styles.mjs, not exported. */
+@import "@glinui/tokens/theme.css";
+@import "@glinui/tokens/utilities.css";
+@import "@glinui/tokens/animations.css";
+@import "@glinui/tokens/preferences.css";
+@import "@glinui/tokens/bases.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
