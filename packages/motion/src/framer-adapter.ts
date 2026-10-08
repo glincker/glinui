@@ -1,4 +1,4 @@
-import type { SpringInput } from "./index"
+import type { SpringInput } from "./core"
 import {
   viewTransitionPresets,
   type TransitionFrame,

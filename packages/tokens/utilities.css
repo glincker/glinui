@@ -1,0 +1,315 @@
+/**
+ * @glinui/tokens utilities: framework-agnostic classes that reproduce the
+ * lifted-surface, tactile-key and dotted-grain-glow signatures.
+ * Requires theme.css. Wrapped in a cascade layer so consumers can override.
+ */
+@layer glinui-utilities {
+  /* ── Lifted surfaces ──────────────────────────────── */
+  /* padding-box sheen + solid face, border-box gradient ring, layered elevation */
+  .lift {
+    --face: var(--face-0);
+    --elev: var(--elev-2);
+    --ring-img: var(--ring);
+    border: 1px solid transparent;
+    background:
+      var(--sheen) padding-box,
+      linear-gradient(var(--face), var(--face)) padding-box,
+      var(--ring-img) border-box;
+    box-shadow: var(--elev);
+  }
+  .lift-1 { --elev: var(--elev-1); }
+  .lift-2 { --elev: var(--elev-2); }
+  .lift-3 { --elev: var(--elev-3); }
+  .face-0 { --face: var(--face-0); }
+  .face-1 { --face: var(--face-1); }
+  .face-2 { --face: var(--face-2); }
+  .ring-hot { --ring-img: var(--ring-hot); }
+  .ring-brand { --ring-img: var(--ring-brand); }
+
+  /* Recessed well: sits below the surface it lives in */
+  .well {
+    background: var(--well);
+    border-radius: var(--radius-input);
+    box-shadow: var(--elev-inset);
+  }
+
+  /* 1px top-lit divider, fades at both ends */
+  .hairline-top { position: relative; }
+  .hairline-top::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    block-size: 1px;
+    background: var(--hairline);
+    pointer-events: none;
+  }
+
+  /* Section floors: faintly lifted so shadows read */
+  .floor-1 { background-color: var(--floor-1); }
+  .floor-2 { background-color: var(--floor-2); }
+
+  /* ── Dotted grain glows ───────────────────────────── */
+  /* Tune with --glow-a/--glow-b/--glow-c and --glow-height on the element */
+  .grain-glow { position: relative; isolation: isolate; }
+  .grain-glow::before,
+  .grain-glow::after {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    block-size: var(--glow-height, clamp(360px, 46vw, 560px));
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(54% 92% at 50% 0%, var(--glow-a), transparent 72%),
+      radial-gradient(38% 78% at 10% 0%, var(--glow-b), transparent 72%),
+      radial-gradient(36% 70% at 92% 0%, var(--glow-c), transparent 72%);
+  }
+  .grain-glow::before { opacity: 0.42; }
+  .grain-glow::after {
+    filter: saturate(1.2) brightness(1.25);
+    -webkit-mask-image: var(--grain), linear-gradient(to bottom, #000 0%, transparent 88%);
+    -webkit-mask-size: 220px 220px, 100% 100%;
+    -webkit-mask-composite: source-in;
+    mask-image: var(--grain), linear-gradient(to bottom, #000 0%, transparent 88%);
+    mask-size: 220px 220px, 100% 100%;
+    mask-composite: intersect;
+  }
+
+  /* Pointer-following variant. Set --mx/--my (e.g. "40%") from script; tint with --glow.
+     Do not combine with .lift-hover on one element (both use ::after). */
+  .grain-glow-hover { position: relative; isolation: isolate; }
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .grain-glow-hover::before,
+    .grain-glow-hover::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      border-radius: inherit;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.26s var(--ease-out);
+      background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 0%), var(--glow, var(--glow-c)), transparent 70%);
+    }
+    .grain-glow-hover::after {
+      filter: brightness(1.35);
+      -webkit-mask-image: var(--grain), radial-gradient(280px circle at var(--mx, 50%) var(--my, 0%), #000 0%, transparent 72%);
+      -webkit-mask-size: 220px 220px, 100% 100%;
+      -webkit-mask-composite: source-in;
+      mask-image: var(--grain), radial-gradient(280px circle at var(--mx, 50%) var(--my, 0%), #000 0%, transparent 72%);
+      mask-size: 220px 220px, 100% 100%;
+      mask-composite: intersect;
+    }
+    .grain-glow-hover:hover::before,
+    .grain-glow-hover:focus-within::before { opacity: 0.4; }
+    .grain-glow-hover:hover::after,
+    .grain-glow-hover:focus-within::after { opacity: 1; }
+  }
+
+  /* ── Tactile keys ─────────────────────────────────── */
+  /* --key-top/--key-bottom are registered colours, so state changes fade. */
+  .key,
+  .key-white {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 23px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-pill);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.005em;
+    white-space: nowrap;
+    cursor: pointer;
+    color: var(--key-foreground);
+    background: linear-gradient(180deg, var(--key-top), var(--key-bottom)) border-box;
+    transition:
+      --key-top 0.2s var(--ease-out),
+      --key-bottom 0.2s var(--ease-out),
+      box-shadow 0.2s var(--ease-out),
+      scale 0.2s var(--ease-out),
+      translate 0.2s var(--ease-out);
+  }
+  .key {
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.55),
+      inset 0 -2px 0 rgb(0 0 0 / 0.14),
+      0 0 0 1px var(--key-edge),
+      0 2px 4px rgb(0 0 0 / 0.4),
+      0 8px 20px -8px var(--key-glow);
+  }
+  .key-white {
+    --key-top: var(--key-white-top);
+    --key-bottom: var(--key-white-bottom);
+    padding: 9px 17px;
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.9),
+      inset 0 -2px 0 rgb(0 0 0 / 0.1),
+      0 0 0 1px var(--key-edge),
+      var(--drop-1);
+  }
+  .key:focus-visible { --key-top: var(--key-top-hover); --key-bottom: var(--key-bottom-hover); }
+  .key-white:focus-visible { --key-top: var(--key-white-top-hover); --key-bottom: var(--key-white-bottom-hover); }
+  @media (hover: hover) and (pointer: fine) {
+    .key:hover { --key-top: var(--key-top-hover); --key-bottom: var(--key-bottom-hover); }
+    .key-white:hover { --key-top: var(--key-white-top-hover); --key-bottom: var(--key-white-bottom-hover); }
+  }
+  .key:active,
+  .key-white:active {
+    scale: 0.98;
+    translate: 0 1px;
+    transition-duration: 0.12s;
+    box-shadow:
+      inset 0 2px 4px rgb(0 0 0 / 0.24),
+      inset 0 -1px 0 rgb(255 255 255 / 0.3),
+      0 0 0 1px var(--key-edge),
+      0 1px 1px rgb(0 0 0 / 0.35);
+  }
+  .key:active { --key-top: var(--key-top-active); --key-bottom: var(--key-bottom-active); }
+  .key-white:active { --key-top: var(--key-white-top-active); --key-bottom: var(--key-white-bottom-active); }
+
+  /* ── Micro-interactions (transform and opacity only) ── */
+  .lift-hover {
+    position: relative;
+    isolation: isolate;
+    transition: translate 0.2s var(--ease-out);
+  }
+  /* Hover shadow is a pre-painted layer faded in, never an animated large shadow */
+  .lift-hover::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    box-shadow: var(--drop-hover);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s var(--ease-out);
+  }
+  .lift-hover:focus-visible { translate: 0 -2px; }
+  .lift-hover:focus-visible::after { opacity: 1; }
+  @media (hover: hover) and (pointer: fine) {
+    .lift-hover:hover { translate: 0 -2px; }
+    .lift-hover:hover::after { opacity: 1; }
+  }
+
+  .press { transition: scale 0.2s var(--ease-out), translate 0.2s var(--ease-out); }
+  .press:active { scale: 0.98; translate: 0 1px; transition-duration: 0.12s; }
+
+  /* ── Accessibility and layout helpers ─────────────── */
+  .focus-ring:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  .skip-link {
+    position: absolute;
+    inset-inline-start: 16px;
+    inset-block-start: 12px;
+    z-index: 100;
+    padding: 10px 16px;
+    border-radius: var(--radius-pill);
+    background: var(--color-accent);
+    color: var(--color-accent-foreground);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    translate: 0 -200%;
+    transition: translate 0.2s var(--ease-out);
+  }
+  .skip-link:focus,
+  .skip-link:focus-visible {
+    translate: 0 0;
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  .sticky-below-nav {
+    position: sticky;
+    top: calc(var(--layout-nav-h) + 24px);
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+  .eyebrow[data-dot]::before {
+    content: "";
+    inline-size: 6px;
+    block-size: 6px;
+    border-radius: 50%;
+    background: var(--color-signal-ok);
+  }
+
+  /* ── Reduced motion and transparency ──────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    .key,
+    .key-white,
+    .lift-hover,
+    .lift-hover::after,
+    .press,
+    .skip-link { transition: none; }
+    .key:active,
+    .key-white:active,
+    .press:active,
+    .lift-hover:hover,
+    .lift-hover:focus-visible { scale: none; translate: none; }
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    .grain-glow::before,
+    .grain-glow::after,
+    .grain-glow-hover::before,
+    .grain-glow-hover::after { display: none; }
+    .lift { background: linear-gradient(var(--face), var(--face)) padding-box, var(--ring-img) border-box; }
+  }
+}
+
+/* ── Theme scopes (ThemeScope / docs stage) ───────────────────────────
+   A scope re-declares the whole token set (theme.css), so it only needs to
+   re-apply the inherited text colour. data-glin-fill also paints the page
+   background so a scope reads as a real section. */
+[data-glin-theme] {
+  color: var(--color-foreground);
+}
+
+[data-glin-theme][data-glin-fill] {
+  background-color: var(--color-background);
+}
+
+/* ── Ambient design style, CSS path (works in server components) ──────
+   .glin-auto renders the default surface of the active <html data-glin-style>.
+   Declarations live on the element, so var() resolves inside theme scopes.
+   Layered so Tailwind utilities on the same element still win. */
+@layer glinui-utilities {
+  .glin-auto {
+    border: 1px solid transparent;
+    background: var(--sheen) padding-box, linear-gradient(var(--face-1), var(--face-1)) padding-box, var(--ring) border-box;
+    box-shadow: var(--elev-2);
+    color: var(--color-foreground);
+    border-radius: var(--lift-r-outer);
+  }
+
+  [data-glin-style="minimal"] .glin-auto {
+    border: 1px solid var(--color-border);
+    background: var(--surface-1);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+    border-radius: var(--radius-lg);
+  }
+
+  [data-glin-style="glass"] .glin-auto {
+    border: 1px solid var(--glass-border);
+    border-top-color: var(--glass-refraction-top);
+    background: var(--glass-readable);
+    backdrop-filter: saturate(var(--glass-saturate)) blur(var(--glass-3-blur));
+    -webkit-backdrop-filter: saturate(var(--glass-saturate)) blur(var(--glass-3-blur));
+    box-shadow: var(--glass-3-shadow);
+  }
+}

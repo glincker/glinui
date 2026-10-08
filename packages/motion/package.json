@@ -8,6 +8,26 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./engines/css": {
+      "types": "./dist/engines/css.d.ts",
+      "default": "./dist/engines/css.js"
+    },
+    "./engines/motion": {
+      "types": "./dist/engines/motion.d.ts",
+      "default": "./dist/engines/motion.js"
+    },
+    "./engines/gsap": {
+      "types": "./dist/engines/gsap.d.ts",
+      "default": "./dist/engines/gsap.js"
+    },
+    "./register/motion": {
+      "types": "./dist/register/motion.d.ts",
+      "default": "./dist/register/motion.js"
+    },
+    "./register/gsap": {
+      "types": "./dist/register/gsap.d.ts",
+      "default": "./dist/register/gsap.js"
     }
   },
   "files": [
@@ -38,5 +58,24 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "echo 'lint: @glinui/motion (todo)'",
     "test": "echo 'test: @glinui/motion (todo)'"
-  }
+  },
+  "devDependencies": {
+    "gsap": "^3.15.0",
+    "motion": "^14.0.0"
+  },
+  "peerDependencies": {
+    "gsap": "^3.12.0",
+    "motion": ">=11.0.0"
+  },
+  "peerDependenciesMeta": {
+    "gsap": {
+      "optional": true
+    },
+    "motion": {
+      "optional": true
+    }
+  },
+  "sideEffects": [
+    "./dist/register/*.js"
+  ]
 }

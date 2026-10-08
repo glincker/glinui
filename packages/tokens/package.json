@@ -9,11 +9,26 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
-    "./theme.css": "./theme.css"
+    "./theme.css": "./theme.css",
+    "./utilities.css": "./utilities.css",
+    "./animations.css": "./animations.css",
+    "./preferences.css": "./preferences.css",
+    "./bases.css": "./bases.css",
+    "./tailwind-preset": {
+      "types": "./tailwind-preset.d.ts",
+      "default": "./tailwind-preset.cjs"
+    }
   },
   "files": [
     "dist",
-    "theme.css"
+    "theme.css",
+    "utilities.css",
+    "animations.css",
+    "preferences.css",
+    "bases.css",
+    "tailwind-animate.cjs",
+    "tailwind-preset.cjs",
+    "tailwind-preset.d.ts"
   ],
   "license": "MIT",
   "repository": {
@@ -36,6 +51,7 @@
     "access": "public"
   },
   "scripts": {
+    "bases:build": "node scripts/build-bases.mjs",
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "echo 'lint: @glinui/tokens (todo)'",
