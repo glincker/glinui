@@ -1,9 +1,26 @@
 "use client"
 
+import { TableFamilyMatrix } from "@/components/variants/family-demos"
+import { CodeFamilyMatrix } from "@/components/variants/family-demos"
+import { BadgeFamilyMatrix } from "@/components/variants/family-demos"
+import { AccordionHero, AccordionLayout, AccordionVariantsDemo, AlertHero, AlertLayout, AlertTonesDemo, AlertVariantsDemo, CardHeaderWell, CardHero, CardInteractive, CardLayout, CardOnPhoto, CardVariantsMatrix, IconFrameTonesDemo, IconFrameVariantsDemo, SeparatorVariantsDemo } from "@/components/demos/card-demos"
 import type { ReactNode } from "react"
 import { useState } from "react"
+import { ControlledDemo, FormDemo, IconsDemo, LoadingDemo, PhotoStage, PlainStage, RowsDemo, StateMatrix } from "./switch-demos"
+import { demoCode } from "./switch-demo-code"
+import {
+  StageAlertDialogContent,
+  StageDropdownMenuContent,
+  StageHoverCardContent,
+  StageModalContent,
+  StagePopoverContent,
+  StageSheetContent
+} from "@/components/docs/overlay-demos"
+import { ToastSaveHero, ToastStackHero } from "@/components/demos/s2-signature-heroes"
+import { showcaseS2Code } from "@/lib/new-components/showcase-s2-code.generated"
 import type { PropRow } from "@/components/docs/props-table"
-import type { PrimitiveComponentId } from "@/lib/primitives"
+import { ButtonIconsDemo, ButtonLoadingDemo, ButtonTonesRow, ButtonVariantsMatrix } from "@/components/variants/button-demos"
+import type { NewComponentId, PrimitiveComponentId } from "@/lib/primitives"
 
 import {
   Accordion,
@@ -14,7 +31,6 @@ import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
-  AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
@@ -45,14 +61,12 @@ import {
   DataTable,
   Counter,
   DropdownMenu,
-  DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
   Heading,
   HoverCard,
-  HoverCardContent,
   HoverCardTrigger,
   IconFrame,
   Input,
@@ -61,14 +75,12 @@ import {
   Link,
   Modal,
   ModalClose,
-  ModalContent,
   ModalDescription,
   ModalFooter,
   ModalHeader,
   ModalTitle,
   ModalTrigger,
   Popover,
-  PopoverContent,
   PopoverTrigger,
   Progress,
   ProgressCircle,
@@ -78,7 +90,6 @@ import {
   Separator,
   Sheet,
   SheetClose,
-  SheetContent,
   SheetDescription,
   SheetFooter,
   SheetHeader,
@@ -148,6 +159,8 @@ export type ComponentDocMeta = {
     affected?: string[]
   }
   examples: ComponentExample[]
+  /** Optional usage notes shown at the top of Usage (differences, caveats). */
+  notes?: string[]
 }
 
 // ── Helper for stateful previews ─────────────────────────────────────────────
@@ -250,15 +263,15 @@ function SliderAtmosphereDemo() {
   const [value, setValue] = useState([62])
 
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-white/25 bg-[var(--glass-1-surface)] p-4 dark:border-white/10 dark:bg-white/[0.03]">
-      <div className="pointer-events-none absolute -left-6 -top-10 h-24 w-24 rounded-full bg-[var(--color-accent)]/25 blur-2xl motion-safe:animate-pulse" />
-      <div className="pointer-events-none absolute -bottom-10 right-0 h-24 w-24 rounded-full bg-[var(--color-foreground)]/15 blur-3xl motion-safe:animate-pulse" />
+    <div className="relative overflow-hidden rounded-2xl border border-[color:var(--line-soft)] bg-[var(--surface-1)] p-4">
+      <div className="pointer-events-none absolute -left-6 -top-10 h-24 w-24 rounded-full bg-[color-mix(in_oklab,var(--color-accent)_25%,transparent)] blur-2xl motion-safe:animate-pulse" />
+      <div className="pointer-events-none absolute -bottom-10 right-0 h-24 w-24 rounded-full bg-[color-mix(in_oklab,var(--color-foreground)_15%,transparent)] blur-3xl motion-safe:animate-pulse" />
       <div className="relative space-y-3">
-        <div className="flex items-center justify-between text-xs text-neutral-600 dark:text-neutral-300">
+        <div className="flex items-center justify-between text-xs text-[color:var(--color-muted)]">
           <span>Atmosphere</span>
-          <Badge variant="glass">{value[0]}%</Badge>
+          <Badge variant="soft">{value[0]}%</Badge>
         </div>
-        <Slider variant="liquid" value={value} onValueChange={setValue} max={100} aria-label="Atmosphere amount" />
+        <Slider value={value} onValueChange={setValue} max={100} aria-label="Atmosphere amount" />
       </div>
     </div>
   )
@@ -266,19 +279,25 @@ function SliderAtmosphereDemo() {
 
 // ── Registry ─────────────────────────────────────────────────────────────────
 
-export const componentDocs: Record<PrimitiveComponentId, ComponentDocMeta> = {
+export const componentDocs: Record<Exclude<PrimitiveComponentId, NewComponentId>, ComponentDocMeta> = {
   button: {
     badge: "Primitive / Atom",
     props: [
-      { prop: "variant", type: '"default" | "glass" | "liquid" | "matte" | "glow" | "outline" | "ghost"', defaultValue: "default", description: "Visual treatment." },
-      { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: "md", description: "Height and horizontal padding scale." },
+      { prop: "variant", type: '"glinr" | "solid" | "plain" | "soft" | "outline" | "ghost" | "gradient" | "glass" | "liquid" | "matte" | "glow" | "key" | "key-white"', defaultValue: "ambient (glinr)", description: "Visual treatment. Omit for the ambient style default (glinr, plain under style=minimal, glass under style=glass). Legacy names default, primary, secondary, destructive, frosted and raised still work as aliases." },
+      { prop: "tone", type: '"neutral" | "accent" | "success" | "warning" | "danger" | "info"', defaultValue: "neutral", description: "Colour axis for the vocabulary variants." },
+      { prop: "size", type: '"xs" | "sm" | "md" | "lg" | "icon"', defaultValue: "md", description: "Height and horizontal padding scale. `icon` is a square button, give it an `aria-label`." },
+      { prop: "leadingIcon", type: "ReactNode", description: "Decorative icon before the label." },
+      { prop: "trailingIcon", type: "ReactNode", description: "Decorative icon after the label." },
+      { prop: "loading", type: "boolean", defaultValue: "false", description: "Shows a spinner, sets aria-busy and blocks interaction." },
+      { prop: "iconNudge", type: "boolean", defaultValue: "false", description: "Nudges icons toward the trailing edge on hover and focus." },
       { prop: "asChild", type: "boolean", defaultValue: "false", description: "Renders child element with button styles." }
     ],
     accessibility: {
       summary: [
         "Native `button` semantics by default.",
-        "Visible focus ring via tokenized accent color.",
-        "`disabled` state blocks interaction and lowers visual emphasis.",
+        "Visible 2px accent focus ring with offset on every variant (plain uses a neutral ring).",
+        "`disabled` and `loading` block interaction, lower emphasis and set `aria-disabled` / `aria-busy`.",
+        "Icon-only buttons need an `aria-label`.",
         "Supports `asChild` for semantic link rendering."
       ],
       keyboard: [
@@ -287,7 +306,8 @@ export const componentDocs: Record<PrimitiveComponentId, ComponentDocMeta> = {
       ],
       aria: [
         '`role="button"` native',
-        "`aria-disabled` when disabled"
+        "`aria-disabled` when disabled or loading",
+        "`aria-busy` while loading"
       ]
     },
     reducedMotion: {
@@ -297,38 +317,63 @@ export const componentDocs: Record<PrimitiveComponentId, ComponentDocMeta> = {
     examples: [
       {
         title: "Basic",
-        code: `import { Button } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="flex gap-3">\n      <Button>Default</Button>\n      <Button variant="outline">Outline</Button>\n      <Button variant="ghost">Ghost</Button>\n    </div>\n  )\n}`,
-        render: (
-          <div className="flex gap-3">
-            <Button>Default</Button>
-            <Button variant="outline">Outline</Button>
-            <Button variant="ghost">Ghost</Button>
-          </div>
-        )
+        code: `import { Button } from "@glinui/ui"\n\nexport function Demo() {\n  return <Button>Get started</Button>\n}`,
+        render: <Button>Get started</Button>
       },
       {
         title: "Variants",
-        code: `import { Button } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="flex flex-wrap gap-2">\n      <Button>Default</Button>\n      <Button variant="glass">Glass</Button>\n      <Button variant="liquid">Liquid</Button>\n      <Button variant="matte">Matte</Button>\n      <Button variant="glow">Glow</Button>\n      <Button variant="outline">Outline</Button>\n      <Button variant="ghost">Ghost</Button>\n    </div>\n  )\n}`,
+        code: `import { Button, SURFACE_TONES, SURFACE_VARIANTS } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="grid gap-2">\n      {SURFACE_VARIANTS.map((variant) => (\n        <div key={variant} className="flex flex-wrap gap-2">\n          {SURFACE_TONES.map((tone) => (\n            <Button key={tone} variant={variant} tone={tone}>\n              {variant} {tone}\n            </Button>\n          ))}\n        </div>\n      ))}\n    </div>\n  )\n}`,
+        render: <ButtonVariantsMatrix />
+      },
+      {
+        title: "Tones",
+        code: `import { Button } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="flex flex-wrap gap-2">\n      <Button tone="neutral">neutral</Button>\n      <Button tone="accent">accent</Button>\n      <Button tone="success">success</Button>\n      <Button tone="warning">warning</Button>\n      <Button tone="danger">danger</Button>\n      <Button tone="info">info</Button>\n    </div>\n  )\n}`,
+        render: <ButtonTonesRow />
+      },
+      {
+        title: "With icons",
+        code: `import { ArrowRight, Plus } from "@phosphor-icons/react"\nimport { Button } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="flex flex-wrap items-center gap-3">\n      <Button leadingIcon={<Plus weight="bold" />}>New project</Button>\n      <Button variant="solid" trailingIcon={<ArrowRight weight="bold" />} iconNudge>\n        Continue\n      </Button>\n      <Button variant="outline" size="icon" aria-label="Add item">\n        <Plus weight="bold" />\n      </Button>\n    </div>\n  )\n}`,
+        render: <ButtonIconsDemo />
+      },
+      {
+        title: "Loading",
+        code: `import { Button } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="flex flex-wrap items-center gap-3">\n      <Button loading>Saving</Button>\n      <Button variant="solid" loading>Saving</Button>\n      <Button disabled>Disabled</Button>\n    </div>\n  )\n}`,
+        render: <ButtonLoadingDemo />
+      },
+      {
+        title: "Sizes",
+        code: `import { Button } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="flex flex-wrap items-end gap-2">\n      <Button size="xs">Extra small</Button>\n      <Button size="sm">Small</Button>\n      <Button size="md">Medium</Button>\n      <Button size="lg">Large</Button>\n    </div>\n  )\n}`,
         render: (
-          <div className="flex flex-wrap gap-2">
-            <Button>Default</Button>
-            <Button variant="glass">Glass</Button>
-            <Button variant="liquid">Liquid</Button>
-            <Button variant="matte">Matte</Button>
-            <Button variant="glow">Glow</Button>
-            <Button variant="outline">Outline</Button>
-            <Button variant="ghost">Ghost</Button>
+          <div className="flex flex-wrap items-end gap-2">
+            <Button size="xs">Extra small</Button>
+            <Button size="sm">Small</Button>
+            <Button size="md">Medium</Button>
+            <Button size="lg">Large</Button>
           </div>
         )
       },
       {
-        title: "Sizes",
-        code: `import { Button } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="flex items-end gap-2">\n      <Button size="sm">Small</Button>\n      <Button size="md">Medium</Button>\n      <Button size="lg">Large</Button>\n    </div>\n  )\n}`,
+        title: "As link (asChild)",
+        code: `import { Button } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <Button asChild variant="solid">\n      <a href="/docs/getting-started">Read the docs</a>\n    </Button>\n  )\n}`,
         render: (
-          <div className="flex items-end gap-2">
-            <Button size="sm">Small</Button>
-            <Button size="md">Medium</Button>
-            <Button size="lg">Large</Button>
+          <Button asChild variant="solid">
+            <a href="/docs/getting-started">Read the docs</a>
+          </Button>
+        )
+      },
+      {
+        title: "Glass (opt-in)",
+        code: `import { Button } from "@glinui/ui"\n\n// Glass needs a colorful or photographic backdrop to read.\nexport function Demo() {\n  return <Button variant="glass">Glass</Button>\n}`,
+        render: <Button variant="glass">Glass</Button>
+      },
+      {
+        title: "Extra looks",
+        code: `import { Button } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="flex flex-wrap gap-2">\n      <Button variant="liquid">Liquid</Button>\n      <Button variant="matte">Matte</Button>\n      <Button variant="glow">Glow</Button>\n    </div>\n  )\n}`,
+        render: (
+          <div className="flex flex-wrap gap-2">
+            <Button variant="liquid">Liquid</Button>
+            <Button variant="matte">Matte</Button>
+            <Button variant="glow">Glow</Button>
           </div>
         )
       }
@@ -338,7 +383,7 @@ export const componentDocs: Record<PrimitiveComponentId, ComponentDocMeta> = {
   input: {
     badge: "Primitive / Atom",
     props: [
-      { prop: "variant", type: '"default" | "glass" | "liquid" | "matte" | "outline" | "ghost" | "underline" | "filled"', defaultValue: "default", description: "Visual treatment." },
+      { prop: "variant", type: '"glinr" | "solid" | "plain" | "soft" | "outline" | "ghost" | "glass" | "liquid" | "matte" | "underline" | "filled"', defaultValue: 'ambient (glinr)', description: 'Surface look. Omit to follow the ambient design style: glinr is an inset well with a gradient hairline ring, plain is a flat shadcn field. Glass is opt-in.' },
       { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: "md", description: "Height scale." },
       { prop: "type", type: "string", defaultValue: "text", description: "HTML input type." },
       { prop: "disabled", type: "boolean", defaultValue: "false", description: "Disables interaction." },
@@ -369,9 +414,27 @@ export const componentDocs: Record<PrimitiveComponentId, ComponentDocMeta> = {
         render: <Input placeholder="name@example.com" />
       },
       {
-        title: "Glass",
-        code: `import { Input } from "@glinui/ui"\n\nexport function Demo() {\n  return <Input variant="glass" placeholder="Glass input" />\n}`,
-        render: <Input variant="glass" placeholder="Glass input" />
+        title: "Variants",
+        description: "glinr (default) is the inset well, plain is the flat shadcn field. Each state is AA readable on every stage backdrop.",
+        code: `import { Input } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="grid gap-3 sm:grid-cols-2">\n      <Input variant="glinr" placeholder="glinr" />\n      <Input variant="solid" placeholder="solid" />\n      <Input variant="plain" placeholder="plain" />\n      <Input variant="soft" placeholder="soft" />\n      <Input variant="outline" placeholder="outline" />\n      <Input variant="ghost" placeholder="ghost" />\n    </div>\n  )\n}`,
+        render: (
+          <div className="grid gap-3 sm:grid-cols-2">
+            <Input variant="glinr" placeholder="glinr" />
+            <Input variant="solid" placeholder="solid" />
+            <Input variant="plain" placeholder="plain" />
+            <Input variant="soft" placeholder="soft" />
+            <Input variant="outline" placeholder="outline" />
+            <Input variant="ghost" placeholder="ghost" />
+          </div>
+        )
+      },
+      {
+        title: "Glass (opt-in)",
+        description: "Glass is opt-in and needs a backdrop behind it: pick Photo or Vivid in the stage backdrop switcher.",
+        code: `import { Input } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <Input variant="glass" placeholder="Glass input" />\n  )\n}`,
+        render: (
+          <Input variant="glass" placeholder="Glass input" />
+        )
       },
       {
         title: "Liquid + Matte",
@@ -397,6 +460,18 @@ export const componentDocs: Record<PrimitiveComponentId, ComponentDocMeta> = {
         title: "Ghost",
         code: `import { Input } from "@glinui/ui"\n\nexport function Demo() {\n  return <Input variant="ghost" placeholder="Ghost input" />\n}`,
         render: <Input variant="ghost" placeholder="Ghost input" />
+      },
+      {
+        title: "Sizes and invalid",
+        code: `import { Input } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="grid gap-3 sm:grid-cols-2">\n      <Input size="sm" placeholder="Small, h-8" />\n      <Input size="md" placeholder="Medium, h-9" />\n      <Input size="lg" placeholder="Large, h-10" />\n      <Input aria-invalid placeholder="Invalid" defaultValue="not-an-email" />\n    </div>\n  )\n}`,
+        render: (
+          <div className="grid gap-3 sm:grid-cols-2">
+            <Input size="sm" placeholder="Small, h-8" />
+            <Input size="md" placeholder="Medium, h-9" />
+            <Input size="lg" placeholder="Large, h-10" />
+            <Input aria-invalid placeholder="Invalid" defaultValue="not-an-email" />
+          </div>
+        )
       }
     ]
   },
@@ -404,7 +479,7 @@ export const componentDocs: Record<PrimitiveComponentId, ComponentDocMeta> = {
   chip: {
     badge: "Primitive / Atom",
     props: [
-      { prop: "variant", type: '"default" | "glass" | "outline" | "ghost"', defaultValue: "default", description: "Surface treatment." },
+      { prop: "variant", type: '"glinr" | "solid" | "plain" | "soft" | "outline" | "ghost" | "gradient" | "glass"', defaultValue: "ambient (glinr)", description: "Surface variant. Omit to follow the ambient design style (glinr by default, plain for minimal, glass for glass)." },
       { prop: "tone", type: '"neutral" | "info" | "success" | "warning" | "danger"', defaultValue: "neutral", description: "Semantic text color." },
       { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: "md", description: "Height and horizontal padding scale." }
     ],
@@ -436,7 +511,66 @@ export const componentDocs: Record<PrimitiveComponentId, ComponentDocMeta> = {
         )
       },
       {
-        title: "Glass",
+        title: "Variants",
+        description: "Every vocabulary variant on the default tone. Omit variant to follow the ambient design style.",
+        code: `import { Chip } from "@glinui/ui"
+
+export function ChipVariantsDemo() {
+  return (
+    <div className="flex flex-wrap items-center gap-3">
+      <Chip variant="glinr">glinr</Chip>
+      <Chip variant="solid">solid</Chip>
+      <Chip variant="plain">plain</Chip>
+      <Chip variant="soft">soft</Chip>
+      <Chip variant="outline">outline</Chip>
+      <Chip variant="ghost">ghost</Chip>
+      <Chip variant="gradient">gradient</Chip>
+    </div>
+  )
+}`,
+        render: (
+          <div className="flex flex-wrap items-center gap-3">
+            <Chip variant="glinr">glinr</Chip>
+            <Chip variant="solid">solid</Chip>
+            <Chip variant="plain">plain</Chip>
+            <Chip variant="soft">soft</Chip>
+            <Chip variant="outline">outline</Chip>
+            <Chip variant="ghost">ghost</Chip>
+            <Chip variant="gradient">gradient</Chip>
+          </div>
+        )
+      },
+      {
+        title: "Tones",
+        description: "Tone works on every vocabulary variant. Soft faces are tinted with color-mix on the surface tokens.",
+        code: `import { Chip } from "@glinui/ui"
+
+export function ChipTonesDemo() {
+  return (
+    <div className="flex flex-wrap items-center gap-3">
+      <Chip variant="soft" tone="neutral">neutral</Chip>
+      <Chip variant="soft" tone="accent">accent</Chip>
+      <Chip variant="soft" tone="success">success</Chip>
+      <Chip variant="soft" tone="warning">warning</Chip>
+      <Chip variant="soft" tone="danger">danger</Chip>
+      <Chip variant="soft" tone="info">info</Chip>
+    </div>
+  )
+}`,
+        render: (
+          <div className="flex flex-wrap items-center gap-3">
+            <Chip variant="soft" tone="neutral">neutral</Chip>
+            <Chip variant="soft" tone="accent">accent</Chip>
+            <Chip variant="soft" tone="success">success</Chip>
+            <Chip variant="soft" tone="warning">warning</Chip>
+            <Chip variant="soft" tone="danger">danger</Chip>
+            <Chip variant="soft" tone="info">info</Chip>
+          </div>
+        )
+      },
+      {
+        title: "Glass (opt-in)",
+        description: "Glass is opt-in and needs a backdrop behind it. Switch the preview stage to Vivid or Photo to see the frosted surface.",
         code: `import { Chip } from "@glinui/ui"\n\nexport function Demo() {\n  return <Chip variant="glass">Preview</Chip>\n}`,
         render: <Chip variant="glass">Preview</Chip>
       }
@@ -446,7 +580,8 @@ export const componentDocs: Record<PrimitiveComponentId, ComponentDocMeta> = {
   code: {
     badge: "Primitive / Atom",
     props: [
-      { prop: "variant", type: '"default" | "glass" | "outline" | "ghost"', defaultValue: "default", description: "Surface treatment." },
+      { prop: "variant", type: '"glinr" | "solid" | "plain" | "soft" | "outline" | "ghost" | "gradient" | "glass" | "block"', defaultValue: "ambient (glinr)", description: "Surface variant. Omit to follow the ambient design style (glinr by default, plain for minimal, glass for glass)." },
+      { prop: "tone", type: '"neutral" | "accent" | "success" | "warning" | "danger" | "info"', defaultValue: "neutral", description: "Colour tone for the vocabulary variants." },
       { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: "md", description: "Font-size scale." }
     ],
     accessibility: {
@@ -467,14 +602,64 @@ export const componentDocs: Record<PrimitiveComponentId, ComponentDocMeta> = {
       },
       {
         title: "Variants",
-        code: `import { Code } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="flex flex-wrap gap-2">\n      <Code>default</Code>\n      <Code variant="glass">glass</Code>\n      <Code variant="outline">outline</Code>\n      <Code variant="ghost">ghost</Code>\n    </div>\n  )\n}`,
+        description: "Every vocabulary variant on the default tone. Omit variant to follow the ambient design style.",
+        code: `import { Code } from "@glinui/ui"
+
+export function CodeVariantsDemo() {
+  return (
+    <div className="flex flex-wrap items-center gap-3">
+      <Code variant="glinr">glinr</Code>
+      <Code variant="solid">solid</Code>
+      <Code variant="plain">plain</Code>
+      <Code variant="soft">soft</Code>
+      <Code variant="outline">outline</Code>
+      <Code variant="ghost">ghost</Code>
+      <Code variant="gradient">gradient</Code>
+    </div>
+  )
+}`,
+        render: (
+          <div className="flex flex-wrap items-center gap-3">
+            <Code variant="glinr">glinr</Code>
+            <Code variant="solid">solid</Code>
+            <Code variant="plain">plain</Code>
+            <Code variant="soft">soft</Code>
+            <Code variant="outline">outline</Code>
+            <Code variant="ghost">ghost</Code>
+            <Code variant="gradient">gradient</Code>
+          </div>
+        )
+      },
+      {
+        title: "Variants matrix",
+        description: "Every variant by tone (where the component has tones), rendered in the light and dark theme scopes.",
+        code: `import { SURFACE_VARIANTS } from "@glinui/ui"\n\n// code across the vocabulary\n{SURFACE_VARIANTS.map((variant) => (\n  <Code key={variant} variant={variant}>pnpm add @glinui/ui</Code>\n))}`,
+        render: <CodeFamilyMatrix />
+      },
+      {
+        title: "Variants",
+        code: `import { Code } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="flex flex-wrap gap-2">\n      <Code>default</Code>\n      <Code variant="soft">glass</Code>\n      <Code variant="outline">outline</Code>\n      <Code variant="ghost">ghost</Code>\n    </div>\n  )\n}`,
         render: (
           <div className="flex flex-wrap gap-2">
             <Code>default</Code>
-            <Code variant="glass">glass</Code>
+            <Code variant="soft">glass</Code>
             <Code variant="outline">outline</Code>
             <Code variant="ghost">ghost</Code>
           </div>
+        )
+      },
+      {
+        title: "Glass (opt-in)",
+        description: "Glass is opt-in and needs a backdrop behind it. Switch the preview stage to Vivid or Photo to see the frosted surface.",
+        code: `import { Code } from "@glinui/ui"
+
+export function CodeGlassDemo() {
+  return (
+    <Code variant="glass">glass</Code>
+  )
+}`,
+        render: (
+          <Code variant="glass">glass</Code>
         )
       }
     ]
@@ -485,7 +670,8 @@ export const componentDocs: Record<PrimitiveComponentId, ComponentDocMeta> = {
     props: [
       { prop: "value", type: "number", description: "Current numeric value." },
       { prop: "max", type: "number", defaultValue: "99", description: "Maximum before collapsing into `max+` format." },
-      { prop: "variant", type: '"default" | "glass" | "outline" | "ghost"', defaultValue: "default", description: "Surface treatment." },
+      { prop: "variant", type: '"glinr" | "solid" | "plain" | "soft" | "outline" | "ghost" | "gradient" | "glass"', defaultValue: "ambient (glinr)", description: "Surface variant. Omit to follow the ambient design style (glinr by default, plain for minimal, glass for glass)." },
+      { prop: "tone", type: '"neutral" | "accent" | "success" | "warning" | "danger" | "info"', defaultValue: "neutral", description: "Colour tone for the vocabulary variants." },
       { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: "md", description: "Counter density." }
     ],
     accessibility: {
@@ -503,13 +689,85 @@ export const componentDocs: Record<PrimitiveComponentId, ComponentDocMeta> = {
     examples: [
       {
         title: "Basic",
-        code: `import { Counter } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="flex items-center gap-2">\n      <Counter value={7} />\n      <Counter variant="glass" value={32} />\n      <Counter variant="outline" value={120} max={99} />\n    </div>\n  )\n}`,
+        code: `import { Counter } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="flex items-center gap-2">\n      <Counter value={7} />\n      <Counter variant="soft" value={32} />\n      <Counter variant="outline" value={120} max={99} />\n    </div>\n  )\n}`,
         render: (
           <div className="flex items-center gap-2">
             <Counter value={7} />
-            <Counter variant="glass" value={32} />
+            <Counter variant="soft" value={32} />
             <Counter variant="outline" value={120} max={99} />
           </div>
+        )
+      },
+      {
+        title: "Variants",
+        description: "Every vocabulary variant on the default tone. Omit variant to follow the ambient design style.",
+        code: `import { Counter } from "@glinui/ui"
+
+export function CounterVariantsDemo() {
+  return (
+    <div className="flex flex-wrap items-center gap-3">
+      <Counter variant="glinr" value={12} />
+      <Counter variant="solid" value={12} />
+      <Counter variant="plain" value={12} />
+      <Counter variant="soft" value={12} />
+      <Counter variant="outline" value={12} />
+      <Counter variant="ghost" value={12} />
+      <Counter variant="gradient" value={12} />
+    </div>
+  )
+}`,
+        render: (
+          <div className="flex flex-wrap items-center gap-3">
+            <Counter variant="glinr" value={12} />
+            <Counter variant="solid" value={12} />
+            <Counter variant="plain" value={12} />
+            <Counter variant="soft" value={12} />
+            <Counter variant="outline" value={12} />
+            <Counter variant="ghost" value={12} />
+            <Counter variant="gradient" value={12} />
+          </div>
+        )
+      },
+      {
+        title: "Tones",
+        description: "Tone works on every vocabulary variant. Soft faces are tinted with color-mix on the surface tokens.",
+        code: `import { Counter } from "@glinui/ui"
+
+export function CounterTonesDemo() {
+  return (
+    <div className="flex flex-wrap items-center gap-3">
+      <Counter variant="soft" tone="neutral" value={12} />
+      <Counter variant="soft" tone="accent" value={12} />
+      <Counter variant="soft" tone="success" value={12} />
+      <Counter variant="soft" tone="warning" value={12} />
+      <Counter variant="soft" tone="danger" value={12} />
+      <Counter variant="soft" tone="info" value={12} />
+    </div>
+  )
+}`,
+        render: (
+          <div className="flex flex-wrap items-center gap-3">
+            <Counter variant="soft" tone="neutral" value={12} />
+            <Counter variant="soft" tone="accent" value={12} />
+            <Counter variant="soft" tone="success" value={12} />
+            <Counter variant="soft" tone="warning" value={12} />
+            <Counter variant="soft" tone="danger" value={12} />
+            <Counter variant="soft" tone="info" value={12} />
+          </div>
+        )
+      },
+      {
+        title: "Glass (opt-in)",
+        description: "Glass is opt-in and needs a backdrop behind it. Switch the preview stage to Vivid or Photo to see the frosted surface.",
+        code: `import { Counter } from "@glinui/ui"
+
+export function CounterGlassDemo() {
+  return (
+    <Counter variant="glass" value={12} />
+  )
+}`,
+        render: (
+          <Counter variant="glass" value={12} />
         )
       }
     ]
@@ -545,7 +803,8 @@ export const componentDocs: Record<PrimitiveComponentId, ComponentDocMeta> = {
         )
       },
       {
-        title: "Glass",
+        title: "Glass (opt-in)",
+        description: "Glass is opt-in and needs a backdrop behind it. Switch the preview stage to Vivid or Photo to see the frosted surface.",
         code: `import { Heading } from "@glinui/ui"\n\nexport function Demo() {\n  return <Heading variant="glass">Frosted heading</Heading>\n}`,
         render: <Heading variant="glass">Frosted heading</Heading>
       }
@@ -568,7 +827,7 @@ export const componentDocs: Record<PrimitiveComponentId, ComponentDocMeta> = {
       {
         title: "HoverCardContentProps",
         rows: [
-          { prop: "variant", type: '"default" | "glass" | "outline" | "ghost"', defaultValue: "glass", description: "Visual surface treatment." },
+          { prop: "variant", type: '"glinr" | "plain" | "solid" | "soft" | "outline" | "ghost" | "gradient" | "glass"', defaultValue: "ambient style (glinr)", description: "Panel look. Omit it for the ambient design style (glinr shell with a gradient hairline ring). `plain` is the shadcn border and shadow, `glass` is opt-in and needs a backdrop." },
           { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: "md", description: "Content width and density scale." },
           { prop: "align", type: '"start" | "center" | "end"', defaultValue: "center", description: "Alignment relative to the trigger." },
           { prop: "side", type: '"top" | "right" | "bottom" | "left"', defaultValue: "bottom", description: "Preferred side for content placement." },
@@ -613,7 +872,7 @@ export function Demo() {
         <div className="space-y-1">
           <p className="text-sm font-semibold">@glinui</p>
           <p className="text-xs text-neutral-600 dark:text-neutral-300">
-            Glass-first component system for modern interfaces.
+            Crisp, themeable component system for modern interfaces.
           </p>
         </div>
       </HoverCardContent>
@@ -628,19 +887,19 @@ export function Demo() {
                 @glinui
               </button>
             </HoverCardTrigger>
-            <HoverCardContent>
+            <StageHoverCardContent>
               <div className="space-y-1">
                 <p className="text-sm font-semibold">@glinui</p>
                 <p className="text-xs text-neutral-600 dark:text-neutral-300">
-                  Glass-first component system for modern interfaces.
+                  Crisp, themeable component system for modern interfaces.
                 </p>
               </div>
-            </HoverCardContent>
+            </StageHoverCardContent>
           </HoverCard>
         )
       },
       {
-        title: "Surface and Delays",
+        title: "Delays and surface",
         code: `import { Badge, HoverCard, HoverCardContent, HoverCardTrigger } from "@glinui/ui"
 
 export function Demo() {
@@ -652,9 +911,9 @@ export function Demo() {
             Instant preview
           </button>
         </HoverCardTrigger>
-        <HoverCardContent variant="glass" size="sm">
+        <HoverCardContent size="sm">
           <div className="space-y-2">
-            <Badge variant="glass">glass</Badge>
+            <Badge>default</Badge>
             <p className="text-xs text-neutral-600 dark:text-neutral-300">Open delay: 0ms</p>
           </div>
         </HoverCardContent>
@@ -665,9 +924,9 @@ export function Demo() {
             Delayed preview
           </button>
         </HoverCardTrigger>
-        <HoverCardContent variant="outline" size="md">
+        <HoverCardContent variant="plain" size="md">
           <p className="text-xs text-neutral-600 dark:text-neutral-300">
-            Opens after 500ms with outline surface.
+            Opens after 500ms with the plain surface.
           </p>
         </HoverCardContent>
       </HoverCard>
@@ -682,12 +941,12 @@ export function Demo() {
                   Instant preview
                 </button>
               </HoverCardTrigger>
-              <HoverCardContent variant="glass" size="sm">
+              <StageHoverCardContent size="sm">
                 <div className="space-y-2">
-                  <Badge variant="glass">glass</Badge>
+                  <Badge>default</Badge>
                   <p className="text-xs text-neutral-600 dark:text-neutral-300">Open delay: 0ms</p>
                 </div>
-              </HoverCardContent>
+              </StageHoverCardContent>
             </HoverCard>
             <HoverCard openDelay={500} closeDelay={250}>
               <HoverCardTrigger asChild>
@@ -695,11 +954,11 @@ export function Demo() {
                   Delayed preview
                 </button>
               </HoverCardTrigger>
-              <HoverCardContent variant="outline" size="md">
+              <StageHoverCardContent variant="plain" size="md">
                 <p className="text-xs text-neutral-600 dark:text-neutral-300">
-                  Opens after 500ms with outline surface.
+                  Opens after 500ms with the plain surface.
                 </p>
-              </HoverCardContent>
+              </StageHoverCardContent>
             </HoverCard>
           </div>
         )
@@ -710,7 +969,8 @@ export function Demo() {
   "icon-frame": {
     badge: "Primitive / Atom",
     props: [
-      { prop: "variant", type: '"default" | "glass" | "outline" | "ghost"', defaultValue: "default", description: "Surface treatment." },
+      { prop: "variant", type: 'SurfaceVariant | "default" | "raised"', defaultValue: "ambient (glinr)", description: "Surface treatment. Glass is opt-in." },
+      { prop: "tone", type: '"neutral" | "accent" | "success" | "warning" | "danger" | "info"', defaultValue: "neutral", description: "Icon and tint color." },
       { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: "md", description: "Square frame size." }
     ],
     accessibility: {
@@ -728,15 +988,16 @@ export function Demo() {
     },
     examples: [
       {
-        title: "Basic",
-        code: `import { IconFrame } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="flex items-center gap-2">\n      <IconFrame size="sm">A</IconFrame>\n      <IconFrame variant="glass">B</IconFrame>\n      <IconFrame variant="outline" size="lg">C</IconFrame>\n    </div>\n  )\n}`,
-        render: (
-          <div className="flex items-center gap-2">
-            <IconFrame size="sm">A</IconFrame>
-            <IconFrame variant="glass">B</IconFrame>
-            <IconFrame variant="outline" size="lg">C</IconFrame>
-          </div>
-        )
+        title: "Variants",
+        description: "The shared vocabulary. Omit `variant` for the ambient style (glinr).",
+        code: "import { IconFrame } from \"@glinui/ui\"\n\n<IconFrame variant=\"glinr\" tone=\"accent\"><Bell /></IconFrame>",
+        render: <IconFrameVariantsDemo />
+      },
+      {
+        title: "Tones",
+        description: "Soft frames in every tone.",
+        code: "import { IconFrame } from \"@glinui/ui\"\n\n<IconFrame variant=\"soft\" tone=\"success\"><Bell /></IconFrame>",
+        render: <IconFrameTonesDemo />
       }
     ]
   },
@@ -744,7 +1005,8 @@ export function Demo() {
   kbd: {
     badge: "Primitive / Atom",
     props: [
-      { prop: "variant", type: '"default" | "glass" | "outline" | "ghost"', defaultValue: "default", description: "Surface treatment." },
+      { prop: "variant", type: '"glinr" | "solid" | "plain" | "soft" | "outline" | "ghost" | "gradient" | "glass"', defaultValue: "ambient (glinr)", description: "Surface variant. Omit to follow the ambient design style (glinr by default, plain for minimal, glass for glass)." },
+      { prop: "tone", type: '"neutral" | "accent" | "success" | "warning" | "danger" | "info"', defaultValue: "neutral", description: "Colour tone for the vocabulary variants." },
       { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: "md", description: "Keycap size." }
     ],
     accessibility: {
@@ -768,6 +1030,78 @@ export function Demo() {
             <Kbd>K</Kbd>
           </div>
         )
+      },
+      {
+        title: "Variants",
+        description: "Every vocabulary variant on the default tone. Omit variant to follow the ambient design style.",
+        code: `import { Kbd } from "@glinui/ui"
+
+export function KbdVariantsDemo() {
+  return (
+    <div className="flex flex-wrap items-center gap-3">
+      <Kbd variant="glinr">K</Kbd>
+      <Kbd variant="solid">K</Kbd>
+      <Kbd variant="plain">K</Kbd>
+      <Kbd variant="soft">K</Kbd>
+      <Kbd variant="outline">K</Kbd>
+      <Kbd variant="ghost">K</Kbd>
+      <Kbd variant="gradient">K</Kbd>
+    </div>
+  )
+}`,
+        render: (
+          <div className="flex flex-wrap items-center gap-3">
+            <Kbd variant="glinr">K</Kbd>
+            <Kbd variant="solid">K</Kbd>
+            <Kbd variant="plain">K</Kbd>
+            <Kbd variant="soft">K</Kbd>
+            <Kbd variant="outline">K</Kbd>
+            <Kbd variant="ghost">K</Kbd>
+            <Kbd variant="gradient">K</Kbd>
+          </div>
+        )
+      },
+      {
+        title: "Tones",
+        description: "Tone works on every vocabulary variant. Soft faces are tinted with color-mix on the surface tokens.",
+        code: `import { Kbd } from "@glinui/ui"
+
+export function KbdTonesDemo() {
+  return (
+    <div className="flex flex-wrap items-center gap-3">
+      <Kbd variant="soft" tone="neutral">K</Kbd>
+      <Kbd variant="soft" tone="accent">K</Kbd>
+      <Kbd variant="soft" tone="success">K</Kbd>
+      <Kbd variant="soft" tone="warning">K</Kbd>
+      <Kbd variant="soft" tone="danger">K</Kbd>
+      <Kbd variant="soft" tone="info">K</Kbd>
+    </div>
+  )
+}`,
+        render: (
+          <div className="flex flex-wrap items-center gap-3">
+            <Kbd variant="soft" tone="neutral">K</Kbd>
+            <Kbd variant="soft" tone="accent">K</Kbd>
+            <Kbd variant="soft" tone="success">K</Kbd>
+            <Kbd variant="soft" tone="warning">K</Kbd>
+            <Kbd variant="soft" tone="danger">K</Kbd>
+            <Kbd variant="soft" tone="info">K</Kbd>
+          </div>
+        )
+      },
+      {
+        title: "Glass (opt-in)",
+        description: "Glass is opt-in and needs a backdrop behind it. Switch the preview stage to Vivid or Photo to see the frosted surface.",
+        code: `import { Kbd } from "@glinui/ui"
+
+export function KbdGlassDemo() {
+  return (
+    <Kbd variant="glass">K</Kbd>
+  )
+}`,
+        render: (
+          <Kbd variant="glass">K</Kbd>
+        )
       }
     ]
   },
@@ -776,7 +1110,7 @@ export function Demo() {
     badge: "Primitive / Atom",
     props: [
       { prop: "htmlFor", type: "string", description: "Associates label with a form control id." },
-      { prop: "variant", type: '"default" | "glass" | "outline" | "ghost"', defaultValue: "default", description: "Surface treatment." },
+      { prop: "variant", type: '"default" | "glinr" | "plain" | "solid" | "soft" | "outline" | "ghost" | "glass"', defaultValue: 'ambient (plain text)', description: 'Plain text by default. solid, soft, outline, ghost and glass render a chip around the label. Glass is opt-in.' },
       { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: "md", description: "Font-size scale." }
     ],
     accessibility: {
@@ -799,6 +1133,21 @@ export function Demo() {
           <div className="space-y-2">
             <Label htmlFor="email">Email address</Label>
             <Input id="email" type="email" placeholder="name@example.com" />
+          </div>
+        )
+      },
+      {
+        title: "Variants",
+        description: "Glass is opt-in and needs a backdrop behind it.",
+        code: `import { Label } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="flex flex-wrap items-center gap-3">\n      <Label>Default</Label>\n      <Label variant="solid">solid</Label>\n      <Label variant="soft">soft</Label>\n      <Label variant="outline">outline</Label>\n      <Label variant="ghost">ghost</Label>\n      <Label variant="glass">glass</Label>\n    </div>\n  )\n}`,
+        render: (
+          <div className="flex flex-wrap items-center gap-3">
+            <Label>Default</Label>
+            <Label variant="solid">solid</Label>
+            <Label variant="soft">soft</Label>
+            <Label variant="outline">outline</Label>
+            <Label variant="ghost">ghost</Label>
+            <Label variant="glass">glass</Label>
           </div>
         )
       }
@@ -833,14 +1182,27 @@ export function Demo() {
     examples: [
       {
         title: "Variants",
-        code: `import { Link } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="flex flex-wrap gap-2">\n      <Link href=\"#\">Default</Link>\n      <Link href=\"#\" variant=\"glass\">Glass</Link>\n      <Link href=\"#\" variant=\"outline\">Outline</Link>\n      <Link href=\"#\" variant=\"ghost\">Ghost</Link>\n    </div>\n  )\n}`,
+        code: `import { Link } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="flex flex-wrap gap-2">\n      <Link href=\"#\">Default</Link>\n      <Link href=\"#\" variant=\"outline\">Outline</Link>\n      <Link href=\"#\" variant=\"ghost\">Ghost</Link>\n    </div>\n  )\n}`,
         render: (
           <div className="flex flex-wrap gap-2">
             <Link href="#">Default</Link>
-            <Link href="#" variant="glass">Glass</Link>
             <Link href="#" variant="outline">Outline</Link>
             <Link href="#" variant="ghost">Ghost</Link>
           </div>
+        )
+      },
+      {
+        title: "Glass (opt-in)",
+        description: "Glass is opt-in and needs a backdrop behind it. Switch the preview stage to Vivid or Photo to see the frosted surface.",
+        code: `import { Link } from "@glinui/ui"
+
+export function LinkGlassDemo() {
+  return (
+    <Link href="#" variant="glass">Glass link</Link>
+  )
+}`,
+        render: (
+          <Link href="#" variant="glass">Glass link</Link>
         )
       }
     ]
@@ -901,13 +1263,26 @@ export function Demo() {
     examples: [
       {
         title: "Styles",
-        code: `import { Text } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="space-y-2">\n      <Text>Default body copy.</Text>\n      <Text variant="muted">Muted supporting copy.</Text>\n      <Text variant="glass">Glass highlighted note.</Text>\n    </div>\n  )\n}`,
+        code: `import { Text } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="space-y-2">\n      <Text>Default body copy.</Text>\n      <Text variant="muted">Muted supporting copy.</Text>\n    </div>\n  )\n}`,
         render: (
           <div className="space-y-2">
             <Text>Default body copy.</Text>
             <Text variant="muted">Muted supporting copy.</Text>
-            <Text variant="glass">Glass highlighted note.</Text>
           </div>
+        )
+      },
+      {
+        title: "Glass (opt-in)",
+        description: "Glass is opt-in and needs a backdrop behind it. Switch the preview stage to Vivid or Photo to see the frosted surface.",
+        code: `import { Text } from "@glinui/ui"
+
+export function TextGlassDemo() {
+  return (
+    <Text variant="glass">Glass highlighted note.</Text>
+  )
+}`,
+        render: (
+          <Text variant="glass">Glass highlighted note.</Text>
         )
       }
     ]
@@ -916,7 +1291,7 @@ export function Demo() {
   textarea: {
     badge: "Primitive / Atom",
     props: [
-      { prop: "variant", type: '"default" | "glass" | "liquid" | "matte" | "outline" | "ghost" | "underline" | "filled"', defaultValue: "default", description: "Visual treatment." },
+      { prop: "variant", type: '"glinr" | "solid" | "plain" | "soft" | "outline" | "ghost" | "glass" | "liquid" | "matte" | "underline" | "filled"', defaultValue: 'ambient (glinr)', description: 'Surface look. Omit to follow the ambient design style. Glass is opt-in.' },
       { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: "md", description: "Text size and inner spacing." },
       { prop: "rows", type: "number", defaultValue: "4", description: "Number of visible text lines." },
       { prop: "disabled", type: "boolean", defaultValue: "false", description: "Disables interaction." },
@@ -952,10 +1327,31 @@ export function Demo() {
       },
       {
         title: "Variants",
-        code: `import { Textarea } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="space-y-3">\n      <Textarea variant="glass" placeholder="Glass textarea" />\n      <Textarea variant="liquid" placeholder="Liquid textarea" />\n      <Textarea variant="matte" placeholder="Matte textarea" />\n    </div>\n  )\n}`,
+        code: `import { Textarea } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="grid gap-3 sm:grid-cols-2">\n      <Textarea variant="glinr" placeholder="glinr" rows={2} />\n      <Textarea variant="solid" placeholder="solid" rows={2} />\n      <Textarea variant="plain" placeholder="plain" rows={2} />\n      <Textarea variant="soft" placeholder="soft" rows={2} />\n      <Textarea variant="outline" placeholder="outline" rows={2} />\n      <Textarea variant="ghost" placeholder="ghost" rows={2} />\n    </div>\n  )\n}`,
+        render: (
+          <div className="grid gap-3 sm:grid-cols-2">
+            <Textarea variant="glinr" placeholder="glinr" rows={2} />
+            <Textarea variant="solid" placeholder="solid" rows={2} />
+            <Textarea variant="plain" placeholder="plain" rows={2} />
+            <Textarea variant="soft" placeholder="soft" rows={2} />
+            <Textarea variant="outline" placeholder="outline" rows={2} />
+            <Textarea variant="ghost" placeholder="ghost" rows={2} />
+          </div>
+        )
+      },
+      {
+        title: "Glass (opt-in)",
+        description: "Glass is opt-in and needs a backdrop behind it: pick Photo or Vivid in the stage backdrop switcher.",
+        code: `import { Textarea } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <Textarea variant="glass" placeholder="Glass textarea" />\n  )\n}`,
+        render: (
+          <Textarea variant="glass" placeholder="Glass textarea" />
+        )
+      },
+      {
+        title: "Liquid + Matte",
+        code: `import { Textarea } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="space-y-3">\n      <Textarea variant="liquid" placeholder="Liquid textarea" />\n      <Textarea variant="matte" placeholder="Matte textarea" />\n    </div>\n  )\n}`,
         render: (
           <div className="space-y-3">
-            <Textarea variant="glass" placeholder="Glass textarea" />
             <Textarea variant="liquid" placeholder="Liquid textarea" />
             <Textarea variant="matte" placeholder="Matte textarea" />
           </div>
@@ -969,7 +1365,7 @@ export function Demo() {
     props: [
       { prop: "options", type: "SelectOption[]", description: "Array of { label, value, disabled? }." },
       { prop: "placeholder", type: "string", description: "Disabled placeholder option text." },
-      { prop: "variant", type: '"default" | "glass" | "liquid" | "matte" | "outline" | "ghost"', defaultValue: "default", description: "Visual treatment." },
+      { prop: "variant", type: '"glinr" | "solid" | "plain" | "soft" | "outline" | "ghost" | "glass" | "liquid" | "matte"', defaultValue: 'ambient (glinr)', description: 'Surface look. Omit to follow the ambient design style. Glass is opt-in.' },
       { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: "md", description: "Height scale." },
       { prop: "disabled", type: "boolean", defaultValue: "false", description: "Disables interaction." }
     ],
@@ -1020,10 +1416,31 @@ export function Demo() {
       },
       {
         title: "Variants",
-        code: `import { Select } from "@glinui/ui"\n\nconst opts = [{ value: "a", label: "Alpha" }, { value: "b", label: "Beta" }]\n\nexport function Demo() {\n  return (\n    <div className="space-y-3 max-w-xs">\n      <Select variant="glass" options={opts} placeholder="Glass" />\n      <Select variant="liquid" options={opts} placeholder="Liquid" />\n      <Select variant="matte" options={opts} placeholder="Matte" />\n    </div>\n  )\n}`,
+        code: `import { Select } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="grid gap-3 sm:grid-cols-2">\n      <Select variant="glinr" options={[{ value: "a", label: "Alpha" }, { value: "b", label: "Beta" }]} placeholder="glinr" />\n      <Select variant="solid" options={[{ value: "a", label: "Alpha" }, { value: "b", label: "Beta" }]} placeholder="solid" />\n      <Select variant="plain" options={[{ value: "a", label: "Alpha" }, { value: "b", label: "Beta" }]} placeholder="plain" />\n      <Select variant="soft" options={[{ value: "a", label: "Alpha" }, { value: "b", label: "Beta" }]} placeholder="soft" />\n      <Select variant="outline" options={[{ value: "a", label: "Alpha" }, { value: "b", label: "Beta" }]} placeholder="outline" />\n      <Select variant="ghost" options={[{ value: "a", label: "Alpha" }, { value: "b", label: "Beta" }]} placeholder="ghost" />\n    </div>\n  )\n}`,
         render: (
-          <div className="space-y-3 max-w-xs">
-            <Select variant="glass" options={[{ value: "a", label: "Alpha" }, { value: "b", label: "Beta" }]} placeholder="Glass" />
+          <div className="grid gap-3 sm:grid-cols-2">
+            <Select variant="glinr" options={[{ value: "a", label: "Alpha" }, { value: "b", label: "Beta" }]} placeholder="glinr" />
+            <Select variant="solid" options={[{ value: "a", label: "Alpha" }, { value: "b", label: "Beta" }]} placeholder="solid" />
+            <Select variant="plain" options={[{ value: "a", label: "Alpha" }, { value: "b", label: "Beta" }]} placeholder="plain" />
+            <Select variant="soft" options={[{ value: "a", label: "Alpha" }, { value: "b", label: "Beta" }]} placeholder="soft" />
+            <Select variant="outline" options={[{ value: "a", label: "Alpha" }, { value: "b", label: "Beta" }]} placeholder="outline" />
+            <Select variant="ghost" options={[{ value: "a", label: "Alpha" }, { value: "b", label: "Beta" }]} placeholder="ghost" />
+          </div>
+        )
+      },
+      {
+        title: "Glass (opt-in)",
+        description: "Glass is opt-in and needs a backdrop behind it: pick Photo or Vivid in the stage backdrop switcher.",
+        code: `import { Select } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <Select variant="glass" options={[{ value: "a", label: "Alpha" }, { value: "b", label: "Beta" }]} placeholder="Glass" />\n  )\n}`,
+        render: (
+          <Select variant="glass" options={[{ value: "a", label: "Alpha" }, { value: "b", label: "Beta" }]} placeholder="Glass" />
+        )
+      },
+      {
+        title: "Liquid + Matte",
+        code: `import { Select } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="space-y-3">\n      <Select variant="liquid" options={[{ value: "a", label: "Alpha" }, { value: "b", label: "Beta" }]} placeholder="Liquid" />\n      <Select variant="matte" options={[{ value: "a", label: "Alpha" }, { value: "b", label: "Beta" }]} placeholder="Matte" />\n    </div>\n  )\n}`,
+        render: (
+          <div className="space-y-3">
             <Select variant="liquid" options={[{ value: "a", label: "Alpha" }, { value: "b", label: "Beta" }]} placeholder="Liquid" />
             <Select variant="matte" options={[{ value: "a", label: "Alpha" }, { value: "b", label: "Beta" }]} placeholder="Matte" />
           </div>
@@ -1035,7 +1452,7 @@ export function Demo() {
   checkbox: {
     badge: "Primitive / Atom",
     props: [
-      { prop: "variant", type: '"default" | "glass" | "liquid" | "matte" | "outline"', defaultValue: "default", description: "Visual treatment." },
+      { prop: "variant", type: '"glinr" | "solid" | "plain" | "soft" | "outline" | "ghost" | "glass" | "liquid" | "matte"', defaultValue: 'ambient (glinr)', description: 'Surface look. Omit to follow the ambient design style: glinr is an inset well with a raised accent check, plain is the flat shadcn box. Glass is opt-in.' },
       { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: "md", description: "Control size." },
       { prop: "checked", type: "boolean | 'indeterminate'", description: "Controlled checked state." },
       { prop: "defaultChecked", type: "boolean", description: "Initial checked state." },
@@ -1077,22 +1494,36 @@ export function Demo() {
         )
       },
       {
-        title: "Variants + Sizes",
-        code: `import { Checkbox } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="space-y-3">\n      <div className="flex items-center gap-3">\n        <Checkbox variant="default" defaultChecked aria-label="Default" />\n        <Checkbox variant="glass" defaultChecked aria-label="Glass" />\n        <Checkbox variant="liquid" defaultChecked aria-label="Liquid" />\n        <Checkbox variant="matte" defaultChecked aria-label="Matte" />\n        <Checkbox variant="outline" defaultChecked aria-label="Outline" />\n      </div>\n      <div className="flex items-center gap-3">\n        <Checkbox size="sm" defaultChecked aria-label="Small" />\n        <Checkbox size="md" defaultChecked aria-label="Medium" />\n        <Checkbox size="lg" defaultChecked aria-label="Large" />\n      </div>\n    </div>\n  )\n}`,
+        title: "Variants and sizes",
+        code: `import { Checkbox } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="space-y-3">\n      <div className="flex items-center gap-3">\n        <Checkbox variant="glinr" defaultChecked aria-label="glinr" />\n        <Checkbox variant="solid" defaultChecked aria-label="solid" />\n        <Checkbox variant="plain" defaultChecked aria-label="plain" />\n        <Checkbox variant="soft" defaultChecked aria-label="soft" />\n        <Checkbox variant="outline" defaultChecked aria-label="outline" />\n        <Checkbox variant="ghost" defaultChecked aria-label="ghost" />\n      </div>\n      <div className="flex items-center gap-3">\n        <Checkbox size="sm" defaultChecked aria-label="Small" />\n        <Checkbox size="md" defaultChecked aria-label="Medium" />\n        <Checkbox size="lg" defaultChecked aria-label="Large" />\n        <Checkbox defaultChecked="indeterminate" aria-label="Indeterminate" />\n        <Checkbox aria-invalid aria-label="Invalid" />\n      </div>\n    </div>\n  )\n}`,
         render: (
           <div className="space-y-3">
             <div className="flex items-center gap-3">
-              <Checkbox variant="default" defaultChecked aria-label="Default" />
-              <Checkbox variant="glass" defaultChecked aria-label="Glass" />
-              <Checkbox variant="liquid" defaultChecked aria-label="Liquid" />
-              <Checkbox variant="matte" defaultChecked aria-label="Matte" />
-              <Checkbox variant="outline" defaultChecked aria-label="Outline" />
+              <Checkbox variant="glinr" defaultChecked aria-label="glinr" />
+              <Checkbox variant="solid" defaultChecked aria-label="solid" />
+              <Checkbox variant="plain" defaultChecked aria-label="plain" />
+              <Checkbox variant="soft" defaultChecked aria-label="soft" />
+              <Checkbox variant="outline" defaultChecked aria-label="outline" />
+              <Checkbox variant="ghost" defaultChecked aria-label="ghost" />
             </div>
             <div className="flex items-center gap-3">
               <Checkbox size="sm" defaultChecked aria-label="Small" />
               <Checkbox size="md" defaultChecked aria-label="Medium" />
               <Checkbox size="lg" defaultChecked aria-label="Large" />
+              <Checkbox defaultChecked="indeterminate" aria-label="Indeterminate" />
+              <Checkbox aria-invalid aria-label="Invalid" />
             </div>
+          </div>
+        )
+      },
+      {
+        title: "Glass (opt-in)",
+        description: "Glass is opt-in and needs a backdrop behind it: pick Photo or Vivid in the stage backdrop switcher.",
+        code: `import { Checkbox } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="flex items-center gap-3">\n      <Checkbox variant="glass" defaultChecked aria-label="Glass checked" />\n      <Checkbox variant="glass" aria-label="Glass" />\n    </div>\n  )\n}`,
+        render: (
+          <div className="flex items-center gap-3">
+            <Checkbox variant="glass" defaultChecked aria-label="Glass checked" />
+            <Checkbox variant="glass" aria-label="Glass" />
           </div>
         )
       }
@@ -1116,7 +1547,7 @@ export function Demo() {
         title: "RadioGroupItemProps",
         rows: [
           { prop: "value", type: "string", description: "Value submitted by the item when selected." },
-          { prop: "variant", type: '"default" | "glass" | "liquid" | "matte" | "outline"', defaultValue: '"default"', description: "Visual treatment for `RadioGroupItem`." },
+          { prop: "variant", type: '"glinr" | "solid" | "plain" | "soft" | "outline" | "ghost" | "glass" | "liquid" | "matte"', defaultValue: 'ambient (glinr)', description: 'Surface look for `RadioGroupItem`. Omit to follow the ambient design style. Glass is opt-in.' },
           { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: '"md"', description: "Control size for `RadioGroupItem`." },
           { prop: "disabled", type: "boolean", defaultValue: "false", description: "Disables this radio item." }
         ]
@@ -1160,16 +1591,17 @@ export function Demo() {
         )
       },
       {
-        title: "Variants + Sizes",
-        code: `import { RadioGroup, RadioGroupItem } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="space-y-3">\n      <RadioGroup defaultValue="glass" orientation="horizontal" className="flex items-center gap-3">\n        <RadioGroupItem value="default" variant="default" aria-label="Default" />\n        <RadioGroupItem value="glass" variant="glass" aria-label="Glass" />\n        <RadioGroupItem value="liquid" variant="liquid" aria-label="Liquid" />\n        <RadioGroupItem value="matte" variant="matte" aria-label="Matte" />\n        <RadioGroupItem value="outline" variant="outline" aria-label="Outline" />\n      </RadioGroup>\n      <RadioGroup defaultValue="md" orientation="horizontal" className="flex items-center gap-3">\n        <RadioGroupItem value="sm" size="sm" aria-label="Small" />\n        <RadioGroupItem value="md" size="md" aria-label="Medium" />\n        <RadioGroupItem value="lg" size="lg" aria-label="Large" />\n      </RadioGroup>\n    </div>\n  )\n}`,
+        title: "Variants and sizes",
+        code: `import { RadioGroup, RadioGroupItem } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="space-y-3">\n      <RadioGroup defaultValue="glinr" orientation="horizontal" className="flex items-center gap-3">\n        <RadioGroupItem value="glinr" variant="glinr" aria-label="glinr" />\n        <RadioGroupItem value="solid" variant="solid" aria-label="solid" />\n        <RadioGroupItem value="plain" variant="plain" aria-label="plain" />\n        <RadioGroupItem value="soft" variant="soft" aria-label="soft" />\n        <RadioGroupItem value="outline" variant="outline" aria-label="outline" />\n        <RadioGroupItem value="ghost" variant="ghost" aria-label="ghost" />\n      </RadioGroup>\n      <RadioGroup defaultValue="md" orientation="horizontal" className="flex items-center gap-3">\n        <RadioGroupItem value="sm" size="sm" aria-label="Small" />\n        <RadioGroupItem value="md" size="md" aria-label="Medium" />\n        <RadioGroupItem value="lg" size="lg" aria-label="Large" />\n      </RadioGroup>\n    </div>\n  )\n}`,
         render: (
           <div className="space-y-3">
-            <RadioGroup defaultValue="glass" orientation="horizontal" className="flex items-center gap-3">
-              <RadioGroupItem value="default" variant="default" aria-label="Default" />
-              <RadioGroupItem value="glass" variant="glass" aria-label="Glass" />
-              <RadioGroupItem value="liquid" variant="liquid" aria-label="Liquid" />
-              <RadioGroupItem value="matte" variant="matte" aria-label="Matte" />
-              <RadioGroupItem value="outline" variant="outline" aria-label="Outline" />
+            <RadioGroup defaultValue="glinr" orientation="horizontal" className="flex items-center gap-3">
+              <RadioGroupItem value="glinr" variant="glinr" aria-label="glinr" />
+              <RadioGroupItem value="solid" variant="solid" aria-label="solid" />
+              <RadioGroupItem value="plain" variant="plain" aria-label="plain" />
+              <RadioGroupItem value="soft" variant="soft" aria-label="soft" />
+              <RadioGroupItem value="outline" variant="outline" aria-label="outline" />
+              <RadioGroupItem value="ghost" variant="ghost" aria-label="ghost" />
             </RadioGroup>
             <RadioGroup defaultValue="md" orientation="horizontal" className="flex items-center gap-3">
               <RadioGroupItem value="sm" size="sm" aria-label="Small" />
@@ -1177,6 +1609,17 @@ export function Demo() {
               <RadioGroupItem value="lg" size="lg" aria-label="Large" />
             </RadioGroup>
           </div>
+        )
+      },
+      {
+        title: "Glass (opt-in)",
+        description: "Glass is opt-in and needs a backdrop behind it: pick Photo or Vivid in the stage backdrop switcher.",
+        code: `import { RadioGroup, RadioGroupItem } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <RadioGroup defaultValue="a" orientation="horizontal" className="flex items-center gap-3">\n      <RadioGroupItem value="a" variant="glass" aria-label="A" />\n      <RadioGroupItem value="b" variant="glass" aria-label="B" />\n    </RadioGroup>\n  )\n}`,
+        render: (
+          <RadioGroup defaultValue="a" orientation="horizontal" className="flex items-center gap-3">
+            <RadioGroupItem value="a" variant="glass" aria-label="A" />
+            <RadioGroupItem value="b" variant="glass" aria-label="B" />
+          </RadioGroup>
         )
       }
     ]
@@ -1188,40 +1631,92 @@ export function Demo() {
       { prop: "checked", type: "boolean", description: "Controlled on/off state." },
       { prop: "defaultChecked", type: "boolean", description: "Initial state." },
       { prop: "onCheckedChange", type: "(checked: boolean) => void", description: "Change handler." },
+      { prop: "variant", type: '"glinr" | "solid" | "plain" | "soft" | "outline" | "ghost" | "glass" | "liquid" | "matte" | "frosted"', defaultValue: 'ambient (glinr)', description: 'Track look. Omit to follow the ambient design style: glinr is an inset well with a raised accent fill, plain is the flat shadcn switch. Glass variants add a frosted track and liquid accent fill (opt-in).' },
+      { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: "md", description: "36x20, 44x24 or 52x28 track." },
+      { prop: "onIcon / offIcon", type: "ReactNode", description: "Icon inside the thumb for each state, sized to the thumb." },
+      { prop: "showLabels", type: "boolean", defaultValue: "false", description: "Show On/Off text inside the track (lg only). Customize with onLabel and offLabel." },
+      { prop: "loading", type: "boolean", defaultValue: "false", description: "Shows a spinner in the thumb, makes the switch inert and sets aria-busy." },
+      { prop: "label / description", type: "ReactNode", description: "Renders a clickable label row with linked description." },
+      { prop: "activeColor", type: "string", description: "Custom checked color, applied as a CSS custom property." },
+      { prop: "name / value / required / form", type: "string | boolean", description: "Native form participation." },
       { prop: "disabled", type: "boolean", defaultValue: "false", description: "Disables interaction." }
     ],
     accessibility: {
       summary: [
         "Built on Radix Switch with `role=\"switch\"`.",
-        "Pair with `<label>` for context."
+        "`label` and `description` wire `htmlFor` and `aria-describedby` for you.",
+        "44px minimum hit area; the thumb travels toward the inline end in RTL."
       ],
       keyboard: [
         { key: "Space", description: "Toggle the switch on/off." }
       ],
       aria: [
         '`role="switch"`',
-        "`aria-checked`"
+        "`aria-checked`",
+        "`aria-busy` while loading"
       ]
     },
     reducedMotion: {
-      description: "Thumb slide transition respects `prefers-reduced-motion`.",
+      description: "The thumb slide and stretch are instant under `prefers-reduced-motion` and when `data-glin-motion` is `none` or `subtle`.",
       affected: ["transform"]
     },
     examples: [
       {
-        title: "Basic",
-        code: `import { Switch } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <label className="flex items-center gap-2 text-sm">\n      <Switch /> Notifications\n    </label>\n  )\n}`,
-        render: <SwitchDemo />
+        title: "State matrix",
+        code: demoCode("switch").matrix,
+        render: <PlainStage><StateMatrix kind="switch" /></PlainStage>
       },
       {
-        title: "Disabled",
-        code: `import { Switch } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <label className="flex items-center gap-2 text-sm opacity-50">\n      <Switch disabled /> Disabled\n    </label>\n  )\n}`,
+        title: "Variants",
+        description: "Each variant on and off. Pick a backdrop in the stage to check contrast.",
+        code: `import { Switch } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="flex flex-wrap items-center gap-4">\n      <Switch variant="glinr" defaultChecked aria-label="glinr on" />\n      <Switch variant="glinr" aria-label="glinr off" />\n      <Switch variant="solid" defaultChecked aria-label="solid on" />\n      <Switch variant="solid" aria-label="solid off" />\n      <Switch variant="plain" defaultChecked aria-label="plain on" />\n      <Switch variant="plain" aria-label="plain off" />\n      <Switch variant="soft" defaultChecked aria-label="soft on" />\n      <Switch variant="soft" aria-label="soft off" />\n      <Switch variant="outline" defaultChecked aria-label="outline on" />\n      <Switch variant="outline" aria-label="outline off" />\n      <Switch variant="ghost" defaultChecked aria-label="ghost on" />\n      <Switch variant="ghost" aria-label="ghost off" />\n    </div>\n  )\n}`,
         render: (
-          <label className="flex items-center gap-2 text-sm opacity-50">
-            <Switch disabled />
-            Disabled
-          </label>
+          <div className="flex flex-wrap items-center gap-4">
+            <Switch variant="glinr" defaultChecked aria-label="glinr on" />
+            <Switch variant="glinr" aria-label="glinr off" />
+            <Switch variant="solid" defaultChecked aria-label="solid on" />
+            <Switch variant="solid" aria-label="solid off" />
+            <Switch variant="plain" defaultChecked aria-label="plain on" />
+            <Switch variant="plain" aria-label="plain off" />
+            <Switch variant="soft" defaultChecked aria-label="soft on" />
+            <Switch variant="soft" aria-label="soft off" />
+            <Switch variant="outline" defaultChecked aria-label="outline on" />
+            <Switch variant="outline" aria-label="outline off" />
+            <Switch variant="ghost" defaultChecked aria-label="ghost on" />
+            <Switch variant="ghost" aria-label="ghost off" />
+          </div>
         )
+      },
+      {
+        title: "With icons",
+        code: demoCode("switch").icons,
+        render: <PlainStage><IconsDemo kind="switch" /></PlainStage>
+      },
+      {
+        title: "With label and description",
+        code: demoCode("switch").rows,
+        render: <RowsDemo kind="switch" />
+      },
+      {
+        title: "Loading",
+        code: demoCode("switch").loading,
+        render: <LoadingDemo kind="switch" />
+      },
+      {
+        title: "Glass (opt-in)",
+        description: "Glass needs a backdrop: it is shown here on a photo stage.",
+        code: `import { Switch } from "@glinui/ui"\n\nexport function Demo() {\n  return <Switch variant="glass" defaultChecked />\n}`,
+        render: <PhotoStage><Switch variant="glass" defaultChecked aria-label="Glass" /></PhotoStage>
+      },
+      {
+        title: "Controlled",
+        code: demoCode("switch").controlled,
+        render: <PlainStage><ControlledDemo kind="switch" /></PlainStage>
+      },
+      {
+        title: "Form",
+        code: demoCode("switch").form,
+        render: <PlainStage><FormDemo kind="switch" /></PlainStage>
       }
     ]
   },
@@ -1285,56 +1780,22 @@ export function Demo() {
     },
     examples: [
       {
-        title: "Basic",
-        code: `import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <Accordion type="single" collapsible>\n      <AccordionItem value="item-1">\n        <AccordionTrigger>Is it accessible?</AccordionTrigger>\n        <AccordionContent>Yes. Built on Radix with full WAI-ARIA support.</AccordionContent>\n      </AccordionItem>\n      <AccordionItem value="item-2">\n        <AccordionTrigger>Is it styled?</AccordionTrigger>\n        <AccordionContent>Yes. Ships with glass, outline, and ghost variants.</AccordionContent>\n      </AccordionItem>\n      <AccordionItem value="item-3">\n        <AccordionTrigger>Is it animated?</AccordionTrigger>\n        <AccordionContent>Yes. Smooth transitions with reduced-motion fallback.</AccordionContent>\n      </AccordionItem>\n    </Accordion>\n  )\n}`,
-        render: (
-          <Accordion type="single" collapsible>
-            <AccordionItem value="item-1">
-              <AccordionTrigger>Is it accessible?</AccordionTrigger>
-              <AccordionContent>Yes. Built on Radix with full WAI-ARIA support.</AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-2">
-              <AccordionTrigger>Is it styled?</AccordionTrigger>
-              <AccordionContent>Yes. Ships with glass, outline, and ghost variants.</AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-3">
-              <AccordionTrigger>Is it animated?</AccordionTrigger>
-              <AccordionContent>Yes. Smooth transitions with reduced-motion fallback.</AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        )
+        title: "Default",
+        description: "glinr renders the list as one lifted shell with hairline dividers and a rotating caret.",
+        code: "import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from \"@glinui/ui\"\n\n<Accordion type=\"single\" collapsible defaultValue=\"item-0\">\n  <AccordionItem value=\"item-0\">\n    <AccordionTrigger>Can I use it without Tailwind?</AccordionTrigger>\n    <AccordionContent>Add the preset once.</AccordionContent>\n  </AccordionItem>\n</Accordion>",
+        render: <AccordionHero />
       },
       {
-        title: "Glass Variant",
-        code: `import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <Accordion type="single" collapsible>\n      <AccordionItem value="item-1" variant="glass">\n        <AccordionTrigger variant="glass">Glass accordion</AccordionTrigger>\n        <AccordionContent variant="glass">Frosted content surface.</AccordionContent>\n      </AccordionItem>\n    </Accordion>\n  )\n}`,
-        render: (
-          <Accordion type="single" collapsible>
-            <AccordionItem value="item-1" variant="glass">
-              <AccordionTrigger variant="glass">Glass accordion</AccordionTrigger>
-              <AccordionContent variant="glass">Frosted content surface.</AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        )
+        title: "Variants",
+        description: "glinr, plain (shadcn borders), solid, soft, outline and glass (opt-in).",
+        code: "import { Accordion } from \"@glinui/ui\"\n\n<Accordion variant=\"plain\" type=\"single\" collapsible>...</Accordion>",
+        render: <AccordionVariantsDemo />
       },
       {
-        title: "Separated",
-        code: `import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <Accordion type="single" collapsible>\n      <AccordionItem value="item-1" variant="separated">\n        <AccordionTrigger variant="separated">What is glinui?</AccordionTrigger>\n        <AccordionContent variant="separated">A glassmorphic component library built on Radix UI.</AccordionContent>\n      </AccordionItem>\n      <AccordionItem value="item-2" variant="separated">\n        <AccordionTrigger variant="separated">Is it customizable?</AccordionTrigger>\n        <AccordionContent variant="separated">Yes. Every token and variant is configurable.</AccordionContent>\n      </AccordionItem>\n      <AccordionItem value="item-3" variant="separated">\n        <AccordionTrigger variant="separated">Does it support dark mode?</AccordionTrigger>\n        <AccordionContent variant="separated">Yes. All components respect the color scheme automatically.</AccordionContent>\n      </AccordionItem>\n    </Accordion>\n  )\n}`,
-        render: (
-          <Accordion type="single" collapsible>
-            <AccordionItem value="item-1" variant="separated">
-              <AccordionTrigger variant="separated">What is glinui?</AccordionTrigger>
-              <AccordionContent variant="separated">A glassmorphic component library built on Radix UI.</AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-2" variant="separated">
-              <AccordionTrigger variant="separated">Is it customizable?</AccordionTrigger>
-              <AccordionContent variant="separated">Yes. Every token and variant is configurable.</AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-3" variant="separated">
-              <AccordionTrigger variant="separated">Does it support dark mode?</AccordionTrigger>
-              <AccordionContent variant="separated">Yes. All components respect the color scheme automatically.</AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        )
+        title: "In a layout",
+        description: "A help-center section with the FAQ beside a heading.",
+        code: "import { Accordion } from \"@glinui/ui\"\n\n<section className=\"grid gap-6 md:grid-cols-[1fr_1.4fr]\">\n  <div>...</div>\n  <Accordion type=\"single\" collapsible>...</Accordion>\n</section>",
+        render: <AccordionLayout />
       }
     ]
   },
@@ -1345,7 +1806,9 @@ export function Demo() {
       {
         title: "Alert",
         rows: [
-          { prop: "variant", type: '"default" | "glass" | "liquid" | "matte" | "glow" | "outline" | "ghost" | "success" | "warning" | "destructive" | "info"', defaultValue: "default", description: "Visual treatment." },
+          { prop: "variant", type: 'SurfaceVariant | "default" | "destructive" | "success" | "warning" | "info" | "liquid" | "matte" | "glow" | "note" | "flag"', defaultValue: "ambient (glinr)", description: "Surface look. Omitted follows the ambient design style. Glass is opt-in." },
+          { prop: "tone", type: '"neutral" | "accent" | "success" | "warning" | "danger" | "info"', defaultValue: "neutral", description: "Accent bar, tint and icon color." },
+          { prop: "icon", type: "boolean | ReactNode", description: "true renders the tone icon, a node renders a custom icon, false hides it. A non-neutral tone shows its icon by default." },
           { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: "md", description: "Padding density." },
           { prop: "role", type: "string", defaultValue: "alert", description: "ARIA role." }
         ]
@@ -1380,72 +1843,28 @@ export function Demo() {
     },
     examples: [
       {
-        title: "Basic",
-        code: `import { Alert, AlertTitle, AlertDescription } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <Alert>\n      <AlertTitle>Changes saved</AlertTitle>\n      <AlertDescription>Your workspace has been updated.</AlertDescription>\n    </Alert>\n  )\n}`,
-        render: (
-          <Alert>
-            <AlertTitle>Changes saved</AlertTitle>
-            <AlertDescription>Your workspace has been updated.</AlertDescription>
-          </Alert>
-        )
+        title: "Default",
+        description: "Tones come with an icon, a left accent bar and a tinted glinr face.",
+        code: "import { Alert, AlertDescription, AlertTitle } from \"@glinui/ui\"\n\n<Alert tone=\"warning\">\n  <AlertTitle>Almost out of quota</AlertTitle>\n  <AlertDescription>You have used 92 percent of this month's builds.</AlertDescription>\n</Alert>",
+        render: <AlertHero />
       },
       {
-        title: "Glass Variants",
-        code: `import { Alert, AlertTitle, AlertDescription } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="space-y-3">\n      <Alert variant="glass">\n        <AlertTitle>Glass</AlertTitle>\n        <AlertDescription>Frosted glass surface with refraction edge.</AlertDescription>\n      </Alert>\n      <Alert variant="liquid">\n        <AlertTitle>Liquid</AlertTitle>\n        <AlertDescription>Caustic light pools with depth shimmer.</AlertDescription>\n      </Alert>\n      <Alert variant="matte">\n        <AlertTitle>Matte</AlertTitle>\n        <AlertDescription>Brushed aluminum with inner glow.</AlertDescription>\n      </Alert>\n      <Alert variant="glow">\n        <AlertTitle>Glow</AlertTitle>\n        <AlertDescription>Dark surface with soft outer luminance.</AlertDescription>\n      </Alert>\n    </div>\n  )\n}`,
-        render: (
-          <div className="space-y-3">
-            <Alert variant="glass">
-              <AlertTitle>Glass</AlertTitle>
-              <AlertDescription>Frosted glass surface with refraction edge.</AlertDescription>
-            </Alert>
-            <Alert variant="liquid">
-              <AlertTitle>Liquid</AlertTitle>
-              <AlertDescription>Caustic light pools with depth shimmer.</AlertDescription>
-            </Alert>
-            <Alert variant="matte">
-              <AlertTitle>Matte</AlertTitle>
-              <AlertDescription>Brushed aluminum with inner glow.</AlertDescription>
-            </Alert>
-            <Alert variant="glow">
-              <AlertTitle>Glow</AlertTitle>
-              <AlertDescription>Dark surface with soft outer luminance.</AlertDescription>
-            </Alert>
-          </div>
-        )
+        title: "Variants",
+        description: "glinr is the default. plain is flat shadcn. glass is opt-in and needs a backdrop.",
+        code: "import { Alert } from \"@glinui/ui\"\n\n<Alert variant=\"glinr\" tone=\"accent\" icon />\n<Alert variant=\"plain\" tone=\"accent\" icon />\n<Alert variant=\"solid\" tone=\"accent\" icon />\n<Alert variant=\"soft\" tone=\"accent\" icon />\n<Alert variant=\"glass\" tone=\"accent\" icon />",
+        render: <AlertVariantsDemo />
       },
       {
-        title: "Semantic Variants",
-        code: `import { Alert, AlertTitle, AlertDescription } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="space-y-3">\n      <Alert variant="success">\n        <AlertTitle>Success</AlertTitle>\n        <AlertDescription>Operation completed successfully.</AlertDescription>\n      </Alert>\n      <Alert variant="warning">\n        <AlertTitle>Warning</AlertTitle>\n        <AlertDescription>Please review before continuing.</AlertDescription>\n      </Alert>\n      <Alert variant="destructive">\n        <AlertTitle>Error</AlertTitle>\n        <AlertDescription>Something went wrong.</AlertDescription>\n      </Alert>\n      <Alert variant="info">\n        <AlertTitle>Info</AlertTitle>\n        <AlertDescription>Here is some helpful context.</AlertDescription>\n      </Alert>\n    </div>\n  )\n}`,
-        render: (
-          <div className="space-y-3">
-            <Alert variant="success">
-              <AlertTitle>Success</AlertTitle>
-              <AlertDescription>Operation completed successfully.</AlertDescription>
-            </Alert>
-            <Alert variant="warning">
-              <AlertTitle>Warning</AlertTitle>
-              <AlertDescription>Please review before continuing.</AlertDescription>
-            </Alert>
-            <Alert variant="destructive">
-              <AlertTitle>Error</AlertTitle>
-              <AlertDescription>Something went wrong.</AlertDescription>
-            </Alert>
-            <Alert variant="info">
-              <AlertTitle>Info</AlertTitle>
-              <AlertDescription>Here is some helpful context.</AlertDescription>
-            </Alert>
-          </div>
-        )
+        title: "Tones and quiet looks",
+        description: "neutral, accent, success, warning, danger and info, plus the `note` and `flag` looks.",
+        code: "import { Alert } from \"@glinui/ui\"\n\n<Alert tone=\"success\" icon>...</Alert>\n<Alert variant=\"note\">...</Alert>\n<Alert variant=\"flag\">...</Alert>",
+        render: <AlertTonesDemo />
       },
       {
-        title: "Minimal Variants",
-        code: `import { Alert, AlertTitle } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="space-y-3">\n      <Alert variant="outline"><AlertTitle>Outline</AlertTitle></Alert>\n      <Alert variant="ghost"><AlertTitle>Ghost</AlertTitle></Alert>\n    </div>\n  )\n}`,
-        render: (
-          <div className="space-y-3">
-            <Alert variant="outline"><AlertTitle>Outline</AlertTitle></Alert>
-            <Alert variant="ghost"><AlertTitle>Ghost</AlertTitle></Alert>
-          </div>
-        )
+        title: "In a layout",
+        description: "A billing warning above a pricing card.",
+        code: "import { Alert, Card } from \"@glinui/ui\"\n\n<section className=\"flex flex-col gap-4\">\n  <Alert tone=\"warning\">...</Alert>\n  <Card>...</Card>\n</section>",
+        render: <AlertLayout />
       }
     ]
   },
@@ -1468,14 +1887,14 @@ export function Demo() {
       {
         title: "AlertDialogContentProps",
         rows: [
-          { prop: "variant", type: '"default" | "glass" | "matte"', defaultValue: "glass", description: "Visual surface treatment." },
+          { prop: "variant", type: '"glinr" | "plain" | "solid" | "soft" | "outline" | "ghost" | "gradient" | "glass"', defaultValue: "ambient style (glinr)", description: "Panel look. Omit it for the ambient design style: glinr shell, raised header and footer strips. `plain` is the shadcn border and shadow, `glass` is opt-in and needs a backdrop. Legacy `default` follows the ambient style, `matte` maps to `solid`, `frosted` to `glass`." },
           { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: "md", description: "Content width and density scale." }
         ]
       },
       {
         title: "AlertDialogActionProps",
         rows: [
-          { prop: "variant", type: '"default" | "glass" | "matte"', defaultValue: "default", description: "Visual treatment for confirm action." }
+          { prop: "variant", type: '"default" | "destructive" | "glass" | "matte"', defaultValue: "default", description: "Visual treatment for the confirm action. `default` is the neutral solid button, `destructive` uses the danger tone." }
         ]
       },
       {
@@ -1524,7 +1943,7 @@ export function Demo() {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="matte">Delete project</Button>
+        <Button>Delete project</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -1544,9 +1963,9 @@ export function Demo() {
         render: (
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="matte">Delete project</Button>
+              <Button>Delete project</Button>
             </AlertDialogTrigger>
-            <AlertDialogContent>
+            <StageAlertDialogContent>
               <AlertDialogHeader>
                 <AlertDialogTitle>Delete project?</AlertDialogTitle>
                 <AlertDialogDescription>
@@ -1557,12 +1976,13 @@ export function Demo() {
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
                 <AlertDialogAction>Delete</AlertDialogAction>
               </AlertDialogFooter>
-            </AlertDialogContent>
+            </StageAlertDialogContent>
           </AlertDialog>
         )
       },
       {
-        title: "Glass Surface",
+        title: "Glass (opt-in)",
+        description: "Glass is opt-in and needs a colourful or photographic backdrop to read as frosted. Pick one in the stage header.",
         code: `import {
   AlertDialog,
   AlertDialogAction,
@@ -1580,7 +2000,7 @@ export function Demo() {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="glass">Archive workspace</Button>
+        <Button variant="outline">Archive workspace</Button>
       </AlertDialogTrigger>
       <AlertDialogContent variant="glass" size="sm">
         <AlertDialogHeader>
@@ -1600,9 +2020,9 @@ export function Demo() {
         render: (
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="glass">Archive workspace</Button>
+              <Button variant="outline">Archive workspace</Button>
             </AlertDialogTrigger>
-            <AlertDialogContent variant="glass" size="sm">
+            <StageAlertDialogContent variant="glass" size="sm">
               <AlertDialogHeader>
                 <AlertDialogTitle>Archive workspace?</AlertDialogTitle>
                 <AlertDialogDescription>
@@ -1613,7 +2033,7 @@ export function Demo() {
                 <AlertDialogCancel>Not now</AlertDialogCancel>
                 <AlertDialogAction variant="glass">Archive</AlertDialogAction>
               </AlertDialogFooter>
-            </AlertDialogContent>
+            </StageAlertDialogContent>
           </AlertDialog>
         )
       }
@@ -1623,7 +2043,8 @@ export function Demo() {
   avatar: {
     badge: "Primitive / Atom",
     props: [
-      { prop: "variant", type: '"default" | "glass" | "liquid" | "matte" | "glow" | "outline" | "ghost"', defaultValue: "default", description: "Visual surface treatment." },
+      { prop: "variant", type: '"glinr" | "solid" | "plain" | "soft" | "outline" | "ghost" | "gradient" | "glass" | "liquid" | "matte" | "glow"', defaultValue: "ambient (glinr)", description: "Surface variant. Omit to follow the ambient design style (glinr by default, plain for minimal, glass for glass)." },
+      { prop: "tone", type: '"neutral" | "accent" | "success" | "warning" | "danger" | "info"', defaultValue: "neutral", description: "Colour tone for the vocabulary variants." },
       { prop: "size", type: '"xs" | "sm" | "md" | "lg" | "xl" | "2xl"', defaultValue: "md", description: "Dimensions: xs=24px, sm=32px, md=40px, lg=48px, xl=56px, 2xl=80px." },
       { prop: "radius", type: '"full" | "lg" | "md" | "square"', defaultValue: "full", description: "Corner radius style." },
       { prop: "src", type: "string", description: "Image URL." },
@@ -1649,7 +2070,71 @@ export function Demo() {
     },
     examples: [
       {
-        title: "Glass Variants",
+        title: "Default",
+        description: "The default look follows the ambient design style: glinr unless a provider says otherwise.",
+        code: `import { Avatar } from "@glinui/ui"
+
+export function AvatarDemo() {
+  return (
+    <Avatar fallback="GL" />
+  )
+}`,
+        render: (
+          <Avatar fallback="GL" />
+        )
+      },
+      {
+        title: "Variants",
+        description: "Every vocabulary variant on the default tone. Omit variant to follow the ambient design style.",
+        code: `import { Avatar } from "@glinui/ui"
+
+export function AvatarVariantsDemo() {
+  return (
+    <div className="flex flex-wrap items-center gap-3">
+      <Avatar variant="glinr" fallback="GL" />
+      <Avatar variant="solid" fallback="GL" />
+      <Avatar variant="plain" fallback="GL" />
+      <Avatar variant="soft" fallback="GL" />
+      <Avatar variant="outline" fallback="GL" />
+      <Avatar variant="ghost" fallback="GL" />
+      <Avatar variant="gradient" fallback="GL" />
+    </div>
+  )
+}`,
+        render: (
+          <div className="flex flex-wrap items-center gap-3">
+            <Avatar variant="glinr" fallback="GL" />
+            <Avatar variant="solid" fallback="GL" />
+            <Avatar variant="plain" fallback="GL" />
+            <Avatar variant="soft" fallback="GL" />
+            <Avatar variant="outline" fallback="GL" />
+            <Avatar variant="ghost" fallback="GL" />
+            <Avatar variant="gradient" fallback="GL" />
+          </div>
+        )
+      },
+      {
+        title: "Status & Group",
+        code: `import { Avatar, AvatarGroup } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="space-y-4">\n      <div className="flex gap-4">\n        <Avatar fallback="ON" variant="soft" status="online" />\n        <Avatar fallback="AW" variant="soft" status="away" />\n        <Avatar fallback="BS" variant="soft" status="busy" />\n      </div>\n      <AvatarGroup max={3}>\n        <Avatar fallback="A" />\n        <Avatar fallback="B" />\n        <Avatar fallback="C" />\n        <Avatar fallback="D" />\n      </AvatarGroup>\n    </div>\n  )\n}`,
+        render: (
+          <div className="space-y-4">
+            <div className="flex gap-4">
+              <Avatar fallback="ON" variant="soft" status="online" />
+              <Avatar fallback="AW" variant="soft" status="away" />
+              <Avatar fallback="BS" variant="soft" status="busy" />
+            </div>
+            <AvatarGroup max={3}>
+              <Avatar fallback="A" />
+              <Avatar fallback="B" />
+              <Avatar fallback="C" />
+              <Avatar fallback="D" />
+            </AvatarGroup>
+          </div>
+        )
+      },
+      {
+        title: "Glass (opt-in)",
+        description: "Glass is opt-in and needs a backdrop behind it. Switch the preview stage to Vivid or Photo to see the frosted surface.",
         code: `import { Avatar } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="flex items-center gap-4">\n      <Avatar fallback="DF" variant="default" />\n      <Avatar fallback="GL" variant="glass" />\n      <Avatar fallback="LQ" variant="liquid" />\n      <Avatar fallback="MT" variant="matte" />\n      <Avatar fallback="GW" variant="glow" />\n    </div>\n  )\n}`,
         render: (
           <div className="flex items-center gap-4">
@@ -1660,25 +2145,6 @@ export function Demo() {
             <Avatar fallback="GW" variant="glow" />
           </div>
         )
-      },
-      {
-        title: "Status & Group",
-        code: `import { Avatar, AvatarGroup } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="space-y-4">\n      <div className="flex gap-4">\n        <Avatar fallback="ON" variant="glass" status="online" />\n        <Avatar fallback="AW" variant="glass" status="away" />\n        <Avatar fallback="BS" variant="glass" status="busy" />\n      </div>\n      <AvatarGroup max={3}>\n        <Avatar fallback="A" />\n        <Avatar fallback="B" />\n        <Avatar fallback="C" />\n        <Avatar fallback="D" />\n      </AvatarGroup>\n    </div>\n  )\n}`,
-        render: (
-          <div className="space-y-4">
-            <div className="flex gap-4">
-              <Avatar fallback="ON" variant="glass" status="online" />
-              <Avatar fallback="AW" variant="glass" status="away" />
-              <Avatar fallback="BS" variant="glass" status="busy" />
-            </div>
-            <AvatarGroup max={3}>
-              <Avatar fallback="A" />
-              <Avatar fallback="B" />
-              <Avatar fallback="C" />
-              <Avatar fallback="D" />
-            </AvatarGroup>
-          </div>
-        )
       }
     ]
   },
@@ -1686,7 +2152,8 @@ export function Demo() {
   badge: {
     badge: "Primitive / Atom",
     props: [
-      { prop: "variant", type: '"default" | "glass" | "liquid" | "matte" | "glow" | "outline" | "ghost" | "success" | "warning" | "destructive" | "info"', defaultValue: "default", description: "Visual treatment." },
+      { prop: "variant", type: '"glinr" | "solid" | "plain" | "soft" | "outline" | "ghost" | "gradient" | "glass" | "liquid" | "matte" | "glow"', defaultValue: "ambient (glinr)", description: "Surface variant. Omit to follow the ambient design style (glinr by default, plain for minimal, glass for glass)." },
+      { prop: "tone", type: '"neutral" | "accent" | "success" | "warning" | "danger" | "info"', defaultValue: "neutral", description: "Colour tone for the vocabulary variants." },
       { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: "md", description: "Height scale (h-5/h-6/h-7)." }
     ],
     accessibility: {
@@ -1705,15 +2172,80 @@ export function Demo() {
     },
     examples: [
       {
-        title: "Glass Variants",
-        code: `import { Badge } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="flex flex-wrap gap-2">\n      <Badge>Default</Badge>\n      <Badge variant="glass">Glass</Badge>\n      <Badge variant="liquid">Liquid</Badge>\n      <Badge variant="matte">Matte</Badge>\n      <Badge variant="glow">Glow</Badge>\n    </div>\n  )\n}`,
+        title: "Default",
+        description: "The default look follows the ambient design style: glinr unless a provider says otherwise.",
+        code: `import { Badge } from "@glinui/ui"
+
+export function BadgeDemo() {
+  return (
+    <Badge>Badge</Badge>
+  )
+}`,
         render: (
-          <div className="flex flex-wrap gap-2">
-            <Badge>Default</Badge>
-            <Badge variant="glass">Glass</Badge>
-            <Badge variant="liquid">Liquid</Badge>
-            <Badge variant="matte">Matte</Badge>
-            <Badge variant="glow">Glow</Badge>
+          <Badge>Badge</Badge>
+        )
+      },
+      {
+        title: "Variants",
+        description: "Every vocabulary variant on the default tone. Omit variant to follow the ambient design style.",
+        code: `import { Badge } from "@glinui/ui"
+
+export function BadgeVariantsDemo() {
+  return (
+    <div className="flex flex-wrap items-center gap-3">
+      <Badge variant="glinr">glinr</Badge>
+      <Badge variant="solid">solid</Badge>
+      <Badge variant="plain">plain</Badge>
+      <Badge variant="soft">soft</Badge>
+      <Badge variant="outline">outline</Badge>
+      <Badge variant="ghost">ghost</Badge>
+      <Badge variant="gradient">gradient</Badge>
+    </div>
+  )
+}`,
+        render: (
+          <div className="flex flex-wrap items-center gap-3">
+            <Badge variant="glinr">glinr</Badge>
+            <Badge variant="solid">solid</Badge>
+            <Badge variant="plain">plain</Badge>
+            <Badge variant="soft">soft</Badge>
+            <Badge variant="outline">outline</Badge>
+            <Badge variant="ghost">ghost</Badge>
+            <Badge variant="gradient">gradient</Badge>
+          </div>
+        )
+      },
+      {
+        title: "Variants matrix",
+        description: "Every variant by tone (where the component has tones), rendered in the light and dark theme scopes.",
+        code: `import { SURFACE_VARIANTS } from "@glinui/ui"\n\n// badge across the vocabulary\n{SURFACE_VARIANTS.map((variant) => (\n  <Badge key={variant} variant={variant}>{variant}</Badge>\n))}`,
+        render: <BadgeFamilyMatrix />
+      },
+      {
+        title: "Tones",
+        description: "Tone works on every vocabulary variant. Soft faces are tinted with color-mix on the surface tokens.",
+        code: `import { Badge } from "@glinui/ui"
+
+export function BadgeTonesDemo() {
+  return (
+    <div className="flex flex-wrap items-center gap-3">
+      <Badge variant="soft" tone="neutral">neutral</Badge>
+      <Badge variant="soft" tone="accent">accent</Badge>
+      <Badge variant="soft" tone="success">success</Badge>
+      <Badge variant="soft" tone="warning">warning</Badge>
+      <Badge variant="soft" tone="danger">danger</Badge>
+      <Badge variant="soft" tone="info">info</Badge>
+    </div>
+  )
+}`,
+        render: (
+          <div className="flex flex-wrap items-center gap-3">
+            <Badge variant="soft" tone="neutral">neutral</Badge>
+            <Badge variant="soft" tone="accent">accent</Badge>
+            <Badge variant="soft" tone="success">success</Badge>
+            <Badge variant="soft" tone="warning">warning</Badge>
+            <Badge variant="soft" tone="danger">danger</Badge>
+            <Badge variant="soft" tone="info">info</Badge>
           </div>
         )
       },
@@ -1741,6 +2273,20 @@ export function Demo() {
             <Badge size="lg">Large</Badge>
           </div>
         )
+      },
+      {
+        title: "Glass (opt-in)",
+        description: "Glass is opt-in and needs a backdrop behind it. Switch the preview stage to Vivid or Photo to see the frosted surface.",
+        code: `import { Badge } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="flex flex-wrap gap-2">\n      <Badge>Default</Badge>\n      <Badge variant="glass">Glass</Badge>\n      <Badge variant="liquid">Liquid</Badge>\n      <Badge variant="matte">Matte</Badge>\n      <Badge variant="glow">Glow</Badge>\n    </div>\n  )\n}`,
+        render: (
+          <div className="flex flex-wrap gap-2">
+            <Badge>Default</Badge>
+            <Badge variant="glass">Glass</Badge>
+            <Badge variant="liquid">Liquid</Badge>
+            <Badge variant="matte">Matte</Badge>
+            <Badge variant="glow">Glow</Badge>
+          </div>
+        )
       }
     ]
   },
@@ -1751,7 +2297,11 @@ export function Demo() {
       {
         title: "CardProps",
         rows: [
-          { prop: "variant", type: '"default" | "glass" | "outline" | "ghost"', defaultValue: "default", description: "Visual treatment." },
+          { prop: "variant", type: 'SurfaceVariant | "default" | "elevated" | "interactive" | "frosted" | "liquid" | "matte" | "lift"', defaultValue: "ambient (glinr)", description: "Surface look. Omitted follows the ambient design style: glinr, plain or glass. Glass is opt-in." },
+          { prop: "tone", type: '"neutral" | "accent" | "success" | "warning" | "danger" | "info"', defaultValue: "neutral", description: "Tone for soft, outline, ghost, gradient and glass." },
+          { prop: "interactive", type: "boolean", defaultValue: "false", description: "Hover lift and pointer cursor." },
+          { prop: "inset", type: "boolean", defaultValue: "false", description: "Recessed well instead of a raised surface." },
+          { prop: "elevation / face / ring", type: "1 | 2 | 3 / 0 | 1 | 2 / default | hot | brand", description: "Tune the glinr and solid looks." },
           { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: "md", description: "Padding density (p-4/p-6/p-8)." }
         ]
       },
@@ -1803,32 +2353,40 @@ export function Demo() {
     },
     examples: [
       {
-        title: "Basic",
-        code: `import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <Card>\n      <CardHeader>\n        <CardTitle>Project Overview</CardTitle>\n        <CardDescription>Weekly performance summary.</CardDescription>\n      </CardHeader>\n      <CardContent>Revenue grew 18% and churn dropped 1.2%.</CardContent>\n      <CardFooter>\n        <p className="text-sm text-neutral-500">Updated 2 min ago</p>\n      </CardFooter>\n    </Card>\n  )\n}`,
-        render: (
-          <Card>
-            <CardHeader>
-              <CardTitle>Project Overview</CardTitle>
-              <CardDescription>Weekly performance summary.</CardDescription>
-            </CardHeader>
-            <CardContent>Revenue grew 18% and churn dropped 1.2%.</CardContent>
-            <CardFooter>
-              <p className="text-sm text-neutral-500">Updated 2 min ago</p>
-            </CardFooter>
-          </Card>
-        )
+        title: "Default",
+        description: "Omit `variant` and the card follows the ambient style: the glinr lift look (gradient hairline ring, tonal face) with no extra props.",
+        code: "import { Button, Badge, Card } from \"@glinui/ui\"\n\nexport function Demo() {\n  return (\n    <Card>\n      <PricingBody />\n    </Card>\n  )\n}",
+        render: <CardHero />
       },
       {
-        title: "Glass Variant",
-        code: `import { Card, CardHeader, CardTitle, CardContent } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <Card variant="glass">\n      <CardHeader>\n        <CardTitle>Glass Card</CardTitle>\n      </CardHeader>\n      <CardContent>Frosted surface container.</CardContent>\n    </Card>\n  )\n}`,
-        render: (
-          <Card variant="glass">
-            <CardHeader>
-              <CardTitle>Glass Card</CardTitle>
-            </CardHeader>
-            <CardContent>Frosted surface container.</CardContent>
-          </Card>
-        )
+        title: "Variants",
+        description: "The full vocabulary across tones in both theme scopes. glinr is the default, plain is the flat shadcn card, solid is a neutral tonal face, glass is opt-in.",
+        code: "import { Card } from \"@glinui/ui\"\n\n<Card variant=\"glinr\" />\n<Card variant=\"plain\" />\n<Card variant=\"solid\" />\n<Card variant=\"soft\" tone=\"accent\" />\n<Card variant=\"outline\" />\n<Card variant=\"ghost\" />\n<Card variant=\"gradient\" />\n<Card variant=\"glass\" />",
+        render: <CardVariantsMatrix />
+      },
+      {
+        title: "Glass on a backdrop",
+        description: "Four surfaces over a vivid backdrop. Glass needs a backdrop to read as glass.",
+        code: "import { Card } from \"@glinui/ui\"\n\n<Card variant=\"glinr\" />\n<Card variant=\"plain\" />\n<Card variant=\"solid\" />\n<Card variant=\"glass\" />",
+        render: <CardOnPhoto />
+      },
+      {
+        title: "Header and well",
+        description: "`CardHeader variant=\"strip\"` is a raised strip that bleeds to the card edges. `CardContent inset` is a recessed well with the concentric inner radius.",
+        code: "import { Badge, Button, Card, CardContent, CardFooter, CardHeader, CardTitle } from \"@glinui/ui\"\n\nexport function Demo() {\n  return (\n    <Card>\n      <CardHeader variant=\"strip\" className=\"flex items-center justify-between\">\n        <CardTitle>deploy.log</CardTitle>\n        <Badge tone=\"success\" variant=\"soft\" dot>Passing</Badge>\n      </CardHeader>\n      <CardContent inset className=\"font-mono\">$ pnpm build</CardContent>\n      <CardFooter><Button size=\"sm\">Redeploy</Button></CardFooter>\n    </Card>\n  )\n}",
+        render: <CardHeaderWell />
+      },
+      {
+        title: "Interactive",
+        description: "`interactive` adds a hover lift and a pointer cursor. Make the card focusable and keyboard-operable yourself when it acts as a control.",
+        code: "import { Card } from \"@glinui/ui\"\n\n<Card interactive tabIndex={0}>...</Card>",
+        render: <CardInteractive />
+      },
+      {
+        title: "In a layout",
+        description: "A metrics card next to a soft accent upsell card.",
+        code: "import { Card } from \"@glinui/ui\"\n\n<section className=\"grid gap-4 sm:grid-cols-3\">\n  <Card className=\"sm:col-span-2\">...</Card>\n  <Card variant=\"soft\" tone=\"accent\">...</Card>\n</section>",
+        render: <CardLayout />
       }
     ]
   },
@@ -1919,46 +2477,6 @@ export function Demo() {
             </CommandList>
           </Command>
         )
-      },
-      {
-        title: "Surface Variants",
-        code: `import { Command, CommandInput, CommandList, CommandGroup, CommandItem } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="grid gap-3 md:grid-cols-2">\n      <Command variant="glass" size="sm">\n        <CommandInput placeholder="Glass palette" />\n        <CommandList>\n          <CommandGroup heading="Actions">\n            <CommandItem>Open settings</CommandItem>\n          </CommandGroup>\n        </CommandList>\n      </Command>\n      <Command variant="matte" size="sm">\n        <CommandInput placeholder="Matte palette" />\n        <CommandList>\n          <CommandGroup heading="Actions">\n            <CommandItem>Open settings</CommandItem>\n          </CommandGroup>\n        </CommandList>\n      </Command>\n      <Command variant="liquid" size="sm">\n        <CommandInput placeholder="Liquid palette" />\n        <CommandList>\n          <CommandGroup heading="Actions">\n            <CommandItem>Open settings</CommandItem>\n          </CommandGroup>\n        </CommandList>\n      </Command>\n      <Command variant="outline" size="sm">\n        <CommandInput placeholder="Outline palette" />\n        <CommandList>\n          <CommandGroup heading="Actions">\n            <CommandItem>Open settings</CommandItem>\n          </CommandGroup>\n        </CommandList>\n      </Command>\n    </div>\n  )\n}`,
-        render: (
-          <div className="grid gap-3 md:grid-cols-2">
-            <Command variant="glass" size="sm">
-              <CommandInput placeholder="Glass palette" />
-              <CommandList>
-                <CommandGroup heading="Actions">
-                  <CommandItem>Open settings</CommandItem>
-                </CommandGroup>
-              </CommandList>
-            </Command>
-            <Command variant="matte" size="sm">
-              <CommandInput placeholder="Matte palette" />
-              <CommandList>
-                <CommandGroup heading="Actions">
-                  <CommandItem>Open settings</CommandItem>
-                </CommandGroup>
-              </CommandList>
-            </Command>
-            <Command variant="liquid" size="sm">
-              <CommandInput placeholder="Liquid palette" />
-              <CommandList>
-                <CommandGroup heading="Actions">
-                  <CommandItem>Open settings</CommandItem>
-                </CommandGroup>
-              </CommandList>
-            </Command>
-            <Command variant="outline" size="sm">
-              <CommandInput placeholder="Outline palette" />
-              <CommandList>
-                <CommandGroup heading="Actions">
-                  <CommandItem>Open settings</CommandItem>
-                </CommandGroup>
-              </CommandList>
-            </Command>
-          </div>
-        )
       }
     ]
   },
@@ -1986,7 +2504,7 @@ export function Demo() {
       {
         title: "DropdownMenuContent",
         rows: [
-          { prop: "variant", type: '"default" | "glass" | "outline" | "ghost"', defaultValue: "default", description: "Visual treatment." },
+          { prop: "variant", type: '"glinr" | "plain" | "solid" | "soft" | "outline" | "ghost" | "gradient" | "glass"', defaultValue: "ambient style (glinr)", description: "Panel look. Omit it for the ambient design style (glinr shell, raised pill for the highlighted item). `plain` is the shadcn border and shadow, `glass` is opt-in and needs a backdrop. Legacy `default` follows the ambient style." },
           { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: "md", description: "Density scale." },
           { prop: "sideOffset", type: "number", defaultValue: "4", description: "Distance from trigger in pixels." },
           { prop: "align", type: '"start" | "center" | "end"', defaultValue: "center", description: "Alignment relative to trigger." }
@@ -1995,7 +2513,7 @@ export function Demo() {
       {
         title: "DropdownMenuItem",
         rows: [
-          { prop: "variant", type: '"default" | "glass" | "outline" | "ghost"', defaultValue: "default", description: "Visual treatment." },
+          { prop: "variant", type: '"default" | "glass" | "outline" | "ghost"', defaultValue: "default", description: "Accepted for backwards compatibility. Items follow the look of their panel." },
           { prop: "inset", type: "boolean", defaultValue: "false", description: "Adds left padding for icon alignment." },
           { prop: "disabled", type: "boolean", defaultValue: "false", description: "Prevents interaction." }
         ]
@@ -2037,26 +2555,27 @@ export function Demo() {
         render: (
           <DropdownMenu>
             <DropdownMenuTrigger>Open menu</DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <StageDropdownMenuContent>
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Profile</DropdownMenuItem>
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Logout</DropdownMenuItem>
-            </DropdownMenuContent>
+            </StageDropdownMenuContent>
           </DropdownMenu>
         )
       },
       {
-        title: "Glass Variant",
-        code: `import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <DropdownMenu>\n      <DropdownMenuTrigger variant="glass">Glass menu</DropdownMenuTrigger>\n      <DropdownMenuContent variant="glass">\n        <DropdownMenuItem variant="glass">Profile</DropdownMenuItem>\n        <DropdownMenuItem variant="glass">Billing</DropdownMenuItem>\n      </DropdownMenuContent>\n    </DropdownMenu>\n  )\n}`,
+        title: "Glass (opt-in)",
+        description: "Glass is opt-in and needs a colourful or photographic backdrop to read as frosted. Pick one in the stage header.",
+        code: `import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <DropdownMenu>\n      <DropdownMenuTrigger>Glass menu</DropdownMenuTrigger>\n      <DropdownMenuContent variant="glass">\n        <DropdownMenuItem>Profile</DropdownMenuItem>\n        <DropdownMenuItem>Billing</DropdownMenuItem>\n      </DropdownMenuContent>\n    </DropdownMenu>\n  )\n}`,
         render: (
           <DropdownMenu>
-            <DropdownMenuTrigger variant="glass">Glass menu</DropdownMenuTrigger>
-            <DropdownMenuContent variant="glass">
-              <DropdownMenuItem variant="glass">Profile</DropdownMenuItem>
-              <DropdownMenuItem variant="glass">Billing</DropdownMenuItem>
-            </DropdownMenuContent>
+            <DropdownMenuTrigger>Glass menu</DropdownMenuTrigger>
+            <StageDropdownMenuContent variant="glass">
+              <DropdownMenuItem>Profile</DropdownMenuItem>
+              <DropdownMenuItem>Billing</DropdownMenuItem>
+            </StageDropdownMenuContent>
           </DropdownMenu>
         )
       }
@@ -2084,6 +2603,9 @@ export function Demo() {
       {
         title: "ModalContent",
         rows: [
+          { prop: "variant", type: '"glinr" | "plain" | "solid" | "soft" | "outline" | "ghost" | "gradient" | "glass"', defaultValue: "ambient style (glinr)", description: "Panel look. Omit it for the ambient design style (glinr shell with a gradient hairline ring, elev-3). `plain` is the shadcn border and shadow, `solid` and `soft` are tonal, `glass` is opt-in and needs a backdrop. In the glinr look `ModalHeader` and `ModalFooter` become raised strips that bleed to the dialog edges. Legacy `default` follows the ambient style, `frosted` maps to `glass`, `matte` to `solid`." },
+          { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: "md", description: "Dialog width and padding." },
+          { prop: "container", type: "HTMLElement | null", description: "Portal target. When set, the dialog and its flat dim scrim are positioned inside that element." },
           { prop: "className", type: "string", description: "Additional class names." },
           { prop: "onEscapeKeyDown", type: "(event: KeyboardEvent) => void", description: "Called when Escape is pressed." },
           { prop: "onPointerDownOutside", type: "(event: PointerDownOutsideEvent) => void", description: "Called when clicking outside." }
@@ -2148,7 +2670,7 @@ export function Demo() {
         render: (
           <Modal>
             <ModalTrigger asChild><Button>Open Modal</Button></ModalTrigger>
-            <ModalContent>
+            <StageModalContent>
               <ModalHeader>
                 <ModalTitle>Edit Profile</ModalTitle>
                 <ModalDescription>Make changes to your profile.</ModalDescription>
@@ -2157,7 +2679,7 @@ export function Demo() {
                 <ModalClose asChild><Button variant="ghost">Cancel</Button></ModalClose>
                 <Button>Save</Button>
               </ModalFooter>
-            </ModalContent>
+            </StageModalContent>
           </Modal>
         )
       }
@@ -2185,7 +2707,7 @@ export function Demo() {
       {
         title: "PopoverContent",
         rows: [
-          { prop: "variant", type: '"default" | "glass" | "outline" | "ghost"', defaultValue: "default", description: "Visual treatment." },
+          { prop: "variant", type: '"glinr" | "plain" | "solid" | "soft" | "outline" | "ghost" | "gradient" | "glass"', defaultValue: "ambient style (glinr)", description: "Panel look. Omit it for the ambient design style (glinr shell with a gradient hairline ring, elev-3). `plain` is the shadcn border and shadow, `solid` and `soft` are tonal, `glass` is opt-in and needs a backdrop.  Legacy `default` follows the ambient style, `frosted` maps to `glass`, `matte` to `solid`." },
           { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: "md", description: "Content width (w-56/w-72/w-80)." },
           { prop: "align", type: '"start" | "center" | "end"', defaultValue: "center", description: "Alignment relative to trigger." },
           { prop: "sideOffset", type: "number", defaultValue: "8", description: "Distance from trigger in pixels." },
@@ -2218,12 +2740,12 @@ export function Demo() {
         render: (
           <Popover>
             <PopoverTrigger>Open popover</PopoverTrigger>
-            <PopoverContent>
+            <StagePopoverContent>
               <div className="space-y-2">
                 <h4 className="font-medium text-sm">Dimensions</h4>
                 <p className="text-sm text-neutral-500">Set the dimensions for the layer.</p>
               </div>
-            </PopoverContent>
+            </StagePopoverContent>
           </Popover>
         )
       }
@@ -2233,9 +2755,9 @@ export function Demo() {
   progress: {
     badge: "Primitive / Atom",
     props: [
-      { prop: "variant", type: '"default" | "glass" | "liquid" | "matte"', defaultValue: "default", description: "Visual treatment." },
+      { prop: "variant", type: '"glinr" | "solid" | "plain" | "soft" | "outline" | "ghost" | "gradient" | "glass" | "liquid" | "matte"', defaultValue: 'ambient (glinr)', description: 'Look. Omit to follow the ambient design style: glinr is an inset track with an accent fill. Glass is opt-in.' },
       { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: "md", description: "Track height (h-2/h-3/h-4)." },
-      { prop: "value", type: "number", defaultValue: "0", description: "Progress value (0–100, clamped)." },
+      { prop: "value", type: "number", defaultValue: "0", description: "Progress value (0-100, clamped)." },
       { prop: "indeterminate", type: "boolean", defaultValue: "false", description: "Loading state without a specific value." }
     ],
     accessibility: {
@@ -2261,36 +2783,64 @@ export function Demo() {
         render: <Progress value={68} aria-label="Upload progress" />
       },
       {
-        title: "Glass + Sizes",
-        code: `import { Progress } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="space-y-4">\n      <Progress variant="glass" size="sm" value={25} aria-label="Small" />\n      <Progress variant="liquid" size="md" value={50} aria-label="Medium" />\n      <Progress variant="matte" size="lg" value={75} aria-label="Large" />\n    </div>\n  )\n}`,
+        title: "Variants",
+        code: `import { Progress } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="space-y-3">\n      <Progress variant="glinr" value={30} aria-label="glinr" />\n      <Progress variant="solid" value={38} aria-label="solid" />\n      <Progress variant="plain" value={46} aria-label="plain" />\n      <Progress variant="soft" value={54} aria-label="soft" />\n      <Progress variant="outline" value={62} aria-label="outline" />\n      <Progress variant="ghost" value={70} aria-label="ghost" />\n      <Progress variant="gradient" value={78} aria-label="gradient" />\n    </div>\n  )\n}`,
+        render: (
+          <div className="space-y-3">
+            <Progress variant="glinr" value={30} aria-label="glinr" />
+            <Progress variant="solid" value={38} aria-label="solid" />
+            <Progress variant="plain" value={46} aria-label="plain" />
+            <Progress variant="soft" value={54} aria-label="soft" />
+            <Progress variant="outline" value={62} aria-label="outline" />
+            <Progress variant="ghost" value={70} aria-label="ghost" />
+            <Progress variant="gradient" value={78} aria-label="gradient" />
+          </div>
+        )
+      },
+      {
+        title: "Sizes",
+        code: `import { Progress } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="space-y-4">\n      <Progress size="sm" value={25} aria-label="Small" />\n      <Progress size="md" value={50} aria-label="Medium" />\n      <Progress size="lg" value={75} aria-label="Large" />\n    </div>\n  )\n}`,
         render: (
           <div className="space-y-4">
-            <Progress variant="glass" size="sm" value={25} aria-label="Small" />
-            <Progress variant="liquid" size="md" value={50} aria-label="Medium" />
-            <Progress variant="matte" size="lg" value={75} aria-label="Large" />
+            <Progress size="sm" value={25} aria-label="Small" />
+            <Progress size="md" value={50} aria-label="Medium" />
+            <Progress size="lg" value={75} aria-label="Large" />
           </div>
         )
       },
       {
         title: "Circular",
-        code: `import { ProgressCircle } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="flex items-center gap-4">\n      <ProgressCircle size="sm" value={30} aria-label="Small progress" />\n      <ProgressCircle variant="glass" value={64} aria-label="Glass progress" />\n      <ProgressCircle size="lg" variant="liquid" value={88} aria-label="Liquid progress" />\n    </div>\n  )\n}`,
+        code: `import { ProgressCircle } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="flex items-center gap-4">\n      <ProgressCircle size="sm" value={30} aria-label="Small progress" />\n      <ProgressCircle value={64} aria-label="Default progress" />\n      <ProgressCircle size="lg" variant="gradient" value={88} aria-label="Gradient progress" />\n    </div>\n  )\n}`,
         render: (
           <div className="flex items-center gap-4">
             <ProgressCircle size="sm" value={30} aria-label="Small progress" />
-            <ProgressCircle variant="glass" value={64} aria-label="Glass progress" />
-            <ProgressCircle size="lg" variant="liquid" value={88} aria-label="Liquid progress" />
+            <ProgressCircle value={64} aria-label="Default progress" />
+            <ProgressCircle size="lg" variant="gradient" value={88} aria-label="Gradient progress" />
           </div>
         )
       },
       {
         title: "Indeterminate",
-        code: `import { Progress, ProgressCircle } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="flex items-center gap-4">\n      <div className="w-64">\n        <Progress variant="glass" indeterminate aria-label="Loading data" />\n      </div>\n      <ProgressCircle variant="matte" indeterminate aria-label="Syncing" />\n    </div>\n  )\n}`,
+        code: `import { Progress, ProgressCircle } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="flex items-center gap-4">\n      <div className="w-64">\n        <Progress indeterminate aria-label="Loading data" />\n      </div>\n      <ProgressCircle indeterminate aria-label="Syncing" />\n    </div>\n  )\n}`,
         render: (
           <div className="flex items-center gap-4">
             <div className="w-64">
-              <Progress variant="glass" indeterminate aria-label="Loading data" />
+              <Progress indeterminate aria-label="Loading data" />
             </div>
-            <ProgressCircle variant="matte" indeterminate aria-label="Syncing" />
+            <ProgressCircle indeterminate aria-label="Syncing" />
+          </div>
+        )
+      },
+      {
+        title: "Glass (opt-in)",
+        description: "Glass is opt-in and needs a backdrop behind it: pick Photo or Vivid in the stage backdrop switcher.",
+        code: `import { Progress, ProgressCircle } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="flex items-center gap-4">\n      <div className="w-64">\n        <Progress variant="glass" value={60} aria-label="Glass progress" />\n      </div>\n      <ProgressCircle variant="glass" value={64} aria-label="Glass circle" />\n    </div>\n  )\n}`,
+        render: (
+          <div className="flex items-center gap-4">
+            <div className="w-64">
+              <Progress variant="glass" value={60} aria-label="Glass progress" />
+            </div>
+            <ProgressCircle variant="glass" value={64} aria-label="Glass circle" />
           </div>
         )
       }
@@ -2300,7 +2850,7 @@ export function Demo() {
   separator: {
     badge: "Primitive / Atom",
     props: [
-      { prop: "variant", type: '"default" | "glass" | "outline" | "ghost" | "gradient" | "dashed" | "dotted"', defaultValue: "default", description: "Visual treatment." },
+      { prop: "variant", type: '"glinr" | "plain" | "glass" | "outline" | "ghost" | "gradient" | "dashed" | "dotted" | "hairline" | "default"', defaultValue: "ambient (glinr)", description: "Line style. Omitted or `default` follows the ambient design style." },
       { prop: "orientation", type: '"horizontal" | "vertical"', defaultValue: "horizontal", description: "Divider direction." },
       { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: "md", description: "Thickness." },
       { prop: "label", type: "string", description: "Centered text label displayed on the separator." },
@@ -2324,59 +2874,10 @@ export function Demo() {
     },
     examples: [
       {
-        title: "Default",
-        code: `import { Separator } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="space-y-4">\n      <p className="text-sm">Section A</p>\n      <Separator />\n      <p className="text-sm">Section B</p>\n    </div>\n  )\n}`,
-        render: (
-          <div className="space-y-4">
-            <p className="text-sm">Section A</p>
-            <Separator />
-            <p className="text-sm">Section B</p>
-          </div>
-        )
-      },
-      {
-        title: "Gradient",
-        code: `import { Separator } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="space-y-4">\n      <p className="text-sm">Section A</p>\n      <Separator variant="gradient" />\n      <p className="text-sm">Section B</p>\n    </div>\n  )\n}`,
-        render: (
-          <div className="space-y-4">
-            <p className="text-sm">Section A</p>
-            <Separator variant="gradient" />
-            <p className="text-sm">Section B</p>
-          </div>
-        )
-      },
-      {
-        title: "With Label",
-        code: `import { Separator } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="space-y-4">\n      <p className="text-sm">Login with email</p>\n      <Separator label="OR" />\n      <p className="text-sm">Continue with provider</p>\n    </div>\n  )\n}`,
-        render: (
-          <div className="space-y-4">
-            <p className="text-sm">Login with email</p>
-            <Separator label="OR" />
-            <p className="text-sm">Continue with provider</p>
-          </div>
-        )
-      },
-      {
-        title: "Dashed",
-        code: `import { Separator } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="space-y-4">\n      <p className="text-sm">Section A</p>\n      <Separator variant="dashed" />\n      <p className="text-sm">Section B</p>\n    </div>\n  )\n}`,
-        render: (
-          <div className="space-y-4">
-            <p className="text-sm">Section A</p>
-            <Separator variant="dashed" />
-            <p className="text-sm">Section B</p>
-          </div>
-        )
-      },
-      {
-        title: "Dotted",
-        code: `import { Separator } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="space-y-4">\n      <p className="text-sm">Section A</p>\n      <Separator variant="dotted" />\n      <p className="text-sm">Section B</p>\n    </div>\n  )\n}`,
-        render: (
-          <div className="space-y-4">
-            <p className="text-sm">Section A</p>
-            <Separator variant="dotted" />
-            <p className="text-sm">Section B</p>
-          </div>
-        )
+        title: "Variants",
+        description: "Omitted `variant` follows the ambient style: an engraved glinr hairline, a flat plain line, or glass.",
+        code: "import { Separator } from \"@glinui/ui\"\n\n<Separator />\n<Separator variant=\"plain\" />\n<Separator variant=\"hairline\" />\n<Separator variant=\"dashed\" />",
+        render: <SeparatorVariantsDemo />
       }
     ]
   },
@@ -2402,7 +2903,7 @@ export function Demo() {
       {
         title: "SheetContent",
         rows: [
-          { prop: "variant", type: '"default" | "glass" | "outline" | "ghost"', defaultValue: "default", description: "Visual treatment." },
+          { prop: "variant", type: '"glinr" | "plain" | "solid" | "soft" | "outline" | "ghost" | "gradient" | "glass"', defaultValue: "ambient style (glinr)", description: "Panel look. Omit it for the ambient design style (glinr shell with a gradient hairline ring, elev-3). `plain` is the shadcn border and shadow, `solid` and `soft` are tonal, `glass` is opt-in and needs a backdrop. In the glinr look `SheetHeader` becomes a raised strip. Legacy `default` follows the ambient style, `frosted` maps to `glass`, `matte` to `solid`." },
           { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: "md", description: "Panel width/height." },
           { prop: "side", type: '"top" | "bottom" | "left" | "right"', defaultValue: "right", description: "Slide-in direction." }
         ]
@@ -2464,7 +2965,7 @@ export function Demo() {
         render: (
           <Sheet>
             <SheetTrigger asChild><Button variant="outline">Open Sheet</Button></SheetTrigger>
-            <SheetContent>
+            <StageSheetContent>
               <SheetHeader>
                 <SheetTitle>Settings</SheetTitle>
                 <SheetDescription>Adjust preferences.</SheetDescription>
@@ -2473,7 +2974,7 @@ export function Demo() {
                 <SheetClose asChild><Button variant="ghost">Cancel</Button></SheetClose>
                 <Button>Save</Button>
               </SheetFooter>
-            </SheetContent>
+            </StageSheetContent>
           </Sheet>
         )
       },
@@ -2483,9 +2984,9 @@ export function Demo() {
         render: (
           <Sheet>
             <SheetTrigger asChild><Button>Bottom Sheet</Button></SheetTrigger>
-            <SheetContent side="bottom">
+            <StageSheetContent side="bottom">
               <SheetHeader><SheetTitle>Quick Actions</SheetTitle></SheetHeader>
-            </SheetContent>
+            </StageSheetContent>
           </Sheet>
         )
       }
@@ -2495,7 +2996,7 @@ export function Demo() {
   skeleton: {
     badge: "Primitive / Atom",
     props: [
-      { prop: "variant", type: '"default" | "glass" | "outline" | "ghost"', defaultValue: "default", description: "Visual treatment." },
+      { prop: "variant", type: '"glinr" | "solid" | "plain" | "soft" | "outline" | "ghost" | "glass" | "liquid" | "matte"', defaultValue: 'ambient (glinr)', description: 'Placeholder look. Omit to follow the ambient design style. Glass is opt-in.' },
       { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: "md", description: "Height (h-4/h-6/h-10)." },
       { prop: "decorative", type: "boolean", defaultValue: "true", description: "When true, sets aria-hidden." }
     ],
@@ -2526,7 +3027,22 @@ export function Demo() {
         )
       },
       {
-        title: "Glass Variant",
+        title: "Variants",
+        code: `import { Skeleton } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="grid gap-3 sm:grid-cols-2">\n      <Skeleton variant="glinr" className="h-6 w-full" />\n      <Skeleton variant="solid" className="h-6 w-full" />\n      <Skeleton variant="plain" className="h-6 w-full" />\n      <Skeleton variant="soft" className="h-6 w-full" />\n      <Skeleton variant="outline" className="h-6 w-full" />\n      <Skeleton variant="ghost" className="h-6 w-full" />\n    </div>\n  )\n}`,
+        render: (
+          <div className="grid gap-3 sm:grid-cols-2">
+            <Skeleton variant="glinr" className="h-6 w-full" />
+            <Skeleton variant="solid" className="h-6 w-full" />
+            <Skeleton variant="plain" className="h-6 w-full" />
+            <Skeleton variant="soft" className="h-6 w-full" />
+            <Skeleton variant="outline" className="h-6 w-full" />
+            <Skeleton variant="ghost" className="h-6 w-full" />
+          </div>
+        )
+      },
+      {
+        title: "Glass (opt-in)",
+        description: "Glass is opt-in and needs a backdrop behind it: pick Photo or Vivid in the stage backdrop switcher.",
         code: `import { Skeleton } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="space-y-3">\n      <Skeleton variant="glass" className="h-6 w-40" />\n      <Skeleton variant="glass" className="h-4 w-full max-w-sm" />\n    </div>\n  )\n}`,
         render: (
           <div className="space-y-3">
@@ -2541,7 +3057,7 @@ export function Demo() {
   slider: {
     badge: "Primitive / Atom",
     props: [
-      { prop: "variant", type: '"default" | "glass" | "outline" | "ghost" | "liquid"', defaultValue: "default", description: "Visual treatment." },
+      { prop: "variant", type: '"glinr" | "solid" | "plain" | "soft" | "outline" | "ghost" | "glass" | "liquid"', defaultValue: 'ambient (glinr)', description: 'Look. Omit to follow the ambient design style: glinr is an inset track with an accent range and a raised key thumb. Glass is opt-in.' },
       { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: "md", description: "Track and thumb size scale." },
       { prop: "defaultValue", type: "number[]", description: "Initial value(s)." },
       { prop: "value", type: "number[]", description: "Controlled value(s)." },
@@ -2580,15 +3096,16 @@ export function Demo() {
         render: <Slider defaultValue={[35]} max={100} step={1} aria-label="Volume" />
       },
       {
-        title: "Surface Variants",
-        code: `import { Slider } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="space-y-4">\n      <Slider defaultValue={[20]} aria-label="Default slider" />\n      <Slider variant="glass" defaultValue={[40]} aria-label="Glass slider" />\n      <Slider variant="outline" defaultValue={[58]} aria-label="Outline slider" />\n      <Slider variant="ghost" defaultValue={[72]} aria-label="Ghost slider" />\n      <Slider variant="liquid" defaultValue={[86]} aria-label="Liquid slider" />\n    </div>\n  )\n}`,
+        title: "Variants",
+        code: `import { Slider } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="space-y-4">\n      <Slider variant="glinr" defaultValue={[20]} aria-label="glinr slider" />\n      <Slider variant="solid" defaultValue={[32]} aria-label="solid slider" />\n      <Slider variant="plain" defaultValue={[44]} aria-label="plain slider" />\n      <Slider variant="soft" defaultValue={[56]} aria-label="soft slider" />\n      <Slider variant="outline" defaultValue={[68]} aria-label="outline slider" />\n      <Slider variant="ghost" defaultValue={[80]} aria-label="ghost slider" />\n    </div>\n  )\n}`,
         render: (
           <div className="space-y-4">
-            <Slider defaultValue={[20]} aria-label="Default slider" />
-            <Slider variant="glass" defaultValue={[40]} aria-label="Glass slider" />
-            <Slider variant="outline" defaultValue={[58]} aria-label="Outline slider" />
-            <Slider variant="ghost" defaultValue={[72]} aria-label="Ghost slider" />
-            <Slider variant="liquid" defaultValue={[86]} aria-label="Liquid slider" />
+            <Slider variant="glinr" defaultValue={[20]} aria-label="glinr slider" />
+            <Slider variant="solid" defaultValue={[32]} aria-label="solid slider" />
+            <Slider variant="plain" defaultValue={[44]} aria-label="plain slider" />
+            <Slider variant="soft" defaultValue={[56]} aria-label="soft slider" />
+            <Slider variant="outline" defaultValue={[68]} aria-label="outline slider" />
+            <Slider variant="ghost" defaultValue={[80]} aria-label="ghost slider" />
           </div>
         )
       },
@@ -2601,6 +3118,14 @@ export function Demo() {
             <Slider size="md" defaultValue={[52]} aria-label="Medium slider" />
             <Slider size="lg" defaultValue={[78]} aria-label="Large slider" />
           </div>
+        )
+      },
+      {
+        title: "Glass (opt-in)",
+        description: "Glass is opt-in and needs a backdrop behind it: pick Photo or Vivid in the stage backdrop switcher.",
+        code: `import { Slider } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <Slider variant="glass" defaultValue={[40]} aria-label="Glass slider" />\n  )\n}`,
+        render: (
+          <Slider variant="glass" defaultValue={[40]} aria-label="Glass slider" />
         )
       },
       {
@@ -2626,13 +3151,15 @@ export function Demo() {
           { prop: "defaultValue", type: "string", description: "Initially active tab." },
           { prop: "value", type: "string", description: "Controlled active tab." },
           { prop: "onValueChange", type: "(value: string) => void", description: "Tab change handler." },
-          { prop: "orientation", type: '"horizontal" | "vertical"', defaultValue: "horizontal", description: "Layout direction of the tab list." }
+          { prop: "orientation", type: '"horizontal" | "vertical"', defaultValue: "horizontal", description: "Layout direction of the tab list." },
+          { prop: "variant", type: '"glinr" | "solid" | "plain" | "soft" | "outline" | "ghost" | "underline" | "glass" | "liquid" | "matte" | "keys"', defaultValue: 'ambient (glinr)', description: "Default look for the list, triggers and panels inside. Each part can still set its own." },
+          { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: "md", description: "Default density for every part inside." }
         ]
       },
       {
         title: "TabsList",
         rows: [
-          { prop: "variant", type: '"default" | "glass" | "outline" | "ghost" | "liquid" | "matte"', defaultValue: "default", description: "Visual treatment." },
+          { prop: "variant", type: '"glinr" | "solid" | "plain" | "soft" | "outline" | "ghost" | "underline" | "glass" | "liquid" | "matte" | "keys"', defaultValue: "inherits Tabs", description: "Look. Omit to inherit from Tabs or the ambient design style: glinr is the raised pill track (keys), plain is the flat shadcn tabs. Glass is opt-in." },
           { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: "md", description: "Density scale." }
         ]
       },
@@ -2640,7 +3167,7 @@ export function Demo() {
         title: "TabsTrigger",
         rows: [
           { prop: "value", type: "string", description: "Unique value identifying this tab." },
-          { prop: "variant", type: '"default" | "glass" | "outline" | "ghost" | "liquid" | "matte"', defaultValue: "default", description: "Visual treatment." },
+          { prop: "variant", type: '"glinr" | "solid" | "plain" | "soft" | "outline" | "ghost" | "underline" | "glass" | "liquid" | "matte" | "keys"', defaultValue: "inherits Tabs", description: "Look. Omit to inherit from Tabs or the ambient design style: glinr is the raised pill track (keys), plain is the flat shadcn tabs. Glass is opt-in." },
           { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: "md", description: "Density scale." },
           { prop: "disabled", type: "boolean", defaultValue: "false", description: "Prevents interaction." }
         ]
@@ -2649,7 +3176,7 @@ export function Demo() {
         title: "TabsContent",
         rows: [
           { prop: "value", type: "string", description: "Value matching the associated trigger." },
-          { prop: "variant", type: '"default" | "glass" | "outline" | "ghost" | "liquid" | "matte"', defaultValue: "default", description: "Visual treatment." }
+          { prop: "variant", type: '"glinr" | "solid" | "plain" | "soft" | "outline" | "ghost" | "underline" | "glass" | "liquid" | "matte" | "keys"', defaultValue: "inherits Tabs", description: "Look. Omit to inherit from Tabs or the ambient design style: glinr is the raised pill track (keys), plain is the flat shadcn tabs. Glass is opt-in." }
         ]
       }
     ],
@@ -2677,7 +3204,7 @@ export function Demo() {
     examples: [
       {
         title: "Basic",
-        code: `import { Tabs, TabsList, TabsTrigger, TabsContent } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <Tabs defaultValue="account">\n      <TabsList>\n        <TabsTrigger value="account">Account</TabsTrigger>\n        <TabsTrigger value="password">Password</TabsTrigger>\n      </TabsList>\n      <TabsContent value="account">\n        <p className="text-sm text-neutral-600 dark:text-neutral-400">Account settings.</p>\n      </TabsContent>\n      <TabsContent value="password">\n        <p className="text-sm text-neutral-600 dark:text-neutral-400">Password settings.</p>\n      </TabsContent>\n    </Tabs>\n  )\n}`,
+        code: `import { Tabs, TabsList, TabsTrigger, TabsContent } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <Tabs defaultValue="account">\n      <TabsList>\n        <TabsTrigger value="account">Account</TabsTrigger>\n        <TabsTrigger value="password">Password</TabsTrigger>\n      </TabsList>\n      <TabsContent value="account">\n        <p className="text-sm text-[color:var(--color-muted)]">Account settings.</p>\n      </TabsContent>\n      <TabsContent value="password">\n        <p className="text-sm text-[color:var(--color-muted)]">Password settings.</p>\n      </TabsContent>\n    </Tabs>\n  )\n}`,
         render: (
           <Tabs defaultValue="account">
             <TabsList>
@@ -2685,25 +3212,77 @@ export function Demo() {
               <TabsTrigger value="password">Password</TabsTrigger>
             </TabsList>
             <TabsContent value="account">
-              <p className="text-sm text-neutral-600 dark:text-neutral-400">Account settings.</p>
+              <p className="text-sm text-[color:var(--color-muted)]">Account settings.</p>
             </TabsContent>
             <TabsContent value="password">
-              <p className="text-sm text-neutral-600 dark:text-neutral-400">Password settings.</p>
+              <p className="text-sm text-[color:var(--color-muted)]">Password settings.</p>
             </TabsContent>
           </Tabs>
         )
       },
       {
-        title: "Glass Variant",
-        code: `import { Tabs, TabsList, TabsTrigger, TabsContent } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <Tabs defaultValue="first">\n      <TabsList variant="glass">\n        <TabsTrigger value="first" variant="glass">First</TabsTrigger>\n        <TabsTrigger value="second" variant="glass">Second</TabsTrigger>\n      </TabsList>\n      <TabsContent value="first" variant="glass">Glass tab content.</TabsContent>\n      <TabsContent value="second" variant="glass">Second panel.</TabsContent>\n    </Tabs>\n  )\n}`,
+        title: "Variants",
+        description: "Set variant once on Tabs and the list, triggers and panels inherit it. glinr is the raised pill track, underline slides an accent bar with transform only.",
+        code: `import { Tabs, TabsList, TabsTrigger } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <div className="grid gap-4 md:grid-cols-2">\n      <Tabs defaultValue="a" variant="glinr">\n        <TabsList>\n          <TabsTrigger value="a">glinr</TabsTrigger>\n          <TabsTrigger value="b">Two</TabsTrigger>\n          <TabsTrigger value="c">Three</TabsTrigger>\n        </TabsList>\n      </Tabs>\n      <Tabs defaultValue="a" variant="solid">\n        <TabsList>\n          <TabsTrigger value="a">solid</TabsTrigger>\n          <TabsTrigger value="b">Two</TabsTrigger>\n          <TabsTrigger value="c">Three</TabsTrigger>\n        </TabsList>\n      </Tabs>\n      <Tabs defaultValue="a" variant="plain">\n        <TabsList>\n          <TabsTrigger value="a">plain</TabsTrigger>\n          <TabsTrigger value="b">Two</TabsTrigger>\n          <TabsTrigger value="c">Three</TabsTrigger>\n        </TabsList>\n      </Tabs>\n      <Tabs defaultValue="a" variant="soft">\n        <TabsList>\n          <TabsTrigger value="a">soft</TabsTrigger>\n          <TabsTrigger value="b">Two</TabsTrigger>\n          <TabsTrigger value="c">Three</TabsTrigger>\n        </TabsList>\n      </Tabs>\n      <Tabs defaultValue="a" variant="outline">\n        <TabsList>\n          <TabsTrigger value="a">outline</TabsTrigger>\n          <TabsTrigger value="b">Two</TabsTrigger>\n          <TabsTrigger value="c">Three</TabsTrigger>\n        </TabsList>\n      </Tabs>\n      <Tabs defaultValue="a" variant="underline">\n        <TabsList>\n          <TabsTrigger value="a">underline</TabsTrigger>\n          <TabsTrigger value="b">Two</TabsTrigger>\n          <TabsTrigger value="c">Three</TabsTrigger>\n        </TabsList>\n      </Tabs>\n    </div>\n  )\n}`,
         render: (
-          <Tabs defaultValue="first">
-            <TabsList variant="glass">
-              <TabsTrigger value="first" variant="glass">First</TabsTrigger>
-              <TabsTrigger value="second" variant="glass">Second</TabsTrigger>
+          <div className="grid gap-4 md:grid-cols-2">
+            <Tabs defaultValue="a" variant="glinr">
+              <TabsList>
+                <TabsTrigger value="a">glinr</TabsTrigger>
+                <TabsTrigger value="b">Two</TabsTrigger>
+                <TabsTrigger value="c">Three</TabsTrigger>
+              </TabsList>
+            </Tabs>
+            <Tabs defaultValue="a" variant="solid">
+              <TabsList>
+                <TabsTrigger value="a">solid</TabsTrigger>
+                <TabsTrigger value="b">Two</TabsTrigger>
+                <TabsTrigger value="c">Three</TabsTrigger>
+              </TabsList>
+            </Tabs>
+            <Tabs defaultValue="a" variant="plain">
+              <TabsList>
+                <TabsTrigger value="a">plain</TabsTrigger>
+                <TabsTrigger value="b">Two</TabsTrigger>
+                <TabsTrigger value="c">Three</TabsTrigger>
+              </TabsList>
+            </Tabs>
+            <Tabs defaultValue="a" variant="soft">
+              <TabsList>
+                <TabsTrigger value="a">soft</TabsTrigger>
+                <TabsTrigger value="b">Two</TabsTrigger>
+                <TabsTrigger value="c">Three</TabsTrigger>
+              </TabsList>
+            </Tabs>
+            <Tabs defaultValue="a" variant="outline">
+              <TabsList>
+                <TabsTrigger value="a">outline</TabsTrigger>
+                <TabsTrigger value="b">Two</TabsTrigger>
+                <TabsTrigger value="c">Three</TabsTrigger>
+              </TabsList>
+            </Tabs>
+            <Tabs defaultValue="a" variant="underline">
+              <TabsList>
+                <TabsTrigger value="a">underline</TabsTrigger>
+                <TabsTrigger value="b">Two</TabsTrigger>
+                <TabsTrigger value="c">Three</TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </div>
+        )
+      },
+      {
+        title: "Glass (opt-in)",
+        description: "Glass is opt-in and needs a backdrop behind it: pick Photo or Vivid in the stage backdrop switcher.",
+        code: `import { Tabs, TabsList, TabsTrigger, TabsContent } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <Tabs defaultValue="first" variant="glass">\n      <TabsList>\n        <TabsTrigger value="first">First</TabsTrigger>\n        <TabsTrigger value="second">Second</TabsTrigger>\n      </TabsList>\n      <TabsContent value="first">Glass tab content.</TabsContent>\n      <TabsContent value="second">Second panel.</TabsContent>\n    </Tabs>\n  )\n}`,
+        render: (
+          <Tabs defaultValue="first" variant="glass">
+            <TabsList>
+              <TabsTrigger value="first">First</TabsTrigger>
+              <TabsTrigger value="second">Second</TabsTrigger>
             </TabsList>
-            <TabsContent value="first" variant="glass">Glass tab content.</TabsContent>
-            <TabsContent value="second" variant="glass">Second panel.</TabsContent>
+            <TabsContent value="first">Glass tab content.</TabsContent>
+            <TabsContent value="second">Second panel.</TabsContent>
           </Tabs>
         )
       },
@@ -2740,7 +3319,7 @@ export function Demo() {
       {
         title: "Table",
         rows: [
-          { prop: "variant", type: '"default" | "glass" | "outline" | "ghost" | "liquid" | "matte"', defaultValue: "default", description: "Visual surface treatment for the container." },
+          { prop: "variant", type: '"glinr" | "solid" | "plain" | "soft" | "outline" | "ghost" | "gradient" | "glass" | "liquid" | "matte" | "lift"', defaultValue: "ambient (glinr)", description: "Surface variant. Omit to follow the ambient design style (glinr by default, plain for minimal, glass for glass)." },
           { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: "md", description: "Text and spacing scale." },
           { prop: "stickyHeader", type: "boolean", defaultValue: "false", description: "Makes `<TableHeader />` stick to the top while scrolling." },
           { prop: "stickyFirstColumn", type: "boolean", defaultValue: "false", description: "Pins the first column while horizontally scrolling." },
@@ -2833,6 +3412,42 @@ export function Demo() {
         )
       },
       {
+        title: "Variants",
+        description: "Every vocabulary variant on the default tone. Omit variant to follow the ambient design style.",
+        code: `import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@glinui/ui"
+
+export function TableVariantsDemo() {
+  return (
+    <div className="grid gap-4 md:grid-cols-2">
+      <Table variant="glinr" containerClassName="w-full"><TableHeader><TableRow><TableHead>Name</TableHead><TableHead>Status</TableHead></TableRow></TableHeader><TableBody><TableRow><TableCell>Glin UI</TableCell><TableCell>Active</TableCell></TableRow></TableBody></Table>
+      <Table variant="solid" containerClassName="w-full"><TableHeader><TableRow><TableHead>Name</TableHead><TableHead>Status</TableHead></TableRow></TableHeader><TableBody><TableRow><TableCell>Glin UI</TableCell><TableCell>Active</TableCell></TableRow></TableBody></Table>
+      <Table variant="plain" containerClassName="w-full"><TableHeader><TableRow><TableHead>Name</TableHead><TableHead>Status</TableHead></TableRow></TableHeader><TableBody><TableRow><TableCell>Glin UI</TableCell><TableCell>Active</TableCell></TableRow></TableBody></Table>
+      <Table variant="soft" containerClassName="w-full"><TableHeader><TableRow><TableHead>Name</TableHead><TableHead>Status</TableHead></TableRow></TableHeader><TableBody><TableRow><TableCell>Glin UI</TableCell><TableCell>Active</TableCell></TableRow></TableBody></Table>
+      <Table variant="outline" containerClassName="w-full"><TableHeader><TableRow><TableHead>Name</TableHead><TableHead>Status</TableHead></TableRow></TableHeader><TableBody><TableRow><TableCell>Glin UI</TableCell><TableCell>Active</TableCell></TableRow></TableBody></Table>
+      <Table variant="ghost" containerClassName="w-full"><TableHeader><TableRow><TableHead>Name</TableHead><TableHead>Status</TableHead></TableRow></TableHeader><TableBody><TableRow><TableCell>Glin UI</TableCell><TableCell>Active</TableCell></TableRow></TableBody></Table>
+      <Table variant="gradient" containerClassName="w-full"><TableHeader><TableRow><TableHead>Name</TableHead><TableHead>Status</TableHead></TableRow></TableHeader><TableBody><TableRow><TableCell>Glin UI</TableCell><TableCell>Active</TableCell></TableRow></TableBody></Table>
+    </div>
+  )
+}`,
+        render: (
+          <div className="grid gap-4 md:grid-cols-2">
+            <Table variant="glinr" containerClassName="w-full"><TableHeader><TableRow><TableHead>Name</TableHead><TableHead>Status</TableHead></TableRow></TableHeader><TableBody><TableRow><TableCell>Glin UI</TableCell><TableCell>Active</TableCell></TableRow></TableBody></Table>
+            <Table variant="solid" containerClassName="w-full"><TableHeader><TableRow><TableHead>Name</TableHead><TableHead>Status</TableHead></TableRow></TableHeader><TableBody><TableRow><TableCell>Glin UI</TableCell><TableCell>Active</TableCell></TableRow></TableBody></Table>
+            <Table variant="plain" containerClassName="w-full"><TableHeader><TableRow><TableHead>Name</TableHead><TableHead>Status</TableHead></TableRow></TableHeader><TableBody><TableRow><TableCell>Glin UI</TableCell><TableCell>Active</TableCell></TableRow></TableBody></Table>
+            <Table variant="soft" containerClassName="w-full"><TableHeader><TableRow><TableHead>Name</TableHead><TableHead>Status</TableHead></TableRow></TableHeader><TableBody><TableRow><TableCell>Glin UI</TableCell><TableCell>Active</TableCell></TableRow></TableBody></Table>
+            <Table variant="outline" containerClassName="w-full"><TableHeader><TableRow><TableHead>Name</TableHead><TableHead>Status</TableHead></TableRow></TableHeader><TableBody><TableRow><TableCell>Glin UI</TableCell><TableCell>Active</TableCell></TableRow></TableBody></Table>
+            <Table variant="ghost" containerClassName="w-full"><TableHeader><TableRow><TableHead>Name</TableHead><TableHead>Status</TableHead></TableRow></TableHeader><TableBody><TableRow><TableCell>Glin UI</TableCell><TableCell>Active</TableCell></TableRow></TableBody></Table>
+            <Table variant="gradient" containerClassName="w-full"><TableHeader><TableRow><TableHead>Name</TableHead><TableHead>Status</TableHead></TableRow></TableHeader><TableBody><TableRow><TableCell>Glin UI</TableCell><TableCell>Active</TableCell></TableRow></TableBody></Table>
+          </div>
+        )
+      },
+      {
+        title: "Variants matrix",
+        description: "Every variant by tone (where the component has tones), rendered in the light and dark theme scopes.",
+        code: `import { SURFACE_VARIANTS } from "@glinui/ui"\n\n// table across the vocabulary\n{SURFACE_VARIANTS.map((variant) => (\n  <Table key={variant} variant={variant}>{/* header and rows */}</Table>\n))}`,
+        render: <TableFamilyMatrix />
+      },
+      {
         title: "Sticky Header + Striped",
         code: `import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@glinui/ui"\n\nconst rows = [\n  { region: "North America", users: "12,400", conversion: "8.2%" },\n  { region: "Europe", users: "9,280", conversion: "7.5%" },\n  { region: "APAC", users: "15,032", conversion: "6.9%" },\n  { region: "LATAM", users: "4,310", conversion: "5.8%" }\n]\n\nexport function Demo() {\n  return (\n    <Table stickyHeader striped containerClassName="max-h-52">\n      <TableHeader>\n        <TableRow>\n          <TableHead>Region</TableHead>\n          <TableHead align="right">Users</TableHead>\n          <TableHead align="right">Conversion</TableHead>\n        </TableRow>\n      </TableHeader>\n      <TableBody>\n        {rows.map((row) => (\n          <TableRow key={row.region}>\n            <TableCell>{row.region}</TableCell>\n            <TableCell align="right">{row.users}</TableCell>\n            <TableCell align="right">{row.conversion}</TableCell>\n          </TableRow>\n        ))}\n      </TableBody>\n    </Table>\n  )\n}`,
         render: (
@@ -2859,36 +3474,6 @@ export function Demo() {
                   <TableCell align="right">{row.conversion}</TableCell>
                 </TableRow>
               ))}
-            </TableBody>
-          </Table>
-        )
-      },
-      {
-        title: "Glass Metric Grid",
-        code: `import { Badge, Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <Table variant="glass" grid>\n      <TableHeader>\n        <TableRow>\n          <TableHead>Feature</TableHead>\n          <TableHead align="center">Owner</TableHead>\n          <TableHead align="right">Velocity</TableHead>\n          <TableHead align="right">Status</TableHead>\n        </TableRow>\n      </TableHeader>\n      <TableBody>\n        <TableRow>\n          <TableCell truncate>Interactive docs search + semantic indexing</TableCell>\n          <TableCell align="center">Core</TableCell>\n          <TableCell align="right">+18%</TableCell>\n          <TableCell align="right"><Badge variant="glass">On Track</Badge></TableCell>\n        </TableRow>\n        <TableRow>\n          <TableCell truncate>Registry artifact validation pipeline</TableCell>\n          <TableCell align="center">Infra</TableCell>\n          <TableCell align="right">+9%</TableCell>\n          <TableCell align="right"><Badge variant="outline">Monitoring</Badge></TableCell>\n        </TableRow>\n      </TableBody>\n    </Table>\n  )\n}`,
-        render: (
-          <Table variant="glass" grid>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Feature</TableHead>
-                <TableHead align="center">Owner</TableHead>
-                <TableHead align="right">Velocity</TableHead>
-                <TableHead align="right">Status</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <TableRow>
-                <TableCell truncate>Interactive docs search + semantic indexing</TableCell>
-                <TableCell align="center">Core</TableCell>
-                <TableCell align="right">+18%</TableCell>
-                <TableCell align="right"><Badge variant="glass">On Track</Badge></TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell truncate>Registry artifact validation pipeline</TableCell>
-                <TableCell align="center">Infra</TableCell>
-                <TableCell align="right">+9%</TableCell>
-                <TableCell align="right"><Badge variant="outline">Monitoring</Badge></TableCell>
-              </TableRow>
             </TableBody>
           </Table>
         )
@@ -2929,6 +3514,37 @@ export function Demo() {
             </TableBody>
           </Table>
         )
+      },
+      {
+        title: "Glass (opt-in)",
+        description: "Glass is opt-in and needs a backdrop behind it. Switch the preview stage to Vivid or Photo to see the frosted surface.",
+        code: `import { Badge, Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <Table variant="glass" grid>\n      <TableHeader>\n        <TableRow>\n          <TableHead>Feature</TableHead>\n          <TableHead align="center">Owner</TableHead>\n          <TableHead align="right">Velocity</TableHead>\n          <TableHead align="right">Status</TableHead>\n        </TableRow>\n      </TableHeader>\n      <TableBody>\n        <TableRow>\n          <TableCell truncate>Interactive docs search + semantic indexing</TableCell>\n          <TableCell align="center">Core</TableCell>\n          <TableCell align="right">+18%</TableCell>\n          <TableCell align="right"><Badge variant="glass">On Track</Badge></TableCell>\n        </TableRow>\n        <TableRow>\n          <TableCell truncate>Registry artifact validation pipeline</TableCell>\n          <TableCell align="center">Infra</TableCell>\n          <TableCell align="right">+9%</TableCell>\n          <TableCell align="right"><Badge variant="outline">Monitoring</Badge></TableCell>\n        </TableRow>\n      </TableBody>\n    </Table>\n  )\n}`,
+        render: (
+          <Table variant="glass" grid>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Feature</TableHead>
+                <TableHead align="center">Owner</TableHead>
+                <TableHead align="right">Velocity</TableHead>
+                <TableHead align="right">Status</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell truncate>Interactive docs search + semantic indexing</TableCell>
+                <TableCell align="center">Core</TableCell>
+                <TableCell align="right">+18%</TableCell>
+                <TableCell align="right"><Badge variant="glass">On Track</Badge></TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell truncate>Registry artifact validation pipeline</TableCell>
+                <TableCell align="center">Infra</TableCell>
+                <TableCell align="right">+9%</TableCell>
+                <TableCell align="right"><Badge variant="outline">Monitoring</Badge></TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        )
       }
     ]
   },
@@ -2942,7 +3558,7 @@ export function Demo() {
       { prop: "selectable", type: "boolean", defaultValue: "false", description: "Adds row-selection checkboxes." },
       { prop: "pageSize", type: "number", defaultValue: "10", description: "Initial page size." },
       { prop: "pageSizeOptions", type: "number[]", defaultValue: "[10, 20, 50]", description: "Page-size choices shown in toolbar." },
-      { prop: "variant", type: '"default" | "glass" | "outline" | "ghost" | "liquid" | "matte"', defaultValue: "default", description: "Underlying table surface variant." }
+      { prop: "variant", type: '"glinr" | "solid" | "plain" | "soft" | "outline" | "ghost" | "gradient" | "glass"', defaultValue: "ambient (glinr)", description: "Surface variant. Omit to follow the ambient design style (glinr by default, plain for minimal, glass for glass)." }
     ],
     accessibility: {
       summary: [
@@ -2967,7 +3583,7 @@ export function Demo() {
     examples: [
       {
         title: "Full Featured",
-        code: `import { Badge, DataTable } from "@glinui/ui"\n\nconst columns = [\n  { id: "project", header: "Project", accessor: "project" },\n  {\n    id: "status",\n    header: "Status",\n    accessor: "status",\n    cell: ({ value }) => <Badge variant={value === "Active" ? "glass" : "outline"}>{String(value)}</Badge>\n  },\n  { id: "mrr", header: "MRR", accessor: "mrr", align: "right" }\n]\n\nconst data = [\n  { id: "p1", project: "Glin UI", status: "Active", mrr: 18400 },\n  { id: "p2", project: "Glin Docs", status: "Monitoring", mrr: 7920 },\n  { id: "p3", project: "Registry", status: "Active", mrr: 12340 },\n  { id: "p4", project: "CLI", status: "Paused", mrr: 2310 }\n]\n\nexport function Demo() {\n  return (\n    <DataTable\n      columns={columns}\n      data={data}\n      selectable\n      striped\n      stickyHeader\n      grid\n      variant="glass"\n      pageSize={3}\n      getRowId={(row) => row.id}\n    />\n  )\n}`,
+        code: `import { Badge, DataTable } from "@glinui/ui"\n\nconst columns = [\n  { id: "project", header: "Project", accessor: "project" },\n  {\n    id: "status",\n    header: "Status",\n    accessor: "status",\n    cell: ({ value }) => <Badge variant={value === "Active" ? "soft" : "outline"}>{String(value)}</Badge>\n  },\n  { id: "mrr", header: "MRR", accessor: "mrr", align: "right" }\n]\n\nconst data = [\n  { id: "p1", project: "Glin UI", status: "Active", mrr: 18400 },\n  { id: "p2", project: "Glin Docs", status: "Monitoring", mrr: 7920 },\n  { id: "p3", project: "Registry", status: "Active", mrr: 12340 },\n  { id: "p4", project: "CLI", status: "Paused", mrr: 2310 }\n]\n\nexport function Demo() {\n  return (\n    <DataTable\n      columns={columns}\n      data={data}\n      selectable\n      striped\n      stickyHeader\n      grid\n      variant="soft"\n      pageSize={3}\n      getRowId={(row) => row.id}\n    />\n  )\n}`,
         render: (
           <DataTable
             columns={[
@@ -2977,7 +3593,7 @@ export function Demo() {
                 header: "Status",
                 accessor: "status",
                 cell: ({ value }) => (
-                  <Badge variant={value === "Active" ? "glass" : "outline"}>{String(value)}</Badge>
+                  <Badge variant={value === "Active" ? "soft" : "outline"}>{String(value)}</Badge>
                 )
               },
               { id: "mrr", header: "MRR", accessor: "mrr", align: "right" }
@@ -2992,7 +3608,7 @@ export function Demo() {
             striped
             stickyHeader
             grid
-            variant="glass"
+            variant="soft"
             pageSize={3}
             getRowId={(row) => String(row.id)}
           />
@@ -3007,7 +3623,7 @@ export function Demo() {
       {
         title: "Toaster",
         rows: [
-          { prop: "variant", type: '"default" | "glass" | "matte"', defaultValue: "default", description: "Surface treatment for all toasts." },
+          { prop: "variant", type: '"glinr" | "plain" | "solid" | "soft" | "outline" | "ghost" | "gradient" | "glass"', defaultValue: "ambient style (glinr)", description: "Look of every toast: a glinr card by default, with a leading status bar for success, error, warning and info. `plain` is the shadcn card, `glass` is opt-in and needs a backdrop. Legacy `default` follows the ambient style, `matte` maps to `solid`." },
           { prop: "position", type: '"top-left" | "top-right" | "top-center" | "bottom-left" | "bottom-right" | "bottom-center"', defaultValue: "bottom-right", description: "Position of the toast stack." },
           { prop: "expand", type: "boolean", defaultValue: "false", description: "Expand all toasts by default." },
           { prop: "duration", type: "number", defaultValue: "4000", description: "Default auto-dismiss time in ms." },
@@ -3071,14 +3687,16 @@ export function Demo() {
     },
     examples: [
       {
-        title: "Basic",
-        code: `import { Toaster, toast, Button } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <>\n      <Toaster position="bottom-right" />\n      <Button onClick={() => toast("Settings saved", {\n        description: "Your workspace has been updated."\n      })}>\n        Show toast\n      </Button>\n    </>\n  )\n}`,
-        render: <ToastDemo />
+        title: "Save with undo",
+        description: "A Save button triggers a success toast with an Undo action that reverts the change.",
+        code: showcaseS2Code.ToastSaveHero,
+        render: <ToastSaveHero />
       },
       {
-        title: "Toast Types",
-        code: `import { Toaster, toast, Button } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <>\n      <Toaster position="bottom-right" />\n      <div className="flex flex-wrap gap-2">\n        <Button size="sm" onClick={() => toast.success("Saved")}>Success</Button>\n        <Button size="sm" onClick={() => toast.error("Failed")}>Error</Button>\n        <Button size="sm" onClick={() => toast.warning("Careful")}>Warning</Button>\n        <Button size="sm" onClick={() => toast.info("Info")}>Info</Button>\n        <Button size="sm" onClick={() => toast.loading("Uploading...")}>Loading</Button>\n      </div>\n    </>\n  )\n}`,
-        render: <ToastTypesDemo />
+        title: "Stacked variants",
+        description: "Fire several toasts in a row: they stack, collapse and can be dismissed with the close button.",
+        code: showcaseS2Code.ToastStackHero,
+        render: <ToastStackHero />
       },
       {
         title: "Action Button",
@@ -3097,7 +3715,8 @@ export function Demo() {
     badge: "Primitive / Molecule",
     props: [
       { prop: "nodes", type: "TreeNode[]", description: "Array of tree data nodes to render." },
-      { prop: "variant", type: '"default" | "glass" | "outline" | "ghost"', defaultValue: "default", description: "Visual treatment." },
+      { prop: "variant", type: '"glinr" | "solid" | "plain" | "soft" | "outline" | "ghost" | "gradient" | "glass"', defaultValue: "ambient (glinr)", description: "Surface variant. Omit to follow the ambient design style (glinr by default, plain for minimal, glass for glass)." },
+      { prop: "tone", type: '"neutral" | "accent" | "success" | "warning" | "danger" | "info"', defaultValue: "neutral", description: "Colour tone for the vocabulary variants." },
       { prop: "defaultExpanded", type: "boolean", defaultValue: "true", description: "Expand all folders by default." }
     ],
     accessibility: {
@@ -3144,6 +3763,36 @@ export function Demo() {
         )
       },
       {
+        title: "Variants",
+        description: "Every vocabulary variant on the default tone. Omit variant to follow the ambient design style.",
+        code: `import { Tree } from "@glinui/ui"
+
+export function TreeVariantsDemo() {
+  return (
+    <div className="grid gap-4 md:grid-cols-2">
+      <Tree variant="glinr" nodes={[{ label: "src", children: [{ label: "index.ts" }] }, { label: "package.json" }]} />
+      <Tree variant="solid" nodes={[{ label: "src", children: [{ label: "index.ts" }] }, { label: "package.json" }]} />
+      <Tree variant="plain" nodes={[{ label: "src", children: [{ label: "index.ts" }] }, { label: "package.json" }]} />
+      <Tree variant="soft" nodes={[{ label: "src", children: [{ label: "index.ts" }] }, { label: "package.json" }]} />
+      <Tree variant="outline" nodes={[{ label: "src", children: [{ label: "index.ts" }] }, { label: "package.json" }]} />
+      <Tree variant="ghost" nodes={[{ label: "src", children: [{ label: "index.ts" }] }, { label: "package.json" }]} />
+      <Tree variant="gradient" nodes={[{ label: "src", children: [{ label: "index.ts" }] }, { label: "package.json" }]} />
+    </div>
+  )
+}`,
+        render: (
+          <div className="grid gap-4 md:grid-cols-2">
+            <Tree variant="glinr" nodes={[{ label: "src", children: [{ label: "index.ts" }] }, { label: "package.json" }]} />
+            <Tree variant="solid" nodes={[{ label: "src", children: [{ label: "index.ts" }] }, { label: "package.json" }]} />
+            <Tree variant="plain" nodes={[{ label: "src", children: [{ label: "index.ts" }] }, { label: "package.json" }]} />
+            <Tree variant="soft" nodes={[{ label: "src", children: [{ label: "index.ts" }] }, { label: "package.json" }]} />
+            <Tree variant="outline" nodes={[{ label: "src", children: [{ label: "index.ts" }] }, { label: "package.json" }]} />
+            <Tree variant="ghost" nodes={[{ label: "src", children: [{ label: "index.ts" }] }, { label: "package.json" }]} />
+            <Tree variant="gradient" nodes={[{ label: "src", children: [{ label: "index.ts" }] }, { label: "package.json" }]} />
+          </div>
+        )
+      },
+      {
         title: "With Badges",
         description: "Use badges to annotate nodes with status or type information.",
         code: `import { Tree } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <Tree\n      variant="default"\n      nodes={[\n        {\n          label: "Components",\n          children: [\n            { label: "button.tsx", href: "#" },\n            { label: "button.test.tsx", href: "#", badge: "test", badgeVariant: "success" }\n          ]\n        },\n        {\n          label: "Hooks",\n          children: [\n            { label: "use-liquid-glass.tsx", href: "#", badge: "new", badgeVariant: "warning" }\n          ]\n        }\n      ]}\n    />\n  )\n}`,
@@ -3169,7 +3818,8 @@ export function Demo() {
         )
       },
       {
-        title: "Glass Variant",
+        title: "Glass (opt-in)",
+        description: "Glass is opt-in and needs a backdrop behind it. Switch the preview stage to Vivid or Photo to see the frosted surface.",
         code: `import { Tree } from "@glinui/ui"\n\nexport function Demo() {\n  return (\n    <Tree\n      variant="glass"\n      nodes={[\n        {\n          label: "Navigation",\n          children: [\n            { label: "Home", href: "#" },\n            { label: "About", href: "#" },\n            { label: "Contact", href: "#" }\n          ]\n        }\n      ]}\n    />\n  )\n}`,
         render: (
           <Tree
@@ -3193,6 +3843,7 @@ export function Demo() {
   tooltip: {
     badge: "Primitive / Atom",
     props: [
+      { prop: "variant", type: '"glinr" | "plain" | "solid" | "soft" | "outline" | "ghost" | "gradient" | "glass"', defaultValue: "ambient style (glinr)", description: "TooltipContent look. Omit it for a compact high-contrast pill that inverts per theme scope (dark in light, light in dark). `glass` is opt-in and needs a backdrop. Legacy `default` follows the ambient style, `frosted` maps to `glass`." },
       { prop: "sideOffset", type: "number", defaultValue: "6", description: "Distance from trigger in pixels." },
       { prop: "delayDuration", type: "number", defaultValue: "700", description: "Delay before showing (ms)." },
       { prop: "side", type: '"top" | "right" | "bottom" | "left"', description: "Preferred tooltip position." }

@@ -6,24 +6,32 @@ import { CodeBlock } from "@/components/docs/code-block"
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
-    h1: ({ className, ...props }) => (
-      <h1 className={cn("group text-3xl font-semibold tracking-tight sm:text-4xl", className)} {...props} />
-    ),
+    h1: ({ className, ...props }) => <h1 className={cn("group type-h1 text-foreground", className)} {...props} />,
     h2: ({ className, ...props }) => (
       <h2
-        className={cn(
-          "group scroll-mt-24 border-b border-border/50 pb-2 text-2xl font-semibold tracking-tight",
-          className
-        )}
+        className={cn("group type-section mt-12 scroll-mt-24 border-b border-border/50 pb-2 text-foreground", className)}
         {...props}
       />
     ),
     h3: ({ className, ...props }) => (
-      <h3 className={cn("group scroll-mt-24 text-xl font-semibold tracking-tight", className)} {...props} />
+      <h3 className={cn("group type-h3 mt-8 scroll-mt-24 text-foreground", className)} {...props} />
     ),
-    p: ({ className, ...props }) => <p className={cn("leading-7 text-neutral-700 dark:text-neutral-300", className)} {...props} />,
-    ul: ({ className, ...props }) => <ul className={cn("ml-6 list-disc space-y-2", className)} {...props} />,
-    li: ({ className, ...props }) => <li className={cn("text-neutral-700 dark:text-neutral-300", className)} {...props} />,
+    p: ({ className, ...props }) => (
+      <p className={cn("type-body max-w-[68ch] text-[var(--color-muted)]", className)} {...props} />
+    ),
+    ul: ({ className, ...props }) => (
+      <ul className={cn("type-body ml-5 max-w-[68ch] list-disc space-y-2 marker:text-neutral-400", className)} {...props} />
+    ),
+    ol: ({ className, ...props }) => (
+      <ol className={cn("type-body ml-5 max-w-[68ch] list-decimal space-y-2 marker:text-neutral-400", className)} {...props} />
+    ),
+    li: ({ className, ...props }) => <li className={cn("text-[var(--color-muted)]", className)} {...props} />,
+    blockquote: ({ className, ...props }) => (
+      <blockquote
+        className={cn("type-body max-w-[68ch] border-l-2 border-border pl-4 text-[var(--color-muted)]", className)}
+        {...props}
+      />
+    ),
     code: ({ className, ...props }) => {
       const isBlock = typeof className === "string" && className.includes("language-")
 
@@ -34,7 +42,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       return (
         <code
           className={cn(
-            "rounded-md bg-black/10 px-1.5 py-0.5 font-mono text-[0.9em] text-foreground dark:bg-white/10",
+            "rounded-md border border-border/60 bg-black/[0.05] px-1.5 py-0.5 font-mono text-[0.875em] text-foreground dark:bg-white/[0.08]",
             className
           )}
           {...props}
@@ -55,7 +63,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
 
       return (
         <pre
-          className={cn("overflow-x-auto rounded-xl border border-border/60 bg-black/15 p-4 text-sm", className)}
+          className={cn("overflow-x-auto rounded-xl border border-border/60 bg-black/15 p-4 type-code", className)}
           {...props}
         >
           {children}

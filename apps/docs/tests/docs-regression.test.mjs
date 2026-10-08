@@ -25,10 +25,9 @@ test("docs overview route exists and is wired into docs navigation", () => {
 
   assert.match(page, /Documentation Overview/)
   assert.match(page, /Docs Home/)
-  assert.match(sidebar, /\/docs/)
-  assert.match(topbar, /Documentation Overview/)
+  assert.match(sidebar, /href: "\/docs", label: "Docs Overview"/)
   assert.match(palette, /docs-home/)
-  assert.match(shell, /href="\/docs"/)
+  assert.match(topbar, /href: "\/docs", label: "Docs"/)
 })
 
 test("forms accessibility page exists with labeling contract guidance", () => {
@@ -53,8 +52,8 @@ test("forms accessibility route is wired into docs navigation", () => {
   const topbar = read("src/components/layout/docs-topbar.tsx")
   const palette = read("src/components/layout/command-palette.tsx")
 
-  assert.match(sidebar, /\/docs\/forms-accessibility/)
-  assert.match(topbar, /Forms Accessibility/)
+  assert.match(sidebar, /href: "\/docs\/forms-accessibility", label: "Forms Accessibility"/)
+  assert.ok(existsSync(join(process.cwd(), "src/app/docs/forms-accessibility/page.tsx")))
   assert.match(palette, /forms-accessibility/)
 })
 
@@ -64,8 +63,8 @@ test("form recipes route is wired into docs navigation", () => {
   const palette = read("src/components/layout/command-palette.tsx")
   const shell = read("src/components/layout/docs-shell.tsx")
 
-  assert.match(sidebar, /\/docs\/forms-recipes/)
-  assert.match(topbar, /Form Recipes/)
+  assert.match(sidebar, /href: "\/docs\/forms-recipes", label: "Form Recipes"/)
+  assert.ok(existsSync(join(process.cwd(), "src/app/docs/forms-recipes/page.tsx")))
   assert.match(palette, /forms-recipes/)
   assert.match(shell, /\/docs\/forms-recipes/)
 })
@@ -76,15 +75,16 @@ test("accessibility QA routes are wired into docs navigation", () => {
   const palette = read("src/components/layout/command-palette.tsx")
   const shell = read("src/components/layout/docs-shell.tsx")
 
-  assert.match(sidebar, /\/docs\/accessibility/)
-  assert.match(sidebar, /\/docs\/screen-reader-testing/)
-  assert.match(sidebar, /\/docs\/focus-management/)
-  assert.match(sidebar, /\/docs\/color-contrast/)
-  assert.match(topbar, /Accessibility Hub/)
+  for (const [href, label] of [
+    ["/docs/accessibility", "Accessibility Hub"],
+    ["/docs/screen-reader-testing", "Screen Reader Testing"],
+    ["/docs/focus-management", "Focus Management"],
+    ["/docs/color-contrast", "Color Contrast"]
+  ]) {
+    assert.match(sidebar, new RegExp(`href: "${href.replace(/\//g, "\\/")}", label: "${label}"`))
+    assert.ok(existsSync(join(process.cwd(), `src/app${href}/page.tsx`)))
+  }
   assert.match(palette, /accessibility/)
-  assert.match(topbar, /Screen Reader Testing/)
-  assert.match(topbar, /Focus Management/)
-  assert.match(topbar, /Color Contrast/)
   assert.match(palette, /screen-reader-testing/)
   assert.match(palette, /focus-management/)
   assert.match(palette, /color-contrast/)
@@ -108,6 +108,7 @@ test("top nav and footer keep core docs route links", () => {
     "/docs/color-contrast",
     "/docs/tokens",
     "/docs/motion",
+    "/docs/engines",
     "/docs/glass-physics"
   ]
 
@@ -132,6 +133,7 @@ test("core docs routes have source files", () => {
     "src/app/docs/color-contrast/page.tsx",
     "src/app/docs/tokens/page.tsx",
     "src/app/docs/motion/page.tsx",
+    "src/app/docs/engines/page.tsx",
     "src/app/docs/glass-physics/page.tsx",
     "src/app/docs/components/page.tsx"
   ]
@@ -179,7 +181,7 @@ test("global layout keeps enriched SEO metadata", () => {
 test("signature routes link directly and have docs pages", () => {
   const sidebar = read("src/components/layout/docs-sidebar.tsx")
   const routeLib = read("src/lib/docs-route.ts")
-  assert.match(sidebar, /buildComponentHref\(id, implementation\)/)
+  assert.match(sidebar, /buildComponentHref\(id as ComponentId, implementation\)/)
   assert.match(routeLib, /generatedRegistryByName/)
   assert.match(routeLib, /registryItem\?\.type === "signature"/)
 
@@ -210,20 +212,25 @@ test("signature routes link directly and have docs pages", () => {
 })
 
 test("data table docs keep server-data pattern section", () => {
-  const file = read("src/app/docs/components/data-table/page.mdx")
+  const extras = read("src/lib/component-docs-extra-a.ts")
+  const dataTable = extras.slice(extras.indexOf('"data-table": {'))
 
-  assert.match(file, /Server Data Pattern/)
-  assert.match(file, /Use this pattern when your API owns filtering, sorting, and pagination/)
+  assert.match(dataTable, /Server Data Pattern/)
+  assert.match(dataTable, /Use this pattern when your API owns filtering, sorting, and pagination/)
+  assert.match(read("src/components/docs/component-doc-page.tsx"), /extra\.examples/)
 })
 
 test("form component docs keep explicit placeholder-label guidance", () => {
-  const input = read("src/app/docs/components/input/page.mdx")
-  const textarea = read("src/app/docs/components/textarea/page.mdx")
-  const select = read("src/app/docs/components/select/page.mdx")
+  const docs = read("src/lib/component-docs-extra-a.ts") + read("src/lib/component-docs-extra-b.ts")
+  const section = (id) => {
+    const start = docs.indexOf(`"${id}": {`)
+    assert.ok(start >= 0, `${id} extras should exist`)
+    return docs.slice(start, start + 6000)
+  }
 
-  assert.match(input, /Placeholder text is not a label/)
-  assert.match(textarea, /Placeholder text is not a substitute for labeling/)
-  assert.match(select, /Placeholder text should not be used as the sole accessible label/)
+  assert.match(section("input"), /Placeholder text is not a label/)
+  assert.match(section("textarea"), /Placeholder text is not a substitute for labeling/)
+  assert.match(section("select"), /Placeholder text should not be used as the sole accessible label/)
 })
 
 test("accessibility guide pages keep core QA guidance", () => {
@@ -257,8 +264,7 @@ test("api metadata route is wired into docs navigation", () => {
   const gettingStarted = read("src/app/docs/getting-started/page.tsx")
   const page = read("src/app/docs/api-metadata/page.tsx")
 
-  assert.match(sidebar, /\/docs\/api-metadata/)
-  assert.match(topbar, /API Metadata/)
+  assert.match(sidebar, /href: "\/docs\/api-metadata", label: "API Metadata"/)
   assert.match(palette, /api-metadata/)
   assert.match(shell, /\/docs\/api-metadata/)
   assert.match(gettingStarted, /\/docs\/api-metadata/)
@@ -298,10 +304,17 @@ test("component docs layout renders generated api snapshot section", () => {
 
 test("components index includes signature and beta discovery sections", () => {
   const file = read("src/app/docs/components/page.tsx")
+  const filterBar = read("src/components/gallery/gallery-filter-bar.tsx")
+  const card = read("src/components/gallery/gallery-card.tsx")
+  const types = read("src/components/gallery/gallery-types.ts")
 
-  assert.match(file, /Signature Components/)
-  assert.match(file, /Beta Primitive Focus/)
-  assert.match(file, /Component Catalog/)
+  assert.match(file, /export const metadata/)
+  assert.match(filterBar, /type="search"/)
+  assert.match(filterBar, /aria-label="Filter by category"/)
+  assert.match(card, /<Link\s+href=\{item\.href\}/)
+  assert.match(types, /kind: "primitive" \| "signature"/)
+  assert.match(types, /maturity: "stable" \| "beta"/)
+  assert.match(types, /galleryCategoryOrder/)
 })
 
 test("primitives metadata is sourced from generated registry manifest", () => {
@@ -358,16 +371,17 @@ test("seo comparison and intent routes are wired into docs navigation and sitema
     assert.match(sitemap, new RegExp(route.replace(/\//g, "\\/")))
   }
 
-  assert.match(topbar, /Glin UI vs shadcn\/ui/)
-  assert.match(topbar, /Glin UI vs Magic UI/)
-  assert.match(topbar, /Radix UI Components/)
-  assert.match(topbar, /Glassmorphism React/)
-  assert.match(shadcn, /FAQPage/)
-  assert.match(shadcn, /BreadcrumbList/)
-  assert.match(magic, /FAQPage/)
-  assert.match(magic, /BreadcrumbList/)
-  assert.match(radix, /FAQPage/)
-  assert.match(radix, /BreadcrumbList/)
-  assert.match(glassmorphism, /FAQPage/)
-  assert.match(glassmorphism, /BreadcrumbList/)
+  assert.match(sidebar, /label: "vs shadcn\/ui"/)
+  assert.match(sidebar, /label: "vs Magic UI"/)
+  assert.match(sidebar, /label: "Radix UI Components"/)
+  assert.match(sidebar, /label: "Glassmorphism React"/)
+  // Each page emits FAQPage and BreadcrumbList JSON-LD through the shared helper.
+  const jsonLd = read("src/components/docs-pages-b/json-ld.tsx")
+  assert.match(jsonLd, /FAQPage/)
+  assert.match(jsonLd, /BreadcrumbList/)
+  for (const page of [shadcn, magic, radix, glassmorphism]) {
+    assert.match(page, /FaqBreadcrumbJsonLd|ComparePage/)
+    assert.match(page, /question: "/)
+  }
+  assert.match(read("src/components/docs-pages-b/compare-page.tsx"), /FaqBreadcrumbJsonLd/)
 })
