@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ArrowLeft, ArrowRight } from "lucide-react"
+import { ArrowLeft, ArrowRight } from "@phosphor-icons/react/dist/ssr"
 
 import { primitiveComponentIds, primitiveTitles, type PrimitiveComponentId } from "@/lib/primitives"
 import { type DocsImplementation } from "@/lib/docs-route"

@@ -3,41 +3,29 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import * as React from "react"
-import Image from "next/image"
-import {
-  ArrowLeftRight,
-  BookOpen,
-  Boxes,
-  Gem,
-  Palette,
-  PanelLeft,
-  PanelLeftClose,
-  Shield
-} from "lucide-react"
+import { CaretRight, MagnifyingGlass, X } from "@phosphor-icons/react"
 
 import { cn } from "@glinui/ui"
-import {
-  primitiveComponentIds,
-  primitiveMaturity,
-  primitiveTitles,
-  signatureComponentIds,
-  signatureTitles,
-  type PrimitiveComponentId,
-  type SignatureComponentId
-} from "@/lib/primitives"
+import { newComponentIds, primitiveMaturity, type ComponentId } from "@/lib/primitives"
+import { getCategories, getComponentsByCategory, getEntry, getTitle } from "@/lib/taxonomy"
 import { buildComponentHref, getImplementationFromPath } from "@/lib/docs-route"
 
 type DocsSidebarProps = {
-  collapsed: boolean
-  onCollapsedChange: (collapsed: boolean) => void
+  /** Mobile drawer open state. Ignored at lg and above, where the sidebar is static. */
+  open: boolean
+  onClose: () => void
+  onOpenSearch: () => void
 }
 
-type NavItem = { href: string; label: string }
+type NavTag = "beta" | "new"
+type NavItem = { href: string; label: string; tag?: NavTag; member?: boolean }
+type NavGroup = { id: string; title: string; items: NavItem[]; count?: number }
 
 const gettingStartedItems: NavItem[] = [
   { href: "/docs", label: "Docs Overview" },
   { href: "/docs/getting-started", label: "Introduction" },
-  { href: "/docs/directory", label: "Directory" }
+  { href: "/docs/directory", label: "Directory" },
+  { href: "/docs/ai", label: "AI-ready docs", tag: "new" }
 ]
 
 const accessibilityItems: NavItem[] = [
@@ -51,9 +39,18 @@ const accessibilityItems: NavItem[] = [
 
 const designSystemItems: NavItem[] = [
   { href: "/docs/tokens", label: "Tokens" },
+  { href: "/docs/variants", label: "Variants", tag: "new" },
+  { href: "/docs/colors", label: "Colors", tag: "new" },
+  { href: "/docs/animations", label: "Animations", tag: "new" },
+  { href: "/docs/engines", label: "Animation engines", tag: "new" },
   { href: "/docs/glass-physics", label: "Glass Physics" },
   { href: "/docs/motion", label: "Motion" },
   { href: "/docs/api-metadata", label: "API Metadata" }
+]
+
+const aboutItems: NavItem[] = [
+  { href: "/docs/attribution", label: "Attribution" },
+  { href: "/docs/free-forever", label: "Free forever pledge" }
 ]
 
 const compareItems: NavItem[] = [
@@ -63,271 +60,241 @@ const compareItems: NavItem[] = [
   { href: "/docs/glassmorphism-react-components", label: "Glassmorphism React" }
 ]
 
-const SIDEBAR_SCROLL_KEY = "glinui-sidebar-scroll"
+const newSet: ReadonlySet<string> = new Set(newComponentIds)
 
-export function DocsSidebar({ collapsed, onCollapsedChange }: DocsSidebarProps) {
+function componentItem(id: string, implementation: ReturnType<typeof getImplementationFromPath>): NavItem {
+  const maturity = (primitiveMaturity as Record<string, string>)[id]
+  const tag: NavTag | undefined = newSet.has(id) ? "new" : maturity === "beta" ? "beta" : undefined
+  const entry = getEntry(id)
+  return {
+    href: buildComponentHref(id as ComponentId, implementation),
+    label: getTitle(id),
+    tag,
+    member: Boolean(entry.family && !entry.base)
+  }
+}
+
+function categoryGroups(implementation: ReturnType<typeof getImplementationFromPath>): NavGroup[] {
+  return getCategories().map((category) => {
+    const ids = getComponentsByCategory(category.id)
+    return {
+      id: `cat-${category.id}`,
+      title: category.title,
+      count: ids.length,
+      items: ids.map((id) => componentItem(id, implementation))
+    }
+  })
+}
+
+const GROUPS_STORAGE_KEY = "glinui-sidebar-groups"
+
+export function DocsSidebar({ open, onClose, onOpenSearch }: DocsSidebarProps) {
   const pathname = usePathname()
   const normalizedPathname = normalizePath(pathname)
   const implementation = getImplementationFromPath(pathname)
-
   const navRef = React.useRef<HTMLElement>(null)
-  const scrollPosRef = React.useRef(0)
-  const hasMountedRef = React.useRef(false)
-  const isRestoringRef = React.useRef(false)
+
+  const groups = React.useMemo<NavGroup[]>(
+    () => [
+      { id: "getting-started", title: "Getting Started", items: gettingStartedItems },
+      { id: "accessibility", title: "Accessibility", items: accessibilityItems },
+      ...categoryGroups(implementation),
+      { id: "design-system", title: "Design System", items: designSystemItems },
+      { id: "compare", title: "Compare", items: compareItems },
+      { id: "about", title: "About", items: aboutItems }
+    ],
+    [implementation]
+  )
+
+  const activeGroupId = groups.find((g) => g.items.some((i) => isPathActive(normalizedPathname, i.href)))?.id
+
+  const [overrides, setOverrides] = React.useState<Record<string, boolean>>({})
 
   React.useEffect(() => {
-    const mq = window.matchMedia("(max-width: 1024px)")
-    const sync = () => onCollapsedChange(mq.matches)
-    sync()
-    mq.addEventListener("change", sync)
-    return () => mq.removeEventListener("change", sync)
-  }, [onCollapsedChange])
-
-  // First mount (including full page reload): restore scroll position.
-  // Uses sessionStorage so the position survives reloads, with a
-  // requestAnimationFrame to ensure the flex layout is fully computed.
-  React.useEffect(() => {
-    const nav = navRef.current
-    if (!nav) return
-
-    isRestoringRef.current = true
-
-    const raf = requestAnimationFrame(() => {
-      let restored = false
-      try {
-        const saved = sessionStorage.getItem(SIDEBAR_SCROLL_KEY)
-        if (saved != null) {
-          const pos = Number(saved)
-          if (Number.isFinite(pos) && pos > 0) {
-            nav.scrollTop = pos
-            scrollPosRef.current = pos
-            restored = true
-          }
-        }
-      } catch {
-        // sessionStorage unavailable (private browsing, etc.)
-      }
-
-      if (!restored) {
-        const activeLink = nav.querySelector<HTMLElement>('[data-active="true"]')
-        if (activeLink) {
-          activeLink.scrollIntoView({ block: "nearest", behavior: "instant" })
-          scrollPosRef.current = nav.scrollTop
-        }
-      }
-
-      hasMountedRef.current = true
-      isRestoringRef.current = false
-    })
-
-    return () => cancelAnimationFrame(raf)
-  }, [])
-
-  // Client-side navigations: restore scroll position from in-memory ref.
-  React.useLayoutEffect(() => {
-    const nav = navRef.current
-    if (!nav || !hasMountedRef.current) return
-    nav.scrollTop = scrollPosRef.current
-  })
-
-  // Track scroll — skip events during programmatic restoration.
-  const handleScroll = React.useCallback((e: React.UIEvent<HTMLElement>) => {
-    if (isRestoringRef.current) return
-    const pos = e.currentTarget.scrollTop
-    scrollPosRef.current = pos
     try {
-      sessionStorage.setItem(SIDEBAR_SCROLL_KEY, String(pos))
+      const raw = localStorage.getItem(GROUPS_STORAGE_KEY)
+      if (raw) setOverrides(parseOverrides(raw))
     } catch {
-      // sessionStorage unavailable
+      // storage unavailable
     }
   }, [])
 
-  if (collapsed) {
-    return (
-      <aside className={cn(sidebarSurface, "w-[3.5rem]")}>
-        <header className="flex h-12 items-center justify-center border-b border-white/10 dark:border-white/[0.06]">
-          <button
-            type="button"
-            onClick={() => onCollapsedChange(false)}
-            className="inline-flex size-8 items-center justify-center rounded-lg text-neutral-500 transition-colors hover:bg-white/[0.06] hover:text-foreground"
-            aria-label="Expand sidebar"
-          >
-            <PanelLeft className="size-4" />
-          </button>
-        </header>
-      </aside>
-    )
-  }
+  // Current group auto-opens when navigation lands in it.
+  React.useEffect(() => {
+    if (!activeGroupId) return
+    setOverrides((prev) => (prev[activeGroupId] === true ? prev : { ...prev, [activeGroupId]: true }))
+  }, [activeGroupId])
+
+  const toggleGroup = React.useCallback((id: string, next: boolean) => {
+    setOverrides((prev) => {
+      const updated = { ...prev, [id]: next }
+      try {
+        localStorage.setItem(GROUPS_STORAGE_KEY, JSON.stringify(updated))
+      } catch {
+        // storage unavailable
+      }
+      return updated
+    })
+  }, [])
+
+  // Keep the active row visible after navigation or group expansion.
+  React.useEffect(() => {
+    const raf = requestAnimationFrame(() => {
+      navRef.current
+        ?.querySelector<HTMLElement>('[data-active="true"]')
+        ?.scrollIntoView({ block: "nearest" })
+    })
+    return () => cancelAnimationFrame(raf)
+  }, [normalizedPathname, overrides])
 
   return (
-    <aside className={cn(sidebarSurface, "w-64")}>
-      <header className="flex h-12 items-center justify-between border-b border-white/10 px-3 dark:border-white/[0.06]">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="relative inline-flex shrink-0" style={{ width: 28, height: 28 }}>
-            <Image src="/glincker-logo.png" alt="Glin UI" width={28} height={28} unoptimized className="rounded-md dark:hidden" />
-            <Image src="/glincker-logo.png" alt="Glin UI" width={28} height={28} unoptimized className="hidden rounded-md invert dark:block" />
-          </span>
-          <span className="text-sm font-semibold tracking-wide">Glin UI</span>
-        </Link>
+    <>
+      {open ? (
         <button
           type="button"
-          onClick={() => onCollapsedChange(true)}
-          className="inline-flex size-7 items-center justify-center rounded-lg text-neutral-500 transition-colors hover:bg-white/[0.06] hover:text-foreground dark:text-neutral-400"
-          aria-label="Collapse sidebar"
-        >
-          <PanelLeftClose className="size-3.5" />
-        </button>
-      </header>
-
-      <nav
-        ref={navRef}
-        onScroll={handleScroll}
-        className="flex-1 overflow-y-auto py-2 px-2 space-y-3"
+          aria-label="Close navigation"
+          onClick={onClose}
+          className="fixed inset-0 z-40 bg-black/40 lg:hidden"
+        />
+      ) : null}
+      <aside
+        className={cn(
+          "fixed inset-y-0 left-0 z-50 flex w-72 max-w-[85vw] flex-col border-r border-[var(--line-soft)] bg-[var(--surface-0)]",
+          "transition-transform duration-200 ease-[var(--ease-out)] motion-reduce:transition-none",
+          "lg:static lg:z-auto lg:w-64 lg:max-w-none lg:shrink-0 lg:translate-x-0",
+          open ? "translate-x-0" : "-translate-x-full"
+        )}
       >
-        <SidebarSection title="Getting Started" icon={BookOpen}>
-          {gettingStartedItems.map((item) => (
-            <NavLink key={item.href} href={item.href} label={item.label} active={isPathActive(normalizedPathname, item.href)} />
-          ))}
-        </SidebarSection>
+        <div className="flex items-center gap-2 border-b border-[var(--line-soft)] p-3">
+          <button
+            type="button"
+            onClick={onOpenSearch}
+            className="flex h-8 min-w-0 flex-1 items-center gap-2 rounded-md border border-[var(--line-soft)] bg-[var(--surface-1)] px-2.5 text-[13px] text-neutral-500 transition-colors hover:bg-[var(--surface-2)] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] dark:text-neutral-400"
+          >
+            <MagnifyingGlass className="size-3.5 shrink-0" aria-hidden="true" />
+            <span className="flex-1 truncate text-left">Search docs</span>
+            <kbd className="rounded border border-[var(--line-soft)] px-1 font-mono text-[11px] font-normal">⌘K</kbd>
+          </button>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close navigation"
+            className="inline-flex size-8 shrink-0 items-center justify-center rounded-md text-neutral-500 hover:bg-[var(--surface-2)] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] lg:hidden"
+          >
+            <X className="size-4" aria-hidden="true" />
+          </button>
+        </div>
 
-        <SidebarSection title="Accessibility" icon={Shield}>
-          {accessibilityItems.map((item) => (
-            <NavLink key={item.href} href={item.href} label={item.label} active={isPathActive(normalizedPathname, item.href)} />
-          ))}
-        </SidebarSection>
-
-        <SidebarSection title="Components" icon={Boxes} count={primitiveComponentIds.length}>
-          {primitiveComponentIds.map((id: PrimitiveComponentId) => (
-            <NavLink
-              key={id}
-              href={buildComponentHref(id, implementation)}
-              label={primitiveTitles[id]}
-              maturity={primitiveMaturity[id]}
-              active={isPathActive(normalizedPathname, buildComponentHref(id, implementation))}
+        <nav
+          ref={navRef}
+          aria-label="Documentation"
+          className="flex-1 space-y-1 overflow-y-auto overscroll-contain px-2 py-3"
+        >
+          {groups.map((group) => (
+            <SidebarGroup
+              key={group.id}
+              group={group}
+              open={overrides[group.id] ?? group.id === activeGroupId}
+              onToggle={(next) => toggleGroup(group.id, next)}
+              pathname={normalizedPathname}
             />
           ))}
-        </SidebarSection>
-
-        <SidebarSection title="Signature" icon={Gem} count={signatureComponentIds.length}>
-          {signatureComponentIds.map((id: SignatureComponentId) => (
-            <NavLink
-              key={id}
-              href={buildComponentHref(id, implementation)}
-              label={signatureTitles[id]}
-              active={isPathActive(normalizedPathname, buildComponentHref(id, implementation))}
-            />
-          ))}
-        </SidebarSection>
-
-        <SidebarSection title="Design System" icon={Palette}>
-          {designSystemItems.map((item) => (
-            <NavLink key={item.href} href={item.href} label={item.label} active={isPathActive(normalizedPathname, item.href)} />
-          ))}
-        </SidebarSection>
-
-        <SidebarSection title="Compare" icon={ArrowLeftRight}>
-          {compareItems.map((item) => (
-            <NavLink key={item.href} href={item.href} label={item.label} active={isPathActive(normalizedPathname, item.href)} />
-          ))}
-        </SidebarSection>
-      </nav>
-    </aside>
+        </nav>
+      </aside>
+    </>
   )
 }
 
-// ── Glass surface ───────────────────────────────────────────────────────────
-
-const sidebarSurface = cn(
-  "relative flex h-full shrink-0 flex-col overflow-hidden rounded-2xl",
-  "border border-white/20 [border-top-color:var(--glass-refraction-top)]",
-  "bg-[radial-gradient(ellipse_at_50%_0%,rgb(255_255_255_/_0.18),transparent_50%),linear-gradient(to_bottom,rgb(255_255_255_/_0.1),rgb(255_255_255_/_0.04))]",
-  "backdrop-blur-2xl backdrop-saturate-[180%]",
-  "shadow-[0_0_0_1px_rgb(255_255_255_/_0.1)_inset,var(--shadow-glass-md)]",
-  "before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/40 before:to-transparent",
-  "dark:border-white/[0.1] dark:[border-top-color:rgb(255_255_255_/_0.15)]",
-  "dark:bg-[radial-gradient(ellipse_at_50%_0%,rgb(255_255_255_/_0.05),transparent_50%),linear-gradient(to_bottom,rgb(255_255_255_/_0.03),rgb(255_255_255_/_0.01))]",
-  "dark:shadow-[0_0_0_1px_rgb(255_255_255_/_0.05)_inset,0_12px_36px_rgb(0_0_0_/_0.4)]",
-  "dark:before:via-white/8",
-  "transition-[width] duration-normal ease-standard"
-)
-
-// ── Section ─────────────────────────────────────────────────────────────────
-
-function SidebarSection({
-  title,
-  icon: Icon,
-  count,
-  children
+function SidebarGroup({
+  group,
+  open,
+  onToggle,
+  pathname
 }: {
-  title: string
-  icon: React.ComponentType<{ className?: string }>
-  count?: number
-  children: React.ReactNode
+  group: NavGroup
+  open: boolean
+  onToggle: (next: boolean) => void
+  pathname: string
 }) {
+  const panelId = `sidebar-group-${group.id}`
   return (
     <section>
-      <div className="flex items-center gap-1.5 px-2 pb-1">
-        <Icon className="size-3 text-neutral-400 dark:text-neutral-500" />
-        <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-neutral-400 dark:text-neutral-500">
-          {title}
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-controls={panelId}
+        onClick={() => onToggle(!open)}
+        className="group flex w-full items-center justify-between rounded-md px-2 py-1.5 type-eyebrow transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]"
+      >
+        <span>{group.title}</span>
+        <span className="flex items-center gap-1.5">
+          {group.count ? <span className="font-mono text-[10px] font-normal tabular-nums opacity-60">{group.count}</span> : null}
+          <CaretRight
+            className={cn(
+              "size-3 transition-transform duration-150 ease-[var(--ease-out)] motion-reduce:transition-none",
+              open && "rotate-90"
+            )}
+            aria-hidden="true"
+          />
         </span>
-        {count != null && (
-          <span className="ml-auto rounded-full bg-neutral-200/50 px-1.5 text-[9px] font-medium tabular-nums text-neutral-500 dark:bg-white/[0.06] dark:text-neutral-400">
-            {count}
-          </span>
-        )}
-      </div>
-      <div className="space-y-px">{children}</div>
+      </button>
+      <ul id={panelId} hidden={!open} className="mb-2 mt-0.5 space-y-px">
+        {group.items.map((item) => (
+          <li key={item.href} className={item.member ? "ml-3 border-l border-[var(--line-soft)]" : undefined}>
+            <NavLink item={item} active={isPathActive(pathname, item.href)} />
+          </li>
+        ))}
+      </ul>
     </section>
   )
 }
 
-// ── NavLink (no icons, compact text) ────────────────────────────────────────
-
-function NavLink({
-  href,
-  label,
-  active,
-  maturity
-}: {
-  href: string
-  label: string
-  active: boolean
-  maturity?: "stable" | "beta"
-}) {
+function NavLink({ item, active }: { item: NavItem; active: boolean }) {
   return (
     <Link
-      href={href}
+      href={item.href}
       data-active={active ? "true" : undefined}
-      className={cn(
-        "group relative flex w-full items-center rounded-lg px-2.5 py-[5px] text-[13px] transition-all duration-fast ease-standard",
-        active
-          ? "bg-[var(--glass-4-surface)] font-medium text-foreground border border-white/15 [border-top-color:var(--glass-refraction-top)] shadow-[0_0_0_1px_rgb(255_255_255_/_0.08)_inset,var(--shadow-soft)] dark:border-white/[0.1] dark:bg-white/[0.08]"
-          : "border border-transparent text-neutral-600 hover:text-foreground hover:bg-white/[0.06] dark:text-neutral-400 dark:hover:bg-white/[0.04]"
-      )}
       aria-current={active ? "page" : undefined}
-    >
-      {active && (
-        <span className="absolute left-1 top-1.5 bottom-1.5 w-[2px] rounded-full bg-foreground/60 dark:bg-white/70" />
+      className={cn(
+        "relative flex w-full items-center gap-2 rounded-md py-1.5 pr-2 text-[13px] font-normal leading-5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]",
+        item.member ? "pl-2.5" : "pl-3",
+        active
+          ? "bg-[var(--surface-2)] font-medium text-foreground before:absolute before:inset-y-1 before:left-0 before:w-0.5 before:rounded-full before:bg-[var(--color-accent)]"
+          : "text-neutral-600 hover:bg-[var(--surface-1)] hover:text-foreground dark:text-neutral-400"
       )}
-      <span className="truncate">{label}</span>
-      {maturity ? (
+    >
+      <span className="truncate">{item.label}</span>
+      {item.tag ? (
         <span
           className={cn(
-            "ml-auto inline-flex rounded-full px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-[0.08em]",
-            maturity === "beta"
-              ? "border border-amber-300/50 bg-amber-100/60 text-amber-700 dark:border-amber-400/35 dark:bg-amber-400/15 dark:text-amber-300"
-              : "border border-emerald-300/50 bg-emerald-100/60 text-emerald-700 dark:border-emerald-400/35 dark:bg-emerald-400/15 dark:text-emerald-300"
+            "ml-auto shrink-0 font-mono text-[10px] font-medium uppercase tracking-[0.06em]",
+            item.tag === "beta"
+              ? "text-amber-700 dark:text-amber-300"
+              : "text-[var(--color-accent)]"
           )}
         >
-          {maturity}
+          {item.tag}
         </span>
       ) : null}
     </Link>
   )
 }
 
-// ── Helpers ─────────────────────────────────────────────────────────────────
+// Helpers
+
+function parseOverrides(raw: string): Record<string, boolean> {
+  try {
+    const parsed: unknown = JSON.parse(raw)
+    if (!parsed || typeof parsed !== "object") return {}
+    const out: Record<string, boolean> = {}
+    for (const [key, value] of Object.entries(parsed)) {
+      if (typeof value === "boolean") out[key] = value
+    }
+    return out
+  } catch {
+    return {}
+  }
+}
 
 function normalizePath(path: string) {
   const normalized = path.replace(/\/+$/g, "")
@@ -337,5 +304,6 @@ function normalizePath(path: string) {
 function isPathActive(pathname: string, href: string) {
   const target = normalizePath(href)
   if (pathname === target) return true
+  if (target === "/docs") return false
   return pathname.startsWith(`${target}/`)
 }

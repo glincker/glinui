@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { ChevronRight } from "lucide-react"
+import { CaretRight } from "@phosphor-icons/react"
 
 import {
   generatedApiMetadata,
@@ -24,14 +24,14 @@ export function GeneratedApiReference({ componentId }: { componentId: ComponentI
       <details className="group overflow-hidden rounded-2xl border border-border/60 bg-background/35">
         <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3">
           <div className="flex items-center gap-2">
-            <h2 className="text-base font-semibold text-foreground">
+            <h2 className="type-h3 text-foreground">
               Generated API Snapshot
             </h2>
-            <span className="inline-flex items-center rounded-full border border-amber-300/50 bg-amber-100/60 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-amber-700 dark:border-amber-400/35 dark:bg-amber-400/15 dark:text-amber-300">
+            <span className="inline-flex items-center rounded-full border border-amber-300/50 bg-amber-100/60 px-2 py-0.5 font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-amber-700 dark:border-amber-400/35 dark:bg-amber-400/15 dark:text-amber-300">
               Beta
             </span>
           </div>
-          <ChevronRight className="size-4 text-neutral-500 transition-transform duration-fast ease-standard group-open:rotate-90" />
+          <CaretRight className="size-4 text-neutral-500 transition-transform duration-fast ease-standard group-open:rotate-90" />
         </summary>
 
         <div className="space-y-4 border-t border-border/60 px-4 py-4">
@@ -62,34 +62,34 @@ export function GeneratedApiReference({ componentId }: { componentId: ComponentI
 
           {entry.propsTypes.map((propsType) => (
             <div key={propsType.name} className="space-y-2">
-              <h3 id={`generated-${propsType.name.toLowerCase()}`} className="text-sm font-medium text-foreground">
+              <h3 id={`generated-${propsType.name.toLowerCase()}`} className="text-base font-medium text-foreground">
                 <code>{propsType.name}</code>
               </h3>
 
               {propsType.fields.length > 0 ? (
                 <div className="overflow-x-auto rounded-xl border border-border/60">
-                  <table className="min-w-full border-collapse text-left text-sm">
+                  <table className="min-w-full border-collapse text-left text-[13px] leading-6 tabular-nums">
                     <thead className="bg-black/5 dark:bg-white/5">
                       <tr>
-                        <th className="px-3 py-2 font-semibold">Prop</th>
-                        <th className="px-3 py-2 font-semibold">Type</th>
-                        <th className="px-3 py-2 font-semibold">Required</th>
-                        <th className="px-3 py-2 font-semibold">Default</th>
-                        <th className="px-3 py-2 font-semibold">Description</th>
+                        <th scope="col" className="type-eyebrow px-3 py-2.5">Prop</th>
+                        <th scope="col" className="type-eyebrow px-3 py-2.5">Type</th>
+                        <th scope="col" className="type-eyebrow px-3 py-2.5">Required</th>
+                        <th scope="col" className="type-eyebrow px-3 py-2.5">Default</th>
+                        <th scope="col" className="type-eyebrow px-3 py-2.5">Description</th>
                       </tr>
                     </thead>
                     <tbody>
                       {propsType.fields.map((field) => (
                         <tr key={`${propsType.name}-${field.name}`} className="border-t border-border/60">
                           <td className="px-3 py-2">
-                            <code>{field.name}</code>
+                            <code className="font-mono text-[13px] text-foreground">{field.name}</code>
                           </td>
                           <td className="px-3 py-2">
-                            <code>{field.type}</code>
+                            <code className="font-mono text-[12px] text-[var(--color-muted)]">{field.type}</code>
                           </td>
                           <td className="px-3 py-2">{field.optional ? "No" : "Yes"}</td>
                           <td className="px-3 py-2">
-                            <code>{field.defaultValue ?? "-"}</code>
+                            <code className="font-mono text-[12px] text-[var(--color-muted)]">{field.defaultValue ?? "-"}</code>
                           </td>
                           <td className="px-3 py-2">{field.description ?? "-"}</td>
                         </tr>

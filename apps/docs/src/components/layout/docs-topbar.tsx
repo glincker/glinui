@@ -1,64 +1,104 @@
 "use client"
 
+import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import * as React from "react"
-import { ArrowLeftRight, Github, Laptop, Moon, Search, Sun } from "lucide-react"
+import { ArrowsLeftRight, GithubLogo, Laptop, Moon, Sun } from "@phosphor-icons/react"
+import { List, MagnifyingGlass } from "@phosphor-icons/react"
 
+import { cn } from "@glinui/ui"
+import { AnimationsToggle } from "@/components/customize/animations-toggle"
+import { CustomizeTrigger } from "@/components/customize/customize-trigger"
 import { useDocsDirection } from "@/lib/docs-direction"
-import { componentTitles } from "@/lib/primitives"
 import { useTheme } from "next-themes"
 
 type DocsTopbarProps = {
   onOpenCommandPalette: () => void
+  onOpenNav: () => void
+  navOpen: boolean
 }
 
 type ToggleControlProps = {
   compact?: boolean
 }
 
-export function DocsTopbar({ onOpenCommandPalette }: DocsTopbarProps) {
+const topNav: Array<{ href: string; label: string; match: (pathname: string) => boolean }> = [
+  { href: "/docs", label: "Docs", match: (p) => p === "/docs" || /^\/docs\/(getting-started|directory|accessibility|forms-|screen-reader|focus-|color-contrast|attribution|free-forever)/.test(p) },
+  { href: "/docs/components", label: "Components", match: (p) => p.startsWith("/docs/components") },
+  { href: "/docs/animations", label: "Animations", match: (p) => p === "/docs/animations" || p === "/docs/motion" },
+  { href: "/docs/tokens", label: "Tokens", match: (p) => p === "/docs/tokens" },
+  { href: "/docs/colors", label: "Colors", match: (p) => p === "/docs/colors" }
+]
+
+const iconButton =
+  "inline-flex size-8 items-center justify-center rounded-md text-neutral-600 transition-colors hover:bg-[var(--surface-2)] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] dark:text-neutral-300"
+
+export function DocsTopbar({ onOpenCommandPalette, onOpenNav, navOpen }: DocsTopbarProps) {
   const pathname = usePathname()
-  const title = getPageTitle(pathname)
 
   return (
-    <header className="flex h-14 items-center justify-between gap-3 rounded-2xl border border-border/50 bg-[var(--glass-3-surface)] px-4 backdrop-blur-2xl shadow-[0_0_0_1px_rgb(255_255_255_/_0.08)_inset,var(--shadow-soft)]">
-      <div className="min-w-0 flex items-center gap-2.5">
-        <p className="truncate text-sm font-semibold text-foreground">{title}</p>
-        <span className="hidden h-3.5 w-px bg-neutral-300 dark:bg-neutral-600 sm:block" />
-        <Link
-          href="https://glincker.com"
-          target="_blank"
-          rel="noreferrer"
-          className="hidden items-center gap-1 text-[11px] text-neutral-500 transition-colors hover:text-foreground dark:text-neutral-400 sm:inline-flex"
-        >
-          A GLINR Product
-        </Link>
-      </div>
+    <header className="flex h-12 shrink-0 items-center gap-3 border-b border-[var(--line-soft)] bg-[var(--surface-0)] px-3 sm:px-4">
+      <button
+        type="button"
+        onClick={onOpenNav}
+        aria-label="Open navigation"
+        aria-expanded={navOpen}
+        className={cn(iconButton, "lg:hidden")}
+      >
+        <List className="size-4" />
+      </button>
 
-      <div className="flex items-center gap-2">
+      <Link href="/" className="flex items-center gap-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]">
+        <Image src="/glincker-logo.png" alt="" width={24} height={24} unoptimized className="rounded-md dark:hidden" />
+        <Image src="/glincker-logo.png" alt="" width={24} height={24} unoptimized className="hidden rounded-md invert dark:block" />
+        <span className="text-sm font-semibold tracking-[-0.02em]">Glin UI</span>
+      </Link>
+
+      <nav aria-label="Primary" className="ml-2 hidden items-center gap-0.5 md:flex">
+        {topNav.map((item) => {
+          const active = item.match(pathname)
+          return (
+            <Link
+              key={item.label}
+              href={item.href}
+              aria-current={active ? "page" : undefined}
+              className={cn(
+                "rounded-md px-2.5 py-1.5 text-sm font-medium tracking-[-0.005em] transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]",
+                active ? "text-foreground" : "text-neutral-600 dark:text-neutral-400"
+              )}
+            >
+              {item.label}
+            </Link>
+          )
+        })}
+      </nav>
+
+      <div className="ml-auto flex items-center gap-1">
         <button
           type="button"
           onClick={onOpenCommandPalette}
-          className="inline-flex items-center gap-2 rounded-xl border border-border/60 bg-background/40 px-3 py-1.5 text-xs text-neutral-600 transition-colors hover:text-foreground dark:text-neutral-300 dark:hover:text-white"
+          className="inline-flex h-8 items-center gap-2 rounded-md border border-[var(--line-soft)] bg-[var(--surface-1)] px-2.5 text-xs text-neutral-600 transition-colors hover:bg-[var(--surface-2)] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] dark:text-neutral-300 md:min-w-44"
           aria-label="Open command palette"
         >
-          <Search className="size-3.5" />
-          <span className="hidden sm:inline">Search</span>
-          <kbd className="rounded border border-border/60 px-1.5 py-0.5 text-[10px]">⌘K</kbd>
+          <MagnifyingGlass className="size-3.5" />
+          <span className="hidden flex-1 text-left md:inline">Search</span>
+          <kbd className="hidden rounded border border-[var(--line-soft)] px-1 font-mono text-[11px] md:inline">⌘K</kbd>
         </button>
 
         <ThemeSegmentedControl />
         <DirectionSegmentedControl />
+        <AnimationsToggle className={iconButton} />
+        <CustomizeTrigger className={iconButton} />
 
         <Link
           href="https://github.com/GLINCKER/glinui"
           target="_blank"
           rel="noreferrer"
-          className="inline-flex size-9 items-center justify-center rounded-xl border border-border/60 bg-background/40 text-neutral-600 transition-colors hover:text-foreground dark:text-neutral-300 dark:hover:text-white"
+          className={iconButton}
           aria-label="Open GitHub"
         >
-          <Github className="size-4" />
+          <GithubLogo className="size-4" />
         </Link>
       </div>
     </header>
@@ -79,13 +119,13 @@ export function DirectionToggle({ compact = false }: ToggleControlProps) {
       onClick={() => setDirection(isRtl ? "ltr" : "rtl")}
       className={
         compact
-          ? "inline-flex size-9 items-center justify-center rounded-xl border border-border/60 bg-background/40 text-neutral-600 transition-colors hover:text-foreground dark:text-neutral-300 dark:hover:text-white"
-          : "inline-flex h-9 items-center gap-1.5 rounded-xl border border-border/60 bg-background/40 px-2.5 text-xs text-neutral-600 transition-colors hover:text-foreground dark:text-neutral-300 dark:hover:text-white"
+          ? "inline-flex size-8 items-center justify-center rounded-md text-neutral-600 transition-colors hover:bg-[var(--surface-2)] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] dark:text-neutral-300"
+          : "inline-flex h-8 items-center gap-1.5 rounded-md px-2.5 text-xs text-neutral-600 transition-colors hover:bg-[var(--surface-2)] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] dark:text-neutral-300"
       }
       aria-label={`Switch direction to ${isRtl ? "LTR" : "RTL"}`}
       title={`Direction: ${isRtl ? "RTL" : "LTR"}`}
     >
-      <ArrowLeftRight className="size-3.5" />
+      <ArrowsLeftRight className="size-3.5" />
       {!compact ? <span className="font-medium">{isRtl ? "RTL" : "LTR"}</span> : null}
     </button>
   )
@@ -124,8 +164,8 @@ export function ThemeToggle({ compact = false }: ToggleControlProps) {
       onClick={() => setTheme(nextTheme)}
       className={
         compact
-          ? "inline-flex size-9 items-center justify-center rounded-xl border border-border/60 bg-background/40 text-neutral-600 transition-colors hover:text-foreground dark:text-neutral-300 dark:hover:text-white"
-          : "inline-flex h-9 items-center gap-1.5 rounded-xl border border-border/60 bg-background/40 px-2.5 text-xs text-neutral-600 transition-colors hover:text-foreground dark:text-neutral-300 dark:hover:text-white"
+          ? "inline-flex size-8 items-center justify-center rounded-md text-neutral-600 transition-colors hover:bg-[var(--surface-2)] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] dark:text-neutral-300"
+          : "inline-flex h-8 items-center gap-1.5 rounded-md px-2.5 text-xs text-neutral-600 transition-colors hover:bg-[var(--surface-2)] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] dark:text-neutral-300"
       }
       aria-label={`Current theme ${labelByTheme[activeTheme]}. Switch to ${labelByTheme[nextTheme]}`}
       title={`Theme: ${labelByTheme[activeTheme]}`}
@@ -136,85 +176,3 @@ export function ThemeToggle({ compact = false }: ToggleControlProps) {
   )
 }
 
-function getPageTitle(pathname: string) {
-  if (pathname === "/") {
-    return "Overview"
-  }
-
-  if (pathname === "/docs/getting-started") {
-    return "Getting Started"
-  }
-
-  if (pathname === "/docs") {
-    return "Documentation Overview"
-  }
-
-  if (pathname === "/docs/accessibility") {
-    return "Accessibility Hub"
-  }
-
-  if (pathname === "/docs/forms-accessibility") {
-    return "Forms Accessibility"
-  }
-
-  if (pathname === "/docs/forms-recipes") {
-    return "Form Recipes"
-  }
-
-  if (pathname === "/docs/screen-reader-testing") {
-    return "Screen Reader Testing"
-  }
-
-  if (pathname === "/docs/focus-management") {
-    return "Focus Management"
-  }
-
-  if (pathname === "/docs/color-contrast") {
-    return "Color Contrast"
-  }
-
-  if (pathname === "/docs/components") {
-    return "Components"
-  }
-
-  if (pathname === "/docs/shadcn-alternative") {
-    return "Glin UI vs shadcn/ui"
-  }
-
-  if (pathname === "/docs/magicui-alternative") {
-    return "Glin UI vs Magic UI"
-  }
-
-  if (pathname === "/docs/radix-ui-components") {
-    return "Radix UI Components"
-  }
-
-  if (pathname === "/docs/glassmorphism-react-components") {
-    return "Glassmorphism React"
-  }
-
-  if (pathname.startsWith("/docs/components/")) {
-    const segments = pathname.split("/").filter(Boolean)
-    const maybeId = segments[3] ?? segments[2]
-    const id = maybeId as keyof typeof componentTitles
-    return componentTitles[id] ?? "Component"
-  }
-
-  if (pathname === "/docs/tokens") {
-    return "Design Tokens"
-  }
-
-  if (pathname === "/docs/api-metadata") {
-    return "API Metadata"
-  }
-
-  if (pathname === "/docs/glass-physics") {
-    return "Glass Physics"
-  }
-
-  if (pathname === "/docs/motion") {
-    return "Motion"
-  }
-
-  return "Glin UI"
-}

@@ -1,20 +1,22 @@
 "use client"
 
 import * as React from "react"
-import { Braces, FileCode2, FileText, Terminal } from "lucide-react"
-import type { LucideIcon } from "lucide-react"
+import { FileCode } from "@phosphor-icons/react"
 import { Highlight, type Language, type PrismTheme } from "prism-react-renderer"
 
 import { cn } from "@glinui/ui"
-import { CodeSurfaceFrame } from "@/components/docs/code-surface-frame"
-import { useTheme } from "next-themes"
-import { buildCommandTabs, PACKAGE_MANAGERS, type PackageManager } from "@/lib/npm-commands"
+import { CodeSurfaceFrame, PackageManagerTabs, usePackageManager } from "@/components/docs/code-surface-frame"
+import { buildCommandTabs } from "@/lib/npm-commands"
 
 type CodeBlockProps = {
   code: string
   language?: string
   dir?: "ltr" | "rtl"
   className?: string
+  /** Optional file name shown in a header bar. */
+  filename?: string
+  /** Show line numbers (off by default). */
+  showLineNumbers?: boolean
 }
 
 const SUPPORTED_LANGUAGES: ReadonlySet<string> = new Set([
@@ -32,57 +34,43 @@ const SUPPORTED_LANGUAGES: ReadonlySet<string> = new Set([
 ])
 
 /**
- * Light theme — subtle, readable on the frosted glass surface.
- * Neutral-leaning tokens that don't compete with the glass treatment.
+ * Empty Prism theme: colors come from Tailwind classes (see tokenClass) so
+ * no inline styles are emitted and light/dark follow the page theme.
  */
-const glassLightTheme: PrismTheme = {
-  plain: { color: "#24292f", backgroundColor: "transparent" },
-  styles: [
-    { types: ["comment", "prolog", "doctype", "cdata"], style: { color: "#8b949e", fontStyle: "italic" as const } },
-    { types: ["keyword", "operator", "tag"], style: { color: "#6639ba" } },
-    { types: ["property", "attr-name", "variable"], style: { color: "#0550ae" } },
-    { types: ["string", "attr-value", "template-string"], style: { color: "#0a3069" } },
-    { types: ["number", "boolean"], style: { color: "#0550ae" } },
-    { types: ["function", "class-name"], style: { color: "#8250df" } },
-    { types: ["builtin", "constant"], style: { color: "#6639ba" } },
-    { types: ["punctuation"], style: { color: "#57606a" } },
-    { types: ["regex", "important"], style: { color: "#0a3069" } },
-    { types: ["plain"], style: { color: "#24292f" } },
-  ]
+const plainTheme: PrismTheme = { plain: {}, styles: [] }
+
+const TOKEN_CLASSES: ReadonlyArray<readonly [ReadonlyArray<string>, string]> = [
+  [["comment", "prolog", "doctype", "cdata"], "italic text-neutral-400 dark:text-neutral-500"],
+  [["keyword", "operator", "tag"], "text-violet-700 dark:text-violet-300"],
+  [["property", "attr-name", "variable"], "text-sky-700 dark:text-sky-300"],
+  [["string", "attr-value", "template-string", "regex", "important"], "text-emerald-700 dark:text-emerald-300"],
+  [["number", "boolean"], "text-amber-700 dark:text-amber-300"],
+  [["function", "class-name", "builtin", "constant"], "text-indigo-700 dark:text-indigo-300"],
+  [["punctuation"], "text-neutral-500 dark:text-neutral-400"]
+]
+
+function tokenClass(types: string[]): string {
+  for (const [names, cls] of TOKEN_CLASSES) {
+    if (types.some((t) => names.includes(t))) return cls
+  }
+  return "text-neutral-800 dark:text-neutral-100"
 }
 
-/**
- * Dark theme — cool, muted tones for the dark glass surface.
- * Higher contrast than vsDark, with softer highlight colors.
- */
-const glassDarkTheme: PrismTheme = {
-  plain: { color: "#e6edf3", backgroundColor: "transparent" },
-  styles: [
-    { types: ["comment", "prolog", "doctype", "cdata"], style: { color: "#6b7280", fontStyle: "italic" as const } },
-    { types: ["keyword", "operator", "tag"], style: { color: "#c084fc" } },
-    { types: ["property", "attr-name", "variable"], style: { color: "#7dd3fc" } },
-    { types: ["string", "attr-value", "template-string"], style: { color: "#86efac" } },
-    { types: ["number", "boolean"], style: { color: "#fbbf24" } },
-    { types: ["function", "class-name"], style: { color: "#c4b5fd" } },
-    { types: ["builtin", "constant"], style: { color: "#a78bfa" } },
-    { types: ["punctuation"], style: { color: "#9ca3af" } },
-    { types: ["regex", "important"], style: { color: "#86efac" } },
-    { types: ["plain"], style: { color: "#e6edf3" } },
-  ]
-}
-
-export function CodeBlock({ code, language = "tsx", dir = "ltr", className }: CodeBlockProps) {
-  const { resolvedTheme } = useTheme()
+export function CodeBlock({
+  code,
+  language = "tsx",
+  dir = "ltr",
+  className,
+  filename,
+  showLineNumbers = false
+}: CodeBlockProps) {
   const [copied, setCopied] = React.useState(false)
-  const [selectedPm, setSelectedPm] = React.useState<PackageManager>("pnpm")
+  const [selectedPm, setSelectedPm] = usePackageManager()
 
   const commandsByPm = React.useMemo(() => buildCommandTabs(code), [code])
   const activeCode = commandsByPm ? commandsByPm[selectedPm] : code
   const normalizedCode = React.useMemo(() => activeCode.replace(/\n+$/g, ""), [activeCode])
-
   const normalizedLanguage = normalizeLanguage(commandsByPm ? "bash" : language)
-  const languageMeta = getLanguageMeta(normalizedLanguage)
-  const isDark = resolvedTheme === "dark"
 
   const onCopy = React.useCallback(async () => {
     try {
@@ -94,108 +82,63 @@ export function CodeBlock({ code, language = "tsx", dir = "ltr", className }: Co
     }
   }, [normalizedCode])
 
+  const lineNumbers = showLineNumbers && !commandsByPm
+
+  let header: React.ReactNode = null
+  if (commandsByPm) {
+    header = <PackageManagerTabs value={selectedPm} onChange={setSelectedPm} />
+  } else if (filename) {
+    header = (
+      <div className="flex items-center gap-2 py-2.5 text-[12px] font-medium text-neutral-600 dark:text-neutral-300">
+        <FileCode className="size-4 shrink-0 text-neutral-500 dark:text-neutral-400" aria-hidden />
+        <span className="truncate font-mono">{filename}</span>
+      </div>
+    )
+  }
+
   return (
     <CodeSurfaceFrame
       className={className}
       copied={copied}
       onCopy={() => void onCopy()}
-      copyLabel="Copy code block"
+      copyLabel="Copy code"
       copyHint="Copy code"
-      left={
-        commandsByPm ? (
-          <div className="flex items-center gap-2">
-            <span className={cn(
-              "inline-flex size-6 items-center justify-center rounded-md border",
-              "border-black/[0.06] bg-white/40 text-neutral-500",
-              "dark:border-white/[0.08] dark:bg-white/[0.06] dark:text-neutral-400"
-            )}>
-              <Terminal className="size-3" />
-            </span>
-            <div className={cn(
-              "inline-flex rounded-lg border p-0.5",
-              "border-black/[0.06] bg-black/[0.03]",
-              "dark:border-white/[0.08] dark:bg-white/[0.04]"
-            )}>
-              {PACKAGE_MANAGERS.map((pm) => (
-                <button
-                  key={pm}
-                  type="button"
-                  onClick={() => setSelectedPm(pm)}
-                  className={cn(
-                    "rounded-md px-2 py-0.5 text-[11px] font-semibold capitalize tracking-[0.02em] transition-all duration-fast ease-standard",
-                    selectedPm === pm
-                      ? "bg-white text-neutral-900 shadow-[0_1px_3px_rgb(0_0_0_/_0.08)] dark:bg-white/[0.86] dark:text-neutral-950 dark:shadow-[0_1px_3px_rgb(0_0_0_/_0.35)]"
-                      : "text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200"
-                  )}
-                >
-                  {pm}
-                </button>
-              ))}
-            </div>
-          </div>
-        ) : (
-          <span
-            className={cn(
-              "inline-flex items-center gap-1.5 rounded-md border px-2 py-0.5 text-[11px] font-semibold uppercase tracking-[0.06em]",
-              "border-black/[0.06] bg-black/[0.03] text-neutral-600",
-              "dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-neutral-300"
-            )}
-          >
-            <languageMeta.icon className="size-3.5" />
-            {languageMeta.label}
-          </span>
-        )
-      }
+      left={header}
     >
-      <Highlight code={normalizedCode} language={normalizedLanguage} theme={isDark ? glassDarkTheme : glassLightTheme}>
-        {({ className: highlightClassName, style, tokens, getLineProps, getTokenProps }) => (
+      <Highlight code={normalizedCode} language={normalizedLanguage} theme={plainTheme}>
+        {({ tokens, getTokenProps }) => (
           <pre
             dir={dir}
-            className={cn(
-              "max-h-[580px] overflow-x-auto overflow-y-auto px-0 py-4 font-mono text-[13px] leading-[1.7]",
-              highlightClassName
-            )}
-            style={{ ...style, background: "transparent" }}
+            tabIndex={0}
+            className="max-h-[580px] overflow-auto px-0 py-3.5 font-mono text-[13px] leading-[1.7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--color-accent)]"
           >
-            {tokens.map((line, index) => (
-              <div
-                key={index}
-                {...getLineProps({ line })}
-                className={cn(
-                  "grid px-4",
-                  commandsByPm ? "grid-cols-[1fr]" : "grid-cols-[2.5rem_1fr]"
-                )}
-              >
-                {commandsByPm ? null : (
-                  <span className="select-none pr-3 text-right text-[11px] leading-[1.95] text-neutral-400/60 dark:text-neutral-500/50">
-                    {index + 1}
+            <code className="block min-w-full w-max">
+              {tokens.map((line, index) => (
+                <div key={index} className={cn("px-4", lineNumbers && "grid grid-cols-[2.5rem_1fr]")}>
+                  {lineNumbers ? (
+                    <span aria-hidden className="select-none pr-3 text-right text-[12px] text-neutral-400 dark:text-neutral-600">
+                      {index + 1}
+                    </span>
+                  ) : null}
+                  <span>
+                    {line.map((token, tokenIndex) => {
+                      const { children } = getTokenProps({ token })
+                      return (
+                        <span key={tokenIndex} className={tokenClass(token.types)}>
+                          {children}
+                        </span>
+                      )
+                    })}
+                    {line.length === 0 || (line.length === 1 && line[0].empty) ? "\n" : null}
                   </span>
-                )}
-                <span>
-                  {line.map((token, tokenIndex) => (
-                    <span key={tokenIndex} {...getTokenProps({ token })} />
-                  ))}
-                </span>
-              </div>
-            ))}
+                </div>
+              ))}
+            </code>
           </pre>
         )}
       </Highlight>
     </CodeSurfaceFrame>
   )
-}
-
-function getLanguageMeta(language: Language): { icon: LucideIcon; label: string } {
-  switch (language) {
-    case "bash":
-      return { icon: Terminal, label: "Shell" }
-    case "md":
-      return { icon: FileText, label: "MDX" }
-    case "json":
-      return { icon: Braces, label: "JSON" }
-    default:
-      return { icon: FileCode2, label: String(language).toUpperCase() }
-  }
 }
 
 function normalizeLanguage(language: string): Language {
