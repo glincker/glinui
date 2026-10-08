@@ -7,43 +7,35 @@ import {
 } from "node:fs"
 import { dirname, join, resolve } from "node:path"
 import { fileURLToPath } from "node:url"
-import ts from "typescript"
-import vm from "node:vm"
+import { loadRegistryModule } from "../../../packages/registry/scripts/load-registry-source.mjs"
+import { readLicenseSnapshot, verifyLicenseSnapshots } from "../../../packages/registry/scripts/provenance-files.mjs"
+import { resolveItemGraph } from "../../../packages/registry/scripts/item-graph.mjs"
+import {
+  REGISTRY_BASE_URL,
+  buildShadcnIndex,
+  buildShadcnItem
+} from "../../../packages/registry/scripts/shadcn.mjs"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 const root = resolve(__dirname, "..", "..", "..")
 
-const registrySourceFile = join(root, "packages", "registry", "src", "index.ts")
-const componentsDir = join(root, "packages", "ui", "src", "components")
 const endpointsRoot = join(root, "apps", "docs", "public", "r")
 const itemsDir = join(endpointsRoot, "items")
 const indexFile = join(endpointsRoot, "index.json")
 const schemaFile = join(endpointsRoot, "schema.json")
+const shadcnIndexFile = join(endpointsRoot, "registry.json")
+const uiPackageFile = join(root, "packages", "ui", "package.json")
+const tokensPackageFile = join(root, "packages", "tokens", "package.json")
+const motionPackageFile = join(root, "packages", "motion", "package.json")
 
 function loadRegistryItems() {
-  const source = readFileSync(registrySourceFile, "utf8")
-  const transpiled = ts.transpileModule(source, {
-    compilerOptions: {
-      target: ts.ScriptTarget.ES2020,
-      module: ts.ModuleKind.CommonJS
-    }
-  }).outputText
-
-  const module = { exports: {} }
-  const context = vm.createContext({
-    module,
-    exports: module.exports
-  })
-
-  vm.runInContext(transpiled, context, { filename: registrySourceFile })
-  const items = module.exports.baseRegistry
-
-  if (!Array.isArray(items)) {
-    throw new Error("Unable to read baseRegistry from packages/registry/src/index.ts")
+  const { baseRegistry, provenanceSources } = loadRegistryModule()
+  const problems = verifyLicenseSnapshots(provenanceSources)
+  if (problems.length > 0) {
+    throw new Error(`License snapshot verification failed:\n${problems.join("\n")}`)
   }
-
-  return items
+  return baseRegistry
 }
 
 function toPrettyJson(value) {
@@ -64,6 +56,30 @@ function writeIfChanged(filePath, value) {
   return true
 }
 
+function loadDependencyVersions() {
+  const ui = JSON.parse(readFileSync(uiPackageFile, "utf8"))
+  const tokens = JSON.parse(readFileSync(tokensPackageFile, "utf8"))
+  const motion = JSON.parse(readFileSync(motionPackageFile, "utf8"))
+  return {
+    ...(ui.dependencies ?? {}),
+    "@glinui/motion": `^${motion.version}`,
+    "@glinui/tokens": `^${tokens.version}`
+  }
+}
+
+// Top-level <name>.json files are shadcn registry items; everything else is a Glin payload.
+const RESERVED_ROOT_FILES = new Set(["index", "schema", "registry"])
+
+function cleanupStaleShadcnFiles(validNames) {
+  for (const entry of readdirSync(endpointsRoot, { withFileTypes: true })) {
+    if (!entry.isFile() || !entry.name.endsWith(".json")) continue
+    const name = entry.name.replace(/\.json$/, "")
+    if (!RESERVED_ROOT_FILES.has(name) && !validNames.has(name)) {
+      rmSync(join(endpointsRoot, entry.name))
+    }
+  }
+}
+
 function cleanupStaleItemFiles(validNames) {
   const entries = readdirSync(itemsDir, { withFileTypes: true })
   for (const entry of entries) {
@@ -77,8 +93,9 @@ function cleanupStaleItemFiles(validNames) {
   }
 }
 
-function getComponentSourcePath(name) {
-  return join(componentsDir, `${name}.tsx`)
+// Legacy payloads list @glinui/ui first; keep it for older CLIs that expect it.
+function withRuntimePackage(dependencies) {
+  return ["@glinui/ui", ...dependencies.filter((dep) => dep !== "@glinui/ui")]
 }
 
 function buildSchemaPayload() {
@@ -131,6 +148,7 @@ function buildSchemaPayload() {
 
 function build() {
   const items = loadRegistryItems()
+  const { provenanceSources } = loadRegistryModule()
   const sortedItems = [...items].sort((a, b) =>
     String(a.name).localeCompare(String(b.name))
   )
@@ -140,18 +158,31 @@ function build() {
 
   let changed = 0
   const validNames = new Set()
+  const versions = loadDependencyVersions()
+  const shadcnItems = []
 
-  const indexPayload = sortedItems.map((item) => ({
-    name: String(item.name),
-    type: item.type === "signature" ? "signature" : "primitive",
-    description: String(item.description ?? ""),
-    dependencies: Array.isArray(item.dependencies)
-      ? item.dependencies.map((dep) => String(dep))
-      : [],
-    registryDependencies: Array.isArray(item.registryDependencies)
-      ? item.registryDependencies.map((dep) => String(dep))
-      : []
-  }))
+  const itemNames = new Set(sortedItems.map((item) => String(item.name)))
+  const readSource = (file) => {
+    try {
+      return readFileSync(join(root, file), "utf8")
+    } catch {
+      return null
+    }
+  }
+  const graphs = new Map(
+    sortedItems.map((item) => [String(item.name), resolveItemGraph(item, readSource, itemNames)])
+  )
+
+  const indexPayload = sortedItems.map((item) => {
+    const graph = graphs.get(String(item.name))
+    return {
+      name: String(item.name),
+      type: item.type === "signature" ? "signature" : "primitive",
+      description: String(item.description ?? ""),
+      dependencies: withRuntimePackage(graph.dependencies),
+      registryDependencies: graph.registryDependencies
+    }
+  })
 
   changed += Number(writeIfChanged(indexFile, indexPayload))
   changed += Number(writeIfChanged(schemaFile, buildSchemaPayload()))
@@ -160,35 +191,49 @@ function build() {
     const name = String(item.name)
     validNames.add(name)
 
-    const componentSourcePath = getComponentSourcePath(name)
-    let componentSource
-    try {
-      componentSource = readFileSync(componentSourcePath, "utf8")
-    } catch {
-      throw new Error(
-        `Missing component source for "${name}" at packages/ui/src/components/${name}.tsx`
-      )
-    }
-
+    const graph = graphs.get(name)
     const itemPayload = {
       name,
       type: item.type === "signature" ? "signature" : "primitive",
       description: String(item.description ?? ""),
-      dependencies: Array.isArray(item.dependencies)
-        ? item.dependencies.map((dep) => String(dep))
-        : [],
-      files: [
-        {
-          path: `packages/ui/src/components/${name}.tsx`,
-          content: componentSource
-        }
-      ]
+      dependencies: withRuntimePackage(graph.dependencies),
+      ...(graph.registryDependencies.length > 0
+        ? { registryDependencies: graph.registryDependencies }
+        : {}),
+      files: graph.files
     }
 
-    changed += Number(writeIfChanged(join(itemsDir, `${name}.json`), itemPayload))
+    // Additive: version ranges so the CLI can write real semver into package.json.
+    const installable = [...new Set([...itemPayload.dependencies, "clsx", "tailwind-merge", "@glinui/tokens"])]
+    const dependencyVersions = Object.fromEntries(
+      installable.filter((dep) => versions[dep]).sort().map((dep) => [dep, versions[dep]])
+    )
+    // Adapted items carry their provenance plus the upstream license text so the CLI can write notices offline.
+    const provenance = item.provenance
+      ? {
+          ...item.provenance,
+          licenseText: readLicenseSnapshot(provenanceSources[item.provenance.sourceId]),
+          noticeUrl: `https://glinui.com/docs/attribution#${name}`
+        }
+      : null
+    const payload = { ...itemPayload, dependencyVersions, ...(provenance ? { provenance } : {}) }
+
+    changed += Number(writeIfChanged(join(itemsDir, `${name}.json`), payload))
+
+    // shadcn registry-item with aliasable imports (npx shadcn add <base>/<name>.json).
+    const shadcnItem = buildShadcnItem(
+      { ...item, name, dependencies: itemPayload.dependencies, registryDependencies: itemPayload.registryDependencies },
+      itemPayload.files,
+      versions,
+      REGISTRY_BASE_URL
+    )
+    shadcnItems.push(shadcnItem)
+    changed += Number(writeIfChanged(join(endpointsRoot, `${name}.json`), shadcnItem))
   }
 
+  changed += Number(writeIfChanged(shadcnIndexFile, buildShadcnIndex(sortedItems, shadcnItems)))
   cleanupStaleItemFiles(validNames)
+  cleanupStaleShadcnFiles(validNames)
 
   // eslint-disable-next-line no-console
   console.log(

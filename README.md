@@ -17,7 +17,7 @@
 <h3 align="center">Liquid Glass component library for React.</h3>
 
 <p align="center">
-  77 production components · 7 surface variants · 5 glass elevation levels<br />
+  126 production components · 7 surface variants · 5 glass elevation levels<br />
   Built on Radix UI and Tailwind CSS. Open source. Open code.
 </p>
 
@@ -157,7 +157,7 @@ function MyOverlay() {
 - **Safari/Firefox**: CSS `backdrop-filter` blur + saturate fallback
 - **Reduced motion**: Static blur, no animation
 
-## Components (77)
+## Components (126)
 
 ### Primitives
 
@@ -286,7 +286,7 @@ Full reference: [glinui.com/docs/tokens](https://glinui.com/docs/tokens)
 
 | Package | npm | Description |
 |---------|-----|-------------|
-| [`@glinui/ui`](https://www.npmjs.com/package/@glinui/ui) | ![npm](https://img.shields.io/npm/v/@glinui/ui?style=flat-square&color=0a0a0a&labelColor=0a0a0a) | 77 React components |
+| [`@glinui/ui`](https://www.npmjs.com/package/@glinui/ui) | ![npm](https://img.shields.io/npm/v/@glinui/ui?style=flat-square&color=0a0a0a&labelColor=0a0a0a) | 126 React components |
 | [`@glinui/tokens`](https://www.npmjs.com/package/@glinui/tokens) | ![npm](https://img.shields.io/npm/v/@glinui/tokens?style=flat-square&color=0a0a0a&labelColor=0a0a0a) | OKLCH design tokens + CSS variables |
 | [`@glinui/motion`](https://www.npmjs.com/package/@glinui/motion) | ![npm](https://img.shields.io/npm/v/@glinui/motion?style=flat-square&color=0a0a0a&labelColor=0a0a0a) | Animation presets + gesture utilities |
 | [`@glinui/registry`](https://www.npmjs.com/package/@glinui/registry) | ![npm](https://img.shields.io/npm/v/@glinui/registry?style=flat-square&color=0a0a0a&labelColor=0a0a0a) | Component metadata for CLI |
@@ -299,7 +299,7 @@ glinui/
 ├── apps/
 │   └── docs/                 # Next.js 15 docs site (glinui.com)
 ├── packages/
-│   ├── ui/                   # 77 React components
+│   ├── ui/                   # 126 React components
 │   ├── tokens/               # CSS design tokens (glass, color, motion)
 │   ├── motion/               # Animation utilities + gesture presets
 │   ├── registry/             # Component metadata for CLI
@@ -328,7 +328,7 @@ pnpm test           # 163 tests across all packages
 - **Radix UI** for accessible primitives
 - **class-variance-authority** for type-safe variant composition
 - **Sonner** for toast notifications
-- **Lucide** for iconography
+- **Phosphor** for iconography
 - **Vitest** + **Testing Library** for component testing
 - **pnpm** + **Turborepo** for monorepo management
 - **Changesets** for automated versioning + npm publish

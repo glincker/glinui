@@ -8,12 +8,10 @@ const root = resolve(__dirname, "..", "..", "..")
 
 const targets = [
   ["animated-gradient", "apps/docs/src/app/docs/components/animated-gradient/page.mdx"],
-  ["button", "apps/docs/src/app/docs/components/button/page.mdx"],
   ["glass-card", "apps/docs/src/app/docs/components/glass-card/page.mdx"],
   ["pulsating-button", "apps/docs/src/app/docs/components/pulsating-button/page.mdx"],
   ["ripple", "apps/docs/src/app/docs/components/ripple/page.mdx"],
-  ["shimmer-button", "apps/docs/src/app/docs/components/shimmer-button/page.mdx"],
-  ["skeleton", "apps/docs/src/app/docs/components/skeleton/page.mdx"]
+  ["shimmer-button", "apps/docs/src/app/docs/components/shimmer-button/page.mdx"]
 ]
 
 const tableRegex = /<PropsTable[\s\S]*?rows=\{\[[\s\S]*?\]\}[\s\S]*?\/>/g

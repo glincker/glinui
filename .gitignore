@@ -1,6 +1,7 @@
 node_modules
 .pnpm-store
 .next
+.next-*
 dist
 out
 coverage
@@ -20,3 +21,11 @@ apps/docs/public/r/
 .codex/
 .agents/
 CLAUDE.md
+
+# License watch reports (generated)
+.license-watch/
+
+# Generated AI docs (rebuilt by scripts/generate-ai-docs.mjs; copied to out/ by next export)
+apps/docs/public/md/
+apps/docs/public/llms.txt
+apps/docs/public/llms-full.txt

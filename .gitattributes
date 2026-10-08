@@ -1,0 +1,11 @@
+# Collapse generated files in PR diffs
+pnpm-lock.yaml linguist-generated=true -diff
+packages/registry/artifacts/** linguist-generated=true -diff
+packages/tokens/bases.css linguist-generated=true
+packages/tokens/src/bases.ts linguist-generated=true
+apps/docs/src/lib/generated-*.ts linguist-generated=true -diff
+THIRD_PARTY_NOTICES.md linguist-generated=true
+**/THIRD_PARTY_NOTICES.md linguist-generated=true
+**/licenses/** linguist-generated=true
+apps/docs/public/md/** linguist-generated=true
+apps/docs/public/llms*.txt linguist-generated=true
