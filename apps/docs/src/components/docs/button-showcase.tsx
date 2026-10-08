@@ -1,10 +1,10 @@
-import { ArrowRight, Loader2, Sparkles } from "lucide-react"
+import { ArrowRight, CircleNotch, Sparkle } from "@phosphor-icons/react/dist/ssr"
 
 import { Button } from "@glinui/ui"
 
 /**
  * Gradient mesh backgrounds give glass/liquid buttons something to
- * blur against — just like Apple demos glass on colourful wallpapers.
+ * blur against, just like Apple demos glass on colourful wallpapers.
  */
 const meshBg = [
   // Light: neutral specular reflections.
@@ -13,14 +13,14 @@ const meshBg = [
   "dark:bg-[radial-gradient(ellipse_at_18%_18%,rgb(255_255_255_/_0.08),transparent_54%),radial-gradient(ellipse_at_82%_80%,rgb(255_255_255_/_0.05),transparent_52%),linear-gradient(180deg,rgb(7_10_16_/_0.9),rgb(10_14_22_/_0.74))]"
 ].join(" ")
 
-const card = `relative overflow-hidden rounded-2xl border border-black/[0.06] p-5 ${meshBg} shadow-[0_10px_24px_-20px_rgb(2_6_23_/_0.35)] dark:border-white/[0.1] dark:shadow-[0_0_0_1px_rgb(255_255_255_/_0.05)_inset,var(--shadow-soft)]`
+const card = `relative overflow-hidden rounded-2xl border border-black/[0.06] p-5 ${meshBg} shadow-[0_10px_24px_-20px_rgb(2_6_23_/_0.35)] dark:border-white/[0.1] dark:[box-shadow:0_0_0_1px_rgb(255_255_255_/_0.05)_inset,var(--shadow-soft)]`
 
-const label = "text-[11px] font-semibold uppercase tracking-[0.16em] text-neutral-400 dark:text-neutral-400"
+const label = "font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-neutral-400 dark:text-neutral-400"
 
 export function ButtonShowcase() {
   return (
     <div className="space-y-6">
-      {/* Variants — hero section */}
+      {/* Variants, hero section */}
       <div className={card}>
         <p className={label}>Variants</p>
         <div className="mt-3 flex flex-wrap gap-3">
@@ -64,7 +64,7 @@ export function ButtonShowcase() {
         <p className={label}>With Icons</p>
         <div className="mt-3 flex flex-wrap items-center gap-3">
           <Button className="gap-2">
-            <Sparkles className="size-4" />
+            <Sparkle className="size-4" />
             Generate
           </Button>
           <Button variant="liquid" className="gap-2">
@@ -72,11 +72,11 @@ export function ButtonShowcase() {
             <ArrowRight className="size-4" />
           </Button>
           <Button variant="outline" className="gap-2">
-            <Loader2 className="size-4 animate-spin motion-reduce:animate-none" />
+            <CircleNotch className="size-4 animate-spin motion-reduce:animate-none" />
             Processing
           </Button>
           <Button variant="glass" className="size-10 px-0" aria-label="Open actions">
-            <Sparkles className="size-4" />
+            <Sparkle className="size-4" />
           </Button>
         </div>
       </div>

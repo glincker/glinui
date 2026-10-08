@@ -1,35 +1,26 @@
 "use client"
 
 import * as React from "react"
-import { ChevronDown, Code2 } from "lucide-react"
+import { CaretDown, Code } from "@phosphor-icons/react"
 import type { ReactNode } from "react"
+import { usePathname } from "next/navigation"
 
 import { cn } from "@glinui/ui"
 import { CodeBlock } from "@/components/docs/code-block"
+import { StageContainerProvider, STAGE_CONTROLS_ATTR } from "@/components/docs/stage-container"
+import {
+  PLAYBACK_STAGE_CLASSES,
+  EngineSwitcher,
+  PlaybackBar,
+  PlaybackSubtree,
+  StagePlaybackProvider
+} from "@/components/playback"
+import { BackgroundSwitcher, backdropScope, previewBgClasses, type PreviewBg } from "@/components/docs/preview-frame"
 
 type ExampleSnippet = {
   label: string
   code: string
   language?: string
-}
-
-type PreviewBg = "mesh" | "light" | "dark" | "vivid"
-
-const previewBgClasses: Record<PreviewBg, string> = {
-  mesh: [
-    "bg-[radial-gradient(circle_at_20%_30%,rgb(196_181_253_/_0.12),transparent_50%),radial-gradient(circle_at_80%_70%,rgb(125_211_252_/_0.12),transparent_50%),linear-gradient(180deg,rgb(240_240_244_/_0.7),rgb(228_228_232_/_0.5))]",
-    "dark:bg-[radial-gradient(circle_at_20%_30%,rgb(196_181_253_/_0.06),transparent_50%),radial-gradient(circle_at_80%_70%,rgb(125_211_252_/_0.06),transparent_50%),linear-gradient(180deg,rgb(255_255_255_/_0.04),rgb(255_255_255_/_0.015))]"
-  ].join(" "),
-  light: "bg-white dark:bg-white",
-  dark: "bg-neutral-900 dark:bg-neutral-900",
-  vivid: "bg-[linear-gradient(135deg,rgb(99_102_241),rgb(168_85_247),rgb(236_72_153))] dark:bg-[linear-gradient(135deg,rgb(79_70_229),rgb(147_51_234),rgb(219_39_119))]"
-}
-
-const previewSwatchClasses: Record<PreviewBg, string> = {
-  mesh: "bg-[linear-gradient(135deg,rgb(196_181_253_/_0.3),rgb(125_211_252_/_0.3))]",
-  light: "bg-white",
-  dark: "bg-neutral-900",
-  vivid: "bg-[linear-gradient(135deg,rgb(99_102_241),rgb(236_72_153))]"
 }
 
 type ExampleBlockProps = {
@@ -62,6 +53,10 @@ export function ExampleBlock({
   const [activeSnippetLabel, setActiveSnippetLabel] = React.useState<string>(resolvedSnippets[0]?.label ?? "TSX")
   const [codeOpen, setCodeOpen] = React.useState(codeDefaultOpen)
   const [previewBg, setPreviewBg] = React.useState<PreviewBg>("mesh")
+  const [stageEl, setStageEl] = React.useState<HTMLDivElement | null>(null)
+  const pathname = usePathname()
+  const pinnedEngine = code.match(/\bengine="([a-z0-9-]+)"/)?.[1]
+  const playbackId = pathname?.match(/^\/docs\/components\/(?:radix\/)?([a-z0-9-]+)\/?$/)?.[1]
 
   React.useEffect(() => {
     setActiveSnippetLabel(resolvedSnippets[0]?.label ?? "TSX")
@@ -78,40 +73,36 @@ export function ExampleBlock({
 
   return (
     <section
+      {...backdropScope(previewBg)}
       className={cn(
-        "overflow-hidden rounded-2xl border border-black/[0.06] [border-top-color:var(--glass-refraction-top)] bg-[var(--glass-3-surface)] shadow-[0_0_0_1px_rgb(255_255_255_/_0.2)_inset,var(--shadow-soft)] dark:border-white/[0.1] dark:shadow-[0_0_0_1px_rgb(255_255_255_/_0.06)_inset,var(--shadow-soft)]",
+        "overflow-hidden rounded-2xl border border-border/60 bg-[var(--surface-1)] text-[color:var(--color-foreground)] [box-shadow:var(--elev-1)] transition-colors duration-300 motion-reduce:transition-none",
         className
       )}
     >
+      <StagePlaybackProvider componentId={playbackId} stageEl={stageEl} replayOnly initialEngine={pinnedEngine} engineEnabled={!/\bmotion="none"/.test(code)}>
       <div className="relative">
         <div
+          ref={setStageEl}
+          {...backdropScope(previewBg)}
           className={cn(
-            "flex min-h-[160px] items-center justify-center px-6 py-8 transition-colors duration-300 [&>div]:w-full",
+            "relative isolate overflow-hidden flex min-h-[260px] items-center justify-center px-6 py-8 transition-colors duration-300 [&>div:not([role=dialog]):not([role=alertdialog]):not([data-radix-popper-content-wrapper])]:w-full",
+            PLAYBACK_STAGE_CLASSES,
             previewBgClasses[previewBg],
             previewClassName
           )}
         >
-          {children}
+          <StageContainerProvider container={stageEl}>
+            <PlaybackSubtree>{children}</PlaybackSubtree>
+          </StageContainerProvider>
         </div>
+        <PlaybackBar />
+        <EngineSwitcher />
 
-        <div className="absolute right-2.5 top-2.5 flex items-center gap-1 rounded-lg border border-black/[0.06] bg-white/70 px-1.5 py-1 backdrop-blur-md dark:border-white/[0.1] dark:bg-neutral-900/70">
-          {(Object.keys(previewBgClasses) as PreviewBg[]).map((bg) => (
-            <button
-              key={bg}
-              type="button"
-              onClick={() => setPreviewBg(bg)}
-              aria-label={`${bg} background`}
-              className={cn(
-                "size-4 rounded-full border transition-[box-shadow,border-color] duration-150",
-                previewSwatchClasses[bg],
-                previewBg === bg
-                  ? "border-neutral-400 shadow-[0_0_0_2px_rgb(255_255_255),0_0_0_3.5px_rgb(99_102_241)] dark:border-neutral-500 dark:shadow-[0_0_0_2px_rgb(23_23_23),0_0_0_3.5px_rgb(129_140_248)]"
-                  : "border-black/10 hover:border-black/25 dark:border-white/15 dark:hover:border-white/30"
-              )}
-            />
-          ))}
+        <div {...{ [STAGE_CONTROLS_ATTR]: "" }} className="pointer-events-auto absolute right-2.5 top-2.5 z-10">
+          <BackgroundSwitcher value={previewBg} onChange={setPreviewBg} />
         </div>
       </div>
+      </StagePlaybackProvider>
 
       <button
         type="button"
@@ -120,13 +111,13 @@ export function ExampleBlock({
         className="group relative w-full border-t border-black/[0.06] px-3 py-2 text-left transition-colors hover:bg-white/35 dark:border-white/[0.08] dark:hover:bg-white/[0.03]"
       >
         <div className="flex items-center justify-between">
-          <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.08em] text-neutral-500 dark:text-neutral-400">
-            <Code2 className="size-3.5" />
+          <span className="inline-flex items-center gap-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-neutral-500 dark:text-neutral-400">
+            <Code className="size-3.5" />
             {codeOpen ? "Hide source" : "View source"}
           </span>
           <span className="inline-flex items-center gap-1.5 text-[11px] text-neutral-500 dark:text-neutral-400">
             <span>{codeOpen ? "Collapse" : "Expand"}</span>
-            <ChevronDown className={cn("size-3.5 transition-transform", codeOpen ? "rotate-180" : "rotate-0")} />
+            <CaretDown className={cn("size-3.5 transition-transform", codeOpen ? "rotate-180" : "rotate-0")} />
           </span>
         </div>
 
@@ -142,7 +133,7 @@ export function ExampleBlock({
 
       {resolvedSnippets.length > 1 ? (
         <div className="border-t border-black/[0.06] px-3 py-2 dark:border-white/[0.08]">
-          <label className="inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.08em] text-neutral-500 dark:text-neutral-400">
+          <label className="inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-neutral-500 dark:text-neutral-400">
             Language
             <select
               value={activeSnippetLabel}
