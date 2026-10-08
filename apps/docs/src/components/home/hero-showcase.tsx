@@ -62,10 +62,10 @@ export function HeroShowcase() {
             <TabsContent value="overview" className="mt-4 space-y-4">
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-xs text-[var(--color-muted)]">
-                  <span>Components adopted</span>
-                  <span className="font-mono tabular-nums">72 / 100</span>
+                  <span>Migration progress</span>
+                  <span className="font-mono tabular-nums">72%</span>
                 </div>
-                <Progress value={72} aria-label="Components adopted" />
+                <Progress value={72} aria-label="Migration progress" />
               </div>
               <div className="flex items-center justify-between rounded-lg bg-[var(--surface-well)] px-3 py-2.5 [box-shadow:var(--elev-inset)]">
                 <span className="text-sm text-[var(--color-foreground)]">Reduced motion</span>
@@ -83,7 +83,7 @@ export function HeroShowcase() {
               </div>
             </TabsContent>
             <TabsContent value="activity" className="mt-4 text-sm text-[var(--color-muted)]">
-              14 components copied this week.
+              Sample content for the Tabs component.
             </TabsContent>
             <TabsContent value="billing" className="mt-4 text-sm text-[var(--color-muted)]">
               MIT licensed. Nothing to pay.

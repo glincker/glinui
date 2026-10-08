@@ -1,14 +1,16 @@
 import Link from "next/link"
-import { ArrowRight } from "@phosphor-icons/react/dist/ssr"
-
-import { allComponentIds } from "@/lib/primitives"
+import { ArrowRight, GithubLogo } from "@phosphor-icons/react/dist/ssr"
 
 import { HeroInstall } from "./hero-install"
 import { HeroShowcase } from "./hero-showcase"
+import { BROWSE_CTA, COMPONENT_COUNT, HERO_SUBHEAD, PRIMARY_CTA, REPO_HREF, TRUST_LINE } from "./landing-facts"
 import { Eyebrow } from "./surface"
 
 const CTA_PRIMARY =
   "inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-[var(--color-accent)] px-6 text-[15px] font-semibold text-[var(--color-accent-foreground)] [box-shadow:var(--elev-2)] transition-[transform,filter] duration-150 ease-[var(--ease-out)] hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-background)] active:scale-[0.97] active:brightness-95 active:[box-shadow:var(--elev-1)] motion-reduce:transition-none motion-reduce:active:scale-100"
+
+const CTA_SECONDARY =
+  "inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-[var(--surface-2)] px-5 text-[15px] font-semibold text-[var(--color-foreground)] [box-shadow:var(--elev-1)] transition-[transform,background-color] duration-150 ease-[var(--ease-out)] hover:bg-[var(--surface-3)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] active:scale-[0.98] motion-reduce:transition-none motion-reduce:active:scale-100"
 
 const SECONDARY = [
   { href: "/docs/animations", label: "Explore animations" },
@@ -25,23 +27,31 @@ export function HomeHero() {
       />
       <div className="grid grid-cols-[minmax(0,1fr)] items-center gap-14 lg:grid-cols-[1.02fr_0.98fr] lg:gap-10 lg:items-center">
         <div className="min-w-0 space-y-8">
-          <Eyebrow>{allComponentIds.length} components, MIT licensed</Eyebrow>
+          <Eyebrow>{COMPONENT_COUNT} components, MIT licensed</Eyebrow>
           <div className="space-y-5">
             <h1 className="type-display max-w-[13ch] text-[var(--color-foreground)] sm:max-w-[14ch]">
               Design modern UI for the modern web.
             </h1>
-            <p className="type-lead">
-              Accessible React components, motion, OKLCH color, design tokens and AI-ready prompts in one hub. Copy the
-              source, own it, and ship.
-            </p>
+            <p className="type-lead">{HERO_SUBHEAD}</p>
           </div>
 
           <div className="space-y-4">
-            <Link href="/docs/components" className={`${CTA_PRIMARY} w-full sm:w-auto`}>
-              Browse components
-              <ArrowRight className="size-4" aria-hidden="true" />
-            </Link>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <Link href={PRIMARY_CTA.href} className={`${CTA_PRIMARY} w-full sm:w-auto`}>
+                {PRIMARY_CTA.label}
+                <ArrowRight className="size-4" aria-hidden="true" />
+              </Link>
+              <Link href={BROWSE_CTA.href} className={`${CTA_SECONDARY} w-full sm:w-auto`}>
+                {BROWSE_CTA.label}
+              </Link>
+              <a href={REPO_HREF} target="_blank" rel="noreferrer" className={`${CTA_SECONDARY} w-full sm:w-auto`}>
+                <GithubLogo className="size-4" weight="fill" aria-hidden="true" />
+                GitHub
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>
+            </div>
             <HeroInstall />
+            <p className="type-caption">{TRUST_LINE}</p>
           </div>
 
           <nav aria-label="Explore" className="flex flex-wrap items-center gap-x-5 gap-y-1 text-sm">

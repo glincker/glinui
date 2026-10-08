@@ -1,6 +1,8 @@
 import Link from "next/link"
 import { ArrowRight, GithubLogo } from "@phosphor-icons/react/dist/ssr"
 
+import { HeroInstall } from "./hero-install"
+import { PRIMARY_CTA, REPO_HREF, TRUST_LINE } from "./landing-facts"
 import { Surface } from "./surface"
 
 export function CtaBand() {
@@ -22,17 +24,18 @@ export function CtaBand() {
           Start with one component. Keep the whole system.
         </h2>
         <p className="mx-auto type-lead mt-4">
-          Open source, MIT licensed, and ready for your next build.
+          {TRUST_LINE}
         </p>
-        <div className="mt-9 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
+        <div className="mx-auto mt-8 flex justify-center"><HeroInstall /></div>
+        <div className="mt-6 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
           <Link
-            href="/docs/components"
+            href={PRIMARY_CTA.href}
             className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-[var(--color-accent)] px-6 text-[15px] font-semibold text-[var(--color-accent-foreground)] [box-shadow:var(--elev-2)] transition-[transform,filter] duration-150 ease-[var(--ease-out)] hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-1)] active:scale-[0.98] motion-reduce:transition-none motion-reduce:active:scale-100"
           >
-            Browse components <ArrowRight className="size-4" aria-hidden="true" />
+            {PRIMARY_CTA.label} <ArrowRight className="size-4" aria-hidden="true" />
           </Link>
           <Link
-            href="https://github.com/GLINCKER/glinui"
+            href={REPO_HREF}
             target="_blank"
             rel="noreferrer"
             className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-[var(--surface-2)] px-6 text-[15px] font-semibold text-[var(--color-foreground)] [box-shadow:var(--elev-1)] transition-[transform,background-color] duration-150 ease-[var(--ease-out)] hover:bg-[var(--surface-3)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] active:scale-[0.98] motion-reduce:transition-none motion-reduce:active:scale-100"

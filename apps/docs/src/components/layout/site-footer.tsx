@@ -22,10 +22,10 @@ export function SiteFooter() {
   const year = new Date().getFullYear()
   return (
     <footer className="border-t border-[var(--line-soft)] bg-[var(--surface-0)]">
-      <div className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.6fr_repeat(4,1fr)]">
-          <div className="space-y-4 sm:col-span-2 lg:col-span-1">
-            <Link href="/" className={`inline-flex items-center gap-2 rounded-md ${footerRing}`}>
+      <div className="mx-auto w-full max-w-layout px-[var(--layout-gutter)] py-12 [[data-docs-scroll-root]_&]:max-w-7xl [[data-docs-scroll-root]_&]:px-4 sm:[[data-docs-scroll-root]_&]:px-6 lg:[[data-docs-scroll-root]_&]:px-8">
+        <div className="grid gap-x-8 gap-y-10 min-[360px]:grid-cols-2 lg:grid-cols-6 lg:[[data-docs-scroll-root]_&]:grid-cols-2 xl:[[data-docs-scroll-root]_&]:grid-cols-6">
+          <div className="space-y-4 min-[360px]:col-span-2">
+            <Link href="/" className={`inline-flex min-h-11 items-center gap-2 rounded-md ${footerRing}`}>
               <Image src="/glincker-logo.png" alt="" width={24} height={24} unoptimized className="rounded-md dark:hidden" />
               <Image src="/glincker-logo.png" alt="" width={24} height={24} unoptimized className="hidden rounded-md invert dark:block" />
               <span className="text-sm font-semibold tracking-[-0.02em]">Glin UI</span>
@@ -57,36 +57,36 @@ export function SiteFooter() {
 
         <FooterEcosystem />
 
-        <div className="mt-10 flex flex-col gap-4 border-t border-[var(--line-soft)] pt-6 type-caption text-[var(--color-muted)] lg:flex-row lg:items-center lg:justify-between">
-          <p className="flex flex-wrap items-center gap-x-2 gap-y-1">
+        <div className="mt-10 flex flex-col gap-2 border-t border-[var(--line-soft)] pt-6 type-caption text-[var(--color-muted)] lg:flex-row lg:items-center lg:justify-between">
+          <p className="flex flex-wrap items-center gap-x-2">
             <span>&copy; {year} GLINCKER.</span>
-            <Link href={LICENSE_URL} target="_blank" rel="noopener" className={`rounded-sm underline-offset-2 hover:underline ${footerRing}`}>
+            <Link href={LICENSE_URL} target="_blank" rel="noopener" className={`inline-flex min-h-11 items-center rounded-sm underline-offset-2 hover:underline ${footerRing}`}>
               MIT License
             </Link>
             <span className="inline-flex items-center gap-1">
               Made with <Heart aria-hidden weight="fill" className="size-3" /> by
-              <Link href={GLINCKER_URL} target="_blank" rel="noopener" className={`rounded-sm underline-offset-2 hover:underline ${footerRing}`}>
+              <Link href={GLINCKER_URL} target="_blank" rel="noopener" className={`inline-flex min-h-11 items-center rounded-sm underline-offset-2 hover:underline ${footerRing}`}>
                 GLINCKER
               </Link>
             </span>
             <span>v{VERSION}</span>
           </p>
-          <div className="flex flex-wrap items-center gap-2">
-          <ThemeToggle />
-          <nav aria-label="Footer legal and feeds">
-            <ul className="flex flex-wrap gap-x-1 gap-y-1">
-              {bottomLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className={`inline-flex min-h-11 items-center rounded-sm px-2 hover:text-[var(--color-foreground)] ${footerRing}`}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+            <ThemeToggle />
+            <nav aria-label="Footer legal and feeds">
+              <ul className="flex flex-wrap gap-x-1 gap-y-1">
+                {bottomLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className={`inline-flex min-h-11 items-center rounded-sm px-2 hover:text-[var(--color-foreground)] ${footerRing}`}
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </div>
         </div>
       </div>

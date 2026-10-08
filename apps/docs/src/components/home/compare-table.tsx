@@ -12,7 +12,7 @@ const n = (text: string): Cell => ({ text, level: "no" })
 
 const ROWS: { label: string; glin: Cell; shadcn: Cell; magic: Cell }[] = [
   { label: "Ownership", glin: y("Copy the source or install the package"), shadcn: y("Copy the source through the CLI"), magic: y("Copy the source through the CLI") },
-  { label: "Surface variants", glin: y("Default, glass, liquid, matte, glow on core components"), shadcn: n("One default style, extend it yourself"), magic: n("Not the focus") },
+  { label: "Surface variants", glin: y("8 surface variants: glinr, solid, plain, soft, outline, ghost, gradient, glass"), shadcn: n("One default style, extend it yourself"), magic: n("Not the focus") },
   { label: "Animations", glin: y("Free motion components with reduced motion handling"), shadcn: n("Minimal, bring your own"), magic: y("Large animated library, a core strength") },
   { label: "Colors and tokens", glin: y("OKLCH tokens for light and dark"), shadcn: y("CSS variable theming"), magic: p("Inherits your shadcn theme") },
   { label: "AI prompts", glin: y("Copy-for-AI prompt on every component page"), shadcn: y("MCP server and v0 integration"), magic: p("Works through the shadcn registry") },
