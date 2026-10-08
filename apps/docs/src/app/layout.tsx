@@ -80,7 +80,11 @@ export const metadata: Metadata = {
   },
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
-    yandex: process.env.NEXT_PUBLIC_YANDEX_SITE_VERIFICATION
+    yandex: process.env.NEXT_PUBLIC_YANDEX_SITE_VERIFICATION,
+    // Rendered only when the env var is set.
+    other: process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
+      ? { "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION }
+      : undefined
   },
   openGraph: {
     type: "website",
@@ -94,7 +98,7 @@ export const metadata: Metadata = {
         url: DEFAULT_OG_IMAGE_PATH,
         width: 1200,
         height: 630,
-        alt: "Glin UI - Liquid glass React component library"
+        alt: "Glin UI - Free, open-source design hub for the modern web"
       }
     ]
   },

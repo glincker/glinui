@@ -4,6 +4,8 @@ import { SITE_URL, isLocalSiteUrl } from "@/lib/seo"
 
 export const dynamic = "force-static"
 
+export const AI_CRAWLERS = ["GPTBot", "ClaudeBot", "PerplexityBot", "Google-Extended", "Applebot-Extended", "CCBot"]
+
 export default function robots(): MetadataRoute.Robots {
   const isLocal = isLocalSiteUrl(SITE_URL)
 

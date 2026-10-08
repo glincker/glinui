@@ -40,7 +40,7 @@ test("llms.txt lists every page and llms-full.txt carries a size note", () => {
   const index = read("public/llms.txt")
   const files = readdirSync(join(root, "public/md")).filter((f) => f.endsWith(".md"))
   for (const f of files) assert.ok(index.includes(`/md/${f})`), `llms.txt misses ${f}`)
-  assert.match(index, /^# GLINUI/)
+  assert.match(index, /^# Glin UI/)
   const full = read("public/llms-full.txt")
   assert.match(full, /Size: about \d+ KB/)
   assert.doesNotMatch(index + full, DASH)
