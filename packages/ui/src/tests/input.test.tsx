@@ -29,7 +29,7 @@ describe("Input", () => {
     )
 
     expect(screen.getByTestId("sm").className).toContain("h-8")
-    expect(screen.getByTestId("lg").className).toContain("h-12")
+    expect(screen.getByTestId("lg").className).toContain("h-10")
   })
 
   it("supports native attributes", () => {

@@ -1,25 +1,27 @@
+"use client"
+
 import * as React from "react"
 import * as ToastPrimitives from "@radix-ui/react-toast"
 import { cva, type VariantProps } from "class-variance-authority"
-import { X } from "lucide-react"
+import { X } from "@phosphor-icons/react/dist/ssr"
 
 import { cn } from "../lib/cn"
+import { panelSurface, type PanelVariantProp } from "../lib/panel"
+import { useResolvedPanelVariant } from "./panel-context"
 
 export const ToastProvider = ToastPrimitives.Provider
 
 const toastVariants = cva(
-  "group pointer-events-auto relative isolate flex w-full items-start justify-between gap-3 overflow-hidden rounded-2xl border transition-[transform,opacity,box-shadow,border-color,background-color] duration-normal ease-standard data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:slide-in-from-bottom-3 data-[state=closed]:fade-out-0 data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] motion-reduce:transition-none motion-reduce:data-[state=open]:animate-none motion-reduce:data-[state=closed]:animate-none",
+  "group pointer-events-auto relative isolate flex w-full items-start justify-between gap-3 overflow-hidden [box-shadow:var(--elev-2)] before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:z-[1] before:w-[3px] before:bg-[var(--toast-bar,transparent)] transition-[transform,opacity,box-shadow,border-color,background-color] [--tw-duration:var(--motion-overlay-in)] ease-[var(--ease-out)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:slide-in-from-bottom-3 data-[state=open]:fade-in-0 data-[state=closed]:[--tw-duration:var(--motion-overlay-out)] data-[state=closed]:fade-out-0 data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] motion-reduce:transition-none motion-reduce:data-[state=open]:animate-none motion-reduce:data-[state=closed]:animate-none",
   {
     variants: {
-      variant: {
-        default:
-          "border-black/10 bg-[linear-gradient(180deg,rgb(255_255_255),rgb(244_244_246))] text-[var(--color-foreground)] shadow-[0_1px_0_rgb(255_255_255_/_0.9)_inset,0_10px_26px_-18px_rgb(15_23_42_/_0.38)] dark:border-white/[0.14] dark:bg-[linear-gradient(180deg,rgb(56_62_72_/_0.94),rgb(37_42_50_/_0.94))] dark:shadow-[0_1px_0_rgb(255_255_255_/_0.08)_inset,0_12px_28px_-18px_rgb(0_0_0_/_0.68)]",
-        glass:
-          "border-white/20 [border-top-color:var(--glass-refraction-top)] bg-[linear-gradient(155deg,rgb(255_255_255_/_0.64),rgb(246_246_246_/_0.35))] text-[var(--color-foreground)] backdrop-blur-lg backdrop-saturate-[180%] shadow-[0_0_0_1px_rgb(255_255_255_/_0.2)_inset,0_10px_26px_-18px_rgb(15_23_42_/_0.32)] dark:border-white/[0.12] dark:bg-[linear-gradient(155deg,rgb(255_255_255_/_0.14),rgb(255_255_255_/_0.05))] dark:shadow-[0_0_0_1px_rgb(255_255_255_/_0.09)_inset,0_12px_28px_-18px_rgb(0_0_0_/_0.66)]",
-        frosted:
-          "border-white/30 [border-top-color:var(--glass-refraction-top)] bg-[linear-gradient(155deg,rgb(255_255_255_/_0.8),rgb(246_246_246_/_0.55))] text-[var(--color-foreground)] backdrop-blur-[40px] backdrop-saturate-[200%] shadow-[0_0_0_1px_rgb(255_255_255_/_0.25)_inset,0_0_16px_rgb(255_255_255_/_0.12)_inset,0_10px_26px_-18px_rgb(15_23_42_/_0.36)] dark:border-white/[0.16] dark:bg-[linear-gradient(155deg,rgb(255_255_255_/_0.2),rgb(255_255_255_/_0.08))] dark:shadow-[0_0_0_1px_rgb(255_255_255_/_0.12)_inset,0_0_16px_rgb(255_255_255_/_0.05)_inset,0_12px_28px_-18px_rgb(0_0_0_/_0.7)]",
-        matte:
-          "border-black/12 bg-[linear-gradient(180deg,rgb(248_248_249),rgb(232_232_235))] text-[var(--color-foreground)] shadow-[0_1px_0_rgb(255_255_255_/_0.88)_inset,0_10px_24px_-18px_rgb(15_23_42_/_0.34)] dark:border-white/[0.16] dark:bg-[linear-gradient(180deg,rgb(50_55_63_/_0.96),rgb(33_37_44_/_0.96))] dark:shadow-[0_1px_0_rgb(255_255_255_/_0.1)_inset,0_12px_26px_-18px_rgb(0_0_0_/_0.7)]"
+      /** Status bar on the leading edge. */
+      tone: {
+        none: "",
+        success: "[--toast-bar:var(--tone-success)]",
+        warning: "[--toast-bar:var(--tone-warning)]",
+        danger: "[--toast-bar:var(--tone-danger)]",
+        info: "[--toast-bar:var(--tone-info)]"
       },
       size: {
         sm: "p-3.5 pr-5",
@@ -28,11 +30,24 @@ const toastVariants = cva(
       }
     },
     defaultVariants: {
-      variant: "glass",
+      tone: "none",
       size: "md"
     }
   }
 )
+
+type ToastStatus = "success" | "warning" | "destructive" | "info"
+
+const STATUS_TONE: Record<ToastStatus, "success" | "warning" | "danger" | "info"> = {
+  success: "success",
+  warning: "warning",
+  destructive: "danger",
+  info: "info"
+}
+
+function isToastStatus(value: string | null | undefined): value is ToastStatus {
+  return value === "success" || value === "warning" || value === "destructive" || value === "info"
+}
 
 export type ToastViewportProps = React.ComponentPropsWithoutRef<typeof ToastPrimitives.Viewport>
 
@@ -53,21 +68,34 @@ export const ToastViewport = React.forwardRef<
 ToastViewport.displayName = "ToastViewport"
 
 export type ToastProps = React.ComponentPropsWithoutRef<typeof ToastPrimitives.Root> &
-  VariantProps<typeof toastVariants>
+  VariantProps<typeof toastVariants> & {
+    /**
+     * Surface look, or a status (`success`, `warning`, `destructive`, `info`) which keeps the ambient look and
+     * adds a status bar. Omit for the ambient design style (glinr by default). `glass` is opt-in.
+     */
+    variant?: PanelVariantProp | ToastStatus
+  }
 
 export const Toast = React.forwardRef<
   React.ComponentRef<typeof ToastPrimitives.Root>,
   ToastProps
->(({ className, variant, size, ...props }, ref) => (
-  <ToastPrimitives.Root
-    ref={ref}
-    className={cn(
-      toastVariants({ variant, size }),
-      className
-    )}
-    {...props}
-  />
-))
+>(({ className, variant, tone, size, ...props }, ref) => {
+  const status = isToastStatus(variant) ? variant : undefined
+  const resolved = useResolvedPanelVariant(status ? undefined : (variant as PanelVariantProp | undefined))
+  return (
+    <ToastPrimitives.Root
+      ref={ref}
+      data-variant={resolved}
+      className={cn(
+        panelSurface({ variant: resolved, shape: "dialog" }),
+        toastVariants({ tone: tone ?? (status ? STATUS_TONE[status] : "none"), size }),
+        resolved === "plain" && "rounded-lg shadow-md",
+        className
+      )}
+      {...props}
+    />
+  )
+})
 
 Toast.displayName = "Toast"
 
@@ -96,7 +124,7 @@ export const ToastDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <ToastPrimitives.Description
     ref={ref}
-    className={cn("text-sm leading-relaxed text-neutral-600 dark:text-neutral-300", className)}
+    className={cn("text-sm leading-relaxed text-[var(--color-muted)]", className)}
     {...props}
   />
 ))
@@ -112,7 +140,7 @@ export const ToastClose = React.forwardRef<
   <ToastPrimitives.Close
     ref={ref}
     className={cn(
-      "absolute right-2 top-2 inline-flex h-7 w-7 items-center justify-center rounded-md border border-transparent bg-black/[0.04] text-neutral-500 transition-[color,background-color,border-color] duration-fast ease-standard hover:border-black/10 hover:bg-black/[0.08] hover:text-neutral-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 dark:bg-white/[0.06] dark:text-neutral-300 dark:hover:border-white/[0.18] dark:hover:bg-white/[0.12] dark:hover:text-neutral-100",
+      "absolute right-2 top-2 inline-flex h-8 w-8 items-center justify-center rounded-md text-[var(--color-muted)] transition-[color,background-color] duration-150 ease-[var(--ease-out)] hover:bg-[color-mix(in_oklab,var(--color-foreground)_8%,transparent)] hover:text-[var(--color-foreground)] [@media(pointer:coarse)]:h-11 [@media(pointer:coarse)]:w-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2",
       className
     )}
     {...props}

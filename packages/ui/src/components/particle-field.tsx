@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react"
 import { cn } from "../lib/cn"
 
@@ -72,7 +74,7 @@ export const ParticleField = React.forwardRef<HTMLDivElement, ParticleFieldProps
           <div
             key={p.id}
             className={cn(
-              "absolute animate-particle-float motion-reduce:[animation:none]",
+              "absolute opacity-0 animate-particle-float motion-reduce:[animation:none]",
               shape === "circle" ? "rounded-full" : "rounded-sm"
             )}
             style={{
@@ -84,7 +86,6 @@ export const ParticleField = React.forwardRef<HTMLDivElement, ParticleFieldProps
               left: `${p.x}%`,
               bottom: `${p.y * 0.3}%`,
               backgroundColor: particleColor,
-              opacity: 0,
               animationDelay: `${-p.delay}s`,
             } as React.CSSProperties}
           />

@@ -11,7 +11,7 @@ describe("Progress", () => {
   it("applies glass variant and size classes", () => {
     render(<Progress data-testid="progress" variant="glass" size="lg" value={75} />)
     const root = screen.getByTestId("progress")
-    expect(root.className).toContain("border-white/25")
+    expect(root.className).toContain("var(--glass-border)")
     expect(root.className).toContain("h-4")
   })
 

@@ -2,8 +2,9 @@
 
 import * as React from "react"
 import { cn } from "../lib/cn"
+import { Card, type CardProps } from "./card"
 
-export interface FloatingPanelProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface FloatingPanelProps extends Omit<CardProps, "size" | "inset" | "interactive"> {
   /** Enable dragging */
   draggable?: boolean
   /** Initial x position */
@@ -84,11 +85,12 @@ export const FloatingPanel = React.forwardRef<HTMLDivElement, FloatingPanelProps
     }, [])
 
     return (
-      <div
+      <Card
         ref={setRefs}
+        elevation={3}
         className={cn(
-          "absolute z-50 overflow-hidden rounded-xl border border-white/10 bg-white/5 shadow-xl backdrop-blur-xl",
-          isDragging ? "cursor-grabbing shadow-2xl" : draggable ? "cursor-grab" : "",
+          "absolute z-50 overflow-hidden p-0",
+          isDragging ? "cursor-grabbing" : draggable ? "cursor-grab" : "",
           className
         )}
         style={{
@@ -107,7 +109,7 @@ export const FloatingPanel = React.forwardRef<HTMLDivElement, FloatingPanelProps
             <button
               type="button"
               aria-label="Close panel"
-              className="flex size-6 items-center justify-center rounded-md text-foreground/40 transition-colors hover:bg-white/10 hover:text-foreground"
+              className="flex size-6 items-center justify-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] text-[var(--color-muted)] transition-colors hover:bg-[color-mix(in_oklab,var(--color-foreground)_8%,transparent)] hover:text-foreground"
               onClick={onClose}
             >
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -119,7 +121,7 @@ export const FloatingPanel = React.forwardRef<HTMLDivElement, FloatingPanelProps
         <div className={cn(closable ? "px-4 pb-4" : "p-4")}>
           {children}
         </div>
-      </div>
+      </Card>
     )
   }
 )

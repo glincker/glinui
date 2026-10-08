@@ -8,6 +8,16 @@ describe("GlassNavbar", () => {
     expect(screen.getByText("Navigation")).toBeVisible()
   })
 
+  it("accepts the crisp variants without any blur", () => {
+    render(
+      <GlassNavbar data-testid="navbar" variant="glinr">
+        Navigation
+      </GlassNavbar>
+    )
+    expect(screen.getByTestId("navbar")).toHaveAttribute("data-variant", "glinr")
+    expect(screen.getByTestId("navbar").className).not.toContain("backdrop-blur")
+  })
+
   it("elevates on scroll", async () => {
     render(
       <GlassNavbar data-testid="navbar" scrollThreshold={20}>
@@ -16,7 +26,8 @@ describe("GlassNavbar", () => {
     )
 
     const navbar = screen.getByTestId("navbar")
-    expect(navbar.className).toContain("var(--glass-2-surface)")
+    expect(navbar.className).toContain("var(--surface-1)_84%")
+    expect(navbar).toHaveAttribute("data-variant", "glass")
 
     Object.defineProperty(window, "scrollY", {
       value: 64,
@@ -29,7 +40,7 @@ describe("GlassNavbar", () => {
     })
 
     await waitFor(() => {
-      expect(navbar.className).toContain("var(--glass-4-surface)")
+      expect(navbar.className).toContain("var(--surface-1)_92%")
     })
   })
 })

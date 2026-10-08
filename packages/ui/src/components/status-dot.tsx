@@ -3,7 +3,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "../lib/cn"
 
-const statusDotVariants = cva("inline-flex items-center gap-2", {
+const statusDotVariants = cva("inline-flex items-center gap-2 font-medium", {
   variants: {
     size: {
       sm: "text-xs",
@@ -19,11 +19,11 @@ const statusDotVariants = cva("inline-flex items-center gap-2", {
 const dotVariants = cva("rounded-full", {
   variants: {
     status: {
-      neutral: "bg-neutral-500",
-      info: "bg-sky-500",
-      success: "bg-emerald-500",
-      warning: "bg-amber-500",
-      danger: "bg-rose-500"
+      neutral: "bg-[var(--color-muted)] shadow-[0_0_0_3px_color-mix(in_oklch,var(--color-muted)_20%,transparent)]",
+      info: "bg-[var(--tone-info)] shadow-[0_0_0_3px_color-mix(in_oklch,var(--tone-info)_22%,transparent)]",
+      success: "bg-[var(--color-signal-ok)] shadow-[0_0_0_3px_color-mix(in_oklch,var(--color-signal-ok)_24%,transparent)]",
+      warning: "bg-[var(--tone-warning)] shadow-[0_0_0_3px_color-mix(in_oklch,var(--tone-warning)_26%,transparent)]",
+      danger: "bg-[var(--tone-danger)] shadow-[0_0_0_3px_color-mix(in_oklch,var(--tone-danger)_24%,transparent)]"
     },
     size: {
       sm: "h-1.5 w-1.5",

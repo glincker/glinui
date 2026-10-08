@@ -3,34 +3,63 @@
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 
-import { cn } from "../lib/cn"
+import { Check, Minus } from "@phosphor-icons/react/dist/ssr"
 
-const tableWrapperVariants = cva("relative w-full overflow-auto rounded-xl border", {
+import { cn } from "../lib/cn"
+import { liftShell, PLAIN_CONTAINER } from "../lib/lift"
+import { surfaceVariants, type SurfaceVariant } from "../lib/surface"
+import { resolveSurfaceProps } from "../lib/surface-resolve"
+import { useGlinStyle } from "./glin-provider"
+
+const tableWrapperBase = "relative w-full overflow-auto"
+
+/**
+ * Wrapper looks per variant. Vocabulary variants come from lift.ts and surface.ts;
+ * liquid and matte stay table-specific. Literal strings so Tailwind can see them.
+ */
+const tableWrapperLooks = {
+  glinr: liftShell({ radius: "xl", elevation: "2" }),
+  plain: PLAIN_CONTAINER,
+  solid:
+    "rounded-xl border border-[color:var(--color-border)] bg-[var(--surface-1)] text-[color:var(--color-foreground)] [box-shadow:var(--solid-elev-1)]",
+  soft: `${surfaceVariants({ variant: "soft", elevation: "none" })} rounded-xl`,
+  outline: `${surfaceVariants({ variant: "outline" })} rounded-xl`,
+  ghost: `${surfaceVariants({ variant: "ghost" })} rounded-xl`,
+  gradient: liftShell({ radius: "xl", elevation: "2" }),
+  glass: `${surfaceVariants({ variant: "glass" })} rounded-xl`,
+  liquid:
+    "rounded-xl border border-[color:var(--glass-border)] [border-top-color:var(--glass-refraction-top)] bg-[radial-gradient(circle_at_16%_10%,color-mix(in_oklab,var(--color-foreground)_8%,transparent),transparent_45%),var(--glass-readable)] text-[color:var(--color-foreground)] backdrop-blur-xl",
+  matte:
+    "rounded-xl border border-[color:var(--line-soft)] bg-[var(--surface-2)] text-[color:var(--color-foreground)]"
+} as const
+
+type TableLook = keyof typeof tableWrapperLooks
+const TABLE_EXTRAS = ["liquid", "matte", "lift"] as const
+
+const tableWrapperSize = cva("", {
   variants: {
-    variant: {
-      default: "border-[var(--color-border)] bg-[var(--color-surface)]",
-      glass: "glass-2",
-      outline: "border-[var(--color-border)] bg-transparent",
-      ghost: "border-transparent bg-transparent",
-      liquid:
-        "border-white/25 [border-top-color:rgb(255_255_255_/_0.76)] bg-[radial-gradient(circle_at_16%_10%,rgb(255_255_255_/_0.72),transparent_45%),linear-gradient(165deg,rgb(255_255_255_/_0.62),rgb(236_236_236_/_0.32))] backdrop-blur-xl dark:border-white/[0.14] dark:[border-top-color:rgb(255_255_255_/_0.3)] dark:bg-[linear-gradient(165deg,rgb(255_255_255_/_0.12),rgb(255_255_255_/_0.05))]",
-      matte:
-        "border-black/10 bg-[linear-gradient(180deg,rgb(252_252_252),rgb(241_241_243))] dark:border-white/[0.12] dark:bg-[linear-gradient(180deg,rgb(56_60_69_/_0.9),rgb(38_42_50_/_0.9))]"
-    },
-    size: {
-      sm: "text-xs",
-      md: "text-sm",
-      lg: "text-base"
-    }
+    size: { sm: "text-xs", md: "text-sm", lg: "text-base" }
   },
-  defaultVariants: {
-    variant: "default",
-    size: "md"
-  }
+  defaultVariants: { size: "md" }
 })
 
+/** Header strip look per variant: glinr raises it on face-0 with the sheen, plain stays flat. */
+const tableHeaderLooks: Record<TableLook, string> = {
+  glinr: "[background:var(--sheen),var(--face-0,var(--surface-2))] shadow-[inset_0_1px_0_rgb(255_255_255_/_0.06)]",
+  plain: "",
+  solid: "bg-[var(--surface-2)]",
+  soft: "bg-[var(--surface-3)]",
+  outline: "",
+  ghost: "",
+  gradient:
+    "[background:linear-gradient(135deg,var(--gradient-from),var(--gradient-to))] [&_th]:!text-white",
+  glass: "bg-[color-mix(in_oklab,var(--color-foreground)_5%,transparent)]",
+  liquid: "bg-[color-mix(in_oklab,var(--color-foreground)_5%,transparent)]",
+  matte: "bg-[var(--surface-3)]"
+}
+
 const tableHeadCellVariants = cva(
-  "align-middle font-medium text-neutral-500 dark:text-neutral-400 [&:has([role=checkbox])]:pr-0",
+  "align-middle text-xs font-semibold uppercase tracking-wide text-[var(--color-muted)] [&:has([role=checkbox])]:pr-0",
   {
     variants: {
       size: {
@@ -45,7 +74,7 @@ const tableHeadCellVariants = cva(
   }
 )
 
-const tableCellVariants = cva("align-middle [&:has([role=checkbox])]:pr-0", {
+const tableCellVariants = cva("align-middle tabular-nums [&:has([role=checkbox])]:pr-0", {
   variants: {
     size: {
       sm: "p-2",
@@ -75,10 +104,10 @@ const tableRowToneVariants = cva("", {
   variants: {
     tone: {
       default: "",
-      info: "bg-sky-500/[0.04] dark:bg-sky-400/[0.08]",
-      success: "bg-emerald-500/[0.04] dark:bg-emerald-400/[0.08]",
-      warning: "bg-amber-500/[0.05] dark:bg-amber-400/[0.1]",
-      danger: "bg-rose-500/[0.05] dark:bg-rose-400/[0.1]"
+      info: "bg-[color-mix(in_oklab,var(--tone-info)_7%,transparent)]",
+      success: "bg-[color-mix(in_oklab,var(--tone-success)_7%,transparent)]",
+      warning: "bg-[color-mix(in_oklab,var(--tone-warning)_8%,transparent)]",
+      danger: "bg-[color-mix(in_oklab,var(--tone-danger)_8%,transparent)]"
     }
   },
   defaultVariants: {
@@ -87,8 +116,8 @@ const tableRowToneVariants = cva("", {
 })
 
 type TableContextValue = {
-  variant: NonNullable<VariantProps<typeof tableWrapperVariants>["variant"]>
-  size: NonNullable<VariantProps<typeof tableWrapperVariants>["size"]>
+  variant: TableLook
+  size: NonNullable<VariantProps<typeof tableWrapperSize>["size"]>
   striped: boolean
   interactive: boolean
   stickyHeader: boolean
@@ -99,7 +128,7 @@ type TableContextValue = {
 }
 
 const TableContext = React.createContext<TableContextValue>({
-  variant: "default",
+  variant: "glinr",
   size: "md",
   striped: false,
   interactive: true,
@@ -117,39 +146,43 @@ function useTableContext() {
 function getStickySurfaceClass(variant: TableContextValue["variant"]) {
   switch (variant) {
     case "glass":
-      return "bg-[var(--glass-2-surface)]"
     case "liquid":
-      return "bg-[var(--color-surface)]/95 backdrop-blur-md"
-    case "matte":
-      return "bg-[var(--color-surface)]"
+      return "bg-[var(--glass-readable)] backdrop-blur-md"
+    case "glinr":
+    case "gradient":
+      return "bg-[var(--face-0,var(--surface-2))]"
     case "ghost":
-      return "bg-[var(--color-background)]"
     case "outline":
+    case "plain":
       return "bg-[var(--color-background)]"
     default:
-      return "bg-[var(--color-surface)]"
+      return "bg-[var(--surface-2)]"
   }
 }
 
 function getFirstStickySurfaceClass(variant: TableContextValue["variant"]) {
   switch (variant) {
     case "glass":
-      return "first:bg-[var(--glass-2-surface)]"
     case "liquid":
-      return "first:bg-[var(--color-surface)]/95 first:backdrop-blur-md"
-    case "matte":
-      return "first:bg-[var(--color-surface)]"
+      return "first:bg-[var(--glass-readable)] first:backdrop-blur-md"
     case "ghost":
-      return "first:bg-[var(--color-background)]"
     case "outline":
+    case "plain":
       return "first:bg-[var(--color-background)]"
     default:
-      return "first:bg-[var(--color-surface)]"
+      return "first:bg-[var(--surface-1)]"
   }
 }
 
 export type TableProps = React.HTMLAttributes<HTMLTableElement> &
-  VariantProps<typeof tableWrapperVariants> & {
+  {
+    /**
+     * Visual variant. Omit for the ambient design style (glinr: lift wrapper with a raised header strip;
+     * plain: shadcn table). Vocabulary: glinr, solid, plain, soft, outline, ghost, gradient, glass.
+     * liquid, matte and the legacy `lift` alias stay supported.
+     */
+    variant?: SurfaceVariant | "liquid" | "matte" | "lift" | "default" | "raised" | "frosted"
+    size?: "sm" | "md" | "lg"
     containerClassName?: string
     striped?: boolean
     interactive?: boolean
@@ -159,6 +192,8 @@ export type TableProps = React.HTMLAttributes<HTMLTableElement> &
     noWrap?: boolean
     rowDividers?: boolean
     layout?: "auto" | "fixed"
+    /** Force a minimum table width so the wrapper scrolls horizontally on narrow screens. */
+    wide?: boolean | string
   }
 
 export const Table = React.forwardRef<HTMLTableElement, TableProps>(
@@ -176,11 +211,14 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
       noWrap = false,
       rowDividers = true,
       layout = "auto",
+      wide = false,
       ...props
     },
     ref
   ) => {
-    const resolvedVariant = variant ?? "default"
+    const ambient = useGlinStyle()
+    const { variant: surface, extra } = resolveSurfaceProps(variant, ambient, "container", TABLE_EXTRAS, { lift: "glinr" })
+    const resolvedVariant: TableLook = extra && extra !== "lift" ? extra : surface
     const resolvedSize = size ?? "md"
 
     return (
@@ -199,8 +237,11 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
       >
         <div
           data-slot="table-container"
+          data-variant={resolvedVariant}
           className={cn(
-            tableWrapperVariants({ variant: resolvedVariant, size: resolvedSize }),
+            tableWrapperBase,
+            tableWrapperLooks[resolvedVariant],
+            tableWrapperSize({ size: resolvedSize }),
             containerClassName
           )}
         >
@@ -210,6 +251,8 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
             className={cn(
               "w-full caption-bottom",
               layout === "fixed" ? "table-fixed" : "table-auto",
+              wide === true && "min-w-[640px]",
+              typeof wide === "string" && wide,
               className
             )}
             {...props}
@@ -228,6 +271,7 @@ export const TableHeader = React.forwardRef<
 >(({ className, ...props }, ref) => {
   const { stickyHeader, variant, rowDividers } = useTableContext()
 
+
   return (
     <thead
       ref={ref}
@@ -236,7 +280,8 @@ export const TableHeader = React.forwardRef<
         rowDividers && "[&_tr]:border-b [&_tr]:border-[var(--color-border)]",
         stickyHeader && "sticky top-0 z-10",
         stickyHeader && getStickySurfaceClass(variant),
-        stickyHeader && "backdrop-blur-sm",
+        stickyHeader && "shadow-[0_1px_0_var(--color-border)]",
+        tableHeaderLooks[variant],
         className
       )}
       {...props}
@@ -272,7 +317,7 @@ export const TableFooter = React.forwardRef<
       data-slot="table-footer"
       className={cn(
         "border-t border-[var(--color-border)] font-medium [&>tr]:last:border-b-0",
-        variant === "glass" ? "bg-[var(--glass-1-surface)]" : "bg-[var(--color-surface)]/50",
+        variant === "glass" || variant === "liquid" ? "bg-[color-mix(in_oklab,var(--color-foreground)_5%,transparent)]" : "bg-[var(--surface-2)]",
         className
       )}
       {...props}
@@ -297,15 +342,13 @@ export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
         ref={ref}
         data-slot="table-row"
         className={cn(
-          rowDividers ? "border-b border-[var(--color-border)]" : "border-0",
+          rowDividers ? "border-b border-[var(--line-soft)]" : "border-0",
           "transition-colors duration-fast ease-standard motion-reduce:transition-none",
-          "data-[state=selected]:bg-[var(--color-surface)]",
+          "hover:bg-[var(--surface-2)] data-[state=selected]:bg-[color-mix(in_oklch,var(--color-accent)_8%,var(--surface-1))]",
           striped &&
-            (variant === "glass"
-              ? "even:bg-[var(--glass-1-surface)]/55"
-              : "even:bg-[var(--color-surface)]/35"),
+            "even:bg-[color-mix(in_oklab,var(--color-foreground)_4%,transparent)]",
           interactive &&
-            (variant === "glass" ? "hover:bg-[var(--glass-1-surface)]" : "hover:bg-[var(--color-surface)]/50"),
+            "cursor-pointer hover:bg-[color-mix(in_oklab,var(--color-foreground)_6%,transparent)]",
           tableRowToneVariants({ tone }),
           className
         )}
@@ -332,6 +375,7 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
         data-slot="table-head"
         className={cn(
           tableHeadCellVariants({ size }),
+          variant === "plain" && "text-sm font-medium normal-case tracking-normal",
           tableAlignmentVariants({ align }),
           noWrap && "whitespace-nowrap",
           grid && "border-r border-[var(--color-border)] last:border-r-0",
@@ -392,17 +436,48 @@ export const TableCaption = React.forwardRef<
   <caption
     ref={ref}
     data-slot="table-caption"
-    className={cn("mt-4 text-sm text-neutral-500", className)}
+    className={cn("mt-4 text-sm text-[var(--color-muted)]", className)}
     {...props}
   />
 ))
 
 TableCaption.displayName = "TableCaption"
 
+export type YesNoProps = React.HTMLAttributes<HTMLSpanElement> & {
+  /** True renders a check, false renders a minus. */
+  value: boolean
+  /** Screen reader text for the yes state. */
+  yesLabel?: string
+  /** Screen reader text for the no state. */
+  noLabel?: string
+}
+
+/** Check / minus cell content with screen reader text, for comparison tables. */
+export const YesNo = React.forwardRef<HTMLSpanElement, YesNoProps>(
+  ({ value, yesLabel = "Yes", noLabel = "No", className, ...props }, ref) => (
+    <span
+      ref={ref}
+      data-slot="yes-no"
+      data-value={value ? "yes" : "no"}
+      className={cn(
+        "inline-flex items-center justify-center",
+        value ? "text-[var(--color-signal-ok)]" : "text-[var(--color-subtle,var(--color-muted))]",
+        className
+      )}
+      {...props}
+    >
+      {value ? <Check aria-hidden="true" weight="bold" className="size-4" /> : <Minus aria-hidden="true" weight="bold" className="size-4" />}
+      <span className="sr-only">{value ? yesLabel : noLabel}</span>
+    </span>
+  )
+)
+
+YesNo.displayName = "YesNo"
+
 export function TableEmpty({ colSpan, children }: { colSpan: number; children?: React.ReactNode }) {
   return (
     <TableRow>
-      <TableCell colSpan={colSpan} align="center" className="h-24 text-neutral-500 dark:text-neutral-400">
+      <TableCell colSpan={colSpan} align="center" className="h-24 text-[var(--color-muted)]">
         {children ?? "No results."}
       </TableCell>
     </TableRow>

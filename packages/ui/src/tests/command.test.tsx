@@ -42,10 +42,11 @@ describe("Command", () => {
       </Command>
     )
 
-    expect(screen.getByTestId("cmd").className).toContain("glass-2")
+    expect(screen.getByTestId("cmd").className).toContain("backdrop-blur-xl")
     expect(screen.getByPlaceholderText("Search...").className).toContain("text-base")
     expect(screen.getByText("Action").className).toContain("text-base")
-    expect(screen.getByText("Action").className).toContain("dark:data-[selected=true]:bg-white/[0.14]")
+    expect(screen.getByText("Action").className).toContain("data-[selected=true]:[background:var(--panel-item-bg")
+    expect(screen.getByTestId("cmd")).toHaveAttribute("data-variant", "glass")
   })
 
   it("supports liquid variant surface", () => {
@@ -58,6 +59,33 @@ describe("Command", () => {
       </Command>
     )
 
-    expect(screen.getByTestId("cmd").className).toContain("radial-gradient")
+    expect(screen.getByTestId("cmd")).toHaveAttribute("data-variant", "glass")
+    expect(screen.getByTestId("cmd").className).toContain("backdrop-blur-xl")
+  })
+
+  it("defaults to the glinr panel and never to glass", () => {
+    render(
+      <Command data-testid="cmd">
+        <CommandList>
+          <CommandItem>Action</CommandItem>
+        </CommandList>
+      </Command>
+    )
+    const cls = screen.getByTestId("cmd").className
+    expect(screen.getByTestId("cmd")).toHaveAttribute("data-variant", "glinr")
+    expect(cls).toContain("var(--ring-img)")
+    expect(cls).not.toContain("backdrop-blur")
+  })
+
+  it("renders plain as a flat bordered panel", () => {
+    render(
+      <Command data-testid="cmd" variant="plain">
+        <CommandList>
+          <CommandItem>Action</CommandItem>
+        </CommandList>
+      </Command>
+    )
+    expect(screen.getByTestId("cmd").className).toContain("shadow-md")
+    expect(screen.getByTestId("cmd").className).not.toContain("var(--sheen)")
   })
 })

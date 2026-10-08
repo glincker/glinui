@@ -10,11 +10,11 @@ describe("Skeleton", () => {
 
   it("supports variants and sizes", () => {
     const { rerender } = render(<Skeleton data-testid="skeleton" variant="glass" size="sm" />)
-    expect(screen.getByTestId("skeleton").className).toContain("backdrop-blur-md")
+    expect(screen.getByTestId("skeleton").className).toContain("backdrop-blur-xl")
     expect(screen.getByTestId("skeleton").className).toContain("h-4")
 
     rerender(<Skeleton data-testid="skeleton" variant="outline" size="lg" />)
-    expect(screen.getByTestId("skeleton").className).toContain("border-neutral-300")
+    expect(screen.getByTestId("skeleton").className).toContain("border-[var(--color-border)]")
     expect(screen.getByTestId("skeleton").className).toContain("h-10")
   })
 

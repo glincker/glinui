@@ -8,14 +8,14 @@ describe("Separator", () => {
     const separator = screen.getByTestId("separator")
     expect(separator).toHaveAttribute("aria-hidden", "true")
     expect(separator.className).toContain("w-full")
-    expect(separator.className).toContain("h-0.5")
+    expect(separator.className).toContain("h-px")
   })
 
   it("supports orientation and size variants", () => {
     render(<Separator data-testid="separator" orientation="vertical" size="lg" />)
     const separator = screen.getByTestId("separator")
     expect(separator.className).toContain("h-full")
-    expect(separator.className).toContain("w-1")
+    expect(separator.className).toContain("w-0.5")
   })
 
   it("supports semantic separator role", () => {

@@ -3,8 +3,8 @@
 import * as React from "react"
 
 import { cn } from "../lib/cn"
-import { usePrefersReducedMotion } from "../lib/use-prefers-reduced-motion"
 import { Button, type ButtonProps } from "./button"
+import { useMotionEngine } from "./motion-engine"
 
 export type MagneticCTAProps = ButtonProps & {
   containerClassName?: string
@@ -14,7 +14,8 @@ export type MagneticCTAProps = ButtonProps & {
 
 export const MagneticCTA = React.forwardRef<HTMLButtonElement, MagneticCTAProps>(
   ({ className, containerClassName, maxOffset = 8, magnetRadius = 140, ...props }, ref) => {
-    const prefersReducedMotion = usePrefersReducedMotion()
+    const { effectiveLevel } = useMotionEngine()
+    const prefersReducedMotion = effectiveLevel === "none"
     const wrapperRef = React.useRef<HTMLDivElement | null>(null)
     const buttonRef = React.useRef<HTMLButtonElement | null>(null)
 
@@ -77,7 +78,7 @@ export const MagneticCTA = React.forwardRef<HTMLButtonElement, MagneticCTAProps>
         <Button
           ref={buttonRef}
           className={cn(
-            "[transform:translate3d(var(--magnetic-x,0px),var(--magnetic-y,0px),0)] transition-transform duration-fast ease-standard motion-reduce:transition-none",
+            "[transform:translate3d(var(--magnetic-x,0px),var(--magnetic-y,0px),0)] transition-[transform,box-shadow,background-color,color,border-color] duration-fast ease-standard motion-reduce:transition-none",
             className
           )}
           {...props}

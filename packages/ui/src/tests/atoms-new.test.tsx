@@ -18,7 +18,7 @@ describe("New atom primitives", () => {
     render(<Label variant="glass">Email</Label>)
     const label = screen.getByText("Email")
     expect(label.tagName).toBe("LABEL")
-    expect(label.className).toContain("bg-[var(--glass-1-surface)]")
+    expect(label.className).toContain("bg-[var(--glass-readable)]")
   })
 
   it("renders Link with href and no underline", () => {
@@ -48,7 +48,7 @@ describe("New atom primitives", () => {
     render(<Text variant="muted">Secondary copy</Text>)
     const text = screen.getByText("Secondary copy")
     expect(text.tagName).toBe("P")
-    expect(text.className).toContain("text-neutral-600")
+    expect(text.className).toContain("text-[var(--color-muted)]")
   })
 
   it("renders Heading with requested level", () => {
@@ -64,7 +64,7 @@ describe("New atom primitives", () => {
   it("renders Chip tone class", () => {
     render(<Chip tone="success">Stable</Chip>)
     const chip = screen.getByText("Stable")
-    expect(chip.className).toContain("text-emerald-700")
+    expect(chip.className).toContain("--tone-success")
   })
 
   it("renders StatusDot with pulse class", () => {

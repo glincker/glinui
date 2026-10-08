@@ -4,7 +4,7 @@ import type { CSSProperties, ReactNode } from "react"
 import { useEffect, useId, useRef, useState } from "react"
 
 /**
- * Liquid Glass — SVG displacement-map refraction for `backdrop-filter`.
+ * Liquid Glass, SVG displacement-map refraction for `backdrop-filter`.
  *
  * Uses `feDisplacementMap` to create real optical refraction through a
  * curved "squircle" surface. The SVG filter handles ONLY the displacement;
@@ -14,8 +14,8 @@ import { useEffect, useId, useRef, useState } from "react"
  * `backdrop-filter: url(#svgFilter) blur(Xpx) saturate(Y)`
  *
  * Browser support (2026):
- *   - Chromium (Chrome, Edge, Brave, Arc, Opera) — full refraction
- *   - Safari / Firefox — graceful fallback to CSS blur + saturate
+ *   - Chromium (Chrome, Edge, Brave, Arc, Opera), full refraction
+ *   - Safari / Firefox, graceful fallback to CSS blur + saturate
  *
  * When Safari / Firefox add `backdrop-filter: url()` support, the
  * effect will automatically upgrade without code changes.
@@ -28,7 +28,7 @@ type LiquidGlassOptions = {
   displacement?: number
   /** Gaussian blur standard-deviation in px (default: 12) */
   blur?: number
-  /** Saturation multiplier — 1.8 = Apple's 180% (default: 1.8) */
+  /** Saturation multiplier, 1.8 = Apple's 180% (default: 1.8) */
   saturate?: number
   /** Surface profile shape (default: "squircle") */
   profile?: "squircle" | "convex"
@@ -57,7 +57,7 @@ function supportsBackdropSvgFilter(): boolean {
  * Green channel → vertical displacement
  * 128 = neutral (no shift), ±127 = max shift.
  *
- * Generated at half resolution for performance — the SVG filter stretches
+ * Generated at half resolution for performance, the SVG filter stretches
  * it to the element size via `preserveAspectRatio="none"`.
  */
 function buildDisplacementMap(
@@ -117,7 +117,7 @@ function buildDisplacementMap(
       const dx = Math.cos(angle) * grad
       const dy = Math.sin(angle) * grad
 
-      // Encode in R/G channels — FULL range ±127 for maximum refraction
+      // Encode in R/G channels, FULL range ±127 for maximum refraction
       px[i] = Math.round(Math.max(0, Math.min(255, 128 + dx * 127)))
       px[i + 1] = Math.round(Math.max(0, Math.min(255, 128 + dy * 127)))
       px[i + 2] = 128
@@ -185,7 +185,7 @@ export function useLiquidGlass(opts: LiquidGlassOptions = {}) {
 
   const ready = supported && !!mapUrl && dim.w > 0
 
-  // SVG filter — ONLY displacement, no blur or saturate.
+  // SVG filter, ONLY displacement, no blur or saturate.
   // Blur + saturate are chained as CSS functions in `backdropFilter`.
   // This is critical: Chrome processes `url()` + CSS functions correctly
   // only when the SVG filter is simple (displacement only).

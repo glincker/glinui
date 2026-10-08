@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { ArrowDown, ArrowUp, ArrowUpDown, ChevronLeft, ChevronRight, Columns3 } from "lucide-react"
+import { ArrowDown, ArrowUp, ArrowsDownUp, CaretLeft, CaretRight, Columns } from "@phosphor-icons/react"
 
 import { Button } from "./button"
 import { Checkbox } from "./checkbox"
@@ -263,7 +263,7 @@ export function DataTable<TData extends Record<string, unknown>>({
     }
 
     if (sort?.id !== columnId) {
-      return <ArrowUpDown className="h-3.5 w-3.5 opacity-70" aria-hidden />
+      return <ArrowsDownUp className="h-3.5 w-3.5 opacity-70" aria-hidden />
     }
 
     return sort.direction === "asc" ? (
@@ -290,7 +290,7 @@ export function DataTable<TData extends Record<string, unknown>>({
           ) : null}
 
           {selectable && selectedCount > 0 ? (
-            <p className="text-xs text-neutral-500 dark:text-neutral-400">{selectedCount} selected</p>
+            <p className="text-xs text-[var(--color-muted)]">{selectedCount} selected</p>
           ) : null}
         </div>
 
@@ -298,10 +298,10 @@ export function DataTable<TData extends Record<string, unknown>>({
           {hidableColumns.length > 0 ? (
             <DropdownMenu>
               <DropdownMenuTrigger variant="outline" size="sm" className="gap-1.5">
-                <Columns3 className="h-3.5 w-3.5" />
+                <Columns className="h-3.5 w-3.5" />
                 Columns
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" variant="glass" className="w-48">
+              <DropdownMenuContent align="end" className="w-48">
                 <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 {hidableColumns.map((column) => (
@@ -322,7 +322,7 @@ export function DataTable<TData extends Record<string, unknown>>({
             </DropdownMenu>
           ) : null}
 
-          <div className="flex items-center gap-2 text-xs text-neutral-500 dark:text-neutral-400">
+          <div className="flex items-center gap-2 text-xs text-[var(--color-muted)]">
             <span>Rows</span>
             <Select
               size="sm"
@@ -434,7 +434,7 @@ export function DataTable<TData extends Record<string, unknown>>({
         </TableBody>
       </Table>
 
-      <div className="flex flex-col gap-2 text-xs text-neutral-500 dark:text-neutral-400 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-2 text-xs text-[var(--color-muted)] sm:flex-row sm:items-center sm:justify-between">
         <p>
           Showing {pageRows.length === 0 ? 0 : start + 1}-{Math.min(start + rowsPerPage, sortedRows.length)} of{" "}
           {sortedRows.length}
@@ -451,7 +451,7 @@ export function DataTable<TData extends Record<string, unknown>>({
             disabled={currentPage <= 1}
             className="gap-1"
           >
-            <ChevronLeft className="h-3.5 w-3.5" />
+            <CaretLeft className="h-3.5 w-3.5" />
             Previous
           </Button>
           <Button
@@ -462,7 +462,7 @@ export function DataTable<TData extends Record<string, unknown>>({
             className="gap-1"
           >
             Next
-            <ChevronRight className="h-3.5 w-3.5" />
+            <CaretRight className="h-3.5 w-3.5" />
           </Button>
         </div>
       </div>

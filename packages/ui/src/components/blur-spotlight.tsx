@@ -20,7 +20,7 @@ export const BlurSpotlight = React.forwardRef<HTMLDivElement, BlurSpotlightProps
     {
       className,
       size = 300,
-      color = "#6366f1",
+      color = "var(--color-accent)",
       blur = 80,
       intensity = 0.5,
       style,
@@ -74,20 +74,15 @@ export const BlurSpotlight = React.forwardRef<HTMLDivElement, BlurSpotlightProps
         ref={setRefs}
         aria-hidden
         className={cn(
-          "pointer-events-none absolute inset-0 overflow-hidden transition-opacity duration-300 motion-reduce:hidden",
+          "pointer-events-none absolute inset-0 overflow-hidden opacity-[var(--spot-visible,0)] transition-opacity duration-300 motion-reduce:hidden",
           className
         )}
-        style={{
-          opacity: `var(--spot-visible, 0)`,
-          ...style,
-        } as React.CSSProperties}
+        style={style}
         {...props}
       >
         <div
-          className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full"
+          className="absolute left-[var(--spot-x,50%)] top-[var(--spot-y,50%)] -translate-x-1/2 -translate-y-1/2 rounded-full"
           style={{
-            left: "var(--spot-x, 50%)",
-            top: "var(--spot-y, 50%)",
             width: size,
             height: size,
             background: `radial-gradient(circle, ${color}, transparent 70%)`,
