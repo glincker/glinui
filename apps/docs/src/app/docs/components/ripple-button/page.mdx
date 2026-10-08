@@ -2,9 +2,11 @@ import { getRegistryItem } from "@glinui/registry"
 import { RippleButton } from "@glinui/ui"
 import { ComponentDocLayout } from "@/components/docs/component-doc-layout"
 import { ExampleBlock } from "@/components/docs/example-block"
-import { InstallTabs } from "@/components/docs/install-tabs"
+import { ComponentHero, ComponentInstall } from "@/components/docs/component-hero"
 import { getComponentSources } from "@/lib/get-component-source"
 import { PropsTable } from "@/components/docs/props-table"
+import * as S1Demos from "@/components/demos/s1-buttons"
+import { s1Code } from "@/lib/showcase-s1-code"
 import { createDocsMetadata } from "@/lib/docs-metadata"
 
 export const dynamic = "force-static"
@@ -23,78 +25,101 @@ export const metadata = createDocsMetadata({
   title="Ripple Button"
   description={item?.description ?? "Button with liquid ripple effect on press."}
 >
+  <ComponentHero
+    componentId="ripple-button"
+    title="Ripple Button"
+    code={s1Code.RippleAddToCart}
+  >
+    <S1Demos.RippleAddToCart />
+  </ComponentHero>
+
   ## Installation
 
-  <InstallTabs sources={sources} command={item?.install.package ?? "pnpm add @glinui/ui @glinui/tokens"} />
-
-  ### Registry
-
-  <InstallTabs command={item?.install.registry ?? "pnpm dlx @glinui/cli@latest add ripple-button"} />
+  <ComponentInstall componentId="ripple-button" sources={sources} />
 
   ## Usage
 
-  `RippleButton` is a `"use client"` component. Click it to see a liquid ripple expanding from the click point.
-
-  ### Basic
-
-  <ExampleBlock
-    codeDefaultOpen
-    code={`"use client"
-import { RippleButton } from "@glinui/ui"
-
-export function RippleButtonDemo() {
-  return (
-    <div className="flex items-center justify-center gap-4 p-8">
-      <RippleButton>Click Me</RippleButton>
-      <RippleButton variant="glass">Glass</RippleButton>
-      <RippleButton variant="frosted">Frosted</RippleButton>
-      <RippleButton variant="outline">Outline</RippleButton>
-    </div>
-  )
-}`}
-  >
-    <div className="flex items-center justify-center gap-4 p-8">
-      <RippleButton>Click Me</RippleButton>
-      <RippleButton variant="glass">Glass</RippleButton>
-      <RippleButton variant="frosted">Frosted</RippleButton>
-      <RippleButton variant="outline">Outline</RippleButton>
-    </div>
-  </ExampleBlock>
+  `RippleButton` is a `"use client"` component. Press it to see a ripple expand from the pointer position. The ripple uses the surface text colour at 30 percent, so it reads on light and dark scopes. Override with `rippleColor`.
 
   ## Examples
 
-  ### Sizes
+  ### Variants
+
+  Every variant of the shared vocabulary works, and the motion effect adapts to the surface colour. Omit `variant` for the ambient default (`glinr`).
 
   <ExampleBlock
-    code={`"use client"
-import { RippleButton } from "@glinui/ui"
+    code={`import { RippleButton } from "@glinui/ui"
 
-export function RippleButtonSizesDemo() {
+export function RippleButtonVariantsDemo() {
   return (
-    <div className="flex items-center justify-center gap-4 p-8">
-      <RippleButton size="sm">Small</RippleButton>
-      <RippleButton size="md">Medium</RippleButton>
-      <RippleButton size="lg">Large</RippleButton>
+    <div className="flex flex-wrap items-center gap-3">
+      <RippleButton variant="glinr">glinr</RippleButton>
+      <RippleButton variant="solid">solid</RippleButton>
+      <RippleButton variant="plain">plain</RippleButton>
+      <RippleButton variant="soft">soft</RippleButton>
+      <RippleButton variant="outline">outline</RippleButton>
+      <RippleButton variant="ghost">ghost</RippleButton>
+      <RippleButton variant="gradient">gradient</RippleButton>
     </div>
   )
 }`}
   >
-    <div className="flex items-center justify-center gap-4 p-8">
-      <RippleButton size="sm">Small</RippleButton>
-      <RippleButton size="md">Medium</RippleButton>
-      <RippleButton size="lg">Large</RippleButton>
+    <div className="flex flex-wrap items-center gap-3">
+      <RippleButton variant="glinr">glinr</RippleButton>
+      <RippleButton variant="solid">solid</RippleButton>
+      <RippleButton variant="plain">plain</RippleButton>
+      <RippleButton variant="soft">soft</RippleButton>
+      <RippleButton variant="outline">outline</RippleButton>
+      <RippleButton variant="ghost">ghost</RippleButton>
+      <RippleButton variant="gradient">gradient</RippleButton>
+    </div>
+  </ExampleBlock>
+
+  ### Glass (opt-in)
+
+  `glass` is never the default. It needs a colorful or photographic backdrop to read, so place it over imagery or inside a `ThemeScope` with a backdrop.
+
+  <ExampleBlock
+    code={`import { RippleButton } from "@glinui/ui"
+
+export function RippleButtonGlassDemo() {
+  return (
+    <RippleButton variant="glass">Glass</RippleButton>
+  )
+}`}
+  >
+    <RippleButton variant="glass">Glass</RippleButton>
+  </ExampleBlock>
+
+  <ExampleBlock
+    code={`import { RippleButton } from "@glinui/ui"
+
+export function RippleButtonSizesDemo() {
+  return (
+    <div className="flex flex-wrap items-center gap-3">
+      <RippleButton size="sm">SM</RippleButton>
+      <RippleButton size="md">MD</RippleButton>
+      <RippleButton size="lg">LG</RippleButton>
+    </div>
+  )
+}`}
+  >
+    <div className="flex flex-wrap items-center gap-3">
+      <RippleButton size="sm">SM</RippleButton>
+      <RippleButton size="md">MD</RippleButton>
+      <RippleButton size="lg">LG</RippleButton>
     </div>
   </ExampleBlock>
 
   ## Accessibility
 
-  - Renders as a `<button>` with `type="button"`.
-  - Ripple spans are `aria-hidden="true"`.
-  - Supports all standard button attributes.
+  - Renders through `Button`: native `<button>`, 2px accent focus ring with offset, `disabled` and `aria-busy` states.
+  - Accessible name comes from the label. Decorative effect layers are `aria-hidden` and `pointer-events-none`.
+  - Defaults to `type="button"`.
 
   ## Reduced Motion
 
-  Ripple animations are hidden via `motion-reduce:hidden`.
+  No ripple is created under `prefers-reduced-motion` or `data-glin-motion="none"`. The click handler still runs.
 
   ## API Reference
 

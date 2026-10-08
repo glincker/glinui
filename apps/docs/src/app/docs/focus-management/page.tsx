@@ -1,16 +1,13 @@
 import type { Metadata } from "next"
-import Link from "next/link"
-import { CheckCircle2, Focus, ScanEye } from "lucide-react"
 
-import {
-  Badge,
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from "@glinui/ui"
 import { CodeBlock } from "@/components/docs/code-block"
+import { Callout } from "@/components/docs-pages-b/callout"
+import { Checklist, ChecklistItem } from "@/components/docs-pages-b/checklist-item"
+import { DoDont } from "@/components/docs-pages-b/do-dont"
+import { KbdTable } from "@/components/docs-pages-b/kbd-table"
+import { PageHeader } from "@/components/docs-pages-b/page-header"
+import { PageSection } from "@/components/docs-pages-b/page-section"
+import { RelatedLinks } from "@/components/docs-pages-b/related-links"
 import { createDocsMetadata } from "@/lib/docs-metadata"
 
 const dialogFocusSnippet = `import { useRef } from "react"
@@ -58,7 +55,7 @@ const skipLinkSnippet = `<a
 
 const focusRules = [
   "Keep a visible focus ring on every interactive control.",
-  "Restore focus to the trigger after closing modal/sheet/popover.",
+  "Restore focus to the trigger after closing a modal, sheet, or popover.",
   "Do not trap keyboard users in non-modal surfaces.",
   "Add a skip link for large docs and dashboard pages."
 ]
@@ -66,90 +63,86 @@ const focusRules = [
 export const metadata: Metadata = createDocsMetadata({
   title: "Focus Management Patterns",
   description:
-    "Focus-trap, focus-restore, and skip-link patterns for accessible dialogs, sheets, and long content flows.",
+    "Focus restore, skip link, and keyboard patterns for accessible dialogs, sheets, and long pages, with a keyboard reference table.",
   path: "/docs/focus-management",
   keywords: ["focus management", "keyboard accessibility", "modal focus restore", "skip links"]
 })
 
 export default function FocusManagementPage() {
   return (
-    <main className="space-y-8">
-      <section className="relative overflow-hidden rounded-3xl border border-white/15 bg-[var(--glass-3-surface)] p-6 shadow-[var(--shadow-glass-md)]">
-        <div className="pointer-events-none absolute -left-12 top-0 h-40 w-40 rounded-full bg-violet-300/20 blur-3xl dark:bg-violet-400/12" />
-        <div className="pointer-events-none absolute -right-12 bottom-0 h-40 w-40 rounded-full bg-emerald-300/20 blur-3xl dark:bg-emerald-400/12" />
-        <div className="relative space-y-4">
-          <Badge variant="glass" className="w-fit">
-            Keyboard UX
-          </Badge>
-          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Focus Management Patterns</h1>
-          <p className="max-w-3xl text-sm text-neutral-600 dark:text-neutral-300 sm:text-base">
-            Use these patterns to keep keyboard and assistive-tech navigation predictable across modals, popovers, and
-            long content pages.
-          </p>
-        </div>
-      </section>
+    <main className="space-y-12">
+      <PageHeader
+        eyebrow="Keyboard UX"
+        title="Focus Management Patterns"
+        lead="Keep keyboard and assistive technology navigation predictable across modals, popovers, and long pages."
+      />
 
-      <section className="grid gap-4 md:grid-cols-2">
-        <Card variant="glass">
-          <CardHeader>
-            <CardTitle className="inline-flex items-center gap-2 text-base">
-              <Focus className="h-4 w-4" />
-              Focus Rules
-            </CardTitle>
-            <CardDescription>Apply these rules to all interactive flows.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ul className="space-y-2 text-sm text-neutral-600 dark:text-neutral-300">
-              {focusRules.map((item) => (
-                <li key={item} className="flex items-start gap-2">
-                  <CheckCircle2 className="mt-0.5 h-4 w-4 text-emerald-500" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
+      <PageSection id="rules" title="Focus rules" description="Check these on every interactive flow.">
+        <Checklist>
+          {focusRules.map((rule) => (
+            <ChecklistItem key={rule}>{rule}</ChecklistItem>
+          ))}
+        </Checklist>
+      </PageSection>
 
-        <Card variant="glass">
-          <CardHeader>
-            <CardTitle className="inline-flex items-center gap-2 text-base">
-              <ScanEye className="h-4 w-4" />
-              Manual Test Pass
-            </CardTitle>
-            <CardDescription>Quick QA flow before merge or release.</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2 text-sm text-neutral-600 dark:text-neutral-300">
-            <p>Press `Tab` through the full page and verify visual ring continuity.</p>
-            <p>Open and close each dialog/sheet; ensure focus returns to the initiating control.</p>
-            <p>Check that `Esc` closes expected overlays and leaves focus in a valid place.</p>
-          </CardContent>
-        </Card>
-      </section>
+      <PageSection id="keyboard" title="Keyboard reference" description="What users expect from common widgets.">
+        <KbdTable
+          caption="Expected keyboard behavior"
+          rows={[
+            { keys: ["Tab"], action: "Move focus to the next interactive element", context: "Everywhere" },
+            { keys: ["Shift", "Tab"], action: "Move focus to the previous element", context: "Everywhere" },
+            { keys: ["Esc"], action: "Close the overlay and return focus to its trigger", context: "Dialog, sheet, popover" },
+            { keys: ["Enter"], action: "Activate the focused button or link", context: "Buttons, links" },
+            { keys: ["Space"], action: "Activate a button or toggle a checkbox or switch", context: "Buttons, form controls" },
+            { keys: ["Arrow keys"], action: "Move between items", context: "Menus, tabs, radio groups" }
+          ]}
+        />
+      </PageSection>
 
-      <section className="space-y-3">
-        <h2 className="text-2xl font-semibold tracking-tight">Modal Focus Restore Pattern</h2>
+      <PageSection id="do-dont" title="Do and don't">
+        <DoDont
+          dos={[
+            { text: "Use :focus-visible styles so keyboard users see the ring but mouse clicks do not flash it." },
+            { text: "Send focus to the dialog title or first field when a modal opens." }
+          ]}
+          donts={[
+            { text: "Remove the outline without a replacement.", code: "button:focus { outline: none; }" },
+            { text: "Use positive tabindex values to reorder focus. Fix the DOM order instead." }
+          ]}
+        />
+      </PageSection>
+
+      <PageSection
+        id="modal-focus-restore"
+        title="Modal Focus Restore Pattern"
+        description="The modal traps focus while open. This pattern returns focus to the trigger on close."
+      >
         <CodeBlock language="tsx" code={dialogFocusSnippet} />
-      </section>
+      </PageSection>
 
-      <section className="space-y-3">
-        <h2 className="text-2xl font-semibold tracking-tight">Skip Link Pattern</h2>
+      <PageSection id="skip-link" title="Skip Link Pattern" description="Let keyboard users jump past repeated navigation.">
         <CodeBlock language="tsx" code={skipLinkSnippet} />
-      </section>
+        <Callout variant="tip" title="Target needs an id">
+          The link only works if an element with <code>id=&quot;main-content&quot;</code> exists, and ideally{" "}
+          <code>tabIndex={"{-1}"}</code> so focus lands there.
+        </Callout>
+      </PageSection>
 
-      <section className="space-y-2 rounded-2xl border border-border/60 bg-background/40 p-4">
-        <h2 className="text-base font-semibold">Related Guides</h2>
-        <div className="flex flex-wrap gap-3 text-sm">
-          <Link href="/docs/forms-accessibility" className="underline decoration-border underline-offset-4">
-            Forms Accessibility
-          </Link>
-          <Link href="/docs/screen-reader-testing" className="underline decoration-border underline-offset-4">
-            Screen Reader Testing
-          </Link>
-          <Link href="/docs/color-contrast" className="underline decoration-border underline-offset-4">
-            Color Contrast
-          </Link>
-        </div>
-      </section>
+      <PageSection id="manual-pass" title="Manual test pass">
+        <Checklist>
+          <ChecklistItem>Press Tab through the whole page and confirm the focus ring never disappears.</ChecklistItem>
+          <ChecklistItem>Open and close each dialog and sheet. Focus returns to the control that opened it.</ChecklistItem>
+          <ChecklistItem>Press Esc on each overlay and confirm focus lands somewhere valid.</ChecklistItem>
+        </Checklist>
+      </PageSection>
+
+      <RelatedLinks
+        links={[
+          { href: "/docs/forms-accessibility", label: "Forms Accessibility" },
+          { href: "/docs/screen-reader-testing", label: "Screen Reader Testing" },
+          { href: "/docs/color-contrast", label: "Color Contrast" }
+        ]}
+      />
     </main>
   )
 }

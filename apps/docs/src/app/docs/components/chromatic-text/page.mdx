@@ -1,8 +1,9 @@
 import { getRegistryItem } from "@glinui/registry"
+import { S4Hero, S4Example } from "@/components/demos/s4-mdx"
 import { ChromaticText } from "@glinui/ui"
 import { ComponentDocLayout } from "@/components/docs/component-doc-layout"
 import { ExampleBlock } from "@/components/docs/example-block"
-import { InstallTabs } from "@/components/docs/install-tabs"
+import { ComponentHero, ComponentInstall } from "@/components/docs/component-hero"
 import { getComponentSources } from "@/lib/get-component-source"
 import { PropsTable } from "@/components/docs/props-table"
 import { createDocsMetadata } from "@/lib/docs-metadata"
@@ -12,7 +13,7 @@ export const item = getRegistryItem("chromatic-text")
 export const sources = getComponentSources(item?.files)
 export const metadata = createDocsMetadata({
   title: "Chromatic Text",
-  description: item?.description ?? "Text with chromatic aberration effect — RGB channel splitting.",
+  description: item?.description ?? "Text with chromatic aberration effect, RGB channel splitting.",
   path: "/docs/components/chromatic-text"
 })
 
@@ -21,94 +22,27 @@ export const metadata = createDocsMetadata({
   componentId="chromatic-text"
   implementation="css"
   title="Chromatic Text"
-  description={item?.description ?? "Text with chromatic aberration effect — RGB channel splitting."}
+  description={item?.description ?? "Text with chromatic aberration effect, RGB channel splitting."}
 >
+  <S4Hero id="chromatic-text" title="Chromatic Text" />
+
   ## Installation
 
-  <InstallTabs sources={sources} command={item?.install.package ?? "pnpm add @glinui/ui @glinui/tokens"} />
-
-  ### Registry
-
-  <InstallTabs command={item?.install.registry ?? "pnpm dlx @glinui/cli@latest add chromatic-text"} />
+  <ComponentInstall componentId="chromatic-text" sources={sources} />
 
   ## Usage
 
-  Wrap text in `ChromaticText` to apply RGB channel splitting. Pass a string as `children` — the component renders ghost layers with offset colors.
-
-  ### Basic
-
-  <ExampleBlock
-    codeDefaultOpen
-    code={`import { ChromaticText } from "@glinui/ui"
-
-export function ChromaticTextDemo() {
-  return (
-    <div className="flex items-center justify-center p-8 bg-neutral-950 rounded-xl">
-      <h2 className="text-4xl font-bold text-white">
-        <ChromaticText>Glin UI</ChromaticText>
-      </h2>
-    </div>
-  )
-}`}
-  >
-    <div className="flex items-center justify-center p-8 bg-neutral-950 rounded-xl">
-      <h2 className="text-4xl font-bold text-white">
-        <ChromaticText>Glin UI</ChromaticText>
-      </h2>
-    </div>
-  </ExampleBlock>
+  Wrap text in `ChromaticText` to apply RGB channel splitting. Pass a string as `children`, the component renders ghost layers with offset colors.
 
   ## Examples
 
-  ### Animated
+  ### Variants
 
-  Set `duration` to enable continuous chromatic animation.
-
-  <ExampleBlock
-    code={`import { ChromaticText } from "@glinui/ui"
-
-export function ChromaticTextAnimatedDemo() {
-  return (
-    <div className="flex items-center justify-center p-8 bg-neutral-950 rounded-xl">
-      <h2 className="text-4xl font-bold text-white">
-        <ChromaticText duration={3} offset={3}>Glitch</ChromaticText>
-      </h2>
-    </div>
-  )
-}`}
-  >
-    <div className="flex items-center justify-center p-8 bg-neutral-950 rounded-xl">
-      <h2 className="text-4xl font-bold text-white">
-        <ChromaticText duration={3} offset={3}>Glitch</ChromaticText>
-      </h2>
-    </div>
-  </ExampleBlock>
-
-  ### Custom Colors
-
-  <ExampleBlock
-    code={`import { ChromaticText } from "@glinui/ui"
-
-export function ChromaticTextColorsDemo() {
-  return (
-    <div className="flex items-center justify-center p-8 bg-neutral-950 rounded-xl">
-      <h2 className="text-4xl font-bold text-white">
-        <ChromaticText colors={["#06b6d4", "#f97316"]} offset={4}>Neon</ChromaticText>
-      </h2>
-    </div>
-  )
-}`}
-  >
-    <div className="flex items-center justify-center p-8 bg-neutral-950 rounded-xl">
-      <h2 className="text-4xl font-bold text-white">
-        <ChromaticText colors={["#06b6d4", "#f97316"]} offset={4}>Neon</ChromaticText>
-      </h2>
-    </div>
-  </ExampleBlock>
+  <S4Example id="chromatic-text" index={1} />
 
   ## Accessibility
 
-  - Ghost layers are `aria-hidden="true"` — screen readers only see the base text.
+  - Ghost layers are `aria-hidden="true"`, screen readers only see the base text.
   - The base text remains fully readable and accessible.
 
   ## Reduced Motion
@@ -126,7 +60,7 @@ export function ChromaticTextColorsDemo() {
   ```
 
   {item?.files?.map((file) => (
-    <div key={file} className="font-mono text-sm text-neutral-600 dark:text-neutral-300">
+    <div key={file} className="font-mono text-sm text-[var(--color-muted)]">
       {file}
     </div>
   ))}

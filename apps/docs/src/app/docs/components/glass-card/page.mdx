@@ -1,8 +1,9 @@
 import { getRegistryItem } from "@glinui/registry"
-import { GlassCard, GlassCardHeader, GlassCardContent, GlassCardFooter } from "@glinui/ui"
+import { GlassCard } from "@glinui/ui"
+import { GlassCardHero, GlassCardVariants, GlassCardTones, GlassCardLayout } from "@/components/demos/family-demos"
 import { ComponentDocLayout } from "@/components/docs/component-doc-layout"
 import { ExampleBlock } from "@/components/docs/example-block"
-import { InstallTabs } from "@/components/docs/install-tabs"
+import { ComponentHero, ComponentInstall } from "@/components/docs/component-hero"
 import { getComponentSources } from "@/lib/get-component-source"
 import { PropsTable } from "@/components/docs/props-table"
 import { createDocsMetadata } from "@/lib/docs-metadata"
@@ -23,86 +24,105 @@ export const metadata = createDocsMetadata({
   title="Glass Card"
   description={item?.description ?? "Frosted card with depth-aware blur and elevation transitions."}
 >
+  <ComponentHero
+    componentId="glass-card"
+    title="Glass Card"
+    stage="md"
+    code={`import { GlassCard } from "@glinui/ui"
+
+export function GlassCardDemo() {
+  return (
+    <GlassCard>
+      <ProfileBody />
+    </GlassCard>
+  )
+}`}
+  >
+    <GlassCardHero />
+  </ComponentHero>
+
   ## Installation
 
-  <InstallTabs sources={sources} command={item?.install.package ?? "pnpm add @glinui/ui @glinui/tokens"} />
-
-  ### Registry
-
-  <InstallTabs command={item?.install.registry ?? "pnpm dlx @glinui/cli@latest add glass-card"} />
+  <ComponentInstall componentId="glass-card" sources={sources} />
 
   ## Usage
 
   GlassCard is a compound component with `GlassCardHeader`, `GlassCardContent`, and `GlassCardFooter` subcomponents. Place it over a colorful background to see the glass effect.
 
-  ### Basic
-
-  <ExampleBlock
-    codeDefaultOpen
-    code={`import { GlassCard, GlassCardHeader, GlassCardContent, GlassCardFooter } from "@glinui/ui"
-
-export function GlassCardDemo() {
-  return (
-    <div className="rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-8">
-      <GlassCard>
-        <GlassCardHeader>
-          <h3 className="text-lg font-semibold">Glass Card</h3>
-          <p className="text-sm text-neutral-600 dark:text-neutral-400">Frosted glass surface</p>
-        </GlassCardHeader>
-        <GlassCardContent>
-          <p className="text-sm">Content with depth-aware blur and refraction edge highlights.</p>
-        </GlassCardContent>
-        <GlassCardFooter>
-          <p className="text-xs text-neutral-500">Footer area</p>
-        </GlassCardFooter>
-      </GlassCard>
-    </div>
-  )
-}`}
-  >
-    <div className="rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-8">
-      <GlassCard>
-        <GlassCardHeader>
-          <h3 className="text-lg font-semibold">Glass Card</h3>
-          <p className="text-sm text-neutral-600 dark:text-neutral-400">Frosted glass surface</p>
-        </GlassCardHeader>
-        <GlassCardContent>
-          <p className="text-sm">Content with depth-aware blur and refraction edge highlights.</p>
-        </GlassCardContent>
-        <GlassCardFooter>
-          <p className="text-xs text-neutral-500">Footer area</p>
-        </GlassCardFooter>
-      </GlassCard>
-    </div>
-  </ExampleBlock>
+  Glass is this component's identity, so it is the default here. It uses a readable opacity floor (`--glass-readable`) and still needs a colorful backdrop to look its best.
 
   ## Examples
 
-  ### Size Variants
+  ### Variants
+
+  `glinr` is the default, `plain` is the flat shadcn look, `solid` is a neutral tonal face and `glass` is opt-in. Glass needs a backdrop, so the set below sits on a vivid one.
 
   <ExampleBlock
-    code={`import { GlassCard, GlassCardContent } from "@glinui/ui"
+    code={`import { GlassCard } from "@glinui/ui"
 
-export function GlassCardSizesDemo() {
+// Omit variant to follow the ambient style (glinr by default).
+export function GlassCardVariants() {
   return (
-    <div className="flex flex-col gap-4 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 p-8">
-      <GlassCard size="sm"><GlassCardContent size="sm"><p className="text-sm">Small</p></GlassCardContent></GlassCard>
-      <GlassCard size="md"><GlassCardContent size="md"><p className="text-sm">Medium (default)</p></GlassCardContent></GlassCard>
-      <GlassCard size="lg"><GlassCardContent size="lg"><p className="text-sm">Large</p></GlassCardContent></GlassCard>
-    </div>
+    <>
+      <GlassCard variant="glinr">
+        ...
+      </GlassCard>
+      <GlassCard variant="plain">
+        ...
+      </GlassCard>
+      <GlassCard variant="solid">
+        ...
+      </GlassCard>
+      <GlassCard variant="glass">
+        ...
+      </GlassCard>
+    </>
   )
 }`}
   >
-    <div className="flex flex-col gap-4 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 p-8">
-      <GlassCard size="sm"><GlassCardContent size="sm"><p className="text-sm">Small</p></GlassCardContent></GlassCard>
-      <GlassCard size="md"><GlassCardContent size="md"><p className="text-sm">Medium (default)</p></GlassCardContent></GlassCard>
-      <GlassCard size="lg"><GlassCardContent size="lg"><p className="text-sm">Large</p></GlassCardContent></GlassCard>
-    </div>
+    <GlassCardVariants />
+  </ExampleBlock>
+
+  ### Colors
+
+  Pass another variant plus `tone` to leave glass behind: `variant="soft" tone="success"`.
+
+  <ExampleBlock
+    code={`import { GlassCard } from "@glinui/ui"
+
+export function GlassCardTones() {
+  return (
+    <GlassCard variant="soft" tone="success">
+      ...
+    </GlassCard>
+  )
+}`}
+  >
+    <GlassCardTones />
+  </ExampleBlock>
+
+  ### In a layout
+
+  Glass cards as metric tiles in a dashboard row (shown here on the page surface, so they collapse to readable panels).
+
+  <ExampleBlock
+    code={`// Glass cards as metric tiles in a dashboard row (shown here on the page surface, so they collapse to readable panels).
+import { GlassCard } from "@glinui/ui"
+
+export function GlassCardLayout() {
+  return (
+    <section className="grid gap-4 sm:grid-cols-3">
+      ...
+    </section>
+  )
+}`}
+  >
+    <GlassCardLayout />
   </ExampleBlock>
 
   ## Accessibility
 
-  - GlassCard renders a `<div>` — add semantic structure inside (headings, paragraphs).
+  - GlassCard renders a `<div>`, add semantic structure inside (headings, paragraphs).
   - Ensure text contrast meets WCAG AA 4.5:1 on glass surfaces.
 
   ## Reduced Motion

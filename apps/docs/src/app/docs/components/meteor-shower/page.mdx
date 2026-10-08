@@ -1,8 +1,8 @@
 import { getRegistryItem } from "@glinui/registry"
-import { MeteorShower } from "@glinui/ui"
+import { S4Hero, S4Example } from "@/components/demos/s4-mdx"
 import { ComponentDocLayout } from "@/components/docs/component-doc-layout"
 import { ExampleBlock } from "@/components/docs/example-block"
-import { InstallTabs } from "@/components/docs/install-tabs"
+import { ComponentHero, ComponentInstall } from "@/components/docs/component-hero"
 import { getComponentSources } from "@/lib/get-component-source"
 import { PropsTable } from "@/components/docs/props-table"
 import { createDocsMetadata } from "@/lib/docs-metadata"
@@ -23,64 +23,33 @@ export const metadata = createDocsMetadata({
   title="Meteor Shower"
   description={item?.description ?? "Falling diagonal streaks for hero backgrounds."}
 >
+  <S4Hero id="meteor-shower" title="Meteor Shower" />
+
   ## Installation
 
-  <InstallTabs sources={sources} command={item?.install.package ?? "pnpm add @glinui/ui @glinui/tokens"} />
-
-  ### Registry
-
-  <InstallTabs command={item?.install.registry ?? "pnpm dlx @glinui/cli@latest add meteor-shower"} />
+  <ComponentInstall componentId="meteor-shower" sources={sources} />
 
   ## Usage
 
   Place inside a relative container. Meteors fall diagonally with staggered delays and randomized positions.
 
-  ### Basic
-
-  <ExampleBlock
-    codeDefaultOpen
-    code={`import { MeteorShower } from "@glinui/ui"
-
-export function MeteorShowerDemo() {
-  return (
-    <div className="relative flex h-64 w-full items-center justify-center overflow-hidden rounded-xl border border-neutral-200 bg-neutral-950">
-      <span className="z-10 text-sm font-medium text-white">Meteor Shower</span>
-      <MeteorShower />
-    </div>
-  )
-}`}
-  >
-    <div className="relative flex h-64 w-full items-center justify-center overflow-hidden rounded-xl border border-neutral-200 bg-neutral-950">
-      <span className="z-10 text-sm font-medium text-white">Meteor Shower</span>
-      <MeteorShower />
-    </div>
-  </ExampleBlock>
-
   ## Examples
 
-  ### Dense
+  ### Variants
 
-  <ExampleBlock
-    code={`import { MeteorShower } from "@glinui/ui"
+  <S4Example id="meteor-shower" index={1} />
 
-export function MeteorShowerDenseDemo() {
-  return (
-    <div className="relative flex h-64 w-full items-center justify-center overflow-hidden rounded-xl bg-neutral-950">
-      <span className="z-10 text-sm font-medium text-white">Dense</span>
-      <MeteorShower count={24} minDuration={1} maxDuration={3} />
-    </div>
-  )
-}`}
-  >
-    <div className="relative flex h-64 w-full items-center justify-center overflow-hidden rounded-xl bg-neutral-950">
-      <span className="z-10 text-sm font-medium text-white">Dense</span>
-      <MeteorShower count={24} minDuration={1} maxDuration={3} />
-    </div>
-  </ExampleBlock>
+  ### Behind a sign in card
+
+  <S4Example id="meteor-shower" index={2} />
+
+  ## Engines
+
+  The `engine` prop is not applicable. Many independent css keyframe loops; an engine swap adds no value. It stays css only and still honors motion level `none` and reduced motion.
 
   ## Accessibility
 
-  - Decorative (`aria-hidden`) — invisible to screen readers.
+  - Decorative (`aria-hidden`), invisible to screen readers.
   - No interactive elements.
 
   ## Reduced Motion
@@ -98,7 +67,7 @@ export function MeteorShowerDenseDemo() {
   ```
 
   {item?.files?.map((file) => (
-    <div key={file} className="font-mono text-sm text-neutral-600 dark:text-neutral-300">
+    <div key={file} className="font-mono text-sm text-[var(--color-muted)]">
       {file}
     </div>
   ))}

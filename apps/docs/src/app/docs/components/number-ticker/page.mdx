@@ -1,8 +1,12 @@
 import { getRegistryItem } from "@glinui/registry"
 import { NumberTicker } from "@glinui/ui"
+import { NumberTickerStats } from "@/components/demos/s5-motion"
+import { s5Code } from "@/lib/s5-code.generated"
+import { EngineColumns } from "@/components/demos/s5-engines"
+import { engineCompareCode } from "@/components/demos/s5-engine-code"
 import { ComponentDocLayout } from "@/components/docs/component-doc-layout"
 import { ExampleBlock } from "@/components/docs/example-block"
-import { InstallTabs } from "@/components/docs/install-tabs"
+import { ComponentHero, ComponentInstall } from "@/components/docs/component-hero"
 import { getComponentSources } from "@/lib/get-component-source"
 import { PropsTable } from "@/components/docs/props-table"
 import { createDocsMetadata } from "@/lib/docs-metadata"
@@ -23,36 +27,21 @@ export const metadata = createDocsMetadata({
   title="Number Ticker"
   description={item?.description ?? "Animated number counter triggered by scroll."}
 >
+  <ComponentHero
+    componentId="number-ticker"
+    title="Number Ticker"
+    code={s5Code.NumberTickerStats}
+  >
+    <NumberTickerStats />
+  </ComponentHero>
+
   ## Installation
 
-  <InstallTabs sources={sources} command={item?.install.package ?? "pnpm add @glinui/ui @glinui/tokens"} />
-
-  ### Registry
-
-  <InstallTabs command={item?.install.registry ?? "pnpm dlx @glinui/cli@latest add number-ticker"} />
+  <ComponentInstall componentId="number-ticker" sources={sources} />
 
   ## Usage
 
   Renders a number that counts up from `from` to `value` when scrolled into view. Uses `requestAnimationFrame` for smooth 60fps animation.
-
-  ### Basic
-
-  <ExampleBlock
-    codeDefaultOpen
-    code={`import { NumberTicker } from "@glinui/ui"
-
-export function NumberTickerDemo() {
-  return (
-    <span className="text-4xl font-bold">
-      <NumberTicker value={1234} />
-    </span>
-  )
-}`}
-  >
-    <span className="text-4xl font-bold">
-      <NumberTicker value={1234} />
-    </span>
-  </ExampleBlock>
 
   ## Examples
 
@@ -110,6 +99,16 @@ export function NumberTickerSlowDemo() {
     </span>
   </ExampleBlock>
 
+  ## Engines
+
+  `Number Ticker` drives its main animation through the pluggable motion engine. Pass `engine="css" | "motion" | "gsap"`, wrap a subtree in `MotionEngineProvider`, or set `data-glin-engine` on `<html>`. The css engine is built in and dependency free; `motion` and `gsap` are opt-in through `@glinui/motion/register/*`. Motion level `none` renders the final state and `subtle` is opacity only.
+
+  ### Engine comparison
+
+  <ExampleBlock code={engineCompareCode("number-ticker")}>
+    <EngineColumns id="number-ticker" />
+  </ExampleBlock>
+
   ## Accessibility
 
   - Renders as a `<span>` with `tabular-nums` for stable width during counting.
@@ -130,7 +129,7 @@ export function NumberTickerSlowDemo() {
   ```
 
   {item?.files?.map((file) => (
-    <div key={file} className="font-mono text-sm text-neutral-600 dark:text-neutral-300">
+    <div key={file} className="font-mono text-sm text-[var(--color-muted)]">
       {file}
     </div>
   ))}

@@ -39,7 +39,7 @@ export const metadata: Metadata = {
         url: DEFAULT_OG_IMAGE_PATH,
         width: 1200,
         height: 630,
-        alt: "Glin UI — liquid glass React component library"
+        alt: "GLINUI, a design hub of React components, animations, colors, tokens and AI prompts"
       }
     ]
   },
@@ -62,7 +62,7 @@ const faqStructuredData = {
       name: "What is Glin UI?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Glin UI is a glassmorphic React component library built on the Apple Liquid Glass design language. It ships 40+ components with multiple surface variants — glass, liquid, matte, glow — alongside semantic color variants and full dark mode support."
+        text: "Glin UI is a design hub for the modern web: accessible React components, free animations, OKLCH colors, design tokens and AI-ready prompts. It ships 100+ components with multiple surface variants (default, glass, liquid, matte, glow) and full dark mode support."
       }
     },
     {
@@ -94,7 +94,7 @@ const faqStructuredData = {
       name: "Does Glin UI support dark mode?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Every component, token, and surface variant ships with full dark mode support out of the box. The glass system adapts luminance, blur intensity, and shadow depth between light and dark themes automatically."
+        text: "Every component, token, and surface variant ships with full dark mode support out of the box. The glass variant adapts luminance, blur intensity, and shadow depth between light and dark themes automatically."
       }
     }
   ]

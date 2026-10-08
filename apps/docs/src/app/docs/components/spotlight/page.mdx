@@ -1,8 +1,9 @@
 import { getRegistryItem } from "@glinui/registry"
 import { Spotlight } from "@glinui/ui"
+import { SpotlightDemo } from "@/components/docs/spotlight-demo"
 import { ComponentDocLayout } from "@/components/docs/component-doc-layout"
 import { ExampleBlock } from "@/components/docs/example-block"
-import { InstallTabs } from "@/components/docs/install-tabs"
+import { ComponentHero, ComponentInstall } from "@/components/docs/component-hero"
 import { getComponentSources } from "@/lib/get-component-source"
 import { PropsTable } from "@/components/docs/props-table"
 import { createDocsMetadata } from "@/lib/docs-metadata"
@@ -23,22 +24,9 @@ export const metadata = createDocsMetadata({
   title="Spotlight"
   description={item?.description ?? "Full-page spotlight overlay for onboarding and feature highlighting."}
 >
-  ## Installation
-
-  <InstallTabs sources={sources} command={item?.install.package ?? "pnpm add @glinui/ui @glinui/tokens"} />
-
-  ### Registry
-
-  <InstallTabs command={item?.install.registry ?? "pnpm dlx @glinui/cli@latest add spotlight"} />
-
-  ## Usage
-
-  `Spotlight` is a `"use client"` component. It renders a full-viewport overlay with a transparent circular cutout at the specified position — great for onboarding tours and feature highlighting.
-
-  ### Basic
-
-  <ExampleBlock
-    codeDefaultOpen
+  <ComponentHero
+    componentId="spotlight"
+    title="Spotlight"
     code={`"use client"
 import { Spotlight } from "@glinui/ui"
 import { useState } from "react"
@@ -46,15 +34,17 @@ import { useState } from "react"
 export function SpotlightDemo() {
   const [active, setActive] = useState(false)
   return (
-    <div className="flex items-center justify-center p-8">
+    <div className="relative flex h-72 w-full items-center justify-center overflow-hidden rounded-xl">
       <button
-        className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-foreground"
+        type="button"
+        className="rounded-lg bg-[var(--color-accent)] px-4 py-2 text-sm font-medium text-[var(--color-accent-foreground)]"
         onClick={() => setActive(true)}
       >
         Show Spotlight
       </button>
       <Spotlight
         active={active}
+        className="absolute z-10"
         x="50%"
         y="50%"
         size={120}
@@ -64,10 +54,16 @@ export function SpotlightDemo() {
   )
 }`}
   >
-    <div className="flex items-center justify-center p-8">
-      <p className="text-sm text-neutral-400">Click the button in the code example to see the spotlight overlay.</p>
-    </div>
-  </ExampleBlock>
+    <SpotlightDemo />
+  </ComponentHero>
+
+  ## Installation
+
+  <ComponentInstall componentId="spotlight" sources={sources} />
+
+  ## Usage
+
+  `Spotlight` is a `"use client"` component. It renders a full-viewport overlay with a transparent circular cutout at the specified position, great for onboarding tours and feature highlighting.
 
   ## Examples
 

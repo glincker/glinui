@@ -1,8 +1,12 @@
 import { getRegistryItem } from "@glinui/registry"
 import { BlurFade } from "@glinui/ui"
+import { BlurFadeFeatures } from "@/components/demos/s5-motion"
+import { s5Code } from "@/lib/s5-code.generated"
+import { EngineColumns } from "@/components/demos/s5-engines"
+import { engineCompareCode } from "@/components/demos/s5-engine-code"
 import { ComponentDocLayout } from "@/components/docs/component-doc-layout"
 import { ExampleBlock } from "@/components/docs/example-block"
-import { InstallTabs } from "@/components/docs/install-tabs"
+import { ComponentHero, ComponentInstall } from "@/components/docs/component-hero"
 import { getComponentSources } from "@/lib/get-component-source"
 import { PropsTable } from "@/components/docs/props-table"
 import { createDocsMetadata } from "@/lib/docs-metadata"
@@ -23,54 +27,23 @@ export const metadata = createDocsMetadata({
   title="Blur Fade"
   description={item?.description ?? "Scroll-triggered blur and fade entrance animation via IntersectionObserver."}
 >
+  <ComponentHero
+    componentId="blur-fade"
+    title="Blur Fade"
+    code={s5Code.BlurFadeFeatures}
+  >
+    <BlurFadeFeatures />
+  </ComponentHero>
+
   ## Installation
 
-  <InstallTabs sources={sources} command={item?.install.package ?? "pnpm add @glinui/ui @glinui/tokens"} />
-
-  ### Registry
-
-  <InstallTabs command={item?.install.registry ?? "pnpm dlx @glinui/cli@latest add blur-fade"} />
+  <ComponentInstall componentId="blur-fade" sources={sources} />
 
   ## Usage
 
   Wrap any element in `BlurFade`. It observes the element's intersection with the viewport and plays a blur + fade + translate entrance animation once it enters. Use `delay` to stagger multiple items on the same page.
 
-  `BlurFade` is a `"use client"` component — it runs in the browser only.
-
-  ### Basic
-
-  <ExampleBlock
-    codeDefaultOpen
-    code={`import { BlurFade } from "@glinui/ui"
-
-export function BlurFadeDemo() {
-  return (
-    <div className="flex flex-col gap-4 p-8">
-      <BlurFade delay={0}>
-        <div className="rounded-lg border p-4 dark:border-neutral-800">First item fades in</div>
-      </BlurFade>
-      <BlurFade delay={200}>
-        <div className="rounded-lg border p-4 dark:border-neutral-800">Second item with delay</div>
-      </BlurFade>
-      <BlurFade delay={400}>
-        <div className="rounded-lg border p-4 dark:border-neutral-800">Third item with more delay</div>
-      </BlurFade>
-    </div>
-  )
-}`}
-  >
-    <div className="flex flex-col gap-4 p-8">
-      <BlurFade delay={0}>
-        <div className="rounded-lg border p-4 dark:border-neutral-800">First item fades in</div>
-      </BlurFade>
-      <BlurFade delay={200}>
-        <div className="rounded-lg border p-4 dark:border-neutral-800">Second item with delay</div>
-      </BlurFade>
-      <BlurFade delay={400}>
-        <div className="rounded-lg border p-4 dark:border-neutral-800">Third item with more delay</div>
-      </BlurFade>
-    </div>
-  </ExampleBlock>
+  `BlurFade` is a `"use client"` component, it runs in the browser only.
 
   ## Examples
 
@@ -83,13 +56,13 @@ export function BlurFadeCustomDemo() {
   return (
     <div className="flex flex-col gap-4 p-8">
       <BlurFade blur={20} yOffset={24} duration={700} delay={0}>
-        <div className="rounded-xl border border-neutral-200 bg-neutral-50 p-6 dark:border-neutral-800 dark:bg-neutral-900">
+        <div className="rounded-xl border border-[var(--color-border)] bg-[var(--surface-2)] p-6">
           <p className="font-semibold">Heavy blur entrance</p>
           <p className="text-sm text-neutral-500">blur={20}, yOffset={24}, duration={700}</p>
         </div>
       </BlurFade>
       <BlurFade blur={20} yOffset={24} duration={700} delay={150}>
-        <div className="rounded-xl border border-neutral-200 bg-neutral-50 p-6 dark:border-neutral-800 dark:bg-neutral-900">
+        <div className="rounded-xl border border-[var(--color-border)] bg-[var(--surface-2)] p-6">
           <p className="font-semibold">Staggered card</p>
           <p className="text-sm text-neutral-500">delay={150}</p>
         </div>
@@ -100,13 +73,13 @@ export function BlurFadeCustomDemo() {
   >
     <div className="flex flex-col gap-4 p-8">
       <BlurFade blur={20} yOffset={24} duration={700} delay={0}>
-        <div className="rounded-xl border border-neutral-200 bg-neutral-50 p-6 dark:border-neutral-800 dark:bg-neutral-900">
+        <div className="rounded-xl border border-[var(--color-border)] bg-[var(--surface-2)] p-6">
           <p className="font-semibold">Heavy blur entrance</p>
           <p className="text-sm text-neutral-500">blur=20, yOffset=24, duration=700</p>
         </div>
       </BlurFade>
       <BlurFade blur={20} yOffset={24} duration={700} delay={150}>
-        <div className="rounded-xl border border-neutral-200 bg-neutral-50 p-6 dark:border-neutral-800 dark:bg-neutral-900">
+        <div className="rounded-xl border border-[var(--color-border)] bg-[var(--surface-2)] p-6">
           <p className="font-semibold">Staggered card</p>
           <p className="text-sm text-neutral-500">delay=150</p>
         </div>
@@ -114,9 +87,19 @@ export function BlurFadeCustomDemo() {
     </div>
   </ExampleBlock>
 
+  ## Engines
+
+  `Blur Fade` drives its main animation through the pluggable motion engine. Pass `engine="css" | "motion" | "gsap"`, wrap a subtree in `MotionEngineProvider`, or set `data-glin-engine` on `<html>`. The css engine is built in and dependency free; `motion` and `gsap` are opt-in through `@glinui/motion/register/*`. Motion level `none` renders the final state and `subtle` is opacity only.
+
+  ### Engine comparison
+
+  <ExampleBlock code={engineCompareCode("blur-fade")}>
+    <EngineColumns id="blur-fade" />
+  </ExampleBlock>
+
   ## Accessibility
 
-  - Content wrapped by `BlurFade` is fully accessible at all times — only the visual presentation is animated.
+  - Content wrapped by `BlurFade` is fully accessible at all times, only the visual presentation is animated.
   - The animation is a progressive enhancement: if JavaScript is unavailable or the `IntersectionObserver` API is not supported, content is shown immediately in its final state.
   - Focus and keyboard navigation work normally regardless of animation state.
 
@@ -135,7 +118,7 @@ export function BlurFadeCustomDemo() {
   ```
 
   {item?.files?.map((file) => (
-    <div key={file} className="font-mono text-sm text-neutral-600 dark:text-neutral-300">
+    <div key={file} className="font-mono text-sm text-[var(--color-muted)]">
       {file}
     </div>
   ))}

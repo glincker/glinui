@@ -1,8 +1,10 @@
 import { getRegistryItem } from "@glinui/registry"
 import { FloatingPanel } from "@glinui/ui"
+import { FloatingPanelHero, FloatingPanelVariants, FloatingPanelTones, FloatingPanelLayout } from "@/components/demos/family-demos"
+import { SigHero } from "@/components/demos/s2-signature-mdx"
 import { ComponentDocLayout } from "@/components/docs/component-doc-layout"
 import { ExampleBlock } from "@/components/docs/example-block"
-import { InstallTabs } from "@/components/docs/install-tabs"
+import { ComponentHero, ComponentInstall } from "@/components/docs/component-hero"
 import { getComponentSources } from "@/lib/get-component-source"
 import { PropsTable } from "@/components/docs/props-table"
 import { createDocsMetadata } from "@/lib/docs-metadata"
@@ -23,73 +25,85 @@ export const metadata = createDocsMetadata({
   title="Floating Panel"
   description={item?.description ?? "Draggable glass panel with depth shadows and optional close button."}
 >
+  <SigHero id="floating-panel" title="Floating Panel" name="FloatingPanelProductHero" stage="lg" />
+
   ## Installation
 
-  <InstallTabs sources={sources} command={item?.install.package ?? "pnpm add @glinui/ui @glinui/tokens"} />
-
-  ### Registry
-
-  <InstallTabs command={item?.install.registry ?? "pnpm dlx @glinui/cli@latest add floating-panel"} />
+  <ComponentInstall componentId="floating-panel" sources={sources} />
 
   ## Usage
 
   `FloatingPanel` is a `"use client"` component. Place it inside a relative container. Drag to reposition.
 
-  ### Basic
-
-  <ExampleBlock
-    codeDefaultOpen
-    code={`"use client"
-import { FloatingPanel } from "@glinui/ui"
-
-export function FloatingPanelDemo() {
-  return (
-    <div className="relative h-64 w-full overflow-hidden rounded-xl border border-neutral-200 bg-neutral-950 dark:border-neutral-800">
-      <FloatingPanel defaultX={40} defaultY={30}>
-        <h3 className="text-sm font-semibold text-white">Drag Me</h3>
-        <p className="mt-1 text-xs text-neutral-400">This panel is draggable.</p>
-      </FloatingPanel>
-    </div>
-  )
-}`}
-  >
-    <div className="relative h-64 w-full overflow-hidden rounded-xl border border-neutral-200 bg-neutral-950 dark:border-neutral-800">
-      <FloatingPanel defaultX={40} defaultY={30}>
-        <h3 className="text-sm font-semibold text-white">Drag Me</h3>
-        <p className="mt-1 text-xs text-neutral-400">This panel is draggable.</p>
-      </FloatingPanel>
-    </div>
-  </ExampleBlock>
+  Drag either panel inside its container. The default surface is the glinr lift look with elevation 3, so it reads on any backdrop.
 
   ## Examples
 
-  ### With Close Button
+  ### Variants
+
+  `glinr` is the default, `plain` is the flat shadcn look, `solid` is a neutral tonal face and `glass` is opt-in. Glass needs a backdrop, so the set below sits on a vivid one.
 
   <ExampleBlock
-    code={`"use client"
-import { FloatingPanel } from "@glinui/ui"
-import { useState } from "react"
+    code={`import { FloatingPanel } from "@glinui/ui"
 
-export function FloatingPanelCloseDemo() {
-  const [open, setOpen] = useState(true)
+// Omit variant to follow the ambient style (glinr by default).
+export function FloatingPanelVariants() {
   return (
-    <div className="relative h-64 w-full overflow-hidden rounded-xl border border-neutral-200 bg-neutral-950 dark:border-neutral-800">
-      {open && (
-        <FloatingPanel closable onClose={() => setOpen(false)} defaultX={60} defaultY={20}>
-          <h3 className="text-sm font-semibold text-white">Closable</h3>
-          <p className="mt-1 text-xs text-neutral-400">Click X to dismiss.</p>
-        </FloatingPanel>
-      )}
-    </div>
+    <>
+      <FloatingPanel variant="glinr">
+        ...
+      </FloatingPanel>
+      <FloatingPanel variant="plain">
+        ...
+      </FloatingPanel>
+      <FloatingPanel variant="solid">
+        ...
+      </FloatingPanel>
+      <FloatingPanel variant="glass">
+        ...
+      </FloatingPanel>
+    </>
   )
 }`}
   >
-    <div className="relative h-64 w-full overflow-hidden rounded-xl border border-neutral-200 bg-neutral-950 dark:border-neutral-800">
-      <FloatingPanel closable defaultX={60} defaultY={20}>
-        <h3 className="text-sm font-semibold text-white">Closable</h3>
-        <p className="mt-1 text-xs text-neutral-400">Click X to dismiss.</p>
-      </FloatingPanel>
-    </div>
+    <FloatingPanelVariants />
+  </ExampleBlock>
+
+  ### Colors
+
+  Tones apply through the `soft` variant.
+
+  <ExampleBlock
+    code={`import { FloatingPanel } from "@glinui/ui"
+
+export function FloatingPanelTones() {
+  return (
+    <FloatingPanel variant="soft" tone="success">
+      ...
+    </FloatingPanel>
+  )
+}`}
+  >
+    <FloatingPanelTones />
+  </ExampleBlock>
+
+  ### In a layout
+
+  Panels rendered statically (`className="static"`) inside a dashboard row.
+
+  <ExampleBlock
+    code={`// Panels rendered statically (className="static") inside a dashboard row.
+import { FloatingPanel } from "@glinui/ui"
+
+export function FloatingPanelLayout() {
+  return (
+    <section className="grid gap-4 sm:grid-cols-3">
+      ...
+    </section>
+  )
+}`}
+  >
+    <FloatingPanelLayout />
   </ExampleBlock>
 
   ## Accessibility
@@ -100,7 +114,7 @@ export function FloatingPanelCloseDemo() {
 
   ## Reduced Motion
 
-  No animation is used — drag is position-based, not animated.
+  No animation is used, drag is position-based, not animated.
 
   ## API Reference
 
