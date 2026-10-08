@@ -24,10 +24,17 @@ const staticRoutes = [
   { route: "/docs/screen-reader-testing", file: "src/app/docs/screen-reader-testing/page.tsx", changeFrequency: "monthly", priority: 0.8 },
   { route: "/docs/focus-management", file: "src/app/docs/focus-management/page.tsx", changeFrequency: "monthly", priority: 0.8 },
   { route: "/docs/color-contrast", file: "src/app/docs/color-contrast/page.tsx", changeFrequency: "monthly", priority: 0.8 },
+  { route: "/docs/animations", file: "src/app/docs/animations/page.tsx", changeFrequency: "weekly", priority: 0.85 },
+  { route: "/docs/colors", file: "src/app/docs/colors/page.tsx", changeFrequency: "weekly", priority: 0.85 },
   { route: "/docs/tokens", file: "src/app/docs/tokens/page.tsx", changeFrequency: "monthly", priority: 0.78 },
   { route: "/docs/motion", file: "src/app/docs/motion/page.tsx", changeFrequency: "monthly", priority: 0.78 },
+  { route: "/docs/engines", file: "src/app/docs/engines/page.tsx", changeFrequency: "weekly", priority: 0.8 },
   { route: "/docs/glass-physics", file: "src/app/docs/glass-physics/page.tsx", changeFrequency: "monthly", priority: 0.78 },
-  { route: "/docs/api-metadata", file: "src/app/docs/api-metadata/page.tsx", changeFrequency: "monthly", priority: 0.78 }
+  { route: "/docs/api-metadata", file: "src/app/docs/api-metadata/page.tsx", changeFrequency: "monthly", priority: 0.78 },
+  { route: "/docs/ai", file: "src/app/docs/ai/page.tsx", changeFrequency: "monthly", priority: 0.8 },
+  { route: "/docs/variants", file: "src/app/docs/variants/page.tsx", changeFrequency: "monthly", priority: 0.78 },
+  { route: "/docs/attribution", file: "src/app/docs/attribution/page.tsx", changeFrequency: "monthly", priority: 0.7 },
+  { route: "/docs/free-forever", file: "src/app/docs/free-forever/page.tsx", changeFrequency: "monthly", priority: 0.7 }
 ] as const
 
 function resolveLastModified(relativeFilePath: string, fallback: Date) {
@@ -64,9 +71,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
 
     seen.add(route)
-    const docsFilePath = join(process.cwd(), `src/app${item.docsPath}/page.mdx`)
+    const docsFilePath =
+      item.type === "signature" ? join(process.cwd(), `src/app${item.docsPath}/page.mdx`) : null
     const fallbackFilePath = join(process.cwd(), "src/app/docs/components/[implementation]/[component]/page.tsx")
-    const lastModified = existsSync(docsFilePath)
+    const lastModified = docsFilePath && existsSync(docsFilePath)
       ? statSync(docsFilePath).mtime
       : existsSync(fallbackFilePath)
         ? statSync(fallbackFilePath).mtime
