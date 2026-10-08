@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Counter",
   "description": "Numeric badge that compacts overflow values like 99+.",
-  "docsPath": "/docs/components/counter",
+  "docsPath": "/docs/components/radix/counter",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

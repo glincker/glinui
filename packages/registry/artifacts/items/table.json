@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Table",
   "description": "Composable data table with semantic sections and glass variant support.",
-  "docsPath": "/docs/components/table",
+  "docsPath": "/docs/components/radix/table",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

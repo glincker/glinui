@@ -1,0 +1,22 @@
+{
+  "name": "toggle",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Toggle",
+  "description": "A two-state button that can be pressed on or off.",
+  "docsPath": "/docs/components/radix/toggle",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@radix-ui/react-toggle",
+    "class-variance-authority"
+  ],
+  "files": [
+    "packages/ui/src/components/toggle.tsx",
+    "packages/ui/src/tests/toggle.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add toggle"
+  }
+}

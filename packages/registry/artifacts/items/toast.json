@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Toast",
   "description": "Glassmorphic toast notifications powered by Sonner with success, error, warning, info, loading, promise, and action support.",
-  "docsPath": "/docs/components/toast",
+  "docsPath": "/docs/components/radix/toast",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui",

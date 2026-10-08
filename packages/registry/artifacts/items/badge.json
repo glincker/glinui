@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Badge",
   "description": "Compact status indicator for labels, states, and counts.",
-  "docsPath": "/docs/components/badge",
+  "docsPath": "/docs/components/radix/badge",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

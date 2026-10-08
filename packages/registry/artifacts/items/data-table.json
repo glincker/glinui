@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Data Table",
   "description": "Feature-rich table wrapper with search, sorting, pagination, selection, and column controls.",
-  "docsPath": "/docs/components/data-table",
+  "docsPath": "/docs/components/radix/data-table",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

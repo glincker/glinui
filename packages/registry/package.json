@@ -11,7 +11,9 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "THIRD_PARTY_NOTICES.md",
+    "licenses"
   ],
   "license": "MIT",
   "repository": {
@@ -34,10 +36,10 @@
     "access": "public"
   },
   "scripts": {
-    "build": "pnpm registry:generate && tsc -p tsconfig.json",
+    "build": "pnpm registry:generate && tsc -p tsconfig.json && node scripts/fix-dist-imports.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "echo 'lint: @glinui/registry (todo)'",
-    "test": "node scripts/validate-artifacts.mjs",
+    "test": "node scripts/validate-artifacts.mjs && node --test scripts/*.test.mjs",
     "registry:generate": "node scripts/generate-artifacts.mjs"
   }
 }

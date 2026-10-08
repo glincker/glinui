@@ -1,0 +1,43 @@
+{
+  "name": "sparkles-text",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Sparkles Text",
+  "description": "Text with twinkling star sparkles that scale and rotate, with a static accent under reduced motion.",
+  "docsPath": "/docs/components/radix/sparkles-text",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@glinui/motion"
+  ],
+  "category": "text",
+  "files": [
+    "packages/ui/src/components/sparkles-text.tsx",
+    "packages/ui/src/components/motion-engine.tsx",
+    "packages/ui/src/tests/sparkles-text.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add sparkles-text"
+  },
+  "provenance": {
+    "sourceId": "magic-ui",
+    "sourceName": "Magic UI",
+    "author": "Magic UI",
+    "upstreamUrl": "https://github.com/magicuidesign/magicui",
+    "upstreamComponentUrl": "https://magicui.design/docs/components/sparkles-text",
+    "license": "MIT",
+    "spdx": "MIT",
+    "copyright": "Copyright (c) Magic UI",
+    "commit": "cdb348cb4c72a9b54b554d8617801e479fbc8714",
+    "adaptedFrom": "apps/www/registry/magicui/sparkles-text.tsx",
+    "adaptedAt": "2026-10-07",
+    "status": "active",
+    "licenseSha256": "0147b84235ed916b8b4e89c1f80655351c5afe7d211b629be61f553a227b34ba",
+    "licenseSnapshotPath": "packages/registry/licenses/magic-ui-cdb348c.txt",
+    "changes": "No motion dependency (Web Animations), sparkles generated after mount for SSR safety, token colors and reduced motion levels.",
+    "upstreamInstall": {
+      "shadcn": "npx shadcn@latest add \"https://magicui.design/r/sparkles-text\""
+    }
+  }
+}

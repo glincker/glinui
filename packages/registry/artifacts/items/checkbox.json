@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Checkbox",
   "description": "Radix checkbox with glass, liquid, matte, and outline surface variants.",
-  "docsPath": "/docs/components/checkbox",
+  "docsPath": "/docs/components/radix/checkbox",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

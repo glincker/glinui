@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Skeleton",
   "description": "Loading placeholder surface with reduced-motion fallback.",
-  "docsPath": "/docs/components/skeleton",
+  "docsPath": "/docs/components/radix/skeleton",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

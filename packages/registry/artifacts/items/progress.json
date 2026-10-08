@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Progress",
   "description": "Determinate linear and circular progress indicators with tokenized variants and sizing.",
-  "docsPath": "/docs/components/progress",
+  "docsPath": "/docs/components/radix/progress",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Modal / Dialog",
   "description": "Layered dialog for focused tasks or confirmations.",
-  "docsPath": "/docs/components/modal",
+  "docsPath": "/docs/components/radix/modal",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

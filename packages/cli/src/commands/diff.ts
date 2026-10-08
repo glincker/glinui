@@ -3,6 +3,13 @@ import fs from "fs-extra"
 import path from "path"
 import pc from "picocolors"
 import { fetchRegistryItem, getLastRegistryErrorMessage } from "../registry/api.js"
+import { rewriteImports } from "../utils/rewrite-imports.js"
+import {
+  createResolver,
+  loadProjectLayout,
+  loadProjectLayoutWithDefaults,
+  type ProjectLayout
+} from "../utils/project.js"
 
 type DiffLine = {
   kind: "context" | "add" | "remove"
@@ -145,17 +152,12 @@ export function createHunks(lines: DiffLine[], contextLines: number): DiffHunk[]
   return hunks
 }
 
-function readComponentConfig(cwd: string) {
-  const configPath = path.join(cwd, "glinui.json")
-  if (!fs.existsSync(configPath)) {
-    return { components: "src/components/ui" }
-  }
-
+async function readLayout(cwd: string): Promise<ProjectLayout> {
   try {
-    const config = fs.readJsonSync(configPath)
-    return { components: config?.aliases?.components ?? "src/components/ui" }
+    return await loadProjectLayout(cwd)
   } catch {
-    return { components: "src/components/ui" }
+    // Diff keeps working without a config by assuming the default layout.
+    return loadProjectLayoutWithDefaults(cwd)
   }
 }
 
@@ -245,8 +247,9 @@ export function createDiffCommand() {
         process.exit(1)
       }
 
-      const config = readComponentConfig(cwd)
-      const localPath = path.join(cwd, config.components, `${component}.tsx`)
+      const layout = await readLayout(cwd)
+      const localPath = path.join(layout.components.directory, `${component}.tsx`)
+      const registryContent = rewriteImports(sourceFile.content, sourceFile.path, createResolver(layout, localPath)).content
 
       if (!await fs.pathExists(localPath)) {
         const message = `local file not found: ${path.relative(cwd, localPath)}`
@@ -265,7 +268,7 @@ export function createDiffCommand() {
       const localSource = await fs.readFile(localPath, "utf8")
       const relativeLocalPath = path.relative(cwd, localPath)
 
-      if (localSource === sourceFile.content) {
+      if (localSource === registryContent) {
         if (options.json) {
           printJson({
             component,
@@ -281,7 +284,7 @@ export function createDiffCommand() {
         return
       }
 
-      const diffLines = createLineDiff(localSource, sourceFile.content)
+      const diffLines = createLineDiff(localSource, registryContent)
       const hunks = createHunks(diffLines, options.context)
       const stats = getStats(diffLines)
 

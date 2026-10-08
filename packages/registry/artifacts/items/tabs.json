@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Tabs",
   "description": "Tabbed interface for switching between grouped content panels.",
-  "docsPath": "/docs/components/tabs",
+  "docsPath": "/docs/components/radix/tabs",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

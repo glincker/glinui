@@ -1,0 +1,44 @@
+{
+  "name": "flickering-grid",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Flickering Grid",
+  "description": "Canvas grid of squares that flicker, with token colors and a static fallback.",
+  "docsPath": "/docs/components/radix/flickering-grid",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@glinui/motion"
+  ],
+  "category": "backgrounds",
+  "files": [
+    "packages/ui/src/components/flickering-grid.tsx",
+    "packages/ui/src/components/motion-engine.tsx",
+    "packages/ui/src/lib/use-playback-active.ts",
+    "packages/ui/src/tests/flickering-grid.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add flickering-grid"
+  },
+  "provenance": {
+    "sourceId": "magic-ui",
+    "sourceName": "Magic UI",
+    "author": "Magic UI",
+    "upstreamUrl": "https://github.com/magicuidesign/magicui",
+    "upstreamComponentUrl": "https://magicui.design/docs/components/flickering-grid",
+    "license": "MIT",
+    "spdx": "MIT",
+    "copyright": "Copyright (c) Magic UI",
+    "commit": "cdb348cb4c72a9b54b554d8617801e479fbc8714",
+    "adaptedFrom": "apps/www/registry/magicui/flickering-grid.tsx",
+    "adaptedAt": "2026-10-07",
+    "status": "active",
+    "licenseSha256": "0147b84235ed916b8b4e89c1f80655351c5afe7d211b629be61f553a227b34ba",
+    "licenseSnapshotPath": "packages/registry/licenses/magic-ui-cdb348c.txt",
+    "changes": "Token colors resolved at runtime, device pixel ratio transform, frame rate cap, pause offscreen and hidden, static frame for reduced motion.",
+    "upstreamInstall": {
+      "shadcn": "npx shadcn@latest add \"https://magicui.design/r/flickering-grid\""
+    }
+  }
+}

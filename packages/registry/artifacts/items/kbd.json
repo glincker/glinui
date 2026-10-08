@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Kbd",
   "description": "Keyboard keycap primitive for shortcuts and key hints.",
-  "docsPath": "/docs/components/kbd",
+  "docsPath": "/docs/components/radix/kbd",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

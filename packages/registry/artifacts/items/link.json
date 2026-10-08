@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Link",
   "description": "Tokenized anchor primitive with focus ring and variant surfaces.",
-  "docsPath": "/docs/components/link",
+  "docsPath": "/docs/components/radix/link",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

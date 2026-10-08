@@ -1,0 +1,44 @@
+{
+  "name": "animated-beam",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Animated Beam",
+  "description": "A gradient beam that travels between two elements.",
+  "docsPath": "/docs/components/radix/animated-beam",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@glinui/motion"
+  ],
+  "category": "backgrounds",
+  "files": [
+    "packages/ui/src/components/animated-beam.tsx",
+    "packages/ui/src/components/motion-engine.tsx",
+    "packages/ui/src/lib/use-playback-active.ts",
+    "packages/ui/src/tests/animated-beam.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add animated-beam"
+  },
+  "provenance": {
+    "sourceId": "magic-ui",
+    "sourceName": "Magic UI",
+    "author": "Magic UI",
+    "upstreamUrl": "https://github.com/magicuidesign/magicui",
+    "upstreamComponentUrl": "https://magicui.design/docs/components/animated-beam",
+    "license": "MIT",
+    "spdx": "MIT",
+    "copyright": "Copyright (c) Magic UI",
+    "commit": "cdb348cb4c72a9b54b554d8617801e479fbc8714",
+    "adaptedFrom": "apps/www/registry/magicui/animated-beam.tsx",
+    "adaptedAt": "2026-10-07",
+    "status": "active",
+    "licenseSha256": "0147b84235ed916b8b4e89c1f80655351c5afe7d211b629be61f553a227b34ba",
+    "licenseSnapshotPath": "packages/registry/licenses/magic-ui-cdb348c.txt",
+    "changes": "SVG path measurement with Web Animations instead of motion, resize aware anchors, RTL offsets, token colors and reduced motion levels.",
+    "upstreamInstall": {
+      "shadcn": "npx shadcn@latest add \"https://magicui.design/r/animated-beam\""
+    }
+  }
+}

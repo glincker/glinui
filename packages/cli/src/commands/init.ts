@@ -3,6 +3,8 @@ import prompts from "prompts"
 import pc from "picocolors"
 import fs from "fs-extra"
 import path from "path"
+import { ensureUtilsFile } from "../utils/ensure-utils.js"
+import { loadProjectLayout } from "../utils/project.js"
 import { DEFAULT_STYLE, REGISTRY_URL } from "../registry/constants.js"
 
 type InitOptions = {
@@ -85,7 +87,7 @@ async function resolveAnswers(useDefaults: boolean): Promise<InitAnswers> {
 
 export async function runInit(options: InitOptions) {
   const cwd = path.resolve(options.cwd)
-  console.log(pc.cyan("\n  Glin UI — Liquid Glass Components\n"))
+  console.log(pc.cyan("\n  Glin UI, Liquid Glass Components\n"))
 
   const pkgPath = path.join(cwd, "package.json")
   if (!await fs.pathExists(pkgPath)) {
@@ -105,20 +107,10 @@ export async function runInit(options: InitOptions) {
   await fs.writeJson(configPath, glinuiConfig, { spaces: 2 })
   console.log(pc.green(`\n  ✓ Config written to ${pc.bold("glinui.json")}`))
 
-  const utilsDir = path.join(cwd, answers.utils)
-  await fs.ensureDir(utilsDir)
-
-  const cnContent = `import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
-}
-`
-  const cnPath = path.join(utilsDir, "cn.ts")
-  if (!await fs.pathExists(cnPath)) {
-    await fs.writeFile(cnPath, cnContent, "utf8")
-    console.log(pc.green(`  ✓ Created ${pc.bold(path.relative(cwd, cnPath))}`))
+  // utils is a module path (src/lib/utils -> src/lib/utils.ts) exporting cn.
+  const layout = await loadProjectLayout(cwd)
+  if (await ensureUtilsFile(layout.utils.file, false)) {
+    console.log(pc.green(`  ✓ Created ${pc.bold(path.relative(cwd, layout.utils.file))}`))
   }
 
   console.log(pc.cyan("\n  Install dependencies:\n"))

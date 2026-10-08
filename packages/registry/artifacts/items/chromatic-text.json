@@ -3,7 +3,7 @@
   "namespace": "@glinui",
   "type": "signature",
   "title": "Chromatic Text",
-  "description": "Text with chromatic aberration effect — RGB channel splitting.",
+  "description": "Text with chromatic aberration effect, RGB channel splitting.",
   "docsPath": "/docs/components/chromatic-text",
   "importPath": "@glinui/ui",
   "dependencies": [

@@ -1,0 +1,44 @@
+{
+  "name": "image-comparison",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Image Comparison",
+  "description": "Before and after layers split by a draggable, keyboard operable slider handle.",
+  "docsPath": "/docs/components/radix/image-comparison",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@glinui/motion",
+    "@phosphor-icons/react"
+  ],
+  "category": "data",
+  "files": [
+    "packages/ui/src/components/image-comparison.tsx",
+    "packages/ui/src/components/motion-engine.tsx",
+    "packages/ui/src/tests/image-comparison.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add image-comparison"
+  },
+  "provenance": {
+    "sourceId": "motion-primitives",
+    "sourceName": "Motion Primitives",
+    "author": "ibelick",
+    "upstreamUrl": "https://github.com/ibelick/motion-primitives",
+    "upstreamComponentUrl": "https://motion-primitives.com/docs/image-comparison",
+    "license": "MIT",
+    "spdx": "MIT",
+    "copyright": "Copyright (c) 2024 ibelick",
+    "commit": "120f64f6ca60348e251f929e9c81f11ccbe45eda",
+    "adaptedFrom": "components/core/image-comparison.tsx",
+    "adaptedAt": "2026-10-07",
+    "status": "active",
+    "licenseSha256": "f668f5ef3635eb906f10b1eea9a32e449eb6e1a183ab6879ef6d56c0980dd2f3",
+    "licenseSnapshotPath": "packages/registry/licenses/motion-primitives-120f64f.txt",
+    "changes": "motion/react and springs removed (pointer capture and CSS clip-path), slider role with keys, ReactNode slots, tokens, reduced motion, RTL",
+    "upstreamInstall": {
+      "shadcn": "npx shadcn@latest add \"https://motion-primitives.com/c/image-comparison.json\""
+    }
+  }
+}

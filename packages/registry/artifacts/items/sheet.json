@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Sheet / Drawer",
   "description": "Sliding panel for side, top, or bottom contextual workflows.",
-  "docsPath": "/docs/components/sheet",
+  "docsPath": "/docs/components/radix/sheet",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

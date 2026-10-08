@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Input",
   "description": "Single-line input with glass, liquid, matte, and utility variants.",
-  "docsPath": "/docs/components/input",
+  "docsPath": "/docs/components/radix/input",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

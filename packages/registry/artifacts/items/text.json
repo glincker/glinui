@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Text",
   "description": "Body text primitive for default, muted, and glass-highlighted copy.",
-  "docsPath": "/docs/components/text",
+  "docsPath": "/docs/components/radix/text",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

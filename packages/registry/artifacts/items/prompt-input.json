@@ -1,0 +1,23 @@
+{
+  "name": "prompt-input",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Prompt Input",
+  "description": "Auto-growing chat composer with send and stop, IME-safe Enter handling, attachment slot and character hint.",
+  "docsPath": "/docs/components/radix/prompt-input",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@phosphor-icons/react",
+    "class-variance-authority"
+  ],
+  "category": "ai",
+  "files": [
+    "packages/ui/src/components/prompt-input.tsx",
+    "packages/ui/src/tests/prompt-input.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add prompt-input"
+  }
+}

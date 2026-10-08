@@ -1,0 +1,26 @@
+{
+  "name": "message",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Message",
+  "description": "Chat turn layout with roles, avatar, bubble content and an actions toolbar (copy, regenerate, feedback).",
+  "docsPath": "/docs/components/radix/message",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@phosphor-icons/react"
+  ],
+  "category": "ai",
+  "registryDependencies": [
+    "avatar",
+    "bubble"
+  ],
+  "files": [
+    "packages/ui/src/components/message.tsx",
+    "packages/ui/src/tests/message.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add message"
+  }
+}

@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Tooltip",
   "description": "Context hint on hover/focus using Radix tooltip primitive.",
-  "docsPath": "/docs/components/tooltip",
+  "docsPath": "/docs/components/radix/tooltip",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

@@ -1,0 +1,23 @@
+{
+  "name": "breadcrumb",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Breadcrumb",
+  "description": "Navigation trail with separators, collapsed ellipsis and variant-capable links.",
+  "docsPath": "/docs/components/radix/breadcrumb",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@phosphor-icons/react",
+    "@radix-ui/react-slot",
+    "class-variance-authority"
+  ],
+  "files": [
+    "packages/ui/src/components/breadcrumb.tsx",
+    "packages/ui/src/tests/breadcrumb.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add breadcrumb"
+  }
+}

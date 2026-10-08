@@ -1,0 +1,48 @@
+{
+  "name": "bento-grid",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Bento Grid",
+  "description": "Responsive bento layout of linked feature tiles.",
+  "docsPath": "/docs/components/radix/bento-grid",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@glinui/motion",
+    "class-variance-authority",
+    "@phosphor-icons/react"
+  ],
+  "category": "cards",
+  "registryDependencies": [
+    "card"
+  ],
+  "files": [
+    "packages/ui/src/components/bento-grid.tsx",
+    "packages/ui/src/components/motion-engine.tsx",
+    "packages/ui/src/tests/bento-grid.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add bento-grid"
+  },
+  "provenance": {
+    "sourceId": "magic-ui",
+    "sourceName": "Magic UI",
+    "author": "Magic UI",
+    "upstreamUrl": "https://github.com/magicuidesign/magicui",
+    "upstreamComponentUrl": "https://magicui.design/docs/components/bento-grid",
+    "license": "MIT",
+    "spdx": "MIT",
+    "copyright": "Copyright (c) Magic UI",
+    "commit": "cdb348cb4c72a9b54b554d8617801e479fbc8714",
+    "adaptedFrom": "apps/www/registry/magicui/bento-grid.tsx",
+    "adaptedAt": "2026-10-07",
+    "status": "active",
+    "licenseSha256": "0147b84235ed916b8b4e89c1f80655351c5afe7d211b629be61f553a227b34ba",
+    "licenseSnapshotPath": "packages/registry/licenses/magic-ui-cdb348c.txt",
+    "changes": "Responsive columns, whole tile anchor with a keyboard reachable action, lift and glass surfaces, Phosphor arrow mirrored for RTL.",
+    "upstreamInstall": {
+      "shadcn": "npx shadcn@latest add \"https://magicui.design/r/bento-grid\""
+    }
+  }
+}

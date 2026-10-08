@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Chip",
   "description": "Compact pill-style tag for statuses and lightweight metadata.",
-  "docsPath": "/docs/components/chip",
+  "docsPath": "/docs/components/radix/chip",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

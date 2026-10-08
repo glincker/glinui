@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Heading",
   "description": "Semantic heading primitive with independent style scaling.",
-  "docsPath": "/docs/components/heading",
+  "docsPath": "/docs/components/radix/heading",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

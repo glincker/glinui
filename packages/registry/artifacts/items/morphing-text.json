@@ -1,0 +1,43 @@
+{
+  "name": "morphing-text",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Morphing Text",
+  "description": "Cycles through words with a gooey blur and threshold morph, paused off screen and static under reduced motion.",
+  "docsPath": "/docs/components/radix/morphing-text",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@glinui/motion"
+  ],
+  "category": "text",
+  "files": [
+    "packages/ui/src/components/morphing-text.tsx",
+    "packages/ui/src/components/motion-engine.tsx",
+    "packages/ui/src/tests/morphing-text.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add morphing-text"
+  },
+  "provenance": {
+    "sourceId": "magic-ui",
+    "sourceName": "Magic UI",
+    "author": "Magic UI",
+    "upstreamUrl": "https://github.com/magicuidesign/magicui",
+    "upstreamComponentUrl": "https://magicui.design/docs/components/morphing-text",
+    "license": "MIT",
+    "spdx": "MIT",
+    "copyright": "Copyright (c) Magic UI",
+    "commit": "cdb348cb4c72a9b54b554d8617801e479fbc8714",
+    "adaptedFrom": "apps/www/registry/magicui/morphing-text.tsx",
+    "adaptedAt": "2026-10-07",
+    "status": "active",
+    "licenseSha256": "0147b84235ed916b8b4e89c1f80655351c5afe7d211b629be61f553a227b34ba",
+    "licenseSnapshotPath": "packages/registry/licenses/magic-ui-cdb348c.txt",
+    "changes": "Per instance SVG filter id, off screen pause, reduced motion levels, an accessible word list and token colors.",
+    "upstreamInstall": {
+      "shadcn": "npx shadcn@latest add \"https://magicui.design/r/morphing-text\""
+    }
+  }
+}

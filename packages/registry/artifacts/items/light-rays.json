@@ -1,0 +1,45 @@
+{
+  "name": "light-rays",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Light Rays",
+  "description": "Soft swaying rays of light for hero and section backgrounds.",
+  "docsPath": "/docs/components/radix/light-rays",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@glinui/motion",
+    "class-variance-authority"
+  ],
+  "category": "backgrounds",
+  "files": [
+    "packages/ui/src/components/light-rays.tsx",
+    "packages/ui/src/components/motion-engine.tsx",
+    "packages/ui/src/lib/use-playback-active.ts",
+    "packages/ui/src/tests/light-rays.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add light-rays"
+  },
+  "provenance": {
+    "sourceId": "magic-ui",
+    "sourceName": "Magic UI",
+    "author": "Magic UI",
+    "upstreamUrl": "https://github.com/magicuidesign/magicui",
+    "upstreamComponentUrl": "https://magicui.design/docs/components/light-rays",
+    "license": "MIT",
+    "spdx": "MIT",
+    "copyright": "Copyright (c) Magic UI",
+    "commit": "cdb348cb4c72a9b54b554d8617801e479fbc8714",
+    "adaptedFrom": "apps/www/registry/magicui/light-rays.tsx",
+    "adaptedAt": "2026-10-07",
+    "status": "active",
+    "licenseSha256": "0147b84235ed916b8b4e89c1f80655351c5afe7d211b629be61f553a227b34ba",
+    "licenseSnapshotPath": "packages/registry/licenses/magic-ui-cdb348c.txt",
+    "changes": "Web Animations instead of motion, seeded rays, token colors, reduced motion levels, offscreen pause and RTL mirroring.",
+    "upstreamInstall": {
+      "shadcn": "npx shadcn@latest add \"https://magicui.design/r/light-rays\""
+    }
+  }
+}

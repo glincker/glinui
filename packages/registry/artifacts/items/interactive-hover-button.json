@@ -1,0 +1,49 @@
+{
+  "name": "interactive-hover-button",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Interactive Hover Button",
+  "description": "Pill button whose accent dot floods the surface on hover, focus or press.",
+  "docsPath": "/docs/components/radix/interactive-hover-button",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@glinui/motion",
+    "class-variance-authority",
+    "@phosphor-icons/react"
+  ],
+  "category": "buttons",
+  "registryDependencies": [
+    "button",
+    "spinner"
+  ],
+  "files": [
+    "packages/ui/src/components/interactive-hover-button.tsx",
+    "packages/ui/src/components/motion-engine.tsx",
+    "packages/ui/src/tests/interactive-hover-button.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add interactive-hover-button"
+  },
+  "provenance": {
+    "sourceId": "magic-ui",
+    "sourceName": "Magic UI",
+    "author": "Magic UI",
+    "upstreamUrl": "https://github.com/magicuidesign/magicui",
+    "upstreamComponentUrl": "https://magicui.design/docs/components/interactive-hover-button",
+    "license": "MIT",
+    "spdx": "MIT",
+    "copyright": "Copyright (c) Magic UI",
+    "commit": "cdb348cb4c72a9b54b554d8617801e479fbc8714",
+    "adaptedFrom": "apps/www/registry/magicui/interactive-hover-button.tsx",
+    "adaptedAt": "2026-10-07",
+    "status": "active",
+    "licenseSha256": "0147b84235ed916b8b4e89c1f80655351c5afe7d211b629be61f553a227b34ba",
+    "licenseSnapshotPath": "packages/registry/licenses/magic-ui-cdb348c.txt",
+    "changes": "Clip path fill, a single accessible label, focus and press parity, token colors, RTL, sizes, glass and loading states.",
+    "upstreamInstall": {
+      "shadcn": "npx shadcn@latest add \"https://magicui.design/r/interactive-hover-button\""
+    }
+  }
+}

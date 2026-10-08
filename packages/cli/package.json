@@ -37,7 +37,9 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "THIRD_PARTY_NOTICES.md",
+    "licenses"
   ],
   "publishConfig": {
     "access": "public"

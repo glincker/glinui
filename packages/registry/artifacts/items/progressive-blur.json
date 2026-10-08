@@ -1,0 +1,44 @@
+{
+  "name": "progressive-blur",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Progressive Blur",
+  "description": "Edge overlay that blurs content progressively using stacked masked backdrop filters.",
+  "docsPath": "/docs/components/radix/progressive-blur",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@glinui/motion",
+    "class-variance-authority"
+  ],
+  "category": "layout",
+  "files": [
+    "packages/ui/src/components/progressive-blur.tsx",
+    "packages/ui/src/components/motion-engine.tsx",
+    "packages/ui/src/tests/progressive-blur.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add progressive-blur"
+  },
+  "provenance": {
+    "sourceId": "motion-primitives",
+    "sourceName": "Motion Primitives",
+    "author": "ibelick",
+    "upstreamUrl": "https://github.com/ibelick/motion-primitives",
+    "upstreamComponentUrl": "https://motion-primitives.com/docs/progressive-blur",
+    "license": "MIT",
+    "spdx": "MIT",
+    "copyright": "Copyright (c) 2024 ibelick",
+    "commit": "120f64f6ca60348e251f929e9c81f11ccbe45eda",
+    "adaptedFrom": "components/core/progressive-blur.tsx",
+    "adaptedAt": "2026-10-07",
+    "status": "active",
+    "licenseSha256": "f668f5ef3635eb906f10b1eea9a32e449eb6e1a183ab6879ef6d56c0980dd2f3",
+    "licenseSnapshotPath": "packages/registry/licenses/motion-primitives-120f64f.txt",
+    "changes": "motion/react removed (CSS and Web Animations API), tokens, accessibility, reduced motion levels, RTL",
+    "upstreamInstall": {
+      "shadcn": "npx shadcn@latest add \"https://motion-primitives.com/c/progressive-blur.json\""
+    }
+  }
+}

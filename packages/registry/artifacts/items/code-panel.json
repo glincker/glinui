@@ -1,0 +1,23 @@
+{
+  "name": "code-panel",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Code Panel",
+  "description": "Raised header bar over an inset code well with tok-k, tok-s, tok-c and tok-f token classes.",
+  "docsPath": "/docs/components/radix/code-panel",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui"
+  ],
+  "registryDependencies": [
+    "card",
+    "copy-button"
+  ],
+  "files": [
+    "packages/ui/src/components/code-panel.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add code-panel"
+  }
+}

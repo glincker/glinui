@@ -1,0 +1,24 @@
+{
+  "name": "input-group",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Input Group",
+  "description": "An input with inline or block addons such as icons, text and buttons in one shared container.",
+  "docsPath": "/docs/components/radix/input-group",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "class-variance-authority"
+  ],
+  "registryDependencies": [
+    "button"
+  ],
+  "files": [
+    "packages/ui/src/components/input-group.tsx",
+    "packages/ui/src/tests/input-group.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add input-group"
+  }
+}
