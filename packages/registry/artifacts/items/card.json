@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Card",
   "description": "Flexible surface container for grouped content.",
-  "docsPath": "/docs/components/card",
+  "docsPath": "/docs/components/radix/card",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

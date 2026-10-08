@@ -1,0 +1,46 @@
+{
+  "name": "generate-button",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Generate Button",
+  "description": "AI style call to action with idle, generating and loading states.",
+  "docsPath": "/docs/components/radix/generate-button",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@glinui/motion",
+    "class-variance-authority",
+    "@phosphor-icons/react"
+  ],
+  "category": "buttons",
+  "registryDependencies": [
+    "button",
+    "spinner"
+  ],
+  "files": [
+    "packages/ui/src/components/generate-button.tsx",
+    "packages/ui/src/components/motion-engine.tsx",
+    "packages/ui/src/tests/generate-button.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add generate-button"
+  },
+  "provenance": {
+    "sourceId": "vengeance-ui",
+    "sourceName": "Vengeance UI",
+    "author": "Ashutoshx7",
+    "upstreamUrl": "https://github.com/Ashutoshx7/VengeanceUI",
+    "upstreamComponentUrl": "https://github.com/Ashutoshx7/VengeanceUI/blob/0376d8e37b4a565016cce1064d7b96905c4494ab/src/components/ui/generate-button.tsx",
+    "license": "MIT",
+    "spdx": "MIT",
+    "copyright": "Copyright (c) 2025-2026 Ashutoshx7",
+    "commit": "0376d8e37b4a565016cce1064d7b96905c4494ab",
+    "adaptedFrom": "src/components/ui/generate-button.tsx",
+    "adaptedAt": "2026-10-07",
+    "status": "active",
+    "licenseSha256": "b90027fc729c84a7e3b976b046996a685f5b1a2f448f5bc3514ce32314b77c46",
+    "licenseSnapshotPath": "packages/registry/licenses/vengeance-ui-0376d8e.txt",
+    "changes": "Scoped Tailwind instead of an injected style tag, token colors, explicit generating and loading states, live status text, glass and sizes."
+  }
+}

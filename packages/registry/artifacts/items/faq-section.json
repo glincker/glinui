@@ -1,0 +1,21 @@
+{
+  "name": "faq-section",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "FAQ Section",
+  "description": "Accordion based FAQ with two column or centered layout, category tabs and a FAQPage JSON-LD helper.",
+  "docsPath": "/docs/components/radix/faq-section",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui"
+  ],
+  "category": "blocks",
+  "files": [
+    "packages/ui/src/components/faq-section.tsx",
+    "packages/ui/src/tests/faq-section.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add faq-section"
+  }
+}

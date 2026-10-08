@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Dropdown Menu",
   "description": "Action menu anchored to a trigger with keyboard navigation.",
-  "docsPath": "/docs/components/dropdown-menu",
+  "docsPath": "/docs/components/radix/dropdown-menu",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

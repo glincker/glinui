@@ -7,39 +7,23 @@ import {
 } from "node:fs"
 import { dirname, join, resolve } from "node:path"
 import { fileURLToPath } from "node:url"
-import vm from "node:vm"
-import ts from "typescript"
+import { loadRegistryModule } from "./load-registry-source.mjs"
+import { verifyLicenseSnapshots } from "./provenance-files.mjs"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 const root = resolve(__dirname, "..", "..", "..")
 
-const registrySourceFile = join(root, "packages", "registry", "src", "index.ts")
 const artifactsDir = join(root, "packages", "registry", "artifacts")
 const itemsDir = join(artifactsDir, "items")
 const typesDir = join(artifactsDir, "types")
 const indexFile = join(artifactsDir, "index.json")
 
 function loadRegistryItems() {
-  const source = readFileSync(registrySourceFile, "utf8")
-  const transpiled = ts.transpileModule(source, {
-    compilerOptions: {
-      target: ts.ScriptTarget.ES2020,
-      module: ts.ModuleKind.CommonJS
-    }
-  }).outputText
-
-  const module = { exports: {} }
-  const context = vm.createContext({
-    module,
-    exports: module.exports
-  })
-
-  vm.runInContext(transpiled, context, { filename: registrySourceFile })
-  const items = module.exports.baseRegistry
-
-  if (!Array.isArray(items)) {
-    throw new Error("Unable to read baseRegistry from packages/registry/src/index.ts")
+  const { baseRegistry: items, provenanceSources } = loadRegistryModule()
+  const problems = verifyLicenseSnapshots(provenanceSources)
+  if (problems.length > 0) {
+    throw new Error(`License snapshot verification failed:\n${problems.join("\n")}`)
   }
 
   return items.map((item) => ({
@@ -53,11 +37,16 @@ function loadRegistryItems() {
     dependencies: Array.isArray(item.dependencies)
       ? item.dependencies.map((dep) => String(dep))
       : [],
+    ...(typeof item.category === "string" ? { category: item.category } : {}),
+    ...(Array.isArray(item.registryDependencies)
+      ? { registryDependencies: item.registryDependencies.map((dep) => String(dep)) }
+      : {}),
     files: Array.isArray(item.files) ? item.files.map((file) => String(file)) : [],
     install: {
       package: String(item.install?.package ?? ""),
       registry: String(item.install?.registry ?? "")
-    }
+    },
+    ...(item.provenance ? { provenance: item.provenance } : {})
   }))
 }
 

@@ -1,0 +1,22 @@
+{
+  "name": "field",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Field",
+  "description": "Accessible form field layout that wires labels, descriptions and errors to a control.",
+  "docsPath": "/docs/components/radix/field",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@radix-ui/react-slot",
+    "class-variance-authority"
+  ],
+  "files": [
+    "packages/ui/src/components/field.tsx",
+    "packages/ui/src/tests/field.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add field"
+  }
+}

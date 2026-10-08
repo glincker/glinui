@@ -1,0 +1,23 @@
+{
+  "name": "attachment",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Attachment",
+  "description": "File chip or image thumbnail with type icon, size, upload progress and remove button.",
+  "docsPath": "/docs/components/radix/attachment",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@phosphor-icons/react",
+    "class-variance-authority"
+  ],
+  "category": "ai",
+  "files": [
+    "packages/ui/src/components/attachment.tsx",
+    "packages/ui/src/tests/attachment.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add attachment"
+  }
+}

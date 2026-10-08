@@ -5,7 +5,7 @@
     "type": "primitive",
     "title": "Accordion",
     "description": "Expandable content sections with smooth disclosure behavior.",
-    "docsPath": "/docs/components/accordion",
+    "docsPath": "/docs/components/radix/accordion",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -25,7 +25,7 @@
     "type": "primitive",
     "title": "Alert",
     "description": "Contextual feedback message with default, glass, outline, and ghost variants.",
-    "docsPath": "/docs/components/alert",
+    "docsPath": "/docs/components/radix/alert",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -45,7 +45,7 @@
     "type": "primitive",
     "title": "Alert Dialog",
     "description": "Destructive action confirmation dialog with explicit cancel and action controls.",
-    "docsPath": "/docs/components/alert-dialog",
+    "docsPath": "/docs/components/radix/alert-dialog",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -57,6 +57,50 @@
     "install": {
       "package": "npm install @glinui/ui @glinui/tokens",
       "registry": "pnpm dlx @glinui/cli@latest add alert-dialog"
+    }
+  },
+  "animated-beam": {
+    "name": "animated-beam",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Animated Beam",
+    "description": "A gradient beam that travels between two elements.",
+    "docsPath": "/docs/components/radix/animated-beam",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@glinui/motion"
+    ],
+    "category": "backgrounds",
+    "files": [
+      "packages/ui/src/components/animated-beam.tsx",
+      "packages/ui/src/components/motion-engine.tsx",
+      "packages/ui/src/lib/use-playback-active.ts",
+      "packages/ui/src/tests/animated-beam.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add animated-beam"
+    },
+    "provenance": {
+      "sourceId": "magic-ui",
+      "sourceName": "Magic UI",
+      "author": "Magic UI",
+      "upstreamUrl": "https://github.com/magicuidesign/magicui",
+      "upstreamComponentUrl": "https://magicui.design/docs/components/animated-beam",
+      "license": "MIT",
+      "spdx": "MIT",
+      "copyright": "Copyright (c) Magic UI",
+      "commit": "cdb348cb4c72a9b54b554d8617801e479fbc8714",
+      "adaptedFrom": "apps/www/registry/magicui/animated-beam.tsx",
+      "adaptedAt": "2026-10-07",
+      "status": "active",
+      "licenseSha256": "0147b84235ed916b8b4e89c1f80655351c5afe7d211b629be61f553a227b34ba",
+      "licenseSnapshotPath": "packages/registry/licenses/magic-ui-cdb348c.txt",
+      "changes": "SVG path measurement with Web Animations instead of motion, resize aware anchors, RTL offsets, token colors and reduced motion levels.",
+      "upstreamInstall": {
+        "shadcn": "npx shadcn@latest add \"https://magicui.design/r/animated-beam\""
+      }
     }
   },
   "animated-gradient": {
@@ -76,6 +120,51 @@
     "install": {
       "package": "npm install @glinui/ui @glinui/tokens",
       "registry": "pnpm dlx @glinui/cli@latest add animated-gradient"
+    }
+  },
+  "aspect-ratio": {
+    "name": "aspect-ratio",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Aspect Ratio",
+    "description": "Constrains content to a width to height ratio with optional surface frame.",
+    "docsPath": "/docs/components/radix/aspect-ratio",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@radix-ui/react-aspect-ratio",
+      "class-variance-authority"
+    ],
+    "files": [
+      "packages/ui/src/components/aspect-ratio.tsx",
+      "packages/ui/src/tests/aspect-ratio.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add aspect-ratio"
+    }
+  },
+  "attachment": {
+    "name": "attachment",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Attachment",
+    "description": "File chip or image thumbnail with type icon, size, upload progress and remove button.",
+    "docsPath": "/docs/components/radix/attachment",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@phosphor-icons/react",
+      "class-variance-authority"
+    ],
+    "category": "ai",
+    "files": [
+      "packages/ui/src/components/attachment.tsx",
+      "packages/ui/src/tests/attachment.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add attachment"
     }
   },
   "aurora-background": {
@@ -103,7 +192,7 @@
     "type": "primitive",
     "title": "Avatar",
     "description": "Profile image with SVG-ready sources, fallback rendering, and multiple glass-aware surface variants.",
-    "docsPath": "/docs/components/avatar",
+    "docsPath": "/docs/components/radix/avatar",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -123,7 +212,7 @@
     "type": "primitive",
     "title": "Badge",
     "description": "Compact status indicator for labels, states, and counts.",
-    "docsPath": "/docs/components/badge",
+    "docsPath": "/docs/components/radix/badge",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -135,6 +224,54 @@
     "install": {
       "package": "npm install @glinui/ui @glinui/tokens",
       "registry": "pnpm dlx @glinui/cli@latest add badge"
+    }
+  },
+  "bento-grid": {
+    "name": "bento-grid",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Bento Grid",
+    "description": "Responsive bento layout of linked feature tiles.",
+    "docsPath": "/docs/components/radix/bento-grid",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@glinui/motion",
+      "class-variance-authority",
+      "@phosphor-icons/react"
+    ],
+    "category": "cards",
+    "registryDependencies": [
+      "card"
+    ],
+    "files": [
+      "packages/ui/src/components/bento-grid.tsx",
+      "packages/ui/src/components/motion-engine.tsx",
+      "packages/ui/src/tests/bento-grid.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add bento-grid"
+    },
+    "provenance": {
+      "sourceId": "magic-ui",
+      "sourceName": "Magic UI",
+      "author": "Magic UI",
+      "upstreamUrl": "https://github.com/magicuidesign/magicui",
+      "upstreamComponentUrl": "https://magicui.design/docs/components/bento-grid",
+      "license": "MIT",
+      "spdx": "MIT",
+      "copyright": "Copyright (c) Magic UI",
+      "commit": "cdb348cb4c72a9b54b554d8617801e479fbc8714",
+      "adaptedFrom": "apps/www/registry/magicui/bento-grid.tsx",
+      "adaptedAt": "2026-10-07",
+      "status": "active",
+      "licenseSha256": "0147b84235ed916b8b4e89c1f80655351c5afe7d211b629be61f553a227b34ba",
+      "licenseSnapshotPath": "packages/registry/licenses/magic-ui-cdb348c.txt",
+      "changes": "Responsive columns, whole tile anchor with a keyboard reachable action, lift and glass surfaces, Phosphor arrow mirrored for RTL.",
+      "upstreamInstall": {
+        "shadcn": "npx shadcn@latest add \"https://magicui.design/r/bento-grid\""
+      }
     }
   },
   "blur-fade": {
@@ -194,13 +331,146 @@
       "registry": "pnpm dlx @glinui/cli@latest add border-beam"
     }
   },
+  "border-trail": {
+    "name": "border-trail",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Border Trail",
+    "description": "Glowing comet that travels along the border of a rounded container.",
+    "docsPath": "/docs/components/radix/border-trail",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@glinui/motion",
+      "class-variance-authority"
+    ],
+    "category": "cards",
+    "files": [
+      "packages/ui/src/components/border-trail.tsx",
+      "packages/ui/src/components/motion-engine.tsx",
+      "packages/ui/src/lib/use-playback-active.ts",
+      "packages/ui/src/tests/border-trail.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add border-trail"
+    },
+    "provenance": {
+      "sourceId": "motion-primitives",
+      "sourceName": "Motion Primitives",
+      "author": "ibelick",
+      "upstreamUrl": "https://github.com/ibelick/motion-primitives",
+      "upstreamComponentUrl": "https://motion-primitives.com/docs/border-trail",
+      "license": "MIT",
+      "spdx": "MIT",
+      "copyright": "Copyright (c) 2024 ibelick",
+      "commit": "120f64f6ca60348e251f929e9c81f11ccbe45eda",
+      "adaptedFrom": "components/core/border-trail.tsx",
+      "adaptedAt": "2026-10-07",
+      "status": "active",
+      "licenseSha256": "f668f5ef3635eb906f10b1eea9a32e449eb6e1a183ab6879ef6d56c0980dd2f3",
+      "licenseSnapshotPath": "packages/registry/licenses/motion-primitives-120f64f.txt",
+      "changes": "motion/react removed (CSS and Web Animations API), tokens, accessibility, reduced motion levels, RTL",
+      "upstreamInstall": {
+        "shadcn": "npx shadcn@latest add \"https://motion-primitives.com/c/border-trail.json\""
+      }
+    }
+  },
+  "breadcrumb": {
+    "name": "breadcrumb",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Breadcrumb",
+    "description": "Navigation trail with separators, collapsed ellipsis and variant-capable links.",
+    "docsPath": "/docs/components/radix/breadcrumb",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@phosphor-icons/react",
+      "@radix-ui/react-slot",
+      "class-variance-authority"
+    ],
+    "files": [
+      "packages/ui/src/components/breadcrumb.tsx",
+      "packages/ui/src/tests/breadcrumb.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add breadcrumb"
+    }
+  },
+  "browser-frame": {
+    "name": "browser-frame",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Browser Frame",
+    "description": "Generic browser window chrome drawn in CSS with a slot for any content.",
+    "docsPath": "/docs/components/radix/browser-frame",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "class-variance-authority",
+      "@phosphor-icons/react"
+    ],
+    "category": "layout",
+    "files": [
+      "packages/ui/src/components/browser-frame.tsx",
+      "packages/ui/src/tests/browser-frame.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add browser-frame"
+    },
+    "provenance": {
+      "sourceId": "magic-ui",
+      "sourceName": "Magic UI",
+      "author": "Magic UI",
+      "upstreamUrl": "https://github.com/magicuidesign/magicui",
+      "upstreamComponentUrl": "https://magicui.design/docs/components/safari",
+      "license": "MIT",
+      "spdx": "MIT",
+      "copyright": "Copyright (c) Magic UI",
+      "commit": "cdb348cb4c72a9b54b554d8617801e479fbc8714",
+      "adaptedFrom": "apps/www/registry/magicui/safari.tsx",
+      "adaptedAt": "2026-10-07",
+      "status": "active",
+      "licenseSha256": "0147b84235ed916b8b4e89c1f80655351c5afe7d211b629be61f553a227b34ba",
+      "licenseSnapshotPath": "packages/registry/licenses/magic-ui-cdb348c.txt",
+      "changes": "Generic CSS chrome instead of a monolithic SVG, children slot, token colors, glass, RTL, real address text and no bundled media.",
+      "upstreamInstall": {
+        "shadcn": "npx shadcn@latest add \"https://magicui.design/r/safari\""
+      }
+    }
+  },
+  "bubble": {
+    "name": "bubble",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Bubble",
+    "description": "Chat bubble surface with default, muted, accent and glass variants, optional tail and grouped spacing.",
+    "docsPath": "/docs/components/radix/bubble",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "class-variance-authority"
+    ],
+    "category": "ai",
+    "files": [
+      "packages/ui/src/components/bubble.tsx",
+      "packages/ui/src/tests/bubble.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add bubble"
+    }
+  },
   "button": {
     "name": "button",
     "namespace": "@glinui",
     "type": "primitive",
     "title": "Button",
     "description": "Action control with default, glass, liquid, matte, glow, outline, and ghost variants.",
-    "docsPath": "/docs/components/button",
+    "docsPath": "/docs/components/radix/button",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -214,13 +484,35 @@
       "registry": "pnpm dlx @glinui/cli@latest add button"
     }
   },
+  "button-group": {
+    "name": "button-group",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Button Group",
+    "description": "Merges adjacent buttons into one segmented control with shared borders.",
+    "docsPath": "/docs/components/radix/button-group",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@radix-ui/react-slot",
+      "class-variance-authority"
+    ],
+    "files": [
+      "packages/ui/src/components/button-group.tsx",
+      "packages/ui/src/tests/button-group.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add button-group"
+    }
+  },
   "card": {
     "name": "card",
     "namespace": "@glinui",
     "type": "primitive",
     "title": "Card",
     "description": "Flexible surface container for grouped content.",
-    "docsPath": "/docs/components/card",
+    "docsPath": "/docs/components/radix/card",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -240,7 +532,7 @@
     "type": "primitive",
     "title": "Checkbox",
     "description": "Radix checkbox with glass, liquid, matte, and outline surface variants.",
-    "docsPath": "/docs/components/checkbox",
+    "docsPath": "/docs/components/radix/checkbox",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -260,7 +552,7 @@
     "type": "primitive",
     "title": "Chip",
     "description": "Compact pill-style tag for statuses and lightweight metadata.",
-    "docsPath": "/docs/components/chip",
+    "docsPath": "/docs/components/radix/chip",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -278,7 +570,7 @@
     "namespace": "@glinui",
     "type": "signature",
     "title": "Chromatic Text",
-    "description": "Text with chromatic aberration effect — RGB channel splitting.",
+    "description": "Text with chromatic aberration effect, RGB channel splitting.",
     "docsPath": "/docs/components/chromatic-text",
     "importPath": "@glinui/ui",
     "dependencies": [
@@ -292,13 +584,36 @@
       "registry": "pnpm dlx @glinui/cli@latest add chromatic-text"
     }
   },
+  "circular-gallery": {
+    "name": "circular-gallery",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Circular Gallery",
+    "description": "Tiles on a ring that rotates to the front with drag inertia, keys, click and optional autorotate.",
+    "docsPath": "/docs/components/radix/circular-gallery",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@glinui/motion"
+    ],
+    "category": "layout",
+    "files": [
+      "packages/ui/src/components/circular-gallery.tsx",
+      "packages/ui/src/components/motion-engine.tsx",
+      "packages/ui/src/tests/circular-gallery.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add circular-gallery"
+    }
+  },
   "code": {
     "name": "code",
     "namespace": "@glinui",
     "type": "primitive",
     "title": "Code",
     "description": "Inline code element for commands, snippets, and tokenized literals.",
-    "docsPath": "/docs/components/code",
+    "docsPath": "/docs/components/radix/code",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -311,13 +626,84 @@
       "registry": "pnpm dlx @glinui/cli@latest add code"
     }
   },
+  "code-panel": {
+    "name": "code-panel",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Code Panel",
+    "description": "Raised header bar over an inset code well with tok-k, tok-s, tok-c and tok-f token classes.",
+    "docsPath": "/docs/components/radix/code-panel",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui"
+    ],
+    "registryDependencies": [
+      "card",
+      "copy-button"
+    ],
+    "files": [
+      "packages/ui/src/components/code-panel.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add code-panel"
+    }
+  },
+  "collapsible": {
+    "name": "collapsible",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Collapsible",
+    "description": "Radix collapsible region with an animated trigger and content for show and hide sections.",
+    "docsPath": "/docs/components/radix/collapsible",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@radix-ui/react-collapsible",
+      "class-variance-authority"
+    ],
+    "files": [
+      "packages/ui/src/components/collapsible.tsx",
+      "packages/ui/src/tests/collapsible.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add collapsible"
+    }
+  },
+  "combobox": {
+    "name": "combobox",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Combobox",
+    "description": "A searchable select built from Popover and Command.",
+    "docsPath": "/docs/components/radix/combobox",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@phosphor-icons/react",
+      "class-variance-authority"
+    ],
+    "registryDependencies": [
+      "command",
+      "popover"
+    ],
+    "files": [
+      "packages/ui/src/components/combobox.tsx",
+      "packages/ui/src/tests/combobox.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add combobox"
+    }
+  },
   "command": {
     "name": "command",
     "namespace": "@glinui",
     "type": "primitive",
     "title": "Command",
     "description": "Command palette for keyboard-driven actions and search.",
-    "docsPath": "/docs/components/command",
+    "docsPath": "/docs/components/radix/command",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui",
@@ -332,13 +718,81 @@
       "registry": "pnpm dlx @glinui/cli@latest add command"
     }
   },
+  "context-menu": {
+    "name": "context-menu",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Context Menu",
+    "description": "Right-click menu with items, checkbox and radio items, submenus and shortcuts.",
+    "docsPath": "/docs/components/radix/context-menu",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@phosphor-icons/react",
+      "@radix-ui/react-context-menu",
+      "class-variance-authority"
+    ],
+    "files": [
+      "packages/ui/src/components/context-menu.tsx",
+      "packages/ui/src/tests/context-menu.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add context-menu"
+    }
+  },
+  "copy-button": {
+    "name": "copy-button",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Copy Button",
+    "description": "Raised pill that copies text, announces the result and resets after 1.6 seconds.",
+    "docsPath": "/docs/components/radix/copy-button",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@phosphor-icons/react"
+    ],
+    "files": [
+      "packages/ui/src/components/copy-button.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add copy-button"
+    }
+  },
+  "count-up": {
+    "name": "count-up",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Count Up",
+    "description": "Counts a number up on scroll with the active animation engine, jumping to the end value when motion is off.",
+    "docsPath": "/docs/components/radix/count-up",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@glinui/motion"
+    ],
+    "category": "motion",
+    "registryDependencies": [
+      "reveal"
+    ],
+    "files": [
+      "packages/ui/src/components/count-up.tsx",
+      "packages/ui/src/components/motion-engine.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add count-up"
+    }
+  },
   "counter": {
     "name": "counter",
     "namespace": "@glinui",
     "type": "primitive",
     "title": "Counter",
     "description": "Numeric badge that compacts overflow values like 99+.",
-    "docsPath": "/docs/components/counter",
+    "docsPath": "/docs/components/radix/counter",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -351,13 +805,76 @@
       "registry": "pnpm dlx @glinui/cli@latest add counter"
     }
   },
+  "cta-band": {
+    "name": "cta-band",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "CTA Band",
+    "description": "Closing call to action: centered, split with email capture, or boxed with a token glow.",
+    "docsPath": "/docs/components/radix/cta-band",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui"
+    ],
+    "category": "blocks",
+    "files": [
+      "packages/ui/src/components/cta-band.tsx",
+      "packages/ui/src/components/block-shell.ts",
+      "packages/ui/src/tests/cta-band.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add cta-band"
+    }
+  },
+  "cylinder-carousel": {
+    "name": "cylinder-carousel",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Cylinder Carousel",
+    "description": "Slides on a rotating 3D ring with buttons, arrow keys, swipe and a pausable autoplay.",
+    "docsPath": "/docs/components/radix/cylinder-carousel",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@glinui/motion",
+      "@phosphor-icons/react"
+    ],
+    "category": "layout",
+    "files": [
+      "packages/ui/src/components/cylinder-carousel.tsx",
+      "packages/ui/src/components/motion-engine.tsx",
+      "packages/ui/src/tests/cylinder-carousel.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add cylinder-carousel"
+    },
+    "provenance": {
+      "sourceId": "vengeance-ui",
+      "sourceName": "Vengeance UI",
+      "author": "Ashutoshx7",
+      "upstreamUrl": "https://github.com/Ashutoshx7/VengeanceUI",
+      "upstreamComponentUrl": "https://github.com/Ashutoshx7/VengeanceUI/blob/0376d8e37b4a565016cce1064d7b96905c4494ab/src/components/ui/cylinder-carousel.tsx",
+      "license": "MIT",
+      "spdx": "MIT",
+      "copyright": "Copyright (c) 2025-2026 Ashutoshx7",
+      "commit": "0376d8e37b4a565016cce1064d7b96905c4494ab",
+      "adaptedFrom": "src/components/ui/cylinder-carousel.tsx",
+      "adaptedAt": "2026-10-07",
+      "status": "active",
+      "licenseSha256": "b90027fc729c84a7e3b976b046996a685f5b1a2f448f5bc3514ce32314b77c46",
+      "licenseSnapshotPath": "packages/registry/licenses/vengeance-ui-0376d8e.txt",
+      "changes": "ReactNode items instead of image urls, tokens, keyboard and aria carousel semantics, inert rear slides, autoplay pause, reduced motion, RTL"
+    }
+  },
   "data-table": {
     "name": "data-table",
     "namespace": "@glinui",
     "type": "primitive",
     "title": "Data Table",
     "description": "Feature-rich table wrapper with search, sorting, pagination, selection, and column controls.",
-    "docsPath": "/docs/components/data-table",
+    "docsPath": "/docs/components/radix/data-table",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -416,7 +933,7 @@
     "type": "primitive",
     "title": "Dropdown Menu",
     "description": "Action menu anchored to a trigger with keyboard navigation.",
-    "docsPath": "/docs/components/dropdown-menu",
+    "docsPath": "/docs/components/radix/dropdown-menu",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -428,6 +945,137 @@
     "install": {
       "package": "npm install @glinui/ui @glinui/tokens",
       "registry": "pnpm dlx @glinui/cli@latest add dropdown-menu"
+    }
+  },
+  "empty": {
+    "name": "empty",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Empty",
+    "description": "Empty state with media, title, description, and action slots.",
+    "docsPath": "/docs/components/radix/empty",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "class-variance-authority"
+    ],
+    "files": [
+      "packages/ui/src/components/empty.tsx",
+      "packages/ui/src/tests/empty.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add empty"
+    }
+  },
+  "faq-section": {
+    "name": "faq-section",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "FAQ Section",
+    "description": "Accordion based FAQ with two column or centered layout, category tabs and a FAQPage JSON-LD helper.",
+    "docsPath": "/docs/components/radix/faq-section",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui"
+    ],
+    "category": "blocks",
+    "files": [
+      "packages/ui/src/components/faq-section.tsx",
+      "packages/ui/src/tests/faq-section.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add faq-section"
+    }
+  },
+  "feature-grid": {
+    "name": "feature-grid",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Feature Grid",
+    "description": "Icon-framed feature cards in three-up, bento, icon-list and alternating-row layouts.",
+    "docsPath": "/docs/components/radix/feature-grid",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@phosphor-icons/react"
+    ],
+    "category": "blocks",
+    "files": [
+      "packages/ui/src/components/feature-grid.tsx",
+      "packages/ui/src/lib/block-shell.ts",
+      "packages/ui/src/tests/feature-grid.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add feature-grid"
+    }
+  },
+  "field": {
+    "name": "field",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Field",
+    "description": "Accessible form field layout that wires labels, descriptions and errors to a control.",
+    "docsPath": "/docs/components/radix/field",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@radix-ui/react-slot",
+      "class-variance-authority"
+    ],
+    "files": [
+      "packages/ui/src/components/field.tsx",
+      "packages/ui/src/tests/field.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add field"
+    }
+  },
+  "flickering-grid": {
+    "name": "flickering-grid",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Flickering Grid",
+    "description": "Canvas grid of squares that flicker, with token colors and a static fallback.",
+    "docsPath": "/docs/components/radix/flickering-grid",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@glinui/motion"
+    ],
+    "category": "backgrounds",
+    "files": [
+      "packages/ui/src/components/flickering-grid.tsx",
+      "packages/ui/src/components/motion-engine.tsx",
+      "packages/ui/src/lib/use-playback-active.ts",
+      "packages/ui/src/tests/flickering-grid.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add flickering-grid"
+    },
+    "provenance": {
+      "sourceId": "magic-ui",
+      "sourceName": "Magic UI",
+      "author": "Magic UI",
+      "upstreamUrl": "https://github.com/magicuidesign/magicui",
+      "upstreamComponentUrl": "https://magicui.design/docs/components/flickering-grid",
+      "license": "MIT",
+      "spdx": "MIT",
+      "copyright": "Copyright (c) Magic UI",
+      "commit": "cdb348cb4c72a9b54b554d8617801e479fbc8714",
+      "adaptedFrom": "apps/www/registry/magicui/flickering-grid.tsx",
+      "adaptedAt": "2026-10-07",
+      "status": "active",
+      "licenseSha256": "0147b84235ed916b8b4e89c1f80655351c5afe7d211b629be61f553a227b34ba",
+      "licenseSnapshotPath": "packages/registry/licenses/magic-ui-cdb348c.txt",
+      "changes": "Token colors resolved at runtime, device pixel ratio transform, frame rate cap, pause offscreen and hidden, static frame for reduced motion.",
+      "upstreamInstall": {
+        "shadcn": "npx shadcn@latest add \"https://magicui.design/r/flickering-grid\""
+      }
     }
   },
   "floating-panel": {
@@ -447,6 +1095,74 @@
     "install": {
       "package": "npm install @glinui/ui @glinui/tokens",
       "registry": "pnpm dlx @glinui/cli@latest add floating-panel"
+    }
+  },
+  "footer-block": {
+    "name": "footer-block",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Footer Block",
+    "description": "Site footer with link groups, brand and newsletter slots, social icons, legal row and theme toggle slot.",
+    "docsPath": "/docs/components/radix/footer-block",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui"
+    ],
+    "category": "blocks",
+    "files": [
+      "packages/ui/src/components/footer-block.tsx",
+      "packages/ui/src/components/block-shell.ts",
+      "packages/ui/src/tests/footer-block.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add footer-block"
+    }
+  },
+  "generate-button": {
+    "name": "generate-button",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Generate Button",
+    "description": "AI style call to action with idle, generating and loading states.",
+    "docsPath": "/docs/components/radix/generate-button",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@glinui/motion",
+      "class-variance-authority",
+      "@phosphor-icons/react"
+    ],
+    "category": "buttons",
+    "registryDependencies": [
+      "button",
+      "spinner"
+    ],
+    "files": [
+      "packages/ui/src/components/generate-button.tsx",
+      "packages/ui/src/components/motion-engine.tsx",
+      "packages/ui/src/tests/generate-button.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add generate-button"
+    },
+    "provenance": {
+      "sourceId": "vengeance-ui",
+      "sourceName": "Vengeance UI",
+      "author": "Ashutoshx7",
+      "upstreamUrl": "https://github.com/Ashutoshx7/VengeanceUI",
+      "upstreamComponentUrl": "https://github.com/Ashutoshx7/VengeanceUI/blob/0376d8e37b4a565016cce1064d7b96905c4494ab/src/components/ui/generate-button.tsx",
+      "license": "MIT",
+      "spdx": "MIT",
+      "copyright": "Copyright (c) 2025-2026 Ashutoshx7",
+      "commit": "0376d8e37b4a565016cce1064d7b96905c4494ab",
+      "adaptedFrom": "src/components/ui/generate-button.tsx",
+      "adaptedAt": "2026-10-07",
+      "status": "active",
+      "licenseSha256": "b90027fc729c84a7e3b976b046996a685f5b1a2f448f5bc3514ce32314b77c46",
+      "licenseSnapshotPath": "packages/registry/licenses/vengeance-ui-0376d8e.txt",
+      "changes": "Scoped Tailwind instead of an injected style tag, token colors, explicit generating and loading states, live status text, glass and sizes."
     }
   },
   "glass-breadcrumb": {
@@ -563,6 +1279,31 @@
       "registry": "pnpm dlx @glinui/cli@latest add glow-border"
     }
   },
+  "gooey-text-reveal": {
+    "name": "gooey-text-reveal",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Gooey Text Reveal",
+    "description": "Heading whose words melt in through a shared SVG goo filter, or morph between phrases.",
+    "docsPath": "/docs/components/radix/gooey-text-reveal",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@glinui/motion",
+      "class-variance-authority"
+    ],
+    "category": "text",
+    "files": [
+      "packages/ui/src/components/gooey-text-reveal.tsx",
+      "packages/ui/src/components/motion-engine.tsx",
+      "packages/ui/src/lib/use-playback-active.ts",
+      "packages/ui/src/tests/gooey-text-reveal.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add gooey-text-reveal"
+    }
+  },
   "gradient-mesh": {
     "name": "gradient-mesh",
     "namespace": "@glinui",
@@ -582,13 +1323,101 @@
       "registry": "pnpm dlx @glinui/cli@latest add gradient-mesh"
     }
   },
+  "gradient-text": {
+    "name": "gradient-text",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Gradient Text",
+    "description": "Flowing gradient or shine sweep text, optionally inside a solid or glass pill badge.",
+    "docsPath": "/docs/components/radix/gradient-text",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@glinui/motion",
+      "class-variance-authority"
+    ],
+    "category": "text",
+    "files": [
+      "packages/ui/src/components/gradient-text.tsx",
+      "packages/ui/src/components/motion-engine.tsx",
+      "packages/ui/src/tests/gradient-text.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add gradient-text"
+    },
+    "provenance": {
+      "sourceId": "magic-ui",
+      "sourceName": "Magic UI",
+      "author": "Magic UI",
+      "upstreamUrl": "https://github.com/magicuidesign/magicui",
+      "upstreamComponentUrl": "https://magicui.design/docs/components/animated-gradient-text",
+      "license": "MIT",
+      "spdx": "MIT",
+      "copyright": "Copyright (c) Magic UI",
+      "commit": "cdb348cb4c72a9b54b554d8617801e479fbc8714",
+      "adaptedFrom": "apps/www/registry/magicui/animated-gradient-text.tsx, apps/www/registry/magicui/animated-shiny-text.tsx",
+      "adaptedAt": "2026-10-07",
+      "status": "active",
+      "licenseSha256": "0147b84235ed916b8b4e89c1f80655351c5afe7d211b629be61f553a227b34ba",
+      "licenseSnapshotPath": "packages/registry/licenses/magic-ui-cdb348c.txt",
+      "changes": "Merged gradient and shine variants, token colors, glass badge surface, forced colors fallback and reduced motion levels.",
+      "upstreamInstall": {
+        "shadcn": "npx shadcn@latest add \"https://magicui.design/r/animated-gradient-text\""
+      }
+    }
+  },
+  "grid-pattern": {
+    "name": "grid-pattern",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Grid Pattern",
+    "description": "SVG grid, stripes and interactive cell patterns with edge fades.",
+    "docsPath": "/docs/components/radix/grid-pattern",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@glinui/motion",
+      "class-variance-authority"
+    ],
+    "category": "backgrounds",
+    "files": [
+      "packages/ui/src/components/grid-pattern.tsx",
+      "packages/ui/src/components/motion-engine.tsx",
+      "packages/ui/src/tests/grid-pattern.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add grid-pattern"
+    },
+    "provenance": {
+      "sourceId": "magic-ui",
+      "sourceName": "Magic UI",
+      "author": "Magic UI",
+      "upstreamUrl": "https://github.com/magicuidesign/magicui",
+      "upstreamComponentUrl": "https://magicui.design/docs/components/grid-pattern",
+      "license": "MIT",
+      "spdx": "MIT",
+      "copyright": "Copyright (c) Magic UI",
+      "commit": "cdb348cb4c72a9b54b554d8617801e479fbc8714",
+      "adaptedFrom": "apps/www/registry/magicui/grid-pattern.tsx, apps/www/registry/magicui/interactive-grid-pattern.tsx, apps/www/registry/magicui/striped-pattern.tsx",
+      "adaptedAt": "2026-10-07",
+      "status": "active",
+      "licenseSha256": "0147b84235ed916b8b4e89c1f80655351c5afe7d211b629be61f553a227b34ba",
+      "licenseSnapshotPath": "packages/registry/licenses/magic-ui-cdb348c.txt",
+      "changes": "Merged grid, interactive and stripes variants, token colors, collision free SVG ids, CSS only hover cells and edge fade masks.",
+      "upstreamInstall": {
+        "shadcn": "npx shadcn@latest add \"https://magicui.design/r/grid-pattern\""
+      }
+    }
+  },
   "heading": {
     "name": "heading",
     "namespace": "@glinui",
     "type": "primitive",
     "title": "Heading",
     "description": "Semantic heading primitive with independent style scaling.",
-    "docsPath": "/docs/components/heading",
+    "docsPath": "/docs/components/radix/heading",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -601,13 +1430,59 @@
       "registry": "pnpm dlx @glinui/cli@latest add heading"
     }
   },
+  "hero-section": {
+    "name": "hero-section",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Hero Section",
+    "description": "Landing hero with announcement pill, actions, media slot and logo strip in centered, split and stacked layouts.",
+    "docsPath": "/docs/components/radix/hero-section",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "class-variance-authority"
+    ],
+    "category": "blocks",
+    "files": [
+      "packages/ui/src/components/hero-section.tsx",
+      "packages/ui/src/lib/block-shell.ts",
+      "packages/ui/src/tests/hero-section.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add hero-section"
+    }
+  },
+  "highlight-grid": {
+    "name": "highlight-grid",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Highlight Grid",
+    "description": "Hairline cell grid with one shared highlight that glides to the hovered, tapped or focused cell.",
+    "docsPath": "/docs/components/radix/highlight-grid",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@glinui/motion"
+    ],
+    "category": "cards",
+    "files": [
+      "packages/ui/src/components/highlight-grid.tsx",
+      "packages/ui/src/components/motion-engine.tsx",
+      "packages/ui/src/tests/highlight-grid.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add highlight-grid"
+    }
+  },
   "hover-card": {
     "name": "hover-card",
     "namespace": "@glinui",
     "type": "primitive",
     "title": "Hover Card",
     "description": "Preview card that appears on hover or focus with configurable delays and placement.",
-    "docsPath": "/docs/components/hover-card",
+    "docsPath": "/docs/components/radix/hover-card",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -621,13 +1496,56 @@
       "registry": "pnpm dlx @glinui/cli@latest add hover-card"
     }
   },
+  "hyper-text": {
+    "name": "hyper-text",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Hyper Text",
+    "description": "Text that scrambles through random characters and settles on the real string, on hover, in view or on mount.",
+    "docsPath": "/docs/components/radix/hyper-text",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@glinui/motion"
+    ],
+    "category": "text",
+    "files": [
+      "packages/ui/src/components/hyper-text.tsx",
+      "packages/ui/src/components/motion-engine.tsx",
+      "packages/ui/src/tests/hyper-text.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add hyper-text"
+    },
+    "provenance": {
+      "sourceId": "magic-ui",
+      "sourceName": "Magic UI",
+      "author": "Magic UI",
+      "upstreamUrl": "https://github.com/magicuidesign/magicui",
+      "upstreamComponentUrl": "https://magicui.design/docs/components/hyper-text",
+      "license": "MIT",
+      "spdx": "MIT",
+      "copyright": "Copyright (c) Magic UI",
+      "commit": "cdb348cb4c72a9b54b554d8617801e479fbc8714",
+      "adaptedFrom": "apps/www/registry/magicui/hyper-text.tsx",
+      "adaptedAt": "2026-10-07",
+      "status": "active",
+      "licenseSha256": "0147b84235ed916b8b4e89c1f80655351c5afe7d211b629be61f553a227b34ba",
+      "licenseSnapshotPath": "packages/registry/licenses/magic-ui-cdb348c.txt",
+      "changes": "Design tokens, no motion dependency (rAF scramble), real text kept for screen readers, reduced motion levels, trigger modes and SSR safe first paint.",
+      "upstreamInstall": {
+        "shadcn": "npx shadcn@latest add \"https://magicui.design/r/hyper-text\""
+      }
+    }
+  },
   "icon-frame": {
     "name": "icon-frame",
     "namespace": "@glinui",
     "type": "primitive",
     "title": "Icon Frame",
     "description": "Consistent framed surface for icon glyphs and short initials.",
-    "docsPath": "/docs/components/icon-frame",
+    "docsPath": "/docs/components/radix/icon-frame",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -640,13 +1558,57 @@
       "registry": "pnpm dlx @glinui/cli@latest add icon-frame"
     }
   },
+  "image-comparison": {
+    "name": "image-comparison",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Image Comparison",
+    "description": "Before and after layers split by a draggable, keyboard operable slider handle.",
+    "docsPath": "/docs/components/radix/image-comparison",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@glinui/motion",
+      "@phosphor-icons/react"
+    ],
+    "category": "data",
+    "files": [
+      "packages/ui/src/components/image-comparison.tsx",
+      "packages/ui/src/components/motion-engine.tsx",
+      "packages/ui/src/tests/image-comparison.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add image-comparison"
+    },
+    "provenance": {
+      "sourceId": "motion-primitives",
+      "sourceName": "Motion Primitives",
+      "author": "ibelick",
+      "upstreamUrl": "https://github.com/ibelick/motion-primitives",
+      "upstreamComponentUrl": "https://motion-primitives.com/docs/image-comparison",
+      "license": "MIT",
+      "spdx": "MIT",
+      "copyright": "Copyright (c) 2024 ibelick",
+      "commit": "120f64f6ca60348e251f929e9c81f11ccbe45eda",
+      "adaptedFrom": "components/core/image-comparison.tsx",
+      "adaptedAt": "2026-10-07",
+      "status": "active",
+      "licenseSha256": "f668f5ef3635eb906f10b1eea9a32e449eb6e1a183ab6879ef6d56c0980dd2f3",
+      "licenseSnapshotPath": "packages/registry/licenses/motion-primitives-120f64f.txt",
+      "changes": "motion/react and springs removed (pointer capture and CSS clip-path), slider role with keys, ReactNode slots, tokens, reduced motion, RTL",
+      "upstreamInstall": {
+        "shadcn": "npx shadcn@latest add \"https://motion-primitives.com/c/image-comparison.json\""
+      }
+    }
+  },
   "input": {
     "name": "input",
     "namespace": "@glinui",
     "type": "primitive",
     "title": "Input",
     "description": "Single-line input with glass, liquid, matte, and utility variants.",
-    "docsPath": "/docs/components/input",
+    "docsPath": "/docs/components/radix/input",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -660,13 +1622,154 @@
       "registry": "pnpm dlx @glinui/cli@latest add input"
     }
   },
+  "input-group": {
+    "name": "input-group",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Input Group",
+    "description": "An input with inline or block addons such as icons, text and buttons in one shared container.",
+    "docsPath": "/docs/components/radix/input-group",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "class-variance-authority"
+    ],
+    "registryDependencies": [
+      "button"
+    ],
+    "files": [
+      "packages/ui/src/components/input-group.tsx",
+      "packages/ui/src/tests/input-group.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add input-group"
+    }
+  },
+  "input-otp": {
+    "name": "input-otp",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Input OTP",
+    "description": "A one-time-code input with segmented slots, paste and autofill support.",
+    "docsPath": "/docs/components/radix/input-otp",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@phosphor-icons/react",
+      "class-variance-authority"
+    ],
+    "files": [
+      "packages/ui/src/components/input-otp.tsx",
+      "packages/ui/src/tests/input-otp.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add input-otp"
+    }
+  },
+  "install-command": {
+    "name": "install-command",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Install Command",
+    "description": "Package manager tabs, a $ prefixed command and a copy button inside a code panel.",
+    "docsPath": "/docs/components/radix/install-command",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui"
+    ],
+    "registryDependencies": [
+      "code-panel",
+      "copy-button",
+      "tabs"
+    ],
+    "files": [
+      "packages/ui/src/components/install-command.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add install-command"
+    }
+  },
+  "interactive-hover-button": {
+    "name": "interactive-hover-button",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Interactive Hover Button",
+    "description": "Pill button whose accent dot floods the surface on hover, focus or press.",
+    "docsPath": "/docs/components/radix/interactive-hover-button",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@glinui/motion",
+      "class-variance-authority",
+      "@phosphor-icons/react"
+    ],
+    "category": "buttons",
+    "registryDependencies": [
+      "button",
+      "spinner"
+    ],
+    "files": [
+      "packages/ui/src/components/interactive-hover-button.tsx",
+      "packages/ui/src/components/motion-engine.tsx",
+      "packages/ui/src/tests/interactive-hover-button.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add interactive-hover-button"
+    },
+    "provenance": {
+      "sourceId": "magic-ui",
+      "sourceName": "Magic UI",
+      "author": "Magic UI",
+      "upstreamUrl": "https://github.com/magicuidesign/magicui",
+      "upstreamComponentUrl": "https://magicui.design/docs/components/interactive-hover-button",
+      "license": "MIT",
+      "spdx": "MIT",
+      "copyright": "Copyright (c) Magic UI",
+      "commit": "cdb348cb4c72a9b54b554d8617801e479fbc8714",
+      "adaptedFrom": "apps/www/registry/magicui/interactive-hover-button.tsx",
+      "adaptedAt": "2026-10-07",
+      "status": "active",
+      "licenseSha256": "0147b84235ed916b8b4e89c1f80655351c5afe7d211b629be61f553a227b34ba",
+      "licenseSnapshotPath": "packages/registry/licenses/magic-ui-cdb348c.txt",
+      "changes": "Clip path fill, a single accessible label, focus and press parity, token colors, RTL, sizes, glass and loading states.",
+      "upstreamInstall": {
+        "shadcn": "npx shadcn@latest add \"https://magicui.design/r/interactive-hover-button\""
+      }
+    }
+  },
+  "item": {
+    "name": "item",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Item",
+    "description": "Flexible list row with media, content, actions, header, and footer slots.",
+    "docsPath": "/docs/components/radix/item",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@radix-ui/react-slot",
+      "class-variance-authority"
+    ],
+    "files": [
+      "packages/ui/src/components/item.tsx",
+      "packages/ui/src/tests/item.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add item"
+    }
+  },
   "kbd": {
     "name": "kbd",
     "namespace": "@glinui",
     "type": "primitive",
     "title": "Kbd",
     "description": "Keyboard keycap primitive for shortcuts and key hints.",
-    "docsPath": "/docs/components/kbd",
+    "docsPath": "/docs/components/radix/kbd",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -685,7 +1788,7 @@
     "type": "primitive",
     "title": "Label",
     "description": "Form label primitive with shared glass-aware variants.",
-    "docsPath": "/docs/components/label",
+    "docsPath": "/docs/components/radix/label",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -717,13 +1820,58 @@
       "registry": "pnpm dlx @glinui/cli@latest add light-leak"
     }
   },
+  "light-rays": {
+    "name": "light-rays",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Light Rays",
+    "description": "Soft swaying rays of light for hero and section backgrounds.",
+    "docsPath": "/docs/components/radix/light-rays",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@glinui/motion",
+      "class-variance-authority"
+    ],
+    "category": "backgrounds",
+    "files": [
+      "packages/ui/src/components/light-rays.tsx",
+      "packages/ui/src/components/motion-engine.tsx",
+      "packages/ui/src/lib/use-playback-active.ts",
+      "packages/ui/src/tests/light-rays.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add light-rays"
+    },
+    "provenance": {
+      "sourceId": "magic-ui",
+      "sourceName": "Magic UI",
+      "author": "Magic UI",
+      "upstreamUrl": "https://github.com/magicuidesign/magicui",
+      "upstreamComponentUrl": "https://magicui.design/docs/components/light-rays",
+      "license": "MIT",
+      "spdx": "MIT",
+      "copyright": "Copyright (c) Magic UI",
+      "commit": "cdb348cb4c72a9b54b554d8617801e479fbc8714",
+      "adaptedFrom": "apps/www/registry/magicui/light-rays.tsx",
+      "adaptedAt": "2026-10-07",
+      "status": "active",
+      "licenseSha256": "0147b84235ed916b8b4e89c1f80655351c5afe7d211b629be61f553a227b34ba",
+      "licenseSnapshotPath": "packages/registry/licenses/magic-ui-cdb348c.txt",
+      "changes": "Web Animations instead of motion, seeded rays, token colors, reduced motion levels, offscreen pause and RTL mirroring.",
+      "upstreamInstall": {
+        "shadcn": "npx shadcn@latest add \"https://magicui.design/r/light-rays\""
+      }
+    }
+  },
   "link": {
     "name": "link",
     "namespace": "@glinui",
     "type": "primitive",
     "title": "Link",
     "description": "Tokenized anchor primitive with focus ring and variant surfaces.",
-    "docsPath": "/docs/components/link",
+    "docsPath": "/docs/components/radix/link",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -753,6 +1901,75 @@
     "install": {
       "package": "npm install @glinui/ui @glinui/tokens",
       "registry": "pnpm dlx @glinui/cli@latest add liquid-button"
+    }
+  },
+  "logo-cloud": {
+    "name": "logo-cloud",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Logo Cloud",
+    "description": "Grayscale-to-color logo strip with a marquee option that respects reduced motion.",
+    "docsPath": "/docs/components/radix/logo-cloud",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@glinui/motion"
+    ],
+    "category": "blocks",
+    "files": [
+      "packages/ui/src/components/logo-cloud.tsx",
+      "packages/ui/src/components/motion-engine.tsx",
+      "packages/ui/src/tests/logo-cloud.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add logo-cloud"
+    }
+  },
+  "magic-card": {
+    "name": "magic-card",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Magic Card",
+    "description": "Card whose border and surface light up under the pointer or keyboard focus.",
+    "docsPath": "/docs/components/radix/magic-card",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@glinui/motion"
+    ],
+    "category": "cards",
+    "registryDependencies": [
+      "card"
+    ],
+    "files": [
+      "packages/ui/src/components/magic-card.tsx",
+      "packages/ui/src/components/motion-engine.tsx",
+      "packages/ui/src/tests/magic-card.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add magic-card"
+    },
+    "provenance": {
+      "sourceId": "magic-ui",
+      "sourceName": "Magic UI",
+      "author": "Magic UI",
+      "upstreamUrl": "https://github.com/magicuidesign/magicui",
+      "upstreamComponentUrl": "https://magicui.design/docs/components/magic-card",
+      "license": "MIT",
+      "spdx": "MIT",
+      "copyright": "Copyright (c) Magic UI",
+      "commit": "cdb348cb4c72a9b54b554d8617801e479fbc8714",
+      "adaptedFrom": "apps/www/registry/magicui/magic-card.tsx",
+      "adaptedAt": "2026-10-07",
+      "status": "active",
+      "licenseSha256": "0147b84235ed916b8b4e89c1f80655351c5afe7d211b629be61f553a227b34ba",
+      "licenseSnapshotPath": "packages/registry/licenses/magic-ui-cdb348c.txt",
+      "changes": "Removed motion and next-themes, CSS variables written on animation frames, token colors, fine pointer gating and a glass variant.",
+      "upstreamInstall": {
+        "shadcn": "npx shadcn@latest add \"https://magicui.design/r/magic-card\""
+      }
     }
   },
   "magnetic-cta": {
@@ -793,6 +2010,78 @@
       "registry": "pnpm dlx @glinui/cli@latest add marquee"
     }
   },
+  "menubar": {
+    "name": "menubar",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Menubar",
+    "description": "Desktop-style horizontal menu bar with nested menus, checkbox and radio items.",
+    "docsPath": "/docs/components/radix/menubar",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@phosphor-icons/react",
+      "@radix-ui/react-menubar",
+      "class-variance-authority"
+    ],
+    "files": [
+      "packages/ui/src/components/menubar.tsx",
+      "packages/ui/src/tests/menubar.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add menubar"
+    }
+  },
+  "message": {
+    "name": "message",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Message",
+    "description": "Chat turn layout with roles, avatar, bubble content and an actions toolbar (copy, regenerate, feedback).",
+    "docsPath": "/docs/components/radix/message",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@phosphor-icons/react"
+    ],
+    "category": "ai",
+    "registryDependencies": [
+      "avatar",
+      "bubble"
+    ],
+    "files": [
+      "packages/ui/src/components/message.tsx",
+      "packages/ui/src/tests/message.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add message"
+    }
+  },
+  "message-scroller": {
+    "name": "message-scroller",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Message Scroller",
+    "description": "Conversation log that sticks to the bottom, shows a jump to latest pill and announces new messages politely.",
+    "docsPath": "/docs/components/radix/message-scroller",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@phosphor-icons/react"
+    ],
+    "category": "ai",
+    "files": [
+      "packages/ui/src/components/message-scroller.tsx",
+      "packages/ui/src/lib/use-prefers-reduced-motion.ts",
+      "packages/ui/src/tests/message-scroller.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add message-scroller"
+    }
+  },
   "meteor-shower": {
     "name": "meteor-shower",
     "namespace": "@glinui",
@@ -818,7 +2107,7 @@
     "type": "primitive",
     "title": "Modal / Dialog",
     "description": "Layered dialog for focused tasks or confirmations.",
-    "docsPath": "/docs/components/modal",
+    "docsPath": "/docs/components/radix/modal",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -848,6 +2137,116 @@
     "install": {
       "package": "npm install @glinui/ui @glinui/tokens",
       "registry": "pnpm dlx @glinui/cli@latest add morphing-tabs"
+    }
+  },
+  "morphing-text": {
+    "name": "morphing-text",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Morphing Text",
+    "description": "Cycles through words with a gooey blur and threshold morph, paused off screen and static under reduced motion.",
+    "docsPath": "/docs/components/radix/morphing-text",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@glinui/motion"
+    ],
+    "category": "text",
+    "files": [
+      "packages/ui/src/components/morphing-text.tsx",
+      "packages/ui/src/components/motion-engine.tsx",
+      "packages/ui/src/tests/morphing-text.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add morphing-text"
+    },
+    "provenance": {
+      "sourceId": "magic-ui",
+      "sourceName": "Magic UI",
+      "author": "Magic UI",
+      "upstreamUrl": "https://github.com/magicuidesign/magicui",
+      "upstreamComponentUrl": "https://magicui.design/docs/components/morphing-text",
+      "license": "MIT",
+      "spdx": "MIT",
+      "copyright": "Copyright (c) Magic UI",
+      "commit": "cdb348cb4c72a9b54b554d8617801e479fbc8714",
+      "adaptedFrom": "apps/www/registry/magicui/morphing-text.tsx",
+      "adaptedAt": "2026-10-07",
+      "status": "active",
+      "licenseSha256": "0147b84235ed916b8b4e89c1f80655351c5afe7d211b629be61f553a227b34ba",
+      "licenseSnapshotPath": "packages/registry/licenses/magic-ui-cdb348c.txt",
+      "changes": "Per instance SVG filter id, off screen pause, reduced motion levels, an accessible word list and token colors.",
+      "upstreamInstall": {
+        "shadcn": "npx shadcn@latest add \"https://magicui.design/r/morphing-text\""
+      }
+    }
+  },
+  "navigation-menu": {
+    "name": "navigation-menu",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Navigation Menu",
+    "description": "Site navigation with animated content panels, links and a shared viewport.",
+    "docsPath": "/docs/components/radix/navigation-menu",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@phosphor-icons/react",
+      "@radix-ui/react-navigation-menu",
+      "class-variance-authority"
+    ],
+    "files": [
+      "packages/ui/src/components/navigation-menu.tsx",
+      "packages/ui/src/tests/navigation-menu.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add navigation-menu"
+    }
+  },
+  "neon-gradient-card": {
+    "name": "neon-gradient-card",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Neon Gradient Card",
+    "description": "Card with an animated neon gradient ring and soft glow.",
+    "docsPath": "/docs/components/radix/neon-gradient-card",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@glinui/motion",
+      "class-variance-authority"
+    ],
+    "category": "cards",
+    "files": [
+      "packages/ui/src/components/neon-gradient-card.tsx",
+      "packages/ui/src/components/motion-engine.tsx",
+      "packages/ui/src/tests/neon-gradient-card.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add neon-gradient-card"
+    },
+    "provenance": {
+      "sourceId": "magic-ui",
+      "sourceName": "Magic UI",
+      "author": "Magic UI",
+      "upstreamUrl": "https://github.com/magicuidesign/magicui",
+      "upstreamComponentUrl": "https://magicui.design/docs/components/neon-gradient-card",
+      "license": "MIT",
+      "spdx": "MIT",
+      "copyright": "Copyright (c) Magic UI",
+      "commit": "cdb348cb4c72a9b54b554d8617801e479fbc8714",
+      "adaptedFrom": "apps/www/registry/magicui/neon-gradient-card.tsx",
+      "adaptedAt": "2026-10-07",
+      "status": "active",
+      "licenseSha256": "0147b84235ed916b8b4e89c1f80655351c5afe7d211b629be61f553a227b34ba",
+      "licenseSnapshotPath": "packages/registry/licenses/magic-ui-cdb348c.txt",
+      "changes": "Token colors, padding based ring without a ResizeObserver, Web Animations gated by motion level and a glass variant.",
+      "upstreamInstall": {
+        "shadcn": "npx shadcn@latest add \"https://magicui.design/r/neon-gradient-card\""
+      }
     }
   },
   "number-ticker": {
@@ -888,6 +2287,28 @@
       "registry": "pnpm dlx @glinui/cli@latest add orbiting-circles"
     }
   },
+  "pagination": {
+    "name": "pagination",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Pagination",
+    "description": "Page navigation with previous and next controls, numbered links and ellipsis.",
+    "docsPath": "/docs/components/radix/pagination",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@phosphor-icons/react",
+      "class-variance-authority"
+    ],
+    "files": [
+      "packages/ui/src/components/pagination.tsx",
+      "packages/ui/src/tests/pagination.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add pagination"
+    }
+  },
   "particle-field": {
     "name": "particle-field",
     "namespace": "@glinui",
@@ -913,7 +2334,7 @@
     "type": "primitive",
     "title": "Popover",
     "description": "Floating content panel anchored to a trigger element.",
-    "docsPath": "/docs/components/popover",
+    "docsPath": "/docs/components/radix/popover",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -925,6 +2346,29 @@
     "install": {
       "package": "npm install @glinui/ui @glinui/tokens",
       "registry": "pnpm dlx @glinui/cli@latest add popover"
+    }
+  },
+  "pricing-section": {
+    "name": "pricing-section",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Pricing Section",
+    "description": "Tier cards with monthly or yearly switch, highlighted plan, check lists and a comparison table layout.",
+    "docsPath": "/docs/components/radix/pricing-section",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@phosphor-icons/react"
+    ],
+    "category": "blocks",
+    "files": [
+      "packages/ui/src/components/pricing-section.tsx",
+      "packages/ui/src/lib/block-shell.ts",
+      "packages/ui/src/tests/pricing-section.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add pricing-section"
     }
   },
   "prism-border": {
@@ -952,7 +2396,7 @@
     "type": "primitive",
     "title": "Progress",
     "description": "Determinate linear and circular progress indicators with tokenized variants and sizing.",
-    "docsPath": "/docs/components/progress",
+    "docsPath": "/docs/components/radix/progress",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -964,6 +2408,73 @@
     "install": {
       "package": "npm install @glinui/ui @glinui/tokens",
       "registry": "pnpm dlx @glinui/cli@latest add progress"
+    }
+  },
+  "progressive-blur": {
+    "name": "progressive-blur",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Progressive Blur",
+    "description": "Edge overlay that blurs content progressively using stacked masked backdrop filters.",
+    "docsPath": "/docs/components/radix/progressive-blur",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@glinui/motion",
+      "class-variance-authority"
+    ],
+    "category": "layout",
+    "files": [
+      "packages/ui/src/components/progressive-blur.tsx",
+      "packages/ui/src/components/motion-engine.tsx",
+      "packages/ui/src/tests/progressive-blur.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add progressive-blur"
+    },
+    "provenance": {
+      "sourceId": "motion-primitives",
+      "sourceName": "Motion Primitives",
+      "author": "ibelick",
+      "upstreamUrl": "https://github.com/ibelick/motion-primitives",
+      "upstreamComponentUrl": "https://motion-primitives.com/docs/progressive-blur",
+      "license": "MIT",
+      "spdx": "MIT",
+      "copyright": "Copyright (c) 2024 ibelick",
+      "commit": "120f64f6ca60348e251f929e9c81f11ccbe45eda",
+      "adaptedFrom": "components/core/progressive-blur.tsx",
+      "adaptedAt": "2026-10-07",
+      "status": "active",
+      "licenseSha256": "f668f5ef3635eb906f10b1eea9a32e449eb6e1a183ab6879ef6d56c0980dd2f3",
+      "licenseSnapshotPath": "packages/registry/licenses/motion-primitives-120f64f.txt",
+      "changes": "motion/react removed (CSS and Web Animations API), tokens, accessibility, reduced motion levels, RTL",
+      "upstreamInstall": {
+        "shadcn": "npx shadcn@latest add \"https://motion-primitives.com/c/progressive-blur.json\""
+      }
+    }
+  },
+  "prompt-input": {
+    "name": "prompt-input",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Prompt Input",
+    "description": "Auto-growing chat composer with send and stop, IME-safe Enter handling, attachment slot and character hint.",
+    "docsPath": "/docs/components/radix/prompt-input",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@phosphor-icons/react",
+      "class-variance-authority"
+    ],
+    "category": "ai",
+    "files": [
+      "packages/ui/src/components/prompt-input.tsx",
+      "packages/ui/src/tests/prompt-input.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add prompt-input"
     }
   },
   "pulsating-button": {
@@ -985,13 +2496,36 @@
       "registry": "pnpm dlx @glinui/cli@latest add pulsating-button"
     }
   },
+  "questionnaire": {
+    "name": "questionnaire",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Questionnaire",
+    "description": "Multi-step form with single and multiple choice option cards, progress and keyboard accessible radio and checkbox semantics.",
+    "docsPath": "/docs/components/radix/questionnaire",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@phosphor-icons/react",
+      "class-variance-authority"
+    ],
+    "category": "ai",
+    "files": [
+      "packages/ui/src/components/questionnaire.tsx",
+      "packages/ui/src/tests/questionnaire.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add questionnaire"
+    }
+  },
   "radio-group": {
     "name": "radio-group",
     "namespace": "@glinui",
     "type": "primitive",
     "title": "Radio Group",
     "description": "Mutually exclusive selection control with variant-capable radio items.",
-    "docsPath": "/docs/components/radio-group",
+    "docsPath": "/docs/components/radix/radio-group",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -1022,6 +2556,28 @@
     "install": {
       "package": "npm install @glinui/ui @glinui/tokens",
       "registry": "pnpm dlx @glinui/cli@latest add retro-grid"
+    }
+  },
+  "reveal": {
+    "name": "reveal",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Reveal",
+    "description": "Scroll-triggered entrance with fade, slide, blur and scale variants, driven by a pluggable animation engine (css, motion or gsap).",
+    "docsPath": "/docs/components/radix/reveal",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@glinui/motion"
+    ],
+    "category": "motion",
+    "files": [
+      "packages/ui/src/components/reveal.tsx",
+      "packages/ui/src/components/motion-engine.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add reveal"
     }
   },
   "reveal-text": {
@@ -1081,13 +2637,35 @@
       "registry": "pnpm dlx @glinui/cli@latest add ripple-button"
     }
   },
+  "scroll-area": {
+    "name": "scroll-area",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Scroll Area",
+    "description": "Custom-styled scroll container with vertical and horizontal scrollbars that keeps native scrolling.",
+    "docsPath": "/docs/components/radix/scroll-area",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@radix-ui/react-scroll-area",
+      "class-variance-authority"
+    ],
+    "files": [
+      "packages/ui/src/components/scroll-area.tsx",
+      "packages/ui/src/tests/scroll-area.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add scroll-area"
+    }
+  },
   "select": {
     "name": "select",
     "namespace": "@glinui",
     "type": "primitive",
     "title": "Select",
     "description": "Native select with glass, liquid, matte, and utility variants.",
-    "docsPath": "/docs/components/select",
+    "docsPath": "/docs/components/radix/select",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -1107,7 +2685,7 @@
     "type": "primitive",
     "title": "Separator",
     "description": "Visual divider for grouping content with orientation support.",
-    "docsPath": "/docs/components/separator",
+    "docsPath": "/docs/components/radix/separator",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -1127,7 +2705,7 @@
     "type": "primitive",
     "title": "Sheet / Drawer",
     "description": "Sliding panel for side, top, or bottom contextual workflows.",
-    "docsPath": "/docs/components/sheet",
+    "docsPath": "/docs/components/radix/sheet",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -1160,13 +2738,85 @@
       "registry": "pnpm dlx @glinui/cli@latest add shimmer-button"
     }
   },
+  "shine-border": {
+    "name": "shine-border",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Shine Border",
+    "description": "Animated gradient edge that wraps any rounded container.",
+    "docsPath": "/docs/components/radix/shine-border",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@glinui/motion",
+      "class-variance-authority"
+    ],
+    "category": "cards",
+    "files": [
+      "packages/ui/src/components/shine-border.tsx",
+      "packages/ui/src/components/motion-engine.tsx",
+      "packages/ui/src/tests/shine-border.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add shine-border"
+    },
+    "provenance": {
+      "sourceId": "magic-ui",
+      "sourceName": "Magic UI",
+      "author": "Magic UI",
+      "upstreamUrl": "https://github.com/magicuidesign/magicui",
+      "upstreamComponentUrl": "https://magicui.design/docs/components/shine-border",
+      "license": "MIT",
+      "spdx": "MIT",
+      "copyright": "Copyright (c) Magic UI",
+      "commit": "cdb348cb4c72a9b54b554d8617801e479fbc8714",
+      "adaptedFrom": "apps/www/registry/magicui/shine-border.tsx",
+      "adaptedAt": "2026-10-07",
+      "status": "active",
+      "licenseSha256": "0147b84235ed916b8b4e89c1f80655351c5afe7d211b629be61f553a227b34ba",
+      "licenseSnapshotPath": "packages/registry/licenses/magic-ui-cdb348c.txt",
+      "changes": "Token colors, Web Animations gated by motion level, logical RTL direction, a glass variant and no inline styles.",
+      "upstreamInstall": {
+        "shadcn": "npx shadcn@latest add \"https://magicui.design/r/shine-border\""
+      }
+    }
+  },
+  "sidebar": {
+    "name": "sidebar",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Sidebar",
+    "description": "Collapsible app sidebar with icon rail, mobile sheet, Ctrl/Cmd+B shortcut, and persisted state.",
+    "docsPath": "/docs/components/radix/sidebar",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@phosphor-icons/react",
+      "@radix-ui/react-slot",
+      "class-variance-authority"
+    ],
+    "registryDependencies": [
+      "sheet",
+      "tooltip"
+    ],
+    "files": [
+      "packages/ui/src/components/sidebar.tsx",
+      "packages/ui/src/components/sidebar-context.tsx",
+      "packages/ui/src/tests/sidebar.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add sidebar"
+    }
+  },
   "skeleton": {
     "name": "skeleton",
     "namespace": "@glinui",
     "type": "primitive",
     "title": "Skeleton",
     "description": "Loading placeholder surface with reduced-motion fallback.",
-    "docsPath": "/docs/components/skeleton",
+    "docsPath": "/docs/components/radix/skeleton",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -1186,7 +2836,7 @@
     "type": "primitive",
     "title": "Slider",
     "description": "Range input control built on Radix slider primitive with glass thumb/track styling.",
-    "docsPath": "/docs/components/slider",
+    "docsPath": "/docs/components/radix/slider",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -1198,6 +2848,140 @@
     "install": {
       "package": "npm install @glinui/ui @glinui/tokens",
       "registry": "pnpm dlx @glinui/cli@latest add slider"
+    }
+  },
+  "sparkles-text": {
+    "name": "sparkles-text",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Sparkles Text",
+    "description": "Text with twinkling star sparkles that scale and rotate, with a static accent under reduced motion.",
+    "docsPath": "/docs/components/radix/sparkles-text",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@glinui/motion"
+    ],
+    "category": "text",
+    "files": [
+      "packages/ui/src/components/sparkles-text.tsx",
+      "packages/ui/src/components/motion-engine.tsx",
+      "packages/ui/src/tests/sparkles-text.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add sparkles-text"
+    },
+    "provenance": {
+      "sourceId": "magic-ui",
+      "sourceName": "Magic UI",
+      "author": "Magic UI",
+      "upstreamUrl": "https://github.com/magicuidesign/magicui",
+      "upstreamComponentUrl": "https://magicui.design/docs/components/sparkles-text",
+      "license": "MIT",
+      "spdx": "MIT",
+      "copyright": "Copyright (c) Magic UI",
+      "commit": "cdb348cb4c72a9b54b554d8617801e479fbc8714",
+      "adaptedFrom": "apps/www/registry/magicui/sparkles-text.tsx",
+      "adaptedAt": "2026-10-07",
+      "status": "active",
+      "licenseSha256": "0147b84235ed916b8b4e89c1f80655351c5afe7d211b629be61f553a227b34ba",
+      "licenseSnapshotPath": "packages/registry/licenses/magic-ui-cdb348c.txt",
+      "changes": "No motion dependency (Web Animations), sparkles generated after mount for SSR safety, token colors and reduced motion levels.",
+      "upstreamInstall": {
+        "shadcn": "npx shadcn@latest add \"https://magicui.design/r/sparkles-text\""
+      }
+    }
+  },
+  "spinner": {
+    "name": "spinner",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Spinner",
+    "description": "Accessible loading indicator with a reduced-motion pulsing ring fallback.",
+    "docsPath": "/docs/components/radix/spinner",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "class-variance-authority"
+    ],
+    "files": [
+      "packages/ui/src/components/spinner.tsx",
+      "packages/ui/src/tests/spinner.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add spinner"
+    }
+  },
+  "spinning-text": {
+    "name": "spinning-text",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Spinning Text",
+    "description": "Text laid out on a rotating circle with an accessible name and pause on hover.",
+    "docsPath": "/docs/components/radix/spinning-text",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@glinui/motion",
+      "class-variance-authority"
+    ],
+    "category": "text",
+    "files": [
+      "packages/ui/src/components/spinning-text.tsx",
+      "packages/ui/src/components/motion-engine.tsx",
+      "packages/ui/src/lib/use-playback-active.ts",
+      "packages/ui/src/tests/spinning-text.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add spinning-text"
+    },
+    "provenance": {
+      "sourceId": "motion-primitives",
+      "sourceName": "Motion Primitives",
+      "author": "ibelick",
+      "upstreamUrl": "https://github.com/ibelick/motion-primitives",
+      "upstreamComponentUrl": "https://motion-primitives.com/docs/spinning-text",
+      "license": "MIT",
+      "spdx": "MIT",
+      "copyright": "Copyright (c) 2024 ibelick",
+      "commit": "120f64f6ca60348e251f929e9c81f11ccbe45eda",
+      "adaptedFrom": "components/core/spinning-text.tsx",
+      "adaptedAt": "2026-10-07",
+      "status": "active",
+      "licenseSha256": "f668f5ef3635eb906f10b1eea9a32e449eb6e1a183ab6879ef6d56c0980dd2f3",
+      "licenseSnapshotPath": "packages/registry/licenses/motion-primitives-120f64f.txt",
+      "changes": "motion/react removed (CSS and Web Animations API), tokens, accessibility, reduced motion levels, RTL",
+      "upstreamInstall": {
+        "shadcn": "npx shadcn@latest add \"https://motion-primitives.com/c/spinning-text.json\""
+      }
+    }
+  },
+  "split-text": {
+    "name": "split-text",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Split Text",
+    "description": "Splits text into characters, words or lines and animates them in with the active animation engine.",
+    "docsPath": "/docs/components/radix/split-text",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@glinui/motion"
+    ],
+    "category": "motion",
+    "registryDependencies": [
+      "reveal"
+    ],
+    "files": [
+      "packages/ui/src/components/split-text.tsx",
+      "packages/ui/src/components/motion-engine.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add split-text"
     }
   },
   "spotlight": {
@@ -1238,13 +3022,38 @@
       "registry": "pnpm dlx @glinui/cli@latest add spotlight-card"
     }
   },
+  "stagger-list": {
+    "name": "stagger-list",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Stagger List",
+    "description": "Reveals child items one after another with configurable stagger and direction using the active animation engine.",
+    "docsPath": "/docs/components/radix/stagger-list",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@glinui/motion"
+    ],
+    "category": "motion",
+    "registryDependencies": [
+      "reveal"
+    ],
+    "files": [
+      "packages/ui/src/components/stagger-list.tsx",
+      "packages/ui/src/components/motion-engine.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add stagger-list"
+    }
+  },
   "status-dot": {
     "name": "status-dot",
     "namespace": "@glinui",
     "type": "primitive",
     "title": "Status Dot",
     "description": "Colored status indicator with optional label and pulse state.",
-    "docsPath": "/docs/components/status-dot",
+    "docsPath": "/docs/components/radix/status-dot",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -1257,13 +3066,35 @@
       "registry": "pnpm dlx @glinui/cli@latest add status-dot"
     }
   },
+  "streaming-text": {
+    "name": "streaming-text",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Streaming Text",
+    "description": "Progressive text reveal with caret and completion callback, instant under reduced motion.",
+    "docsPath": "/docs/components/radix/streaming-text",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui"
+    ],
+    "category": "ai",
+    "files": [
+      "packages/ui/src/components/streaming-text.tsx",
+      "packages/ui/src/lib/use-prefers-reduced-motion.ts",
+      "packages/ui/src/tests/streaming-text.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add streaming-text"
+    }
+  },
   "switch": {
     "name": "switch",
     "namespace": "@glinui",
     "type": "primitive",
     "title": "Switch",
     "description": "On/off control built on Radix switch primitive.",
-    "docsPath": "/docs/components/switch",
+    "docsPath": "/docs/components/radix/switch",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -1282,7 +3113,7 @@
     "type": "primitive",
     "title": "Table",
     "description": "Composable data table with semantic sections and glass variant support.",
-    "docsPath": "/docs/components/table",
+    "docsPath": "/docs/components/radix/table",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -1302,7 +3133,7 @@
     "type": "primitive",
     "title": "Tabs",
     "description": "Tabbed interface for switching between grouped content panels.",
-    "docsPath": "/docs/components/tabs",
+    "docsPath": "/docs/components/radix/tabs",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -1316,13 +3147,86 @@
       "registry": "pnpm dlx @glinui/cli@latest add tabs"
     }
   },
+  "terminal": {
+    "name": "terminal",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Terminal",
+    "description": "Terminal window with sequenced typing and output, a full transcript and copy.",
+    "docsPath": "/docs/components/radix/terminal",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@glinui/motion",
+      "class-variance-authority",
+      "@phosphor-icons/react"
+    ],
+    "category": "text",
+    "registryDependencies": [
+      "copy-button"
+    ],
+    "files": [
+      "packages/ui/src/components/terminal.tsx",
+      "packages/ui/src/components/motion-engine.tsx",
+      "packages/ui/src/tests/terminal.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add terminal"
+    },
+    "provenance": {
+      "sourceId": "magic-ui",
+      "sourceName": "Magic UI",
+      "author": "Magic UI",
+      "upstreamUrl": "https://github.com/magicuidesign/magicui",
+      "upstreamComponentUrl": "https://magicui.design/docs/components/terminal",
+      "license": "MIT",
+      "spdx": "MIT",
+      "copyright": "Copyright (c) Magic UI",
+      "commit": "cdb348cb4c72a9b54b554d8617801e479fbc8714",
+      "adaptedFrom": "apps/www/registry/magicui/terminal.tsx",
+      "adaptedAt": "2026-10-07",
+      "status": "active",
+      "licenseSha256": "0147b84235ed916b8b4e89c1f80655351c5afe7d211b629be61f553a227b34ba",
+      "licenseSnapshotPath": "packages/registry/licenses/magic-ui-cdb348c.txt",
+      "changes": "Timers and CSS instead of motion, static first render, full transcript for assistive tech, copy button, token colors and glass.",
+      "upstreamInstall": {
+        "shadcn": "npx shadcn@latest add \"https://magicui.design/r/terminal\""
+      }
+    }
+  },
+  "testimonials-wall": {
+    "name": "testimonials-wall",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Testimonials Wall",
+    "description": "Social proof as masonry columns, vertical marquee columns or a single featured quote.",
+    "docsPath": "/docs/components/radix/testimonials-wall",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@glinui/motion",
+      "@phosphor-icons/react"
+    ],
+    "category": "blocks",
+    "files": [
+      "packages/ui/src/components/testimonials-wall.tsx",
+      "packages/ui/src/components/block-shell.ts",
+      "packages/ui/src/components/motion-engine.tsx",
+      "packages/ui/src/tests/testimonials-wall.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add testimonials-wall"
+    }
+  },
   "text": {
     "name": "text",
     "namespace": "@glinui",
     "type": "primitive",
     "title": "Text",
     "description": "Body text primitive for default, muted, and glass-highlighted copy.",
-    "docsPath": "/docs/components/text",
+    "docsPath": "/docs/components/radix/text",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -1360,7 +3264,7 @@
     "type": "primitive",
     "title": "Textarea",
     "description": "Multi-line input with glass, liquid, matte, and utility variants.",
-    "docsPath": "/docs/components/textarea",
+    "docsPath": "/docs/components/radix/textarea",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -1374,13 +3278,35 @@
       "registry": "pnpm dlx @glinui/cli@latest add textarea"
     }
   },
+  "thinking": {
+    "name": "thinking",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Thinking",
+    "description": "Reasoning indicator with animated dots or pulsing text and collapsible reasoning details.",
+    "docsPath": "/docs/components/radix/thinking",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@phosphor-icons/react"
+    ],
+    "category": "ai",
+    "files": [
+      "packages/ui/src/components/thinking.tsx",
+      "packages/ui/src/tests/thinking.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add thinking"
+    }
+  },
   "toast": {
     "name": "toast",
     "namespace": "@glinui",
     "type": "primitive",
     "title": "Toast",
     "description": "Glassmorphic toast notifications powered by Sonner with success, error, warning, info, loading, promise, and action support.",
-    "docsPath": "/docs/components/toast",
+    "docsPath": "/docs/components/radix/toast",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui",
@@ -1395,13 +3321,60 @@
       "registry": "pnpm dlx @glinui/cli@latest add toast"
     }
   },
+  "toggle": {
+    "name": "toggle",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Toggle",
+    "description": "A two-state button that can be pressed on or off.",
+    "docsPath": "/docs/components/radix/toggle",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@radix-ui/react-toggle",
+      "class-variance-authority"
+    ],
+    "files": [
+      "packages/ui/src/components/toggle.tsx",
+      "packages/ui/src/tests/toggle.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add toggle"
+    }
+  },
+  "toggle-group": {
+    "name": "toggle-group",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Toggle Group",
+    "description": "A set of toggles with single or multiple selection and merged segmented borders.",
+    "docsPath": "/docs/components/radix/toggle-group",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@radix-ui/react-toggle-group",
+      "class-variance-authority"
+    ],
+    "registryDependencies": [
+      "toggle"
+    ],
+    "files": [
+      "packages/ui/src/components/toggle-group.tsx",
+      "packages/ui/src/tests/toggle-group.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add toggle-group"
+    }
+  },
   "tooltip": {
     "name": "tooltip",
     "namespace": "@glinui",
     "type": "primitive",
     "title": "Tooltip",
     "description": "Context hint on hover/focus using Radix tooltip primitive.",
-    "docsPath": "/docs/components/tooltip",
+    "docsPath": "/docs/components/radix/tooltip",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"
@@ -1420,7 +3393,7 @@
     "type": "primitive",
     "title": "Tree",
     "description": "Hierarchical tree view for file structures, navigation, and nested data.",
-    "docsPath": "/docs/components/tree",
+    "docsPath": "/docs/components/radix/tree",
     "importPath": "@glinui/ui",
     "dependencies": [
       "@glinui/ui"

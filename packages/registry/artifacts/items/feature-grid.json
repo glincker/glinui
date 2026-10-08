@@ -1,0 +1,23 @@
+{
+  "name": "feature-grid",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Feature Grid",
+  "description": "Icon-framed feature cards in three-up, bento, icon-list and alternating-row layouts.",
+  "docsPath": "/docs/components/radix/feature-grid",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@phosphor-icons/react"
+  ],
+  "category": "blocks",
+  "files": [
+    "packages/ui/src/components/feature-grid.tsx",
+    "packages/ui/src/lib/block-shell.ts",
+    "packages/ui/src/tests/feature-grid.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add feature-grid"
+  }
+}

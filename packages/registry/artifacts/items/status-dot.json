@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Status Dot",
   "description": "Colored status indicator with optional label and pulse state.",
-  "docsPath": "/docs/components/status-dot",
+  "docsPath": "/docs/components/radix/status-dot",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

@@ -1,0 +1,22 @@
+{
+  "name": "scroll-area",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Scroll Area",
+  "description": "Custom-styled scroll container with vertical and horizontal scrollbars that keeps native scrolling.",
+  "docsPath": "/docs/components/radix/scroll-area",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@radix-ui/react-scroll-area",
+    "class-variance-authority"
+  ],
+  "files": [
+    "packages/ui/src/components/scroll-area.tsx",
+    "packages/ui/src/tests/scroll-area.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add scroll-area"
+  }
+}

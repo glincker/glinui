@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Separator",
   "description": "Visual divider for grouping content with orientation support.",
-  "docsPath": "/docs/components/separator",
+  "docsPath": "/docs/components/radix/separator",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

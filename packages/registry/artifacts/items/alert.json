@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Alert",
   "description": "Contextual feedback message with default, glass, outline, and ghost variants.",
-  "docsPath": "/docs/components/alert",
+  "docsPath": "/docs/components/radix/alert",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

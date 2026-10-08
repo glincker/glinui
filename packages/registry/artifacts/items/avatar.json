@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Avatar",
   "description": "Profile image with SVG-ready sources, fallback rendering, and multiple glass-aware surface variants.",
-  "docsPath": "/docs/components/avatar",
+  "docsPath": "/docs/components/radix/avatar",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

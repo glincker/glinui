@@ -1,0 +1,25 @@
+{
+  "name": "stagger-list",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Stagger List",
+  "description": "Reveals child items one after another with configurable stagger and direction using the active animation engine.",
+  "docsPath": "/docs/components/radix/stagger-list",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@glinui/motion"
+  ],
+  "category": "motion",
+  "registryDependencies": [
+    "reveal"
+  ],
+  "files": [
+    "packages/ui/src/components/stagger-list.tsx",
+    "packages/ui/src/components/motion-engine.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add stagger-list"
+  }
+}

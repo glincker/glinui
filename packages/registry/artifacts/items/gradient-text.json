@@ -1,0 +1,44 @@
+{
+  "name": "gradient-text",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Gradient Text",
+  "description": "Flowing gradient or shine sweep text, optionally inside a solid or glass pill badge.",
+  "docsPath": "/docs/components/radix/gradient-text",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@glinui/motion",
+    "class-variance-authority"
+  ],
+  "category": "text",
+  "files": [
+    "packages/ui/src/components/gradient-text.tsx",
+    "packages/ui/src/components/motion-engine.tsx",
+    "packages/ui/src/tests/gradient-text.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add gradient-text"
+  },
+  "provenance": {
+    "sourceId": "magic-ui",
+    "sourceName": "Magic UI",
+    "author": "Magic UI",
+    "upstreamUrl": "https://github.com/magicuidesign/magicui",
+    "upstreamComponentUrl": "https://magicui.design/docs/components/animated-gradient-text",
+    "license": "MIT",
+    "spdx": "MIT",
+    "copyright": "Copyright (c) Magic UI",
+    "commit": "cdb348cb4c72a9b54b554d8617801e479fbc8714",
+    "adaptedFrom": "apps/www/registry/magicui/animated-gradient-text.tsx, apps/www/registry/magicui/animated-shiny-text.tsx",
+    "adaptedAt": "2026-10-07",
+    "status": "active",
+    "licenseSha256": "0147b84235ed916b8b4e89c1f80655351c5afe7d211b629be61f553a227b34ba",
+    "licenseSnapshotPath": "packages/registry/licenses/magic-ui-cdb348c.txt",
+    "changes": "Merged gradient and shine variants, token colors, glass badge surface, forced colors fallback and reduced motion levels.",
+    "upstreamInstall": {
+      "shadcn": "npx shadcn@latest add \"https://magicui.design/r/animated-gradient-text\""
+    }
+  }
+}

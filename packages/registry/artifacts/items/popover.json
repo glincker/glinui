@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Popover",
   "description": "Floating content panel anchored to a trigger element.",
-  "docsPath": "/docs/components/popover",
+  "docsPath": "/docs/components/radix/popover",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

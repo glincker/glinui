@@ -1,0 +1,45 @@
+{
+  "name": "border-trail",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Border Trail",
+  "description": "Glowing comet that travels along the border of a rounded container.",
+  "docsPath": "/docs/components/radix/border-trail",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@glinui/motion",
+    "class-variance-authority"
+  ],
+  "category": "cards",
+  "files": [
+    "packages/ui/src/components/border-trail.tsx",
+    "packages/ui/src/components/motion-engine.tsx",
+    "packages/ui/src/lib/use-playback-active.ts",
+    "packages/ui/src/tests/border-trail.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add border-trail"
+  },
+  "provenance": {
+    "sourceId": "motion-primitives",
+    "sourceName": "Motion Primitives",
+    "author": "ibelick",
+    "upstreamUrl": "https://github.com/ibelick/motion-primitives",
+    "upstreamComponentUrl": "https://motion-primitives.com/docs/border-trail",
+    "license": "MIT",
+    "spdx": "MIT",
+    "copyright": "Copyright (c) 2024 ibelick",
+    "commit": "120f64f6ca60348e251f929e9c81f11ccbe45eda",
+    "adaptedFrom": "components/core/border-trail.tsx",
+    "adaptedAt": "2026-10-07",
+    "status": "active",
+    "licenseSha256": "f668f5ef3635eb906f10b1eea9a32e449eb6e1a183ab6879ef6d56c0980dd2f3",
+    "licenseSnapshotPath": "packages/registry/licenses/motion-primitives-120f64f.txt",
+    "changes": "motion/react removed (CSS and Web Animations API), tokens, accessibility, reduced motion levels, RTL",
+    "upstreamInstall": {
+      "shadcn": "npx shadcn@latest add \"https://motion-primitives.com/c/border-trail.json\""
+    }
+  }
+}

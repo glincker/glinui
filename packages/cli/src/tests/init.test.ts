@@ -56,7 +56,7 @@ describe("init command", () => {
     expect(parsed.aliases.components).toBe("src/components/ui")
     expect(parsed.aliases.utils).toBe("src/lib/utils")
 
-    const cnFile = await readFile(path.join(cwd, "src/lib/utils/cn.ts"), "utf8")
+    const cnFile = await readFile(path.join(cwd, "src/lib/utils.ts"), "utf8")
     expect(cnFile).toContain("export function cn")
   })
 })

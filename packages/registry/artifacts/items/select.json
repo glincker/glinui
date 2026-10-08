@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Select",
   "description": "Native select with glass, liquid, matte, and utility variants.",
-  "docsPath": "/docs/components/select",
+  "docsPath": "/docs/components/radix/select",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

@@ -1,27 +1,41 @@
+import type { Provenance } from "./provenance"
+import { adaptedRegistry } from "./adapted"
+import { batchBRegistry } from "./batch-b"
+
+export type { Provenance, ProvenanceSource, ProvenanceStatus } from "./provenance"
+export { buildProvenance, getProvenanceSource, provenanceSources } from "./provenance"
+
 export type RegistryItem = {
   name: string
   namespace: "@glinui"
-  type: "primitive" | "signature"
+  type: "primitive" | "signature" | "block"
   title: string
   description: string
   docsPath: string
   importPath: string
+  /** Optional grouping tag (for example "ai"). */
+  category?: string
+  /** npm packages and the @glinui/ui runtime this item needs. */
   dependencies: string[]
+  /** Other registry items whose source this item imports. */
+  registryDependencies?: string[]
   files: string[]
   install: {
     package: string
     registry: string
   }
+  /** Set for components adapted from other open source projects (additive, optional). */
+  provenance?: Provenance
 }
 
-export const baseRegistry: RegistryItem[] = [
+const coreRegistry: RegistryItem[] = [
   {
     name: "button",
     namespace: "@glinui",
     type: "primitive",
     title: "Button",
     description: "Action control with default, glass, liquid, matte, glow, outline, and ghost variants.",
-    docsPath: "/docs/components/button",
+    docsPath: "/docs/components/radix/button",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: [
@@ -39,7 +53,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Input",
     description: "Single-line input with glass, liquid, matte, and utility variants.",
-    docsPath: "/docs/components/input",
+    docsPath: "/docs/components/radix/input",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: [
@@ -57,7 +71,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Textarea",
     description: "Multi-line input with glass, liquid, matte, and utility variants.",
-    docsPath: "/docs/components/textarea",
+    docsPath: "/docs/components/radix/textarea",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: [
@@ -75,7 +89,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Select",
     description: "Native select with glass, liquid, matte, and utility variants.",
-    docsPath: "/docs/components/select",
+    docsPath: "/docs/components/radix/select",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: [
@@ -93,7 +107,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Checkbox",
     description: "Radix checkbox with glass, liquid, matte, and outline surface variants.",
-    docsPath: "/docs/components/checkbox",
+    docsPath: "/docs/components/radix/checkbox",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: [
@@ -111,7 +125,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Radio Group",
     description: "Mutually exclusive selection control with variant-capable radio items.",
-    docsPath: "/docs/components/radio-group",
+    docsPath: "/docs/components/radix/radio-group",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: [
@@ -129,7 +143,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Switch",
     description: "On/off control built on Radix switch primitive.",
-    docsPath: "/docs/components/switch",
+    docsPath: "/docs/components/radix/switch",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: ["packages/ui/src/components/switch.tsx"],
@@ -144,7 +158,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Accordion",
     description: "Expandable content sections with smooth disclosure behavior.",
-    docsPath: "/docs/components/accordion",
+    docsPath: "/docs/components/radix/accordion",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: [
@@ -162,7 +176,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Alert",
     description: "Contextual feedback message with default, glass, outline, and ghost variants.",
-    docsPath: "/docs/components/alert",
+    docsPath: "/docs/components/radix/alert",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: [
@@ -180,7 +194,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Alert Dialog",
     description: "Destructive action confirmation dialog with explicit cancel and action controls.",
-    docsPath: "/docs/components/alert-dialog",
+    docsPath: "/docs/components/radix/alert-dialog",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: [
@@ -198,7 +212,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Avatar",
     description: "Profile image with SVG-ready sources, fallback rendering, and multiple glass-aware surface variants.",
-    docsPath: "/docs/components/avatar",
+    docsPath: "/docs/components/radix/avatar",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: [
@@ -216,7 +230,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Badge",
     description: "Compact status indicator for labels, states, and counts.",
-    docsPath: "/docs/components/badge",
+    docsPath: "/docs/components/radix/badge",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: [
@@ -234,7 +248,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Card",
     description: "Flexible surface container for grouped content.",
-    docsPath: "/docs/components/card",
+    docsPath: "/docs/components/radix/card",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: [
@@ -252,7 +266,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Command",
     description: "Command palette for keyboard-driven actions and search.",
-    docsPath: "/docs/components/command",
+    docsPath: "/docs/components/radix/command",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui", "cmdk"],
     files: [
@@ -270,7 +284,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Dropdown Menu",
     description: "Action menu anchored to a trigger with keyboard navigation.",
-    docsPath: "/docs/components/dropdown-menu",
+    docsPath: "/docs/components/radix/dropdown-menu",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: [
@@ -288,7 +302,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Modal / Dialog",
     description: "Layered dialog for focused tasks or confirmations.",
-    docsPath: "/docs/components/modal",
+    docsPath: "/docs/components/radix/modal",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: ["packages/ui/src/components/modal.tsx"],
@@ -303,7 +317,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Popover",
     description: "Floating content panel anchored to a trigger element.",
-    docsPath: "/docs/components/popover",
+    docsPath: "/docs/components/radix/popover",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: [
@@ -321,7 +335,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Hover Card",
     description: "Preview card that appears on hover or focus with configurable delays and placement.",
-    docsPath: "/docs/components/hover-card",
+    docsPath: "/docs/components/radix/hover-card",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: [
@@ -339,7 +353,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Progress",
     description: "Determinate linear and circular progress indicators with tokenized variants and sizing.",
-    docsPath: "/docs/components/progress",
+    docsPath: "/docs/components/radix/progress",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: [
@@ -357,7 +371,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Separator",
     description: "Visual divider for grouping content with orientation support.",
-    docsPath: "/docs/components/separator",
+    docsPath: "/docs/components/radix/separator",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: [
@@ -375,7 +389,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Sheet / Drawer",
     description: "Sliding panel for side, top, or bottom contextual workflows.",
-    docsPath: "/docs/components/sheet",
+    docsPath: "/docs/components/radix/sheet",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: [
@@ -393,7 +407,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Skeleton",
     description: "Loading placeholder surface with reduced-motion fallback.",
-    docsPath: "/docs/components/skeleton",
+    docsPath: "/docs/components/radix/skeleton",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: [
@@ -411,7 +425,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Slider",
     description: "Range input control built on Radix slider primitive with glass thumb/track styling.",
-    docsPath: "/docs/components/slider",
+    docsPath: "/docs/components/radix/slider",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: [
@@ -429,7 +443,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Tabs",
     description: "Tabbed interface for switching between grouped content panels.",
-    docsPath: "/docs/components/tabs",
+    docsPath: "/docs/components/radix/tabs",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: [
@@ -447,7 +461,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Table",
     description: "Composable data table with semantic sections and glass variant support.",
-    docsPath: "/docs/components/table",
+    docsPath: "/docs/components/radix/table",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: [
@@ -465,7 +479,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Data Table",
     description: "Feature-rich table wrapper with search, sorting, pagination, selection, and column controls.",
-    docsPath: "/docs/components/data-table",
+    docsPath: "/docs/components/radix/data-table",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: [
@@ -484,7 +498,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Toast",
     description: "Glassmorphic toast notifications powered by Sonner with success, error, warning, info, loading, promise, and action support.",
-    docsPath: "/docs/components/toast",
+    docsPath: "/docs/components/radix/toast",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui", "sonner"],
     files: ["packages/ui/src/components/sonner.tsx", "packages/ui/src/components/toast.tsx"],
@@ -499,7 +513,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Tooltip",
     description: "Context hint on hover/focus using Radix tooltip primitive.",
-    docsPath: "/docs/components/tooltip",
+    docsPath: "/docs/components/radix/tooltip",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: ["packages/ui/src/components/tooltip.tsx"],
@@ -514,7 +528,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Tree",
     description: "Hierarchical tree view for file structures, navigation, and nested data.",
-    docsPath: "/docs/components/tree",
+    docsPath: "/docs/components/radix/tree",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: ["packages/ui/src/components/tree.tsx"],
@@ -529,7 +543,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Chip",
     description: "Compact pill-style tag for statuses and lightweight metadata.",
-    docsPath: "/docs/components/chip",
+    docsPath: "/docs/components/radix/chip",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: ["packages/ui/src/components/chip.tsx"],
@@ -544,7 +558,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Code",
     description: "Inline code element for commands, snippets, and tokenized literals.",
-    docsPath: "/docs/components/code",
+    docsPath: "/docs/components/radix/code",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: ["packages/ui/src/components/code.tsx"],
@@ -559,7 +573,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Counter",
     description: "Numeric badge that compacts overflow values like 99+.",
-    docsPath: "/docs/components/counter",
+    docsPath: "/docs/components/radix/counter",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: ["packages/ui/src/components/counter.tsx"],
@@ -574,7 +588,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Heading",
     description: "Semantic heading primitive with independent style scaling.",
-    docsPath: "/docs/components/heading",
+    docsPath: "/docs/components/radix/heading",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: ["packages/ui/src/components/heading.tsx"],
@@ -589,7 +603,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Icon Frame",
     description: "Consistent framed surface for icon glyphs and short initials.",
-    docsPath: "/docs/components/icon-frame",
+    docsPath: "/docs/components/radix/icon-frame",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: ["packages/ui/src/components/icon-frame.tsx"],
@@ -604,7 +618,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Kbd",
     description: "Keyboard keycap primitive for shortcuts and key hints.",
-    docsPath: "/docs/components/kbd",
+    docsPath: "/docs/components/radix/kbd",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: ["packages/ui/src/components/kbd.tsx"],
@@ -619,7 +633,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Label",
     description: "Form label primitive with shared glass-aware variants.",
-    docsPath: "/docs/components/label",
+    docsPath: "/docs/components/radix/label",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: ["packages/ui/src/components/label.tsx"],
@@ -634,7 +648,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Link",
     description: "Tokenized anchor primitive with focus ring and variant surfaces.",
-    docsPath: "/docs/components/link",
+    docsPath: "/docs/components/radix/link",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: ["packages/ui/src/components/link.tsx"],
@@ -649,7 +663,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Status Dot",
     description: "Colored status indicator with optional label and pulse state.",
-    docsPath: "/docs/components/status-dot",
+    docsPath: "/docs/components/radix/status-dot",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: ["packages/ui/src/components/status-dot.tsx"],
@@ -664,7 +678,7 @@ export const baseRegistry: RegistryItem[] = [
     type: "primitive",
     title: "Text",
     description: "Body text primitive for default, muted, and glass-highlighted copy.",
-    docsPath: "/docs/components/text",
+    docsPath: "/docs/components/radix/text",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
     files: ["packages/ui/src/components/text.tsx"],
@@ -1101,7 +1115,7 @@ export const baseRegistry: RegistryItem[] = [
     namespace: "@glinui",
     type: "signature",
     title: "Chromatic Text",
-    description: "Text with chromatic aberration effect — RGB channel splitting.",
+    description: "Text with chromatic aberration effect, RGB channel splitting.",
     docsPath: "/docs/components/chromatic-text",
     importPath: "@glinui/ui",
     dependencies: ["@glinui/ui"],
@@ -1230,8 +1244,776 @@ export const baseRegistry: RegistryItem[] = [
       package: "npm install @glinui/ui @glinui/tokens",
       registry: "pnpm dlx @glinui/cli@latest add spotlight"
     }
+  },
+  {
+    name: "aspect-ratio",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Aspect Ratio",
+    description: "Constrains content to a width to height ratio with optional surface frame.",
+    docsPath: "/docs/components/radix/aspect-ratio",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui",
+      "@radix-ui/react-aspect-ratio",
+      "class-variance-authority"
+    ],
+    files: [
+      "packages/ui/src/components/aspect-ratio.tsx",
+      "packages/ui/src/tests/aspect-ratio.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add aspect-ratio"
+    }
+  },
+  {
+    name: "attachment",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Attachment",
+    description: "File chip or image thumbnail with type icon, size, upload progress and remove button.",
+    category: "ai",
+    docsPath: "/docs/components/radix/attachment",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui",
+      "@phosphor-icons/react",
+      "class-variance-authority"
+    ],
+    files: [
+      "packages/ui/src/components/attachment.tsx",
+      "packages/ui/src/tests/attachment.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add attachment"
+    }
+  },
+  {
+    name: "breadcrumb",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Breadcrumb",
+    description: "Navigation trail with separators, collapsed ellipsis and variant-capable links.",
+    docsPath: "/docs/components/radix/breadcrumb",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui",
+      "@phosphor-icons/react",
+      "@radix-ui/react-slot",
+      "class-variance-authority"
+    ],
+    files: [
+      "packages/ui/src/components/breadcrumb.tsx",
+      "packages/ui/src/tests/breadcrumb.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add breadcrumb"
+    }
+  },
+  {
+    name: "bubble",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Bubble",
+    description: "Chat bubble surface with default, muted, accent and glass variants, optional tail and grouped spacing.",
+    category: "ai",
+    docsPath: "/docs/components/radix/bubble",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui",
+      "class-variance-authority"
+    ],
+    files: [
+      "packages/ui/src/components/bubble.tsx",
+      "packages/ui/src/tests/bubble.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add bubble"
+    }
+  },
+  {
+    name: "button-group",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Button Group",
+    description: "Merges adjacent buttons into one segmented control with shared borders.",
+    docsPath: "/docs/components/radix/button-group",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui",
+      "@radix-ui/react-slot",
+      "class-variance-authority"
+    ],
+    files: [
+      "packages/ui/src/components/button-group.tsx",
+      "packages/ui/src/tests/button-group.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add button-group"
+    }
+  },
+  {
+    name: "code-panel",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Code Panel",
+    description: "Raised header bar over an inset code well with tok-k, tok-s, tok-c and tok-f token classes.",
+    docsPath: "/docs/components/radix/code-panel",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui"
+    ],
+    registryDependencies: [
+      "card",
+      "copy-button"
+    ],
+    files: [
+      "packages/ui/src/components/code-panel.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add code-panel"
+    }
+  },
+  {
+    name: "collapsible",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Collapsible",
+    description: "Radix collapsible region with an animated trigger and content for show and hide sections.",
+    docsPath: "/docs/components/radix/collapsible",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui",
+      "@radix-ui/react-collapsible",
+      "class-variance-authority"
+    ],
+    files: [
+      "packages/ui/src/components/collapsible.tsx",
+      "packages/ui/src/tests/collapsible.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add collapsible"
+    }
+  },
+  {
+    name: "combobox",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Combobox",
+    description: "A searchable select built from Popover and Command.",
+    docsPath: "/docs/components/radix/combobox",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui",
+      "@phosphor-icons/react",
+      "class-variance-authority"
+    ],
+    registryDependencies: [
+      "command",
+      "popover"
+    ],
+    files: [
+      "packages/ui/src/components/combobox.tsx",
+      "packages/ui/src/tests/combobox.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add combobox"
+    }
+  },
+  {
+    name: "context-menu",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Context Menu",
+    description: "Right-click menu with items, checkbox and radio items, submenus and shortcuts.",
+    docsPath: "/docs/components/radix/context-menu",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui",
+      "@phosphor-icons/react",
+      "@radix-ui/react-context-menu",
+      "class-variance-authority"
+    ],
+    files: [
+      "packages/ui/src/components/context-menu.tsx",
+      "packages/ui/src/tests/context-menu.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add context-menu"
+    }
+  },
+  {
+    name: "copy-button",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Copy Button",
+    description: "Raised pill that copies text, announces the result and resets after 1.6 seconds.",
+    docsPath: "/docs/components/radix/copy-button",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui",
+      "@phosphor-icons/react"
+    ],
+    files: [
+      "packages/ui/src/components/copy-button.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add copy-button"
+    }
+  },
+  {
+    name: "empty",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Empty",
+    description: "Empty state with media, title, description, and action slots.",
+    docsPath: "/docs/components/radix/empty",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui",
+      "class-variance-authority"
+    ],
+    files: [
+      "packages/ui/src/components/empty.tsx",
+      "packages/ui/src/tests/empty.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add empty"
+    }
+  },
+  {
+    name: "field",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Field",
+    description: "Accessible form field layout that wires labels, descriptions and errors to a control.",
+    docsPath: "/docs/components/radix/field",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui",
+      "@radix-ui/react-slot",
+      "class-variance-authority"
+    ],
+    files: [
+      "packages/ui/src/components/field.tsx",
+      "packages/ui/src/tests/field.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add field"
+    }
+  },
+  {
+    name: "input-group",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Input Group",
+    description: "An input with inline or block addons such as icons, text and buttons in one shared container.",
+    docsPath: "/docs/components/radix/input-group",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui",
+      "class-variance-authority"
+    ],
+    registryDependencies: [
+      "button"
+    ],
+    files: [
+      "packages/ui/src/components/input-group.tsx",
+      "packages/ui/src/tests/input-group.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add input-group"
+    }
+  },
+  {
+    name: "input-otp",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Input OTP",
+    description: "A one-time-code input with segmented slots, paste and autofill support.",
+    docsPath: "/docs/components/radix/input-otp",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui",
+      "@phosphor-icons/react",
+      "class-variance-authority"
+    ],
+    files: [
+      "packages/ui/src/components/input-otp.tsx",
+      "packages/ui/src/tests/input-otp.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add input-otp"
+    }
+  },
+  {
+    name: "install-command",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Install Command",
+    description: "Package manager tabs, a $ prefixed command and a copy button inside a code panel.",
+    docsPath: "/docs/components/radix/install-command",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui"
+    ],
+    registryDependencies: [
+      "code-panel",
+      "copy-button",
+      "tabs"
+    ],
+    files: [
+      "packages/ui/src/components/install-command.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add install-command"
+    }
+  },
+  {
+    name: "item",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Item",
+    description: "Flexible list row with media, content, actions, header, and footer slots.",
+    docsPath: "/docs/components/radix/item",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui",
+      "@radix-ui/react-slot",
+      "class-variance-authority"
+    ],
+    files: [
+      "packages/ui/src/components/item.tsx",
+      "packages/ui/src/tests/item.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add item"
+    }
+  },
+  {
+    name: "menubar",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Menubar",
+    description: "Desktop-style horizontal menu bar with nested menus, checkbox and radio items.",
+    docsPath: "/docs/components/radix/menubar",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui",
+      "@phosphor-icons/react",
+      "@radix-ui/react-menubar",
+      "class-variance-authority"
+    ],
+    files: [
+      "packages/ui/src/components/menubar.tsx",
+      "packages/ui/src/tests/menubar.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add menubar"
+    }
+  },
+  {
+    name: "message",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Message",
+    description: "Chat turn layout with roles, avatar, bubble content and an actions toolbar (copy, regenerate, feedback).",
+    category: "ai",
+    docsPath: "/docs/components/radix/message",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui",
+      "@phosphor-icons/react"
+    ],
+    registryDependencies: [
+      "avatar",
+      "bubble"
+    ],
+    files: [
+      "packages/ui/src/components/message.tsx",
+      "packages/ui/src/tests/message.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add message"
+    }
+  },
+  {
+    name: "message-scroller",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Message Scroller",
+    description: "Conversation log that sticks to the bottom, shows a jump to latest pill and announces new messages politely.",
+    category: "ai",
+    docsPath: "/docs/components/radix/message-scroller",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui",
+      "@phosphor-icons/react"
+    ],
+    files: [
+      "packages/ui/src/components/message-scroller.tsx",
+      "packages/ui/src/lib/use-prefers-reduced-motion.ts",
+      "packages/ui/src/tests/message-scroller.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add message-scroller"
+    }
+  },
+  {
+    name: "navigation-menu",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Navigation Menu",
+    description: "Site navigation with animated content panels, links and a shared viewport.",
+    docsPath: "/docs/components/radix/navigation-menu",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui",
+      "@phosphor-icons/react",
+      "@radix-ui/react-navigation-menu",
+      "class-variance-authority"
+    ],
+    files: [
+      "packages/ui/src/components/navigation-menu.tsx",
+      "packages/ui/src/tests/navigation-menu.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add navigation-menu"
+    }
+  },
+  {
+    name: "pagination",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Pagination",
+    description: "Page navigation with previous and next controls, numbered links and ellipsis.",
+    docsPath: "/docs/components/radix/pagination",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui",
+      "@phosphor-icons/react",
+      "class-variance-authority"
+    ],
+    files: [
+      "packages/ui/src/components/pagination.tsx",
+      "packages/ui/src/tests/pagination.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add pagination"
+    }
+  },
+  {
+    name: "prompt-input",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Prompt Input",
+    description: "Auto-growing chat composer with send and stop, IME-safe Enter handling, attachment slot and character hint.",
+    category: "ai",
+    docsPath: "/docs/components/radix/prompt-input",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui",
+      "@phosphor-icons/react",
+      "class-variance-authority"
+    ],
+    files: [
+      "packages/ui/src/components/prompt-input.tsx",
+      "packages/ui/src/tests/prompt-input.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add prompt-input"
+    }
+  },
+  {
+    name: "questionnaire",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Questionnaire",
+    description: "Multi-step form with single and multiple choice option cards, progress and keyboard accessible radio and checkbox semantics.",
+    category: "ai",
+    docsPath: "/docs/components/radix/questionnaire",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui",
+      "@phosphor-icons/react",
+      "class-variance-authority"
+    ],
+    files: [
+      "packages/ui/src/components/questionnaire.tsx",
+      "packages/ui/src/tests/questionnaire.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add questionnaire"
+    }
+  },
+  {
+    name: "scroll-area",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Scroll Area",
+    description: "Custom-styled scroll container with vertical and horizontal scrollbars that keeps native scrolling.",
+    docsPath: "/docs/components/radix/scroll-area",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui",
+      "@radix-ui/react-scroll-area",
+      "class-variance-authority"
+    ],
+    files: [
+      "packages/ui/src/components/scroll-area.tsx",
+      "packages/ui/src/tests/scroll-area.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add scroll-area"
+    }
+  },
+  {
+    name: "sidebar",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Sidebar",
+    description: "Collapsible app sidebar with icon rail, mobile sheet, Ctrl/Cmd+B shortcut, and persisted state.",
+    docsPath: "/docs/components/radix/sidebar",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui",
+      "@phosphor-icons/react",
+      "@radix-ui/react-slot",
+      "class-variance-authority"
+    ],
+    registryDependencies: [
+      "sheet",
+      "tooltip"
+    ],
+    files: [
+      "packages/ui/src/components/sidebar.tsx",
+      "packages/ui/src/components/sidebar-context.tsx",
+      "packages/ui/src/tests/sidebar.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add sidebar"
+    }
+  },
+  {
+    name: "spinner",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Spinner",
+    description: "Accessible loading indicator with a reduced-motion pulsing ring fallback.",
+    docsPath: "/docs/components/radix/spinner",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui",
+      "class-variance-authority"
+    ],
+    files: [
+      "packages/ui/src/components/spinner.tsx",
+      "packages/ui/src/tests/spinner.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add spinner"
+    }
+  },
+  {
+    name: "streaming-text",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Streaming Text",
+    description: "Progressive text reveal with caret and completion callback, instant under reduced motion.",
+    category: "ai",
+    docsPath: "/docs/components/radix/streaming-text",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui"
+    ],
+    files: [
+      "packages/ui/src/components/streaming-text.tsx",
+      "packages/ui/src/lib/use-prefers-reduced-motion.ts",
+      "packages/ui/src/tests/streaming-text.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add streaming-text"
+    }
+  },
+  {
+    name: "thinking",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Thinking",
+    description: "Reasoning indicator with animated dots or pulsing text and collapsible reasoning details.",
+    category: "ai",
+    docsPath: "/docs/components/radix/thinking",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui",
+      "@phosphor-icons/react"
+    ],
+    files: [
+      "packages/ui/src/components/thinking.tsx",
+      "packages/ui/src/tests/thinking.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add thinking"
+    }
+  },
+  {
+    name: "toggle",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Toggle",
+    description: "A two-state button that can be pressed on or off.",
+    docsPath: "/docs/components/radix/toggle",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui",
+      "@radix-ui/react-toggle",
+      "class-variance-authority"
+    ],
+    files: [
+      "packages/ui/src/components/toggle.tsx",
+      "packages/ui/src/tests/toggle.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add toggle"
+    }
+  },
+  {
+    name: "toggle-group",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Toggle Group",
+    description: "A set of toggles with single or multiple selection and merged segmented borders.",
+    docsPath: "/docs/components/radix/toggle-group",
+    importPath: "@glinui/ui",
+    dependencies: [
+      "@glinui/ui",
+      "@radix-ui/react-toggle-group",
+      "class-variance-authority"
+    ],
+    registryDependencies: [
+      "toggle"
+    ],
+    files: [
+      "packages/ui/src/components/toggle-group.tsx",
+      "packages/ui/src/tests/toggle-group.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add toggle-group"
+    }
+  },
+  {
+    name: "reveal",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Reveal",
+    description: "Scroll-triggered entrance with fade, slide, blur and scale variants, driven by a pluggable animation engine (css, motion or gsap).",
+    category: "motion",
+    docsPath: "/docs/components/radix/reveal",
+    importPath: "@glinui/ui",
+    dependencies: ["@glinui/ui", "@glinui/motion"],
+    files: [
+      "packages/ui/src/components/reveal.tsx",
+      "packages/ui/src/components/motion-engine.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add reveal"
+    }
+  },
+  {
+    name: "split-text",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Split Text",
+    description: "Splits text into characters, words or lines and animates them in with the active animation engine.",
+    category: "motion",
+    docsPath: "/docs/components/radix/split-text",
+    importPath: "@glinui/ui",
+    dependencies: ["@glinui/ui", "@glinui/motion"],
+    registryDependencies: ["reveal"],
+    files: [
+      "packages/ui/src/components/split-text.tsx",
+      "packages/ui/src/components/motion-engine.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add split-text"
+    }
+  },
+  {
+    name: "count-up",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Count Up",
+    description: "Counts a number up on scroll with the active animation engine, jumping to the end value when motion is off.",
+    category: "motion",
+    docsPath: "/docs/components/radix/count-up",
+    importPath: "@glinui/ui",
+    dependencies: ["@glinui/ui", "@glinui/motion"],
+    registryDependencies: ["reveal"],
+    files: [
+      "packages/ui/src/components/count-up.tsx",
+      "packages/ui/src/components/motion-engine.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add count-up"
+    }
+  },
+  {
+    name: "stagger-list",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Stagger List",
+    description: "Reveals child items one after another with configurable stagger and direction using the active animation engine.",
+    category: "motion",
+    docsPath: "/docs/components/radix/stagger-list",
+    importPath: "@glinui/ui",
+    dependencies: ["@glinui/ui", "@glinui/motion"],
+    registryDependencies: ["reveal"],
+    files: [
+      "packages/ui/src/components/stagger-list.tsx",
+      "packages/ui/src/components/motion-engine.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/motion @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add stagger-list"
+    }
   }
 ]
+
+/** Core items plus components adapted from MIT licensed projects (see adapted.ts). */
+export const baseRegistry: RegistryItem[] = [...coreRegistry, ...adaptedRegistry, ...batchBRegistry]
 
 export function getRegistryItem(name: string) {
   return baseRegistry.find((item) => item.name === name) ?? null

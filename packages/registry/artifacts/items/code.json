@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Code",
   "description": "Inline code element for commands, snippets, and tokenized literals.",
-  "docsPath": "/docs/components/code",
+  "docsPath": "/docs/components/radix/code",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

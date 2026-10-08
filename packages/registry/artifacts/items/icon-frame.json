@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Icon Frame",
   "description": "Consistent framed surface for icon glyphs and short initials.",
-  "docsPath": "/docs/components/icon-frame",
+  "docsPath": "/docs/components/radix/icon-frame",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

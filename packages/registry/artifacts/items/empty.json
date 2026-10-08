@@ -1,0 +1,21 @@
+{
+  "name": "empty",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Empty",
+  "description": "Empty state with media, title, description, and action slots.",
+  "docsPath": "/docs/components/radix/empty",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "class-variance-authority"
+  ],
+  "files": [
+    "packages/ui/src/components/empty.tsx",
+    "packages/ui/src/tests/empty.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add empty"
+  }
+}

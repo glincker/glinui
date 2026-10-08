@@ -1,0 +1,43 @@
+{
+  "name": "browser-frame",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Browser Frame",
+  "description": "Generic browser window chrome drawn in CSS with a slot for any content.",
+  "docsPath": "/docs/components/radix/browser-frame",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "class-variance-authority",
+    "@phosphor-icons/react"
+  ],
+  "category": "layout",
+  "files": [
+    "packages/ui/src/components/browser-frame.tsx",
+    "packages/ui/src/tests/browser-frame.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add browser-frame"
+  },
+  "provenance": {
+    "sourceId": "magic-ui",
+    "sourceName": "Magic UI",
+    "author": "Magic UI",
+    "upstreamUrl": "https://github.com/magicuidesign/magicui",
+    "upstreamComponentUrl": "https://magicui.design/docs/components/safari",
+    "license": "MIT",
+    "spdx": "MIT",
+    "copyright": "Copyright (c) Magic UI",
+    "commit": "cdb348cb4c72a9b54b554d8617801e479fbc8714",
+    "adaptedFrom": "apps/www/registry/magicui/safari.tsx",
+    "adaptedAt": "2026-10-07",
+    "status": "active",
+    "licenseSha256": "0147b84235ed916b8b4e89c1f80655351c5afe7d211b629be61f553a227b34ba",
+    "licenseSnapshotPath": "packages/registry/licenses/magic-ui-cdb348c.txt",
+    "changes": "Generic CSS chrome instead of a monolithic SVG, children slot, token colors, glass, RTL, real address text and no bundled media.",
+    "upstreamInstall": {
+      "shadcn": "npx shadcn@latest add \"https://magicui.design/r/safari\""
+    }
+  }
+}

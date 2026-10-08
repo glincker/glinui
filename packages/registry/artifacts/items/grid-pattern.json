@@ -1,0 +1,44 @@
+{
+  "name": "grid-pattern",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Grid Pattern",
+  "description": "SVG grid, stripes and interactive cell patterns with edge fades.",
+  "docsPath": "/docs/components/radix/grid-pattern",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@glinui/motion",
+    "class-variance-authority"
+  ],
+  "category": "backgrounds",
+  "files": [
+    "packages/ui/src/components/grid-pattern.tsx",
+    "packages/ui/src/components/motion-engine.tsx",
+    "packages/ui/src/tests/grid-pattern.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add grid-pattern"
+  },
+  "provenance": {
+    "sourceId": "magic-ui",
+    "sourceName": "Magic UI",
+    "author": "Magic UI",
+    "upstreamUrl": "https://github.com/magicuidesign/magicui",
+    "upstreamComponentUrl": "https://magicui.design/docs/components/grid-pattern",
+    "license": "MIT",
+    "spdx": "MIT",
+    "copyright": "Copyright (c) Magic UI",
+    "commit": "cdb348cb4c72a9b54b554d8617801e479fbc8714",
+    "adaptedFrom": "apps/www/registry/magicui/grid-pattern.tsx, apps/www/registry/magicui/interactive-grid-pattern.tsx, apps/www/registry/magicui/striped-pattern.tsx",
+    "adaptedAt": "2026-10-07",
+    "status": "active",
+    "licenseSha256": "0147b84235ed916b8b4e89c1f80655351c5afe7d211b629be61f553a227b34ba",
+    "licenseSnapshotPath": "packages/registry/licenses/magic-ui-cdb348c.txt",
+    "changes": "Merged grid, interactive and stripes variants, token colors, collision free SVG ids, CSS only hover cells and edge fade masks.",
+    "upstreamInstall": {
+      "shadcn": "npx shadcn@latest add \"https://magicui.design/r/grid-pattern\""
+    }
+  }
+}

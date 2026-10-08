@@ -1,0 +1,23 @@
+{
+  "name": "circular-gallery",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Circular Gallery",
+  "description": "Tiles on a ring that rotates to the front with drag inertia, keys, click and optional autorotate.",
+  "docsPath": "/docs/components/radix/circular-gallery",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "@glinui/motion"
+  ],
+  "category": "layout",
+  "files": [
+    "packages/ui/src/components/circular-gallery.tsx",
+    "packages/ui/src/components/motion-engine.tsx",
+    "packages/ui/src/tests/circular-gallery.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/motion @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add circular-gallery"
+  }
+}

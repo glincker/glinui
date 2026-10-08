@@ -4,7 +4,7 @@
   "type": "primitive",
   "title": "Accordion",
   "description": "Expandable content sections with smooth disclosure behavior.",
-  "docsPath": "/docs/components/accordion",
+  "docsPath": "/docs/components/radix/accordion",
   "importPath": "@glinui/ui",
   "dependencies": [
     "@glinui/ui"

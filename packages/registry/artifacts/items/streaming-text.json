@@ -1,0 +1,22 @@
+{
+  "name": "streaming-text",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Streaming Text",
+  "description": "Progressive text reveal with caret and completion callback, instant under reduced motion.",
+  "docsPath": "/docs/components/radix/streaming-text",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui"
+  ],
+  "category": "ai",
+  "files": [
+    "packages/ui/src/components/streaming-text.tsx",
+    "packages/ui/src/lib/use-prefers-reduced-motion.ts",
+    "packages/ui/src/tests/streaming-text.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add streaming-text"
+  }
+}
