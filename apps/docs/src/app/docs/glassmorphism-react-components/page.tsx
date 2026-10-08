@@ -1,15 +1,22 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 
-import { Badge, Button, GlassCard, Separator } from "@glinui/ui"
+import { GlassCard } from "@glinui/ui"
 
+import { CodeBlock } from "@/components/docs/code-block"
+import { Callout } from "@/components/docs-pages-b/callout"
+import { Checklist, ChecklistItem } from "@/components/docs-pages-b/checklist-item"
+import { DoDont } from "@/components/docs-pages-b/do-dont"
+import { FaqBreadcrumbJsonLd, FaqList, type FaqEntry } from "@/components/docs-pages-b/json-ld"
+import { PageHeader } from "@/components/docs-pages-b/page-header"
+import { PageSection } from "@/components/docs-pages-b/page-section"
+import { RelatedLinks } from "@/components/docs-pages-b/related-links"
 import { createDocsMetadata } from "@/lib/docs-metadata"
-import { createAbsoluteUrl } from "@/lib/seo"
 
 export const metadata: Metadata = createDocsMetadata({
   title: "Glassmorphism React Components",
   description:
-    "Use production-ready glassmorphism React components with liquid surfaces, accessibility defaults, dark mode, and motion-safe interactions.",
+    "Glassmorphism React components that stay readable: glass as one surface variant in Glin UI, with OKLCH tokens, contrast checks, dark mode, and reduced-motion handling.",
   path: "/docs/glassmorphism-react-components",
   keywords: [
     "glassmorphism react components",
@@ -20,95 +27,113 @@ export const metadata: Metadata = createDocsMetadata({
   ]
 })
 
-const checklist = [
-  "Use consistent blur, refraction, and elevation tokens.",
-  "Keep contrast at WCAG AA across light and dark themes.",
-  "Prefer transform and opacity for motion performance.",
-  "Provide reduced-motion fallbacks for all animated surfaces.",
-  "Standardize semantic variants for status and intent."
+const usageSnippet = `import { GlassCard } from "@glinui/ui"
+
+export function PlanCard() {
+  return (
+    <GlassCard className="p-6">
+      <h3 className="text-lg font-medium">Team plan</h3>
+      <p className="text-sm text-muted">Unlimited projects and shared tokens.</p>
+    </GlassCard>
+  )
+}`
+
+const faqs: FaqEntry[] = [
+  {
+    question: "What are glassmorphism React components?",
+    answer:
+      "Glassmorphism React components use translucent layers, background blur, and subtle borders to suggest depth, while keeping semantic HTML and keyboard behavior intact."
+  },
+  {
+    question: "Can glassmorphism be accessible?",
+    answer:
+      "Yes, if text contrast is checked against the real backdrop, focus rings stay visible, and motion respects prefers-reduced-motion. Glass works best on calm backgrounds and for secondary surfaces."
+  },
+  {
+    question: "Is Glin UI only glassmorphism?",
+    answer:
+      "No. Glass is one surface variant. Glin UI also has solid and outline surfaces, OKLCH tokens, an animation hub, and copy-for-AI prompts."
+  },
+  {
+    question: "Does glassmorphism hurt performance?",
+    answer:
+      "Backdrop blur is costly on large or stacked surfaces. Limit how many blurred layers overlap, avoid animating blur radius, and animate transform and opacity instead."
+  }
 ]
-
-const faqStructuredData = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "What are glassmorphism React components?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Glassmorphism React components use translucent layers, blur, and depth cues to create glass-like interfaces while keeping semantic structure and accessibility."
-      }
-    },
-    {
-      "@type": "Question",
-      name: "Can glassmorphism be production-ready?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes, when contrast, motion fallbacks, and component consistency are built into the system."
-      }
-    }
-  ]
-}
-
-const breadcrumbStructuredData = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Docs",
-      item: createAbsoluteUrl("/docs")
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Glassmorphism React Components",
-      item: createAbsoluteUrl("/docs/glassmorphism-react-components")
-    }
-  ]
-}
 
 export default function GlassmorphismReactComponentsPage() {
   return (
-    <main className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-4 pb-14 pt-8 sm:px-6 lg:px-8">
-      <script
-        type="application/ld+json"
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
+    <main className="space-y-12">
+      <FaqBreadcrumbJsonLd
+        name="Glassmorphism React Components"
+        path="/docs/glassmorphism-react-components"
+        faqs={faqs}
       />
-      <script
-        type="application/ld+json"
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData) }}
+      <PageHeader
+        eyebrow="Surface variant"
+        title="Glassmorphism React components"
+        lead="Glass is one surface variant in Glin UI, next to solid and outline. Use it where depth helps, and check contrast where it can hurt."
       />
-      <Badge variant="glass" className="w-fit tracking-[0.14em]">
-        GLASSMORPHISM
-      </Badge>
-      <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Glassmorphism React Components</h1>
-      <p className="max-w-3xl text-sm text-neutral-700 dark:text-neutral-300 sm:text-base">
-        Glin UI gives you glassmorphism components that are designed for real product teams, not just visual demos.
-      </p>
 
-      <GlassCard className="space-y-3 border-white/20 p-3 sm:p-4">
-        <h2 className="text-base font-semibold sm:text-lg">Production checklist</h2>
-        <Separator />
-        <ul className="space-y-2 text-sm text-neutral-700 dark:text-neutral-300">
-          {checklist.map((item) => (
-            <li key={item}>• {item}</li>
-          ))}
-        </ul>
-      </GlassCard>
+      <PageSection
+        id="preview"
+        title="Glass on a real backdrop"
+        description="Glass only reads as glass when something sits behind it. Pair it with a calm gradient or image, never a busy pattern."
+      >
+        <div className="rounded-card border border-line-soft bg-gradient-to-br from-violet-400/40 via-sky-300/30 to-emerald-300/30 p-6 sm:p-10">
+          <GlassCard className="mx-auto max-w-sm p-6">
+            <h3 className="type-h3">Team plan</h3>
+            <p className="type-body text-muted">Unlimited projects and shared tokens.</p>
+          </GlassCard>
+        </div>
+        <CodeBlock language="tsx" code={usageSnippet} />
+      </PageSection>
 
-      <div className="flex flex-wrap gap-3">
-        <Button asChild variant="default">
-          <Link href="/docs/components/glass-card">View glass components</Link>
-        </Button>
-        <Button asChild variant="glass">
-          <Link href="/docs/tokens">Inspect glass tokens</Link>
-        </Button>
-      </div>
+      <PageSection
+        id="checklist"
+        title="Production checklist"
+        description="Tick these off before shipping a glass surface. Each one is a common way glass goes wrong."
+      >
+        <Checklist>
+          <ChecklistItem>Text keeps WCAG AA contrast (4.5:1) against the real backdrop in light and dark.</ChecklistItem>
+          <ChecklistItem>Blur, border, and elevation come from tokens, not one-off values.</ChecklistItem>
+          <ChecklistItem>Animations use transform and opacity, not blur radius.</ChecklistItem>
+          <ChecklistItem>Reduced-motion users get a static version of every animated surface.</ChecklistItem>
+          <ChecklistItem>No more than two blurred layers overlap on the same screen area.</ChecklistItem>
+        </Checklist>
+      </PageSection>
+
+      <PageSection id="usage" title="When to use glass, and when not to">
+        <DoDont
+          dos={[
+            { text: "Use glass for overlays, floating navbars, and docks over rich backgrounds." },
+            { text: "Test contrast with the busiest part of the backdrop behind the text." },
+            { text: "Fall back to a solid surface when backdrop blur is unsupported." }
+          ]}
+          donts={[
+            { text: "Do not use glass for dense tables or long form text." },
+            { text: "Do not stack several glass panels over each other." },
+            { text: "Do not rely on blur alone to separate text from a noisy image." }
+          ]}
+        />
+        <Callout variant="tip" title="Check contrast with the color tools">
+          The <Link className="underline underline-offset-4" href="/docs/colors">color explorer</Link> shows live AA and
+          AAA badges for token pairs. See <Link className="underline underline-offset-4" href="/docs/color-contrast">color contrast</Link> for how to test glass.
+        </Callout>
+      </PageSection>
+
+      <PageSection id="faq" title="Frequently asked questions">
+        <FaqList faqs={faqs} />
+      </PageSection>
+
+      <RelatedLinks
+        heading="Keep reading"
+        links={[
+          { href: "/docs/glass-physics", label: "Glass physics", description: "Elevation levels and surface previews." },
+          { href: "/docs/tokens", label: "Design tokens", description: "OKLCH tokens and the Tailwind preset." },
+          { href: "/docs/components/glass-card", label: "Glass Card", description: "API and examples." }
+        ]}
+      />
     </main>
   )
 }

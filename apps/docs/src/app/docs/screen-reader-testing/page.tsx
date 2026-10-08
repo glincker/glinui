@@ -1,16 +1,12 @@
 import type { Metadata } from "next"
-import Link from "next/link"
-import { CheckCircle2, Headphones, ListChecks } from "lucide-react"
 
-import {
-  Badge,
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from "@glinui/ui"
 import { CodeBlock } from "@/components/docs/code-block"
+import { Callout } from "@/components/docs-pages-b/callout"
+import { Checklist, ChecklistItem } from "@/components/docs-pages-b/checklist-item"
+import { KbdTable } from "@/components/docs-pages-b/kbd-table"
+import { PageHeader } from "@/components/docs-pages-b/page-header"
+import { PageSection } from "@/components/docs-pages-b/page-section"
+import { RelatedLinks } from "@/components/docs-pages-b/related-links"
 import { createDocsMetadata } from "@/lib/docs-metadata"
 
 const announceSnippet = `import { useEffect, useState } from "react"
@@ -36,7 +32,7 @@ export function SearchAnnounce() {
         value={query}
         onChange={(event) => setQuery(event.target.value)}
       />
-      <p aria-live="polite" className="text-sm text-neutral-500">
+      <p aria-live="polite" className="text-sm text-muted">
         {count} results
       </p>
     </div>
@@ -47,100 +43,96 @@ const srChecklist = [
   "Every interactive control has an accessible name.",
   "Focus order follows visual order without traps.",
   "Status updates are announced via aria-live when needed.",
-  "Modal/dialog open and close restores focus correctly.",
+  "Modal and dialog open and close restore focus correctly.",
   "Tables expose headers and meaningful row context."
 ]
 
 export const metadata: Metadata = createDocsMetadata({
   title: "Screen Reader Testing",
   description:
-    "Release QA checklist for spoken UX across VoiceOver, NVDA, and mobile screen readers in Glin UI flows.",
+    "A release checklist and test matrix for spoken UX with VoiceOver, NVDA, and mobile screen readers, plus an aria-live pattern.",
   path: "/docs/screen-reader-testing",
   keywords: ["screen reader QA", "VoiceOver testing", "NVDA testing", "aria-live patterns"]
 })
 
 export default function ScreenReaderTestingPage() {
   return (
-    <main className="space-y-8">
-      <section className="relative overflow-hidden rounded-3xl border border-white/15 bg-[var(--glass-3-surface)] p-6 shadow-[var(--shadow-glass-md)]">
-        <div className="pointer-events-none absolute -left-12 top-0 h-40 w-40 rounded-full bg-indigo-300/20 blur-3xl dark:bg-indigo-400/12" />
-        <div className="pointer-events-none absolute -right-12 bottom-0 h-40 w-40 rounded-full bg-cyan-300/20 blur-3xl dark:bg-cyan-400/12" />
-        <div className="relative space-y-4">
-          <Badge variant="glass" className="w-fit">
-            Accessibility QA
-          </Badge>
-          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Screen Reader Testing</h1>
-          <p className="max-w-3xl text-sm text-neutral-600 dark:text-neutral-300 sm:text-base">
-            Run this test pass before each release to verify spoken UX quality across forms, dialogs, and data views.
-          </p>
+    <main className="space-y-12">
+      <PageHeader
+        eyebrow="Accessibility QA"
+        title="Screen Reader Testing"
+        lead="Run this pass before each release to check how forms, dialogs, and data views sound, not just how they look."
+      />
+
+      <PageSection
+        id="matrix"
+        title="Test matrix"
+        description="Cover at least one desktop and one mobile screen reader."
+      >
+        <div className="overflow-x-auto rounded-card border border-line-soft bg-surface-1">
+          <table className="w-full min-w-[420px] border-collapse text-left text-sm">
+            <caption className="sr-only">Recommended screen reader and browser pairings</caption>
+            <thead>
+              <tr className="border-b border-line-soft">
+                <th scope="col" className="type-eyebrow px-4 py-3 font-medium">Platform</th>
+                <th scope="col" className="type-eyebrow px-4 py-3 font-medium">Screen reader</th>
+                <th scope="col" className="type-eyebrow px-4 py-3 font-medium">Browser</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-line-soft">
+              <tr><th scope="row" className="px-4 py-3 font-normal">macOS</th><td className="px-4 py-3">VoiceOver</td><td className="px-4 py-3 text-muted">Safari</td></tr>
+              <tr><th scope="row" className="px-4 py-3 font-normal">Windows</th><td className="px-4 py-3">NVDA</td><td className="px-4 py-3 text-muted">Chrome or Firefox</td></tr>
+              <tr><th scope="row" className="px-4 py-3 font-normal">iOS</th><td className="px-4 py-3">VoiceOver</td><td className="px-4 py-3 text-muted">Safari</td></tr>
+              <tr><th scope="row" className="px-4 py-3 font-normal">Android</th><td className="px-4 py-3">TalkBack</td><td className="px-4 py-3 text-muted">Chrome</td></tr>
+            </tbody>
+          </table>
         </div>
-      </section>
+      </PageSection>
 
-      <section className="grid gap-4 md:grid-cols-2">
-        <Card variant="glass">
-          <CardHeader>
-            <CardTitle className="inline-flex items-center gap-2 text-base">
-              <Headphones className="h-4 w-4" />
-              Test Matrix
-            </CardTitle>
-            <CardDescription>Validate with at least one desktop and one mobile screen reader.</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2 text-sm text-neutral-600 dark:text-neutral-300">
-            <p>
-              Desktop: VoiceOver (macOS) or NVDA (Windows)
-            </p>
-            <p>
-              Mobile: VoiceOver (iOS) or TalkBack (Android)
-            </p>
-            <p>
-              Browsers: Safari + Chromium baseline
-            </p>
-          </CardContent>
-        </Card>
+      <PageSection id="release-checklist" title="Release Checklist" description="Mark each item during manual QA.">
+        <Checklist>
+          {srChecklist.map((item) => (
+            <ChecklistItem key={item}>{item}</ChecklistItem>
+          ))}
+        </Checklist>
+      </PageSection>
 
-        <Card variant="glass">
-          <CardHeader>
-            <CardTitle className="inline-flex items-center gap-2 text-base">
-              <ListChecks className="h-4 w-4" />
-              Release Checklist
-            </CardTitle>
-            <CardDescription>Mark each item during manual QA.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ul className="space-y-2 text-sm text-neutral-600 dark:text-neutral-300">
-              {srChecklist.map((item) => (
-                <li key={item} className="flex items-start gap-2">
-                  <CheckCircle2 className="mt-0.5 h-4 w-4 text-emerald-500" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
-      </section>
+      <PageSection id="shortcuts" title="Starter shortcuts" description="Enough to navigate a page by headings, landmarks, and forms.">
+        <KbdTable
+          caption="Screen reader navigation shortcuts"
+          rows={[
+            { keys: ["Ctrl", "Option", "Cmd", "H"], action: "Next heading", context: "VoiceOver (macOS)" },
+            { keys: ["H"], action: "Next heading", context: "NVDA browse mode" },
+            { keys: ["D"], action: "Next landmark", context: "NVDA browse mode" },
+            { keys: ["F"], action: "Next form field", context: "NVDA browse mode" },
+            { keys: ["Insert", "Space"], action: "Toggle browse and focus mode", context: "NVDA" }
+          ]}
+        />
+        <Callout variant="note" title="Verify against your setup">
+          Shortcuts depend on your screen reader version and settings. Treat this table as a starting point.
+        </Callout>
+      </PageSection>
 
-      <section className="space-y-3">
-        <h2 className="text-2xl font-semibold tracking-tight">Announced Search Results Pattern</h2>
-        <p className="text-sm text-neutral-600 dark:text-neutral-300">
-          Use `aria-live="polite"` for async updates that should be spoken without interrupting active navigation.
-        </p>
+      <PageSection
+        id="announce"
+        title="Announced search results pattern"
+        description={
+          <>
+            Use <code className="font-mono text-[0.85em]">aria-live=&quot;polite&quot;</code> for async updates that
+            should be spoken without interrupting what the user is doing.
+          </>
+        }
+      >
         <CodeBlock language="tsx" code={announceSnippet} />
-      </section>
+      </PageSection>
 
-      <section className="space-y-2 rounded-2xl border border-border/60 bg-background/40 p-4">
-        <h2 className="text-base font-semibold">Related Guides</h2>
-        <div className="flex flex-wrap gap-3 text-sm">
-          <Link href="/docs/forms-accessibility" className="underline decoration-border underline-offset-4">
-            Forms Accessibility
-          </Link>
-          <Link href="/docs/focus-management" className="underline decoration-border underline-offset-4">
-            Focus Management
-          </Link>
-          <Link href="/docs/color-contrast" className="underline decoration-border underline-offset-4">
-            Color Contrast
-          </Link>
-        </div>
-      </section>
+      <RelatedLinks
+        links={[
+          { href: "/docs/forms-accessibility", label: "Forms Accessibility" },
+          { href: "/docs/focus-management", label: "Focus Management" },
+          { href: "/docs/color-contrast", label: "Color Contrast" }
+        ]}
+      />
     </main>
   )
 }

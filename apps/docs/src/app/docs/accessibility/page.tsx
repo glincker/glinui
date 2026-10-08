@@ -1,32 +1,35 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { Badge, Card, CardDescription, CardHeader, CardTitle } from "@glinui/ui"
-import { Eye, Focus, Headphones, ShieldCheck } from "lucide-react"
+import { ArrowRight, Eye, Crosshair, Headphones, ShieldCheck } from "@phosphor-icons/react/dist/ssr"
+
+import { Callout } from "@/components/docs-pages-b/callout"
+import { PageHeader } from "@/components/docs-pages-b/page-header"
+import { PageSection } from "@/components/docs-pages-b/page-section"
 import { createDocsMetadata } from "@/lib/docs-metadata"
 
 const guides = [
   {
     title: "Forms Accessibility",
     href: "/docs/forms-accessibility",
-    description: "Labeling contracts for Input, Select, Textarea, Checkbox, Radio Group, and Switch.",
+    description: "Labeling rules for Input, Select, Textarea, Checkbox, Radio Group, and Switch.",
     icon: ShieldCheck
   },
   {
     title: "Screen Reader Testing",
     href: "/docs/screen-reader-testing",
-    description: "Release QA checklist across VoiceOver, NVDA, and mobile screen readers.",
+    description: "A release checklist for VoiceOver, NVDA, and mobile screen readers.",
     icon: Headphones
   },
   {
     title: "Focus Management",
     href: "/docs/focus-management",
-    description: "Focus trap and focus-restore patterns for dialogs, sheets, and interactive flows.",
-    icon: Focus
+    description: "Focus restore, skip links, and a keyboard reference for dialogs and menus.",
+    icon: Crosshair
   },
   {
     title: "Color Contrast",
     href: "/docs/color-contrast",
-    description: "WCAG-oriented contrast validation for glass surfaces in light and dark themes.",
+    description: "AA and AAA targets, token pair ratios, and how to test text on glass.",
     icon: Eye
   }
 ]
@@ -34,47 +37,56 @@ const guides = [
 export const metadata: Metadata = createDocsMetadata({
   title: "Accessibility Hub",
   description:
-    "Centralized accessibility guidance for forms, screen readers, focus management, and contrast across Glin UI.",
+    "Accessibility guidance for forms, screen readers, focus management, and color contrast across Glin UI components and tokens.",
   path: "/docs/accessibility",
   keywords: ["UI accessibility", "WCAG guidance", "screen reader testing", "keyboard navigation"]
 })
 
 export default function AccessibilityPage() {
   return (
-    <main className="space-y-8">
-      <section className="relative overflow-hidden rounded-3xl border border-white/15 bg-[var(--glass-3-surface)] p-6 shadow-[var(--shadow-glass-md)]">
-        <div className="pointer-events-none absolute -left-12 top-0 h-40 w-40 rounded-full bg-cyan-300/20 blur-3xl dark:bg-cyan-400/12" />
-        <div className="pointer-events-none absolute -right-12 bottom-0 h-40 w-40 rounded-full bg-emerald-300/20 blur-3xl dark:bg-emerald-400/12" />
-        <div className="relative space-y-4">
-          <Badge variant="glass" className="w-fit">
-            Accessibility
-          </Badge>
-          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Accessibility Hub</h1>
-          <p className="max-w-3xl text-sm text-neutral-600 dark:text-neutral-300 sm:text-base">
-            Centralized guidance for form semantics, screen-reader QA, keyboard focus, and contrast validation across
-            the Glin UI docs and component system.
-          </p>
-        </div>
-      </section>
+    <main className="space-y-12">
+      <PageHeader
+        eyebrow="Accessibility"
+        title="Accessibility Hub"
+        lead="Practical guides for building and testing accessible interfaces with Glin UI: forms, screen readers, keyboard focus, and contrast."
+      />
 
-      <section className="grid gap-4 md:grid-cols-2">
-        {guides.map((guide) => {
-          const Icon = guide.icon
-          return (
-            <Card key={guide.href} variant="glass" className="transition-colors hover:bg-white/10 dark:hover:bg-white/[0.06]">
-              <CardHeader className="space-y-2">
-                <CardTitle className="inline-flex items-center gap-2 text-base">
-                  <Icon className="h-4 w-4" />
-                  <Link href={guide.href} className="underline-offset-4 hover:underline">
+      <PageSection id="guides" title="Guides">
+        <ul className="grid gap-4 md:grid-cols-2">
+          {guides.map((guide) => {
+            const Icon = guide.icon
+            return (
+              <li key={guide.href}>
+                <Link
+                  href={guide.href}
+                  className="group flex h-full flex-col gap-2 rounded-card border border-line-soft bg-surface-1 p-4 hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]"
+                >
+                  <span className="flex items-center gap-2 text-base font-medium">
+                    <Icon className="size-4 text-accent" aria-hidden="true" />
                     {guide.title}
-                  </Link>
-                </CardTitle>
-                <CardDescription>{guide.description}</CardDescription>
-              </CardHeader>
-            </Card>
-          )
-        })}
-      </section>
+                    <ArrowRight
+                      className="ml-auto size-4 text-muted transition-transform motion-reduce:transition-none group-hover:translate-x-0.5"
+                      aria-hidden="true"
+                    />
+                  </span>
+                  <span className="type-body text-muted">{guide.description}</span>
+                </Link>
+              </li>
+            )
+          })}
+        </ul>
+      </PageSection>
+
+      <PageSection id="baseline" title="What the components give you">
+        <p className="type-body max-w-[68ch] text-muted">
+          Glin UI components are built on Radix UI primitives, which handle keyboard interaction, focus management, and
+          ARIA roles for overlays, menus, and form controls. Styling and tokens are layered on top.
+        </p>
+        <Callout variant="warning" title="Primitives are not a guarantee">
+          Accessible primitives still need accessible content. Labels, headings, error text, and color choices are your
+          responsibility, so run the checklists in these guides before release.
+        </Callout>
+      </PageSection>
     </main>
   )
 }
