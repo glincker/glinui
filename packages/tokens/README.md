@@ -161,3 +161,15 @@ Typed swatches: `import { baseColors } from "@glinui/tokens"` (id, label, light 
 ## Token health
 
 `pnpm --filter @glinui/docs tokens:check` reports custom properties used with `var()` but defined nowhere, light tokens missing a dark value, public tokens missing from `src/index.ts`, preset references to undefined tokens, stale generated files, and any base color pair below WCAG AA (`--report` lists every ratio).
+
+## GLINR design tokens
+
+A framework neutral set of 61 tokens (color, space, radius, elevation, type, motion, content widths), light and dark. Variables are `--glinr-*`.
+
+```ts
+import "@glinui/tokens/glinr.css"        // --glinr-* variables, :root plus .dark
+import "@glinui/tokens/glinr-theme.css"  // Tailwind v4 @theme inline mapping
+import source from "@glinui/tokens/glinr.tokens.json"
+```
+
+Edit `glinr.tokens.json`, then run `pnpm --filter @glinui/tokens glinr:build`. Tests fail if the committed CSS drifts from the source. Naming rules, type roles and the elevation scale are on the docs tokens page.

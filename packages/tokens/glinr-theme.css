@@ -1,0 +1,33 @@
+/* GLINR design tokens, generated from glinr.tokens.json, do not edit. Run `pnpm --filter @glinui/tokens glinr:build`. */
+
+@theme inline {
+  --color-glinr-bg: var(--glinr-bg);
+  --color-glinr-surface: var(--glinr-surface);
+  --color-glinr-border: var(--glinr-border);
+  --color-glinr-border-strong: var(--glinr-color-border-strong);
+  --color-glinr-grid-line: var(--glinr-color-grid-line);
+  --color-glinr-fg: var(--glinr-color-fg);
+  --color-glinr-fg-muted: var(--glinr-color-fg-muted);
+  --color-glinr-fg-subtle: var(--glinr-color-fg-subtle);
+  --color-glinr-accent: var(--glinr-color-accent);
+  --container-glinr-narrow: var(--glinr-content-narrow);
+  --container-glinr-content: var(--glinr-content-max);
+  --container-glinr-wide: var(--glinr-content-max-wide);
+  --radius-glinr-sm: var(--glinr-radius-sm);
+  --radius-glinr-md: var(--glinr-radius-md);
+  --radius-glinr-lg: var(--glinr-radius);
+  --radius-glinr-xl: var(--glinr-radius-xl);
+  --shadow-header: var(--glinr-elev-header);
+  --shadow-card: var(--glinr-elev-card);
+  --shadow-popover: var(--glinr-elev-popover);
+  --shadow-dialog: var(--glinr-elev-dialog);
+  --font-glinr-display: var(--glinr-font-display);
+  --font-glinr-eyebrow: var(--glinr-font-eyebrow);
+  --text-glinr-xs: var(--glinr-type-size-xs);
+  --text-glinr-sm: var(--glinr-type-size-sm);
+  --text-glinr-base: var(--glinr-type-size-base);
+  --text-glinr-lg: var(--glinr-type-size-lg);
+  --text-glinr-2xl: var(--glinr-type-size-2xl);
+  --text-glinr-4xl: var(--glinr-type-size-4xl);
+  --ease-glinr: var(--glinr-motion-ease);
+}

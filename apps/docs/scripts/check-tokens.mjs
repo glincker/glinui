@@ -7,6 +7,7 @@ import { readFileSync } from "node:fs"
 import { join } from "node:path"
 
 import { renderCss, renderTs, BASES } from "../../../packages/tokens/scripts/bases.mjs"
+import { build as buildGlinr } from "../../../packages/tokens/scripts/build-glinr-tokens.mjs"
 import { contrastReport } from "./token-contrast.mjs"
 import { parseDecls, parityGaps, readThemeBlocks, typedExportGaps } from "./token-theme.mjs"
 import { collect, undefinedVars } from "./token-vars.mjs"
@@ -37,6 +38,9 @@ function presetConsistency() {
   }
   if (readFileSync(join(TOKENS, "bases.css"), "utf8") !== renderCss()) problems.push("bases.css is stale: run `pnpm --filter @glinui/tokens bases:build`")
   if (readFileSync(join(TOKENS, "src/bases.ts"), "utf8") !== renderTs()) problems.push("src/bases.ts is stale: run `pnpm --filter @glinui/tokens bases:build`")
+  const glinr = buildGlinr(JSON.parse(readFileSync(join(TOKENS, "glinr.tokens.json"), "utf8")))
+  if (readFileSync(join(TOKENS, "glinr.css"), "utf8") !== glinr.tokensCss) problems.push("glinr.css is stale: run `pnpm --filter @glinui/tokens glinr:build`")
+  if (readFileSync(join(TOKENS, "glinr-theme.css"), "utf8") !== glinr.themeCss) problems.push("glinr-theme.css is stale: run `pnpm --filter @glinui/tokens glinr:build`")
   return problems
 }
 

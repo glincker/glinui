@@ -1,0 +1,84 @@
+/* GLINR design tokens, generated from glinr.tokens.json, do not edit. Run `pnpm --filter @glinui/tokens glinr:build`. */
+
+:root {
+  --glinr-bg: oklch(1 0 0);
+  --glinr-surface: oklch(1 0 0);
+  --glinr-border: oklch(0.922 0 0);
+  --glinr-color-border-strong: oklch(0.87 0 0);
+  --glinr-color-grid-line: oklch(0.2 0.01 260 / 6%);
+  --glinr-color-fg: oklch(0.145 0 0);
+  --glinr-color-fg-muted: oklch(0.556 0 0);
+  --glinr-color-fg-subtle: oklch(0.708 0 0);
+  --glinr-color-accent: var(--brand-accent, oklch(0.55 0.2 289));
+  --glinr-highlight: oklch(1 0 0 / 0%);
+  --glinr-shadow-color: oklch(0.2 0.01 260);
+  --glinr-showcase-bg: #000;
+  --glinr-showcase-surface: #0e0f11;
+  --glinr-showcase-text: #cfcfd3;
+  --glinr-color-showcase-muted: #8d8d96;
+  --glinr-color-showcase-rule: rgb(255 255 255 / 7%);
+  --glinr-glow-violet: rgb(182 171 255);
+  --glinr-glow-teal: rgb(0 203 170);
+  --glinr-glow-lime: rgb(238 243 95);
+  --glinr-space-1: 0.25rem;
+  --glinr-space-2: 0.5rem;
+  --glinr-space-3: 0.75rem;
+  --glinr-space-4: 1rem;
+  --glinr-space-6: 1.5rem;
+  --glinr-space-8: 2rem;
+  --glinr-space-12: 3rem;
+  --glinr-space-16: 4rem;
+  --glinr-page-gap: var(--glinr-space-6);
+  --glinr-tile-size: 2.5rem;
+  --glinr-hero-tile-size: 3rem;
+  --glinr-content-narrow: 40rem;
+  --glinr-content-max: 72rem;
+  --glinr-content-max-wide: 88rem;
+  --glinr-radius-sm: 0.375rem;
+  --glinr-radius-md: 0.5rem;
+  --glinr-radius: 0.625rem;
+  --glinr-radius-xl: 0.875rem;
+  --glinr-elev-header: 0 1px 0 oklch(0.2 0.01 260 / 6%), 0 4px 12px -4px oklch(0.2 0.01 260 / 12%);
+  --glinr-elev-card: 0 1px 2px oklch(0.2 0.01 260 / 6%), 0 1px 1px oklch(0.2 0.01 260 / 4%);
+  --glinr-elev-popover: 0 8px 24px oklch(0.2 0.01 260 / 12%), 0 2px 6px oklch(0.2 0.01 260 / 8%);
+  --glinr-elev-dialog: 0 24px 64px oklch(0.2 0.01 260 / 18%), 0 4px 12px oklch(0.2 0.01 260 / 10%);
+  --glinr-font-body: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --glinr-font-display: 'Geist Variable', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --glinr-font-eyebrow: 'Geist Mono Variable', ui-monospace, Consolas, monospace;
+  --glinr-display-weight: 300;
+  --glinr-type-label-weight: 500;
+  --glinr-type-size-xs: 0.75rem;
+  --glinr-type-size-sm: 0.875rem;
+  --glinr-type-size-base: 1rem;
+  --glinr-type-size-lg: 1.125rem;
+  --glinr-type-size-2xl: 1.5rem;
+  --glinr-type-size-4xl: 2.25rem;
+  --glinr-type-leading-display: 1.1;
+  --glinr-type-leading-body: 1.5;
+  --glinr-type-tracking-display: -0.03em;
+  --glinr-type-tracking-eyebrow: 0.08em;
+  --glinr-type-numeric-features: tabular-nums slashed-zero;
+  --glinr-motion-fast: 120ms;
+  --glinr-motion-base: 200ms;
+  --glinr-motion-slow: 320ms;
+  --glinr-motion-ease: cubic-bezier(0.2, 0, 0, 1);
+}
+
+.dark,
+[data-glin-theme="dark"] {
+  --glinr-bg: oklch(0.145 0 0);
+  --glinr-surface: oklch(0.205 0 0);
+  --glinr-border: oklch(1 0 0 / 10%);
+  --glinr-color-border-strong: oklch(1 0 0 / 16%);
+  --glinr-color-grid-line: oklch(1 0 0 / 7%);
+  --glinr-color-fg: oklch(0.985 0 0);
+  --glinr-color-fg-muted: oklch(0.708 0 0);
+  --glinr-color-fg-subtle: oklch(0.556 0 0);
+  --glinr-color-accent: var(--brand-accent-dark, oklch(0.782 0.118 289.4));
+  --glinr-highlight: oklch(1 0 0 / 7%);
+  --glinr-shadow-color: oklch(0 0 0);
+  --glinr-elev-header: inset 0 -1px 0 oklch(1 0 0 / 8%), 0 8px 16px -8px oklch(0 0 0 / 70%);
+  --glinr-elev-card: inset 0 1px 0 var(--glinr-highlight), 0 1px 2px oklch(0 0 0 / 50%), 0 2px 8px oklch(0 0 0 / 30%);
+  --glinr-elev-popover: inset 0 1px 0 var(--glinr-highlight), 0 0 0 1px oklch(1 0 0 / 8%), 0 12px 32px oklch(0 0 0 / 65%);
+  --glinr-elev-dialog: inset 0 1px 0 var(--glinr-highlight), 0 0 0 1px oklch(1 0 0 / 10%), 0 28px 80px oklch(0 0 0 / 75%);
+}
