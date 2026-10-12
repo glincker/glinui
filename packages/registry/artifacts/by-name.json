@@ -226,6 +226,31 @@
       "registry": "pnpm dlx @glinui/cli@latest add badge"
     }
   },
+  "banner": {
+    "name": "banner",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Banner",
+    "description": "Flat page level notice with info, success, warning, critical and promo variants and persisted dismissal.",
+    "docsPath": "/docs/components/radix/banner",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "@phosphor-icons/react",
+      "class-variance-authority"
+    ],
+    "files": [
+      "packages/ui/src/components/banner.tsx",
+      "packages/ui/src/components/typography.tsx",
+      "packages/ui/src/components/button.tsx",
+      "packages/ui/src/lib/banner-dismissal.ts",
+      "packages/ui/src/tests/banner.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add banner"
+    }
+  },
   "bento-grid": {
     "name": "bento-grid",
     "namespace": "@glinui",
@@ -1117,6 +1142,28 @@
     "install": {
       "package": "npm install @glinui/ui @glinui/tokens",
       "registry": "pnpm dlx @glinui/cli@latest add footer-block"
+    }
+  },
+  "form-section": {
+    "name": "form-section",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Form Section",
+    "description": "Settings form section with a two column layout from lg and a sticky save bar for unsaved changes.",
+    "docsPath": "/docs/components/radix/form-section",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui"
+    ],
+    "files": [
+      "packages/ui/src/components/form-section.tsx",
+      "packages/ui/src/components/typography.tsx",
+      "packages/ui/src/components/button.tsx",
+      "packages/ui/src/tests/form-section.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add form-section"
     }
   },
   "generate-button": {
@@ -3423,6 +3470,27 @@
     "install": {
       "package": "npm install @glinui/ui @glinui/tokens",
       "registry": "pnpm dlx @glinui/cli@latest add typewriter"
+    }
+  },
+  "typography": {
+    "name": "typography",
+    "namespace": "@glinui",
+    "type": "primitive",
+    "title": "Typography",
+    "description": "Display heading, Eyebrow label and Lede supporting copy driven by optional font tokens.",
+    "docsPath": "/docs/components/radix/typography",
+    "importPath": "@glinui/ui",
+    "dependencies": [
+      "@glinui/ui",
+      "class-variance-authority"
+    ],
+    "files": [
+      "packages/ui/src/components/typography.tsx",
+      "packages/ui/src/tests/typography.test.tsx"
+    ],
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add typography"
     }
   },
   "word-rotate": {

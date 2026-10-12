@@ -88,6 +88,7 @@ const definitions: readonly Def[] = [
   family("text", "text", ["text", "heading", "text-reveal", "reveal-text", "typewriter", "word-rotate", "chromatic-text", "hyper-text", "morphing-text", "sparkles-text", "gradient-text", "gooey-text-reveal", "spinning-text"]),
   family("text", "code", ["code", "code-panel", "install-command", "terminal"]),
   single("text", "kbd"),
+  single("text", "typography"),
   // Backgrounds
   family("backgrounds", "gradient", ["animated-gradient", "gradient-mesh", "aurora-background"]),
   family("backgrounds", "pattern", ["dot-pattern", "retro-grid", "grid-pattern", "flickering-grid"]),
@@ -113,6 +114,7 @@ const definitions: readonly Def[] = [
   family("forms", "input", ["input", "textarea", "input-group", "input-otp"]),
   family("forms", "select", ["select", "combobox"]),
   family("forms", "field", ["field", "label"]),
+  single("forms", "form-section"),
   single("forms", "checkbox"),
   single("forms", "radio-group"),
   single("forms", "switch"),
@@ -125,6 +127,7 @@ const definitions: readonly Def[] = [
   family("feedback", "alert", ["alert", "toast"]),
   family("feedback", "loading", ["spinner", "skeleton", "progress"]),
   single("feedback", "empty"),
+  single("feedback", "banner"),
   single("feedback", "status-dot"),
   // Data display
   family("data", "badge", ["badge", "chip"]),

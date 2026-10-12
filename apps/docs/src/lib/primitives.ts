@@ -17,6 +17,7 @@ export const primitiveComponentIds = [
   "attachment",
   "avatar",
   "badge",
+  "banner",
   "bento-grid",
   "border-trail",
   "breadcrumb",
@@ -47,6 +48,7 @@ export const primitiveComponentIds = [
   "field",
   "flickering-grid",
   "footer-block",
+  "form-section",
   "generate-button",
   "gooey-text-reveal",
   "gradient-text",
@@ -113,7 +115,8 @@ export const primitiveComponentIds = [
   "toggle",
   "toggle-group",
   "tooltip",
-  "tree"
+  "tree",
+  "typography"
 ] as const
 
 export type PrimitiveComponentId = (typeof primitiveComponentIds)[number]
