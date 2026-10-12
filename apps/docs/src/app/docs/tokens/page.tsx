@@ -17,6 +17,7 @@ import {
 import { GlassLevelSpecimens, TypeSpecimens } from "@/components/docs-pages/token-extras"
 import { TokenList } from "@/components/docs-pages/token-list"
 import { BaseColorsSection } from "./base-colors-section"
+import { GlinrTokensSection } from "./glinr-tokens-section"
 import { createDocsMetadata } from "@/lib/docs-metadata"
 
 export const metadata: Metadata = createDocsMetadata({
@@ -145,6 +146,8 @@ export default function TokensPage() {
         <GlassLevelSpecimens />
         <TokenList rows={glassCoreTokens} label="Glass tokens" />
       </DocSection>
+
+      <GlinrTokensSection />
     </main>
   )
 }

@@ -1,0 +1,498 @@
+{
+  "$description": "GLINR design tokens. Framework-neutral source of truth; run `pnpm --filter @glinui/tokens glinr:build` to regenerate the CSS. A plain $value is mode independent; {light, dark} is mode aware. A {group.name} string aliases another token. $extensions.glinr.name pins a legacy CSS name, $extensions.glinr.tailwind emits a Tailwind v4 theme variable.",
+  "color": {
+    "$type": "color",
+    "bg": {
+      "$value": { "light": "oklch(1 0 0)", "dark": "oklch(0.145 0 0)" },
+      "$description": "Page canvas.",
+      "$extensions": {
+        "glinr": {
+          "name": "bg",
+          "stability": "stable",
+          "tailwind": "color-glinr-bg"
+        }
+      }
+    },
+    "surface": {
+      "$value": { "light": "oklch(1 0 0)", "dark": "oklch(0.205 0 0)" },
+      "$description": "Raised surface such as a card or panel.",
+      "$extensions": {
+        "glinr": {
+          "name": "surface",
+          "stability": "stable",
+          "tailwind": "color-glinr-surface"
+        }
+      }
+    },
+    "border": {
+      "$value": { "light": "oklch(0.922 0 0)", "dark": "oklch(1 0 0 / 10%)" },
+      "$description": "Default hairline border.",
+      "$extensions": {
+        "glinr": {
+          "name": "border",
+          "stability": "stable",
+          "tailwind": "color-glinr-border"
+        }
+      }
+    },
+    "border-strong": {
+      "$value": { "light": "oklch(0.87 0 0)", "dark": "oklch(1 0 0 / 16%)" },
+      "$description": "Emphasised border for inputs and dividers that must read at a glance.",
+      "$extensions": {
+        "glinr": {
+          "stability": "experimental",
+          "tailwind": "color-glinr-border-strong"
+        }
+      }
+    },
+    "grid-line": {
+      "$value": {
+        "light": "oklch(0.2 0.01 260 / 6%)",
+        "dark": "oklch(1 0 0 / 7%)"
+      },
+      "$description": "Faint structural rule, for grid lines and section dividers.",
+      "$extensions": {
+        "glinr": {
+          "stability": "experimental",
+          "tailwind": "color-glinr-grid-line"
+        }
+      }
+    },
+    "fg": {
+      "$value": { "light": "oklch(0.145 0 0)", "dark": "oklch(0.985 0 0)" },
+      "$description": "Primary text.",
+      "$extensions": {
+        "glinr": { "stability": "experimental", "tailwind": "color-glinr-fg" }
+      }
+    },
+    "fg-muted": {
+      "$value": { "light": "oklch(0.556 0 0)", "dark": "oklch(0.708 0 0)" },
+      "$description": "Secondary text and labels.",
+      "$extensions": {
+        "glinr": {
+          "stability": "experimental",
+          "tailwind": "color-glinr-fg-muted"
+        }
+      }
+    },
+    "fg-subtle": {
+      "$value": { "light": "oklch(0.708 0 0)", "dark": "oklch(0.556 0 0)" },
+      "$description": "Tertiary text, placeholders and units.",
+      "$extensions": {
+        "glinr": {
+          "stability": "experimental",
+          "tailwind": "color-glinr-fg-subtle"
+        }
+      }
+    },
+    "accent": {
+      "$value": {
+        "light": "var(--brand-accent, oklch(0.55 0.2 289))",
+        "dark": "var(--brand-accent-dark, oklch(0.782 0.118 289.4))"
+      },
+      "$description": "The single accent, driven by the runtime brand. Use for focus, links and one primary mark per view.",
+      "$extensions": {
+        "glinr": {
+          "stability": "experimental",
+          "tailwind": "color-glinr-accent"
+        }
+      }
+    },
+    "highlight": {
+      "$value": { "light": "oklch(1 0 0 / 0%)", "dark": "oklch(1 0 0 / 7%)" },
+      "$description": "1px top inner highlight that keeps dark surfaces readable.",
+      "$extensions": { "glinr": { "name": "highlight", "stability": "stable" } }
+    },
+    "shadow-color": {
+      "$value": { "light": "oklch(0.2 0.01 260)", "dark": "oklch(0 0 0)" },
+      "$description": "Base colour for custom shadows.",
+      "$extensions": {
+        "glinr": { "name": "shadow-color", "stability": "stable" }
+      }
+    },
+    "showcase-bg": {
+      "$value": "#000",
+      "$description": "Sign-in showcase stage.",
+      "$extensions": {
+        "glinr": { "name": "showcase-bg", "stability": "stable" }
+      }
+    },
+    "showcase-surface": {
+      "$value": "#0e0f11",
+      "$description": "Sign-in showcase card face.",
+      "$extensions": {
+        "glinr": { "name": "showcase-surface", "stability": "stable" }
+      }
+    },
+    "showcase-text": {
+      "$value": "#cfcfd3",
+      "$description": "Sign-in showcase body text.",
+      "$extensions": {
+        "glinr": { "name": "showcase-text", "stability": "stable" }
+      }
+    },
+    "showcase-muted": {
+      "$value": "#8d8d96",
+      "$description": "Sign-in showcase secondary text.",
+      "$extensions": { "glinr": { "stability": "experimental" } }
+    },
+    "showcase-rule": {
+      "$value": "rgb(255 255 255 / 7%)",
+      "$description": "Sign-in showcase divider rule.",
+      "$extensions": { "glinr": { "stability": "experimental" } }
+    },
+    "glow-violet": {
+      "$value": "rgb(182 171 255)",
+      "$description": "Showcase violet mark colour.",
+      "$extensions": {
+        "glinr": { "name": "glow-violet", "stability": "stable" }
+      }
+    },
+    "glow-teal": {
+      "$value": "rgb(0 203 170)",
+      "$description": "Showcase teal mark colour.",
+      "$extensions": { "glinr": { "name": "glow-teal", "stability": "stable" } }
+    },
+    "glow-lime": {
+      "$value": "rgb(238 243 95)",
+      "$description": "Showcase lime mark colour.",
+      "$extensions": { "glinr": { "name": "glow-lime", "stability": "stable" } }
+    }
+  },
+  "space": {
+    "$type": "dimension",
+    "1": {
+      "$value": "0.25rem",
+      "$description": "4px rhythm step.",
+      "$extensions": { "glinr": { "stability": "experimental" } }
+    },
+    "2": {
+      "$value": "0.5rem",
+      "$description": "8px.",
+      "$extensions": { "glinr": { "stability": "experimental" } }
+    },
+    "3": {
+      "$value": "0.75rem",
+      "$description": "12px.",
+      "$extensions": { "glinr": { "stability": "experimental" } }
+    },
+    "4": {
+      "$value": "1rem",
+      "$description": "16px, the base gap.",
+      "$extensions": { "glinr": { "stability": "experimental" } }
+    },
+    "6": {
+      "$value": "1.5rem",
+      "$description": "24px, page gap.",
+      "$extensions": { "glinr": { "stability": "experimental" } }
+    },
+    "8": {
+      "$value": "2rem",
+      "$description": "32px.",
+      "$extensions": { "glinr": { "stability": "experimental" } }
+    },
+    "12": {
+      "$value": "3rem",
+      "$description": "48px, section gap.",
+      "$extensions": { "glinr": { "stability": "experimental" } }
+    },
+    "16": {
+      "$value": "4rem",
+      "$description": "64px.",
+      "$extensions": { "glinr": { "stability": "experimental" } }
+    },
+    "page-gap": {
+      "$value": "{space.6}",
+      "$description": "Vertical gap between page sections.",
+      "$extensions": { "glinr": { "name": "page-gap", "stability": "stable" } }
+    }
+  },
+  "size": {
+    "$type": "dimension",
+    "tile": {
+      "$value": "2.5rem",
+      "$description": "Brand tile edge.",
+      "$extensions": { "glinr": { "name": "tile-size", "stability": "stable" } }
+    },
+    "hero-tile": {
+      "$value": "3rem",
+      "$description": "Brand tile edge in a page hero.",
+      "$extensions": {
+        "glinr": { "name": "hero-tile-size", "stability": "stable" }
+      }
+    }
+  },
+  "content": {
+    "$type": "dimension",
+    "narrow": {
+      "$value": "40rem",
+      "$description": "Forms and single column settings.",
+      "$extensions": {
+        "glinr": {
+          "name": "content-narrow",
+          "stability": "experimental",
+          "tailwind": "container-glinr-narrow"
+        }
+      }
+    },
+    "max": {
+      "$value": "72rem",
+      "$description": "Default page content width.",
+      "$extensions": {
+        "glinr": {
+          "name": "content-max",
+          "stability": "stable",
+          "tailwind": "container-glinr-content"
+        }
+      }
+    },
+    "max-wide": {
+      "$value": "88rem",
+      "$description": "Wide page content width for tables and dashboards.",
+      "$extensions": {
+        "glinr": {
+          "name": "content-max-wide",
+          "stability": "stable",
+          "tailwind": "container-glinr-wide"
+        }
+      }
+    }
+  },
+  "radius": {
+    "$type": "dimension",
+    "sm": {
+      "$value": "0.375rem",
+      "$description": "Chips and small controls.",
+      "$extensions": {
+        "glinr": { "stability": "experimental", "tailwind": "radius-glinr-sm" }
+      }
+    },
+    "md": {
+      "$value": "0.5rem",
+      "$description": "Inputs and buttons.",
+      "$extensions": {
+        "glinr": { "stability": "experimental", "tailwind": "radius-glinr-md" }
+      }
+    },
+    "lg": {
+      "$value": "0.625rem",
+      "$description": "Default radius for cards and panels.",
+      "$extensions": {
+        "glinr": {
+          "name": "radius",
+          "stability": "stable",
+          "tailwind": "radius-glinr-lg"
+        }
+      }
+    },
+    "xl": {
+      "$value": "0.875rem",
+      "$description": "Dialogs and showcase tiles.",
+      "$extensions": {
+        "glinr": { "stability": "experimental", "tailwind": "radius-glinr-xl" }
+      }
+    }
+  },
+  "elev": {
+    "$type": "shadow",
+    "header": {
+      "$value": {
+        "light": "0 1px 0 oklch(0.2 0.01 260 / 6%), 0 4px 12px -4px oklch(0.2 0.01 260 / 12%)",
+        "dark": "inset 0 -1px 0 oklch(1 0 0 / 8%), 0 8px 16px -8px oklch(0 0 0 / 70%)"
+      },
+      "$description": "Sticky header once content scrolls under it.",
+      "$extensions": {
+        "glinr": {
+          "name": "elev-header",
+          "stability": "stable",
+          "tailwind": "shadow-header"
+        }
+      }
+    },
+    "card": {
+      "$value": {
+        "light": "0 1px 2px oklch(0.2 0.01 260 / 6%), 0 1px 1px oklch(0.2 0.01 260 / 4%)",
+        "dark": "inset 0 1px 0 var(--glinr-highlight), 0 1px 2px oklch(0 0 0 / 50%), 0 2px 8px oklch(0 0 0 / 30%)"
+      },
+      "$description": "Resting cards and panels.",
+      "$extensions": {
+        "glinr": {
+          "name": "elev-card",
+          "stability": "stable",
+          "tailwind": "shadow-card"
+        }
+      }
+    },
+    "popover": {
+      "$value": {
+        "light": "0 8px 24px oklch(0.2 0.01 260 / 12%), 0 2px 6px oklch(0.2 0.01 260 / 8%)",
+        "dark": "inset 0 1px 0 var(--glinr-highlight), 0 0 0 1px oklch(1 0 0 / 8%), 0 12px 32px oklch(0 0 0 / 65%)"
+      },
+      "$description": "Menus, selects and popovers.",
+      "$extensions": {
+        "glinr": {
+          "name": "elev-popover",
+          "stability": "stable",
+          "tailwind": "shadow-popover"
+        }
+      }
+    },
+    "dialog": {
+      "$value": {
+        "light": "0 24px 64px oklch(0.2 0.01 260 / 18%), 0 4px 12px oklch(0.2 0.01 260 / 10%)",
+        "dark": "inset 0 1px 0 var(--glinr-highlight), 0 0 0 1px oklch(1 0 0 / 10%), 0 28px 80px oklch(0 0 0 / 75%)"
+      },
+      "$description": "Modal dialogs and sheets.",
+      "$extensions": {
+        "glinr": {
+          "name": "elev-dialog",
+          "stability": "stable",
+          "tailwind": "shadow-dialog"
+        }
+      }
+    }
+  },
+  "font": {
+    "$type": "fontFamily",
+    "body": {
+      "$value": "system-ui, 'Segoe UI', Roboto, sans-serif",
+      "$description": "Body copy. Stays on the system stack for speed and native feel.",
+      "$extensions": { "glinr": { "stability": "experimental" } }
+    },
+    "display": {
+      "$value": "'Geist Variable', system-ui, 'Segoe UI', Roboto, sans-serif",
+      "$description": "Display and heading role.",
+      "$extensions": {
+        "glinr": {
+          "name": "font-display",
+          "stability": "stable",
+          "tailwind": "font-glinr-display"
+        }
+      }
+    },
+    "eyebrow": {
+      "$value": "'Geist Mono Variable', ui-monospace, Consolas, monospace",
+      "$description": "Eyebrow, label and numeric role.",
+      "$extensions": {
+        "glinr": {
+          "name": "font-eyebrow",
+          "stability": "stable",
+          "tailwind": "font-glinr-eyebrow"
+        }
+      }
+    }
+  },
+  "type": {
+    "$type": "dimension",
+    "display-weight": {
+      "$value": "300",
+      "$type": "fontWeight",
+      "$description": "Display role weight, light on purpose.",
+      "$extensions": {
+        "glinr": { "name": "display-weight", "stability": "stable" }
+      }
+    },
+    "label-weight": {
+      "$value": "500",
+      "$type": "fontWeight",
+      "$description": "Weight for controls and table headers.",
+      "$extensions": { "glinr": { "stability": "experimental" } }
+    },
+    "size-xs": {
+      "$value": "0.75rem",
+      "$description": "Eyebrow, captions.",
+      "$extensions": {
+        "glinr": { "stability": "experimental", "tailwind": "text-glinr-xs" }
+      }
+    },
+    "size-sm": {
+      "$value": "0.875rem",
+      "$description": "Dense table and form text.",
+      "$extensions": {
+        "glinr": { "stability": "experimental", "tailwind": "text-glinr-sm" }
+      }
+    },
+    "size-base": {
+      "$value": "1rem",
+      "$description": "Body.",
+      "$extensions": {
+        "glinr": { "stability": "experimental", "tailwind": "text-glinr-base" }
+      }
+    },
+    "size-lg": {
+      "$value": "1.125rem",
+      "$description": "Lede.",
+      "$extensions": {
+        "glinr": { "stability": "experimental", "tailwind": "text-glinr-lg" }
+      }
+    },
+    "size-2xl": {
+      "$value": "1.5rem",
+      "$description": "Section display.",
+      "$extensions": {
+        "glinr": { "stability": "experimental", "tailwind": "text-glinr-2xl" }
+      }
+    },
+    "size-4xl": {
+      "$value": "2.25rem",
+      "$description": "Page hero display.",
+      "$extensions": {
+        "glinr": { "stability": "experimental", "tailwind": "text-glinr-4xl" }
+      }
+    },
+    "leading-display": {
+      "$value": "1.1",
+      "$type": "number",
+      "$description": "Tight leading for display text.",
+      "$extensions": { "glinr": { "stability": "experimental" } }
+    },
+    "leading-body": {
+      "$value": "1.5",
+      "$type": "number",
+      "$description": "Body leading.",
+      "$extensions": { "glinr": { "stability": "experimental" } }
+    },
+    "tracking-display": {
+      "$value": "-0.03em",
+      "$description": "Display letter spacing, matches the sign-in showcase.",
+      "$extensions": { "glinr": { "stability": "experimental" } }
+    },
+    "tracking-eyebrow": {
+      "$value": "0.08em",
+      "$description": "Eyebrow letter spacing, uppercase mono.",
+      "$extensions": { "glinr": { "stability": "experimental" } }
+    },
+    "numeric-features": {
+      "$value": "tabular-nums slashed-zero",
+      "$type": "other",
+      "$description": "font-variant-numeric for metrics, counts and tables so digits align.",
+      "$extensions": { "glinr": { "stability": "experimental" } }
+    }
+  },
+  "motion": {
+    "$type": "duration",
+    "fast": {
+      "$value": "120ms",
+      "$description": "Hover and press feedback.",
+      "$extensions": { "glinr": { "stability": "experimental" } }
+    },
+    "base": {
+      "$value": "200ms",
+      "$description": "Disclosure, tabs and tooltips.",
+      "$extensions": { "glinr": { "stability": "experimental" } }
+    },
+    "slow": {
+      "$value": "320ms",
+      "$description": "Dialogs and page level transitions.",
+      "$extensions": { "glinr": { "stability": "experimental" } }
+    },
+    "ease": {
+      "$value": "cubic-bezier(0.2, 0, 0, 1)",
+      "$type": "cubicBezier",
+      "$description": "Standard easing, fast start and soft landing.",
+      "$extensions": {
+        "glinr": { "stability": "experimental", "tailwind": "ease-glinr" }
+      }
+    }
+  }
+}
