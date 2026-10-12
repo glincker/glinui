@@ -1,0 +1,22 @@
+{
+  "name": "form-section",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Form Section",
+  "description": "Settings form section with a two column layout from lg and a sticky save bar for unsaved changes.",
+  "docsPath": "/docs/components/radix/form-section",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui"
+  ],
+  "files": [
+    "packages/ui/src/components/form-section.tsx",
+    "packages/ui/src/components/typography.tsx",
+    "packages/ui/src/components/button.tsx",
+    "packages/ui/src/tests/form-section.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add form-section"
+  }
+}

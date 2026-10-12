@@ -1,0 +1,21 @@
+{
+  "name": "typography",
+  "namespace": "@glinui",
+  "type": "primitive",
+  "title": "Typography",
+  "description": "Display heading, Eyebrow label and Lede supporting copy driven by optional font tokens.",
+  "docsPath": "/docs/components/radix/typography",
+  "importPath": "@glinui/ui",
+  "dependencies": [
+    "@glinui/ui",
+    "class-variance-authority"
+  ],
+  "files": [
+    "packages/ui/src/components/typography.tsx",
+    "packages/ui/src/tests/typography.test.tsx"
+  ],
+  "install": {
+    "package": "npm install @glinui/ui @glinui/tokens",
+    "registry": "pnpm dlx @glinui/cli@latest add typography"
+  }
+}

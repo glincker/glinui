@@ -677,6 +677,99 @@ export const generatedApiMetadata = {
     ],
     "sourceFile": "packages/ui/src/components/badge.tsx"
   },
+  "banner": {
+    "primaryPropsType": "BannerProps",
+    "propsTypes": [
+      {
+        "name": "BannerProps",
+        "fields": [
+          {
+            "name": "action",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Right-aligned button or link."
+          },
+          {
+            "name": "dismissId",
+            "type": "string",
+            "optional": true,
+            "description": "Stable id. When set the banner is dismissible and stays dismissed through the storage adapter."
+          },
+          {
+            "name": "dismissLabel",
+            "type": "string",
+            "optional": true,
+            "description": "Accessible name of the dismiss button.",
+            "defaultValue": "\"Dismiss\""
+          },
+          {
+            "name": "eyebrow",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Small label above the title."
+          },
+          {
+            "name": "icon",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Replaces the variant icon."
+          },
+          {
+            "name": "onDismiss",
+            "type": "() => void",
+            "optional": true,
+            "description": "Called after the banner is dismissed. Also makes the banner dismissible."
+          },
+          {
+            "name": "storage",
+            "type": "BannerStorage | null",
+            "optional": true,
+            "description": "Where dismissals persist. Defaults to localStorage, guarded for blocked storage."
+          },
+          {
+            "name": "storageKey",
+            "type": "string",
+            "optional": true,
+            "description": "Storage key holding the dismissed ids.",
+            "defaultValue": "BANNER_STORAGE_KEY"
+          },
+          {
+            "name": "title",
+            "type": "React.ReactNode",
+            "optional": false
+          },
+          {
+            "name": "titleAs",
+            "type": "DisplayElement",
+            "optional": true,
+            "description": "Heading level for the title. Defaults to a paragraph so the banner never skews the outline.",
+            "defaultValue": "\"p\""
+          },
+          {
+            "name": "variant",
+            "type": "BannerVariant",
+            "optional": true,
+            "description": "Meaning of the notice. `critical` is announced assertively, the rest politely.",
+            "defaultValue": "\"info\""
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "action",
+      "dismissId",
+      "dismissLabel",
+      "eyebrow",
+      "icon",
+      "onDismiss",
+      "storage",
+      "storageKey",
+      "title",
+      "titleAs",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/banner.tsx"
+  },
   "bento-grid": {
     "primaryPropsType": "BentoGridProps",
     "propsTypes": [
@@ -3333,6 +3426,142 @@ export const generatedApiMetadata = {
       "wordmark"
     ],
     "sourceFile": "packages/ui/src/components/footer-block.tsx"
+  },
+  "form-section": {
+    "primaryPropsType": "FormSectionProps",
+    "propsTypes": [
+      {
+        "name": "FormSectionProps",
+        "fields": [
+          {
+            "name": "badge",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Small element beside the title, such as a status badge."
+          },
+          {
+            "name": "description",
+            "type": "React.ReactNode",
+            "optional": true
+          },
+          {
+            "name": "error",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Section level validation or server error. Announced with role alert."
+          },
+          {
+            "name": "hint",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Secondary note or link under the description."
+          },
+          {
+            "name": "title",
+            "type": "React.ReactNode",
+            "optional": false
+          },
+          {
+            "name": "titleAs",
+            "type": "DisplayElement",
+            "optional": true,
+            "description": "Heading level for the title.",
+            "defaultValue": "\"h2\""
+          }
+        ]
+      },
+      {
+        "name": "StickySaveBarProps",
+        "fields": [
+          {
+            "name": "dirty",
+            "type": "boolean",
+            "optional": false,
+            "description": "The form has unsaved changes. The bar renders only while dirty or saving."
+          },
+          {
+            "name": "discardLabel",
+            "type": "string",
+            "optional": true,
+            "defaultValue": "\"Discard\""
+          },
+          {
+            "name": "label",
+            "type": "string",
+            "optional": true,
+            "description": "Accessible name of the region.",
+            "defaultValue": "\"Unsaved changes\""
+          },
+          {
+            "name": "message",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Short status text. Defaults to `unsavedMessage`."
+          },
+          {
+            "name": "onReset",
+            "type": "() => void",
+            "optional": true,
+            "description": "Adds a discard button when provided."
+          },
+          {
+            "name": "onSave",
+            "type": "() => void",
+            "optional": false
+          },
+          {
+            "name": "saveLabel",
+            "type": "string",
+            "optional": true,
+            "defaultValue": "\"Save changes\""
+          },
+          {
+            "name": "saving",
+            "type": "boolean",
+            "optional": true,
+            "defaultValue": "false"
+          },
+          {
+            "name": "savingLabel",
+            "type": "string",
+            "optional": true,
+            "defaultValue": "\"Saving...\""
+          },
+          {
+            "name": "testSlot",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Slot for a secondary action such as Test connection. Stays enabled while dirty."
+          },
+          {
+            "name": "unsavedMessage",
+            "type": "string",
+            "optional": true,
+            "defaultValue": "\"You have unsaved changes.\""
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "badge",
+      "description",
+      "dirty",
+      "discardLabel",
+      "error",
+      "hint",
+      "label",
+      "message",
+      "onReset",
+      "onSave",
+      "saveLabel",
+      "saving",
+      "savingLabel",
+      "testSlot",
+      "title",
+      "titleAs",
+      "unsavedMessage"
+    ],
+    "sourceFile": "packages/ui/src/components/form-section.tsx"
   },
   "generate-button": {
     "primaryPropsType": "GenerateButtonProps",
@@ -9346,6 +9575,52 @@ export const generatedApiMetadata = {
     ],
     "sourceFile": "packages/ui/src/components/typewriter.tsx"
   },
+  "typography": {
+    "primaryPropsType": "LedeProps",
+    "propsTypes": [
+      {
+        "name": "DisplayProps",
+        "fields": [
+          {
+            "name": "as",
+            "type": "DisplayElement",
+            "optional": true,
+            "description": "Element to render. Pick the level that fits the document outline.",
+            "defaultValue": "\"h2\""
+          },
+          {
+            "name": "size",
+            "type": "\"lg\" | \"2xl\" | \"3xl\" | \"4xl\"",
+            "optional": true,
+            "description": "Variant option from displayVariants.",
+            "defaultValue": "\"2xl\""
+          }
+        ]
+      },
+      {
+        "name": "EyebrowProps",
+        "fields": [
+          {
+            "name": "dot",
+            "type": "boolean",
+            "optional": true,
+            "description": "Leading accent dot.",
+            "defaultValue": "true"
+          }
+        ]
+      },
+      {
+        "name": "LedeProps",
+        "fields": []
+      }
+    ],
+    "explicitProps": [
+      "as",
+      "dot",
+      "size"
+    ],
+    "sourceFile": "packages/ui/src/components/typography.tsx"
+  },
   "word-rotate": {
     "primaryPropsType": "WordRotateProps",
     "propsTypes": [
@@ -9397,4 +9672,4 @@ export const generatedApiMetadata = {
     "sourceFile": "packages/ui/src/components/word-rotate.tsx"
   }
 } as const satisfies Record<string, GeneratedApiComponentEntry>
-export const generatedApiMetadataGeneratedAt = "2026-10-08T01:41:21.546Z" as const
+export const generatedApiMetadataGeneratedAt = "2026-10-12T04:16:29.827Z" as const

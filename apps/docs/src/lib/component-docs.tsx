@@ -21,6 +21,7 @@ import { showcaseS2Code } from "@/lib/new-components/showcase-s2-code.generated"
 import type { PropRow } from "@/components/docs/props-table"
 import { ButtonIconsDemo, ButtonLoadingDemo, ButtonTonesRow, ButtonVariantsMatrix } from "@/components/variants/button-demos"
 import type { NewComponentId, PrimitiveComponentId } from "@/lib/primitives"
+import { upstreamComponentDocs } from "./new-components/upstream-feedback-forms"
 
 import {
   Accordion,
@@ -280,6 +281,7 @@ function SliderAtmosphereDemo() {
 // ── Registry ─────────────────────────────────────────────────────────────────
 
 export const componentDocs: Record<Exclude<PrimitiveComponentId, NewComponentId>, ComponentDocMeta> = {
+  ...upstreamComponentDocs,
   button: {
     badge: "Primitive / Atom",
     props: [

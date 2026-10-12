@@ -56,6 +56,9 @@
 /docs/components/slider /docs/components/radix/slider 301
 /docs/components/spinner /docs/components/radix/spinner 301
 /docs/components/status-dot /docs/components/radix/status-dot 301
+/docs/components/banner /docs/components/radix/banner 301
+/docs/components/form-section /docs/components/radix/form-section 301
+/docs/components/typography /docs/components/radix/typography 301
 /docs/components/streaming-text /docs/components/radix/streaming-text 301
 /docs/components/switch /docs/components/radix/switch 301
 /docs/components/table /docs/components/radix/table 301

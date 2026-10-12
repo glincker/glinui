@@ -162,6 +162,18 @@ export const generatedRegistryItems = [
     }
   },
   {
+    "name": "banner",
+    "type": "primitive",
+    "title": "Banner",
+    "description": "Flat page level notice with info, success, warning, critical and promo variants and persisted dismissal.",
+    "docsPath": "/docs/components/radix/banner",
+    "importPath": "@glinui/ui",
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add banner"
+    }
+  },
+  {
     "name": "bento-grid",
     "type": "primitive",
     "title": "Bento Grid",
@@ -700,6 +712,18 @@ export const generatedRegistryItems = [
     "install": {
       "package": "npm install @glinui/ui @glinui/tokens",
       "registry": "pnpm dlx @glinui/cli@latest add footer-block"
+    }
+  },
+  {
+    "name": "form-section",
+    "type": "primitive",
+    "title": "Form Section",
+    "description": "Settings form section with a two column layout from lg and a sticky save bar for unsaved changes.",
+    "docsPath": "/docs/components/radix/form-section",
+    "importPath": "@glinui/ui",
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add form-section"
     }
   },
   {
@@ -2128,6 +2152,18 @@ export const generatedRegistryItems = [
     }
   },
   {
+    "name": "typography",
+    "type": "primitive",
+    "title": "Typography",
+    "description": "Display heading, Eyebrow label and Lede supporting copy driven by optional font tokens.",
+    "docsPath": "/docs/components/radix/typography",
+    "importPath": "@glinui/ui",
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add typography"
+    }
+  },
+  {
     "name": "word-rotate",
     "type": "signature",
     "title": "Word Rotate",
@@ -2279,6 +2315,18 @@ export const generatedRegistryByName = {
     "install": {
       "package": "npm install @glinui/ui @glinui/tokens",
       "registry": "pnpm dlx @glinui/cli@latest add badge"
+    }
+  },
+  "banner": {
+    "name": "banner",
+    "type": "primitive",
+    "title": "Banner",
+    "description": "Flat page level notice with info, success, warning, critical and promo variants and persisted dismissal.",
+    "docsPath": "/docs/components/radix/banner",
+    "importPath": "@glinui/ui",
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add banner"
     }
   },
   "bento-grid": {
@@ -2820,6 +2868,18 @@ export const generatedRegistryByName = {
     "install": {
       "package": "npm install @glinui/ui @glinui/tokens",
       "registry": "pnpm dlx @glinui/cli@latest add footer-block"
+    }
+  },
+  "form-section": {
+    "name": "form-section",
+    "type": "primitive",
+    "title": "Form Section",
+    "description": "Settings form section with a two column layout from lg and a sticky save bar for unsaved changes.",
+    "docsPath": "/docs/components/radix/form-section",
+    "importPath": "@glinui/ui",
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add form-section"
     }
   },
   "generate-button": {
@@ -4247,6 +4307,18 @@ export const generatedRegistryByName = {
       "registry": "pnpm dlx @glinui/cli@latest add typewriter"
     }
   },
+  "typography": {
+    "name": "typography",
+    "type": "primitive",
+    "title": "Typography",
+    "description": "Display heading, Eyebrow label and Lede supporting copy driven by optional font tokens.",
+    "docsPath": "/docs/components/radix/typography",
+    "importPath": "@glinui/ui",
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add typography"
+    }
+  },
   "word-rotate": {
     "name": "word-rotate",
     "type": "signature",
@@ -4269,6 +4341,7 @@ export const generatedPrimitiveComponentIds = [
   "attachment",
   "avatar",
   "badge",
+  "banner",
   "bento-grid",
   "border-trail",
   "breadcrumb",
@@ -4299,6 +4372,7 @@ export const generatedPrimitiveComponentIds = [
   "field",
   "flickering-grid",
   "footer-block",
+  "form-section",
   "generate-button",
   "gooey-text-reveal",
   "gradient-text",
@@ -4365,7 +4439,8 @@ export const generatedPrimitiveComponentIds = [
   "toggle",
   "toggle-group",
   "tooltip",
-  "tree"
+  "tree",
+  "typography"
 ] as const
 export const generatedSignatureComponentIds = [
   "animated-gradient",
@@ -4417,6 +4492,7 @@ export const generatedComponentTitles = {
   "aurora-background": "Aurora Background",
   "avatar": "Avatar",
   "badge": "Badge",
+  "banner": "Banner",
   "bento-grid": "Bento Grid",
   "blur-fade": "Blur Fade",
   "blur-spotlight": "Blur Spotlight",
@@ -4454,6 +4530,7 @@ export const generatedComponentTitles = {
   "flickering-grid": "Flickering Grid",
   "floating-panel": "Floating Panel",
   "footer-block": "Footer Block",
+  "form-section": "Form Section",
   "generate-button": "Generate Button",
   "glass-breadcrumb": "Glass Breadcrumb",
   "glass-card": "Glass Card",
@@ -4548,6 +4625,7 @@ export const generatedComponentTitles = {
   "tooltip": "Tooltip",
   "tree": "Tree",
   "typewriter": "Typewriter",
+  "typography": "Typography",
   "word-rotate": "Word Rotate"
 } as const
 export const generatedComponentDescriptions = {
@@ -4561,6 +4639,7 @@ export const generatedComponentDescriptions = {
   "aurora-background": "Animated gradient mesh backdrop with floating blurred blobs.",
   "avatar": "Profile image with SVG-ready sources, fallback rendering, and multiple glass-aware surface variants.",
   "badge": "Compact status indicator for labels, states, and counts.",
+  "banner": "Flat page level notice with info, success, warning, critical and promo variants and persisted dismissal.",
   "bento-grid": "Responsive bento layout of linked feature tiles.",
   "blur-fade": "Scroll-triggered entrance animation with blur, fade, and slide transitions.",
   "blur-spotlight": "Cursor-following ambient glow effect for background layers.",
@@ -4598,6 +4677,7 @@ export const generatedComponentDescriptions = {
   "flickering-grid": "Canvas grid of squares that flicker, with token colors and a static fallback.",
   "floating-panel": "Draggable glass panel with depth shadows and optional close button.",
   "footer-block": "Site footer with link groups, brand and newsletter slots, social icons, legal row and theme toggle slot.",
+  "form-section": "Settings form section with a two column layout from lg and a sticky save bar for unsaved changes.",
   "generate-button": "AI style call to action with idle, generating and loading states.",
   "glass-breadcrumb": "Pill-style breadcrumb with glass indicators and collapsible items.",
   "glass-card": "Frosted card with depth-aware blur, refraction edge highlights, and elevation transitions.",
@@ -4692,6 +4772,7 @@ export const generatedComponentDescriptions = {
   "tooltip": "Context hint on hover/focus using Radix tooltip primitive.",
   "tree": "Hierarchical tree view for file structures, navigation, and nested data.",
   "typewriter": "Character-by-character typing animation with blinking cursor and loop support.",
+  "typography": "Display heading, Eyebrow label and Lede supporting copy driven by optional font tokens.",
   "word-rotate": "Cycling text animation that rotates through an array of words."
 } as const
-export const generatedRegistryMetadataGeneratedAt = "2026-10-08T00:56:04.794Z" as const
+export const generatedRegistryMetadataGeneratedAt = "2026-10-12T04:16:30.284Z" as const
