@@ -22,6 +22,9 @@
 /docs/components/copy-button /docs/components/radix/copy-button 301
 /docs/components/counter /docs/components/radix/counter 301
 /docs/components/data-table /docs/components/radix/data-table 301
+/docs/components/responsive-table /docs/components/radix/responsive-table 301
+/docs/components/confirm-action /docs/components/radix/confirm-action 301
+/docs/components/page-template /docs/components/radix/page-template 301
 /docs/components/dropdown-menu /docs/components/radix/dropdown-menu 301
 /docs/components/empty /docs/components/radix/empty 301
 /docs/components/field /docs/components/radix/field 301

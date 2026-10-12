@@ -462,6 +462,18 @@ export const generatedRegistryItems = [
     }
   },
   {
+    "name": "confirm-action",
+    "type": "primitive",
+    "title": "Confirm Action",
+    "description": "Alert dialog that lists consequences and can require a typed confirmation before a destructive action.",
+    "docsPath": "/docs/components/radix/confirm-action",
+    "importPath": "@glinui/ui",
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add confirm-action"
+    }
+  },
+  {
     "name": "context-menu",
     "type": "primitive",
     "title": "Context Menu",
@@ -1440,6 +1452,18 @@ export const generatedRegistryItems = [
     }
   },
   {
+    "name": "page-template",
+    "type": "primitive",
+    "title": "Page Template",
+    "description": "Page shell with breadcrumb, hero tile, title, status, actions, tabs and banner slots.",
+    "docsPath": "/docs/components/radix/page-template",
+    "importPath": "@glinui/ui",
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add page-template"
+    }
+  },
+  {
     "name": "pagination",
     "type": "primitive",
     "title": "Pagination",
@@ -1589,6 +1613,18 @@ export const generatedRegistryItems = [
     "install": {
       "package": "npm install @glinui/ui @glinui/tokens",
       "registry": "pnpm dlx @glinui/cli@latest add radio-group"
+    }
+  },
+  {
+    "name": "responsive-table",
+    "type": "primitive",
+    "title": "Responsive Table",
+    "description": "Table with column priorities, stacked cards on narrow screens, a row action menu and an optional virtual entry point.",
+    "docsPath": "/docs/components/radix/responsive-table",
+    "importPath": "@glinui/ui",
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add responsive-table"
     }
   },
   {
@@ -2581,6 +2617,18 @@ export const generatedRegistryByName = {
       "registry": "pnpm dlx @glinui/cli@latest add command"
     }
   },
+  "confirm-action": {
+    "name": "confirm-action",
+    "type": "primitive",
+    "title": "Confirm Action",
+    "description": "Alert dialog that lists consequences and can require a typed confirmation before a destructive action.",
+    "docsPath": "/docs/components/radix/confirm-action",
+    "importPath": "@glinui/ui",
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add confirm-action"
+    }
+  },
   "context-menu": {
     "name": "context-menu",
     "type": "primitive",
@@ -3559,6 +3607,18 @@ export const generatedRegistryByName = {
       "registry": "pnpm dlx @glinui/cli@latest add orbiting-circles"
     }
   },
+  "page-template": {
+    "name": "page-template",
+    "type": "primitive",
+    "title": "Page Template",
+    "description": "Page shell with breadcrumb, hero tile, title, status, actions, tabs and banner slots.",
+    "docsPath": "/docs/components/radix/page-template",
+    "importPath": "@glinui/ui",
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add page-template"
+    }
+  },
   "pagination": {
     "name": "pagination",
     "type": "primitive",
@@ -3709,6 +3769,18 @@ export const generatedRegistryByName = {
     "install": {
       "package": "npm install @glinui/ui @glinui/tokens",
       "registry": "pnpm dlx @glinui/cli@latest add radio-group"
+    }
+  },
+  "responsive-table": {
+    "name": "responsive-table",
+    "type": "primitive",
+    "title": "Responsive Table",
+    "description": "Table with column priorities, stacked cards on narrow screens, a row action menu and an optional virtual entry point.",
+    "docsPath": "/docs/components/radix/responsive-table",
+    "importPath": "@glinui/ui",
+    "install": {
+      "package": "npm install @glinui/ui @glinui/tokens",
+      "registry": "pnpm dlx @glinui/cli@latest add responsive-table"
     }
   },
   "retro-grid": {
@@ -4285,6 +4357,7 @@ export const generatedPrimitiveComponentIds = [
   "collapsible",
   "combobox",
   "command",
+  "confirm-action",
   "context-menu",
   "copy-button",
   "count-up",
@@ -4329,6 +4402,7 @@ export const generatedPrimitiveComponentIds = [
   "morphing-text",
   "navigation-menu",
   "neon-gradient-card",
+  "page-template",
   "pagination",
   "popover",
   "pricing-section",
@@ -4337,6 +4411,7 @@ export const generatedPrimitiveComponentIds = [
   "prompt-input",
   "questionnaire",
   "radio-group",
+  "responsive-table",
   "reveal",
   "scroll-area",
   "select",
@@ -4437,6 +4512,7 @@ export const generatedComponentTitles = {
   "collapsible": "Collapsible",
   "combobox": "Combobox",
   "command": "Command",
+  "confirm-action": "Confirm Action",
   "context-menu": "Context Menu",
   "copy-button": "Copy Button",
   "count-up": "Count Up",
@@ -4499,6 +4575,7 @@ export const generatedComponentTitles = {
   "neon-gradient-card": "Neon Gradient Card",
   "number-ticker": "Number Ticker",
   "orbiting-circles": "Orbiting Circles",
+  "page-template": "Page Template",
   "pagination": "Pagination",
   "particle-field": "Particle Field",
   "popover": "Popover",
@@ -4510,6 +4587,7 @@ export const generatedComponentTitles = {
   "pulsating-button": "Pulsating Button",
   "questionnaire": "Questionnaire",
   "radio-group": "Radio Group",
+  "responsive-table": "Responsive Table",
   "retro-grid": "Retro Grid",
   "reveal": "Reveal",
   "reveal-text": "Reveal Text",
@@ -4581,6 +4659,7 @@ export const generatedComponentDescriptions = {
   "collapsible": "Radix collapsible region with an animated trigger and content for show and hide sections.",
   "combobox": "A searchable select built from Popover and Command.",
   "command": "Command palette for keyboard-driven actions and search.",
+  "confirm-action": "Alert dialog that lists consequences and can require a typed confirmation before a destructive action.",
   "context-menu": "Right-click menu with items, checkbox and radio items, submenus and shortcuts.",
   "copy-button": "Raised pill that copies text, announces the result and resets after 1.6 seconds.",
   "count-up": "Counts a number up on scroll with the active animation engine, jumping to the end value when motion is off.",
@@ -4643,6 +4722,7 @@ export const generatedComponentDescriptions = {
   "neon-gradient-card": "Card with an animated neon gradient ring and soft glow.",
   "number-ticker": "Animated number counter triggered by scroll visibility via IntersectionObserver.",
   "orbiting-circles": "CSS-driven orbital animation that keeps children upright via double-rotate.",
+  "page-template": "Page shell with breadcrumb, hero tile, title, status, actions, tabs and banner slots.",
   "pagination": "Page navigation with previous and next controls, numbered links and ellipsis.",
   "particle-field": "Ambient floating particle system with CSS-only staggered animations.",
   "popover": "Floating content panel anchored to a trigger element.",
@@ -4654,6 +4734,7 @@ export const generatedComponentDescriptions = {
   "pulsating-button": "Button with a pulsing glow ring animation for attention-grabbing CTAs.",
   "questionnaire": "Multi-step form with single and multiple choice option cards, progress and keyboard accessible radio and checkbox semantics.",
   "radio-group": "Mutually exclusive selection control with variant-capable radio items.",
+  "responsive-table": "Table with column priorities, stacked cards on narrow screens, a row action menu and an optional virtual entry point.",
   "retro-grid": "CSS perspective grid with scrolling lines for retro-futuristic backgrounds.",
   "reveal": "Scroll-triggered entrance with fade, slide, blur and scale variants, driven by a pluggable animation engine (css, motion or gsap).",
   "reveal-text": "Text that reveals through a clip-path wipe animation triggered on view.",
@@ -4694,4 +4775,4 @@ export const generatedComponentDescriptions = {
   "typewriter": "Character-by-character typing animation with blinking cursor and loop support.",
   "word-rotate": "Cycling text animation that rotates through an array of words."
 } as const
-export const generatedRegistryMetadataGeneratedAt = "2026-10-08T00:56:04.794Z" as const
+export const generatedRegistryMetadataGeneratedAt = "2026-10-12T04:19:38.891Z" as const

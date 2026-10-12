@@ -11,6 +11,7 @@ import { batchB1Docs } from "@/lib/new-components/batch-b1"
 import { batchB2Docs } from "@/lib/new-components/batch-b2"
 import { batchB3Docs } from "@/lib/new-components/batch-b3"
 import { batchB4Docs } from "@/lib/new-components/batch-b4"
+import { batchCDocs } from "@/lib/new-components/batch-c"
 import { enginesDocs } from "@/lib/new-components/engines-docs"
 import { modalGlassExample } from "@/lib/new-components/modal-glass-example"
 import { panelGlassExamples, panelVariantsExamples } from "@/lib/new-components/panel-variants-examples"
@@ -37,6 +38,7 @@ export const allComponentDocs: Record<PrimitiveComponentId, ComponentDocMeta> = 
   ...batchB2Docs,
   ...batchB3Docs,
   ...batchB4Docs,
+  ...batchCDocs,
   ...variantsTheauthDocs,
   ...enginesDocs
 } as Record<PrimitiveComponentId, ComponentDocMeta>

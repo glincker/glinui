@@ -2022,6 +2022,129 @@ export const generatedApiMetadata = {
     ],
     "sourceFile": "packages/ui/src/components/command.tsx"
   },
+  "confirm-action": {
+    "primaryPropsType": "ConfirmActionProps",
+    "propsTypes": [
+      {
+        "name": "ConfirmActionProps",
+        "fields": [
+          {
+            "name": "cancelLabel",
+            "type": "string",
+            "optional": true,
+            "defaultValue": "\"Cancel\""
+          },
+          {
+            "name": "className",
+            "type": "string",
+            "optional": true
+          },
+          {
+            "name": "confirmLabel",
+            "type": "string",
+            "optional": true,
+            "defaultValue": "\"Confirm\""
+          },
+          {
+            "name": "consequences",
+            "type": "[string, ...string[]]",
+            "optional": false,
+            "description": "Required: every destructive action must say what it will do."
+          },
+          {
+            "name": "description",
+            "type": "React.ReactNode",
+            "optional": true
+          },
+          {
+            "name": "error",
+            "type": "string | null",
+            "optional": true,
+            "description": "Failure message shown in the dialog."
+          },
+          {
+            "name": "onConfirm",
+            "type": "(close: () => void) => void",
+            "optional": false,
+            "description": "Call `close` once the action succeeded. The dialog stays open until then."
+          },
+          {
+            "name": "onOpenChange",
+            "type": "(open: boolean) => void",
+            "optional": true,
+            "description": "Fires on open and close, for resetting mutation state."
+          },
+          {
+            "name": "pending",
+            "type": "boolean",
+            "optional": true,
+            "description": "Disables confirm and shows `pendingLabel`.",
+            "defaultValue": "false"
+          },
+          {
+            "name": "pendingLabel",
+            "type": "string",
+            "optional": true,
+            "description": "Confirm button text while `pending`."
+          },
+          {
+            "name": "title",
+            "type": "React.ReactNode",
+            "optional": false
+          },
+          {
+            "name": "tone",
+            "type": "\"destructive\" | \"default\"",
+            "optional": true,
+            "defaultValue": "\"destructive\""
+          },
+          {
+            "name": "trigger",
+            "type": "(open: () => void) => React.ReactNode",
+            "optional": false,
+            "description": "Renders the control that opens the dialog. Call `open` from its click handler."
+          },
+          {
+            "name": "typedConfirm",
+            "type": "string",
+            "optional": true,
+            "description": "The user must type this exact value before confirm enables. For irreversible actions."
+          },
+          {
+            "name": "typedConfirmLabel",
+            "type": "(value: string) => React.ReactNode",
+            "optional": true,
+            "description": "Label of the typed field. Defaults to `Type <value> to confirm`."
+          },
+          {
+            "name": "variant",
+            "type": "PanelVariantProp",
+            "optional": true,
+            "description": "Panel look. Omit for the ambient design style."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "cancelLabel",
+      "className",
+      "confirmLabel",
+      "consequences",
+      "description",
+      "error",
+      "onConfirm",
+      "onOpenChange",
+      "pending",
+      "pendingLabel",
+      "title",
+      "tone",
+      "trigger",
+      "typedConfirm",
+      "typedConfirmLabel",
+      "variant"
+    ],
+    "sourceFile": "packages/ui/src/components/confirm-action.tsx"
+  },
   "context-menu": {
     "primaryPropsType": "ContextMenuProps",
     "propsTypes": [
@@ -6004,6 +6127,121 @@ export const generatedApiMetadata = {
     ],
     "sourceFile": "packages/ui/src/components/orbiting-circles.tsx"
   },
+  "page-template": {
+    "primaryPropsType": "PageTemplateProps",
+    "propsTypes": [
+      {
+        "name": "PageTemplateLinkProps",
+        "fields": []
+      },
+      {
+        "name": "PageTemplateProps",
+        "fields": [
+          {
+            "name": "actions",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Primary actions, right-aligned from `sm` up."
+          },
+          {
+            "name": "banners",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Page-level banners between the hero and the content."
+          },
+          {
+            "name": "breadcrumb",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Breadcrumb trail above the hero."
+          },
+          {
+            "name": "description",
+            "type": "React.ReactNode",
+            "optional": true
+          },
+          {
+            "name": "eyebrow",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Small mono label above the title."
+          },
+          {
+            "name": "helpHref",
+            "type": "string",
+            "optional": true,
+            "description": "Renders a help link beside the title when set."
+          },
+          {
+            "name": "helpLabel",
+            "type": "string",
+            "optional": true,
+            "description": "Accessible name of the help link. Defaults to \"Help\".",
+            "defaultValue": "\"Help\""
+          },
+          {
+            "name": "icon",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Icon rendered in a neutral 48px tile."
+          },
+          {
+            "name": "LinkComponent",
+            "type": "React.ElementType<PageTemplateLinkProps>",
+            "optional": true,
+            "description": "Component used for the help link, for example a router link. Defaults to `a`.",
+            "defaultValue": "\"a\""
+          },
+          {
+            "name": "logo",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "A 48px brand tile or any node. Wins over `icon`."
+          },
+          {
+            "name": "status",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Status badge or pill beside the title."
+          },
+          {
+            "name": "tabs",
+            "type": "React.ReactNode",
+            "optional": true,
+            "description": "Tab list or link navigation under the hero."
+          },
+          {
+            "name": "title",
+            "type": "React.ReactNode",
+            "optional": false
+          },
+          {
+            "name": "width",
+            "type": "PageTemplateWidth",
+            "optional": true,
+            "defaultValue": "\"default\""
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "LinkComponent",
+      "actions",
+      "banners",
+      "breadcrumb",
+      "description",
+      "eyebrow",
+      "helpHref",
+      "helpLabel",
+      "icon",
+      "logo",
+      "status",
+      "tabs",
+      "title",
+      "width"
+    ],
+    "sourceFile": "packages/ui/src/components/page-template.tsx"
+  },
   "pagination": {
     "primaryPropsType": "PaginationProps",
     "propsTypes": [
@@ -6791,6 +7029,304 @@ export const generatedApiMetadata = {
       "variant"
     ],
     "sourceFile": "packages/ui/src/components/radio-group.tsx"
+  },
+  "responsive-table-virtual": {
+    "primaryPropsType": "VirtualResponsiveTableProps",
+    "propsTypes": [
+      {
+        "name": "VirtualResponsiveTableProps",
+        "fields": [
+          {
+            "name": "estimateRowHeight",
+            "type": "number",
+            "optional": true,
+            "description": "Row height estimate in px before rows are measured. Defaults to 56."
+          },
+          {
+            "name": "scrollRef",
+            "type": "React.MutableRefObject<HTMLElement | null>",
+            "optional": true,
+            "description": "Lets the page read or drive the scroll position."
+          },
+          {
+            "name": "virtualizeOver",
+            "type": "number",
+            "optional": true,
+            "description": "Windowing starts when `rows.length` is above this. Defaults to 50."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "estimateRowHeight",
+      "scrollRef",
+      "virtualizeOver"
+    ],
+    "sourceFile": "packages/ui/src/components/responsive-table-virtual.tsx"
+  },
+  "responsive-table": {
+    "primaryPropsType": "ResponsiveTableProps",
+    "propsTypes": [
+      {
+        "name": "ResponsiveRowProps",
+        "fields": [
+          {
+            "name": "aria-current",
+            "type": "\"true\"",
+            "optional": true
+          },
+          {
+            "name": "className",
+            "type": "string",
+            "optional": true
+          },
+          {
+            "name": "data-kind",
+            "type": "string",
+            "optional": true
+          }
+        ]
+      },
+      {
+        "name": "ResponsiveTableProps",
+        "fields": [
+          {
+            "name": "actions",
+            "type": "(row: T) => ResponsiveTableAction[]",
+            "optional": true,
+            "description": "Row actions collapse into one kebab menu."
+          },
+          {
+            "name": "actionsLabel",
+            "type": "(row: T) => string",
+            "optional": true
+          },
+          {
+            "name": "ariaLabel",
+            "type": "string",
+            "optional": false
+          },
+          {
+            "name": "className",
+            "type": "string",
+            "optional": true
+          },
+          {
+            "name": "columns",
+            "type": "readonly ResponsiveColumn<T>[]",
+            "optional": false
+          },
+          {
+            "name": "focusRowId",
+            "type": "string",
+            "optional": true,
+            "description": "Scrolls this row into view when it changes."
+          },
+          {
+            "name": "getRowId",
+            "type": "(row: T) => string",
+            "optional": false
+          },
+          {
+            "name": "getRowProps",
+            "type": "(row: T) => ResponsiveRowProps",
+            "optional": true
+          },
+          {
+            "name": "horizontalScroll",
+            "type": "boolean",
+            "optional": true,
+            "description": "Opt in to sideways scrolling instead of fitting the container."
+          },
+          {
+            "name": "labels",
+            "type": "Partial<ResponsiveTableLabels>",
+            "optional": true
+          },
+          {
+            "name": "leading",
+            "type": "{ header?: React.ReactNode; cell: (row: T) => React.ReactNode; width?: string }",
+            "optional": true,
+            "description": "Fixed leading cell (logo tile, checkbox), shown beside the title in cards."
+          },
+          {
+            "name": "onRowClick",
+            "type": "(row: T) => void",
+            "optional": true
+          },
+          {
+            "name": "renderActions",
+            "type": "(row: T) => React.ReactNode",
+            "optional": true,
+            "description": "Escape hatch for rows whose actions are not a plain menu."
+          },
+          {
+            "name": "rows",
+            "type": "readonly T[]",
+            "optional": false
+          },
+          {
+            "name": "scrollHeightClass",
+            "type": "string",
+            "optional": true,
+            "description": "Tailwind max-height class for the scroll area, used by the virtual table."
+          },
+          {
+            "name": "stackBelow",
+            "type": "StackBelow",
+            "optional": true,
+            "description": "Viewport width below which rows stack into cards. Defaults to `md`."
+          },
+          {
+            "name": "variant",
+            "type": "TableProps[\"variant\"]",
+            "optional": true,
+            "description": "Surface look of the table wrapper. Omit for the ambient design style."
+          }
+        ]
+      },
+      {
+        "name": "ResponsiveTableViewProps",
+        "fields": [
+          {
+            "name": "actions",
+            "type": "(row: T) => ResponsiveTableAction[]",
+            "optional": true,
+            "description": "Row actions collapse into one kebab menu."
+          },
+          {
+            "name": "actionsLabel",
+            "type": "(row: T) => string",
+            "optional": true
+          },
+          {
+            "name": "ariaLabel",
+            "type": "string",
+            "optional": false
+          },
+          {
+            "name": "className",
+            "type": "string",
+            "optional": true
+          },
+          {
+            "name": "columns",
+            "type": "readonly ResponsiveColumn<T>[]",
+            "optional": false
+          },
+          {
+            "name": "focusRowId",
+            "type": "string",
+            "optional": true,
+            "description": "Scrolls this row into view when it changes."
+          },
+          {
+            "name": "getRowId",
+            "type": "(row: T) => string",
+            "optional": false
+          },
+          {
+            "name": "getRowProps",
+            "type": "(row: T) => ResponsiveRowProps",
+            "optional": true
+          },
+          {
+            "name": "horizontalScroll",
+            "type": "boolean",
+            "optional": true,
+            "description": "Opt in to sideways scrolling instead of fitting the container."
+          },
+          {
+            "name": "labels",
+            "type": "Partial<ResponsiveTableLabels>",
+            "optional": true
+          },
+          {
+            "name": "leading",
+            "type": "{ header?: React.ReactNode; cell: (row: T) => React.ReactNode; width?: string }",
+            "optional": true,
+            "description": "Fixed leading cell (logo tile, checkbox), shown beside the title in cards."
+          },
+          {
+            "name": "onRowClick",
+            "type": "(row: T) => void",
+            "optional": true
+          },
+          {
+            "name": "renderActions",
+            "type": "(row: T) => React.ReactNode",
+            "optional": true,
+            "description": "Escape hatch for rows whose actions are not a plain menu."
+          },
+          {
+            "name": "rows",
+            "type": "readonly T[]",
+            "optional": false
+          },
+          {
+            "name": "scrollElementRef",
+            "type": "React.MutableRefObject<HTMLElement | null>",
+            "optional": true,
+            "description": "Receives the element that scrolls: the table container, or the card list."
+          },
+          {
+            "name": "scrollHeightClass",
+            "type": "string",
+            "optional": true,
+            "description": "Tailwind max-height class for the scroll area, used by the virtual table."
+          },
+          {
+            "name": "stackBelow",
+            "type": "StackBelow",
+            "optional": true,
+            "description": "Viewport width below which rows stack into cards. Defaults to `md`."
+          },
+          {
+            "name": "stacked",
+            "type": "boolean",
+            "optional": false,
+            "description": "Which layout to render. Computed by the wrapper so it can re-bind its engine on change."
+          },
+          {
+            "name": "variant",
+            "type": "TableProps[\"variant\"]",
+            "optional": true,
+            "description": "Surface look of the table wrapper. Omit for the ambient design style."
+          },
+          {
+            "name": "window",
+            "type": "ResponsiveTableWindow<T>",
+            "optional": true,
+            "description": "Set by a windowing engine. Without it every row renders."
+          }
+        ]
+      }
+    ],
+    "explicitProps": [
+      "actions",
+      "actionsLabel",
+      "aria-current",
+      "ariaLabel",
+      "className",
+      "columns",
+      "data-kind",
+      "focusRowId",
+      "getRowId",
+      "getRowProps",
+      "horizontalScroll",
+      "labels",
+      "leading",
+      "onRowClick",
+      "renderActions",
+      "rows",
+      "scrollElementRef",
+      "scrollHeightClass",
+      "stackBelow",
+      "stacked",
+      "variant",
+      "window"
+    ],
+    "sourceFile": "packages/ui/src/components/responsive-table.tsx"
   },
   "retro-grid": {
     "primaryPropsType": "RetroGridProps",
@@ -9397,4 +9933,4 @@ export const generatedApiMetadata = {
     "sourceFile": "packages/ui/src/components/word-rotate.tsx"
   }
 } as const satisfies Record<string, GeneratedApiComponentEntry>
-export const generatedApiMetadataGeneratedAt = "2026-10-08T01:41:21.546Z" as const
+export const generatedApiMetadataGeneratedAt = "2026-10-12T04:19:00.363Z" as const

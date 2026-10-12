@@ -22,7 +22,7 @@ const docsSources = readdirSync(join(process.cwd(), "src/lib/new-components"))
   .join("\n")
 
 test("new component id list is complete", () => {
-  assert.equal(newIds.length, 66)
+  assert.equal(newIds.length, 69)
   assert.equal(new Set(newIds).size, newIds.length, "new ids are unique")
   for (const id of aiIds) assert.ok(newIds.includes(id), `${id} (AI) should be a new id`)
   assert.equal(aiIds.length, 8)
