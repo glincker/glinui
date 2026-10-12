@@ -118,7 +118,7 @@ const definitions: readonly Def[] = [
   single("forms", "switch"),
   single("forms", "slider"),
   // Overlays and menus
-  family("overlays", "modal", ["modal", "alert-dialog", "sheet", "floating-panel"]),
+  family("overlays", "modal", ["modal", "alert-dialog", "confirm-action", "sheet", "floating-panel"]),
   family("overlays", "popover", ["popover", "hover-card", "tooltip"]),
   family("overlays", "menu", ["dropdown-menu", "context-menu", "command"]),
   // Feedback and status
@@ -128,7 +128,7 @@ const definitions: readonly Def[] = [
   single("feedback", "status-dot"),
   // Data display
   family("data", "badge", ["badge", "chip"]),
-  family("data", "table", ["table", "data-table"]),
+  family("data", "table", ["table", "data-table", "responsive-table"]),
   family("data", "counter", ["counter", "number-ticker"]),
   single("data", "avatar"),
   single("data", "item"),
@@ -136,6 +136,7 @@ const definitions: readonly Def[] = [
   single("data", "image-comparison"),
   // Layout and structure
   family("layout", "accordion", ["accordion", "collapsible"]),
+  single("layout", "page-template"),
   single("layout", "scroll-area"),
   single("layout", "separator"),
   single("layout", "aspect-ratio"),

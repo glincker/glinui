@@ -66,7 +66,10 @@ export const newComponentIds = [
   "gooey-text-reveal",
   "spinning-text",
   "border-trail",
-  "progressive-blur"
+  "progressive-blur",
+  "responsive-table",
+  "page-template",
+  "confirm-action"
 ] as const
 
 export type NewComponentId = (typeof newComponentIds)[number]
@@ -151,5 +154,8 @@ export const newComponentCopy: Record<NewComponentId, { title: string; descripti
   "gooey-text-reveal": { title: "Gooey Text Reveal", description: "Heading whose words melt in through a shared SVG goo filter, or morph between phrases." },
   "spinning-text": { title: "Spinning Text", description: "Text laid out on a rotating circle with an accessible name and pause on hover." },
   "border-trail": { title: "Border Trail", description: "Glowing comet that travels along the border of a rounded container." },
-  "progressive-blur": { title: "Progressive Blur", description: "Edge overlay that blurs content progressively using stacked masked backdrop filters." }
+  "progressive-blur": { title: "Progressive Blur", description: "Edge overlay that blurs content progressively using stacked masked backdrop filters." },
+  "responsive-table": { title: "Responsive Table", description: "Table with column priorities, stacked cards on narrow screens, a row action menu and an optional virtual entry point." },
+  "page-template": { title: "Page Template", description: "Page shell with breadcrumb, hero tile, title, status, actions, tabs and banner slots." },
+  "confirm-action": { title: "Confirm Action", description: "Alert dialog that lists consequences and can require a typed confirmation before a destructive action." }
 }

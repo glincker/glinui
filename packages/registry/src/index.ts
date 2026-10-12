@@ -658,6 +658,65 @@ const coreRegistry: RegistryItem[] = [
     }
   },
   {
+    name: "responsive-table",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Responsive Table",
+    description: "Table with column priorities, stacked cards on narrow screens, a row action menu and an optional virtual entry point.",
+    docsPath: "/docs/components/radix/responsive-table",
+    importPath: "@glinui/ui",
+    dependencies: ["@glinui/ui"],
+    files: [
+      "packages/ui/src/components/responsive-table.tsx",
+      "packages/ui/src/components/responsive-table-virtual.tsx",
+      "packages/ui/src/components/table.tsx",
+      "packages/ui/src/lib/responsive-table.ts",
+      "packages/ui/src/lib/use-media-query.ts",
+      "packages/ui/src/tests/responsive-table.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add responsive-table"
+    }
+  },
+  {
+    name: "page-template",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Page Template",
+    description: "Page shell with breadcrumb, hero tile, title, status, actions, tabs and banner slots.",
+    docsPath: "/docs/components/radix/page-template",
+    importPath: "@glinui/ui",
+    dependencies: ["@glinui/ui"],
+    files: [
+      "packages/ui/src/components/page-template.tsx",
+      "packages/ui/src/tests/page-template.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add page-template"
+    }
+  },
+  {
+    name: "confirm-action",
+    namespace: "@glinui",
+    type: "primitive",
+    title: "Confirm Action",
+    description: "Alert dialog that lists consequences and can require a typed confirmation before a destructive action.",
+    docsPath: "/docs/components/radix/confirm-action",
+    importPath: "@glinui/ui",
+    dependencies: ["@glinui/ui"],
+    files: [
+      "packages/ui/src/components/confirm-action.tsx",
+      "packages/ui/src/components/alert-dialog.tsx",
+      "packages/ui/src/tests/confirm-action.test.tsx"
+    ],
+    install: {
+      package: "npm install @glinui/ui @glinui/tokens",
+      registry: "pnpm dlx @glinui/cli@latest add confirm-action"
+    }
+  },
+  {
     name: "status-dot",
     namespace: "@glinui",
     type: "primitive",
