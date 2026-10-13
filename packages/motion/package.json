@@ -61,7 +61,7 @@
   },
   "devDependencies": {
     "gsap": "^3.15.0",
-    "motion": "^14.0.0"
+    "motion": "^14.1.0"
   },
   "peerDependencies": {
     "gsap": "^3.12.0",
